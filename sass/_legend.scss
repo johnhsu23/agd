@@ -1,0 +1,85 @@
+%legend__path {
+  @extend %path;
+
+  .is-active & {
+    @extend %path--selected;
+  }
+
+  .is-inactive & {
+    @extend %path--unselected;
+  }
+
+  .is-hover & {
+    @extend %path--hover;
+  }
+
+  @each $tag in map-keys($map: $percentile-colors) {
+    [data-tag=#{$tag}] & {
+      @extend %path--#{$tag};
+    }
+  }
+}
+
+%legend__marker {
+  display: table-cell;
+  width: $legend-item-width;
+  height: $legend-item-width;
+}
+
+.legend {
+  &__note {
+    padding-top: 0.25em;
+    font-size: smaller;
+
+    &:before {
+      content: "NOTE: ";
+    }
+  }
+
+  &__item {
+    position: relative;
+    min-height: $legend-height;
+
+    display: table-row;
+  }
+
+  &__marker-text {
+    @extend %legend__marker;
+  
+    text-align: center;
+    font-size: xx-large;
+    font-weight: bold;
+  }
+
+  &__marker-path {
+    @extend %legend__marker;
+
+    path {
+      @extend %legend__path;
+      fill: white;
+    }
+  }
+
+  &__description {
+    transition: opacity 250ms 0s;
+
+    font-size: smaller;
+    width: $legend-width - $legend-item-width;
+    min-height: $legend-height;
+ 
+    display: table-cell;
+    vertical-align: middle;
+
+    var {
+      font-style: italic;
+    }
+
+    .is-inactive & {
+      opacity: 0.125;
+    }
+
+    .is-hover & {
+      opacity: 1;
+    }
+  }
+}

@@ -1,0 +1,35 @@
+@import "util";
+@import "reset";
+@import "variables";
+
+@import "path";
+
+@import "legend";
+@import "figure";
+
+@import "series";
+
+html, body {
+  font-family: sans-serif;
+}
+
+main {
+  width: 1024px;
+  margin: 0 auto;
+
+  padding: 10px 0;
+}
+
+header, footer {
+  @extend %u-clearfix;
+
+  padding: 40px 20px;
+
+  color: white;
+  background-color: $brand-blue;
+
+  > * {
+    width: 1024px;
+    margin: 0 auto;
+  }
+}

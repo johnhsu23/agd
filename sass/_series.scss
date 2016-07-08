@@ -1,0 +1,50 @@
+%series__path {
+  @extend %path;
+
+  .is-active & {
+    @extend %path--selected;
+  }
+
+  .is-inactive & {
+    @extend %path--unselected;
+  }
+
+  .is-hover & {
+    @extend %path--hover;
+  }
+
+  @each $tag in map-keys($map: $percentile-colors) {
+    .series--#{$tag} & {
+      @extend %path--#{$tag}
+    }
+  }
+}
+
+.series {
+  &__line {
+    @extend %series__path;
+    fill: none;
+  }
+
+  &__point {
+    &__text {
+      text-anchor: middle;
+      transition: visibility 250ms, opacity 250ms;
+
+      .chart & {
+        visibility: hidden;
+        opacity: 0;
+      }
+
+      .series.is-active & {
+        visibility: initial;
+        opacity: 1;
+      }
+    }
+
+    &__symbol {
+      @extend %series__path;
+      fill: white;
+    }
+  }
+}

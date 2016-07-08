@@ -1,0 +1,22 @@
+.figure {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+
+  &__inner {
+    width: 768px;
+    float: left;
+  }
+
+  &__legend {
+    width: $legend-width;
+    float: right;
+
+    border: 1px solid black;
+  }
+}
+
+.figure--chart .chart {
+  display: block;
+  margin: 0 auto;
+}

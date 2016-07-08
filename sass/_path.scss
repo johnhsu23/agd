@@ -1,0 +1,29 @@
+%path {
+  transition-property: opacity stroke-width;
+  transition-duration: 250ms;
+
+  stroke: $series-default;
+
+  fill-opacity: 1;
+  opacity: 1;
+  stroke-width: 2px;
+}
+
+%path--selected {
+  stroke-opacity: 1;
+}
+
+%path--unselected {
+  stroke-opacity: .125;
+}
+
+%path--hover {
+  stroke-opacity: 1;
+  stroke-width: 4px;
+}
+
+@each $percentile, $color in $percentile-colors {
+  %path--#{$percentile} {
+    stroke: $color;
+  }
+}
