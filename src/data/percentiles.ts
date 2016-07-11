@@ -1,52 +1,12 @@
 import * as Promise from 'bluebird';
 import * as d3 from 'd3';
 
-import {load as loadData} from 'data';
+import loadData from 'api';
 
-export interface Params {
-  type: string;
-  
-  subject: string;
-  grade: number;
+import {Params, Data} from 'api/tuda-acrossyear';
 
-  variable: string;
-  categoryindex: number;
-
-  targetyears: string[];
-  focalyear: string;
-
-  stattype: string | string[];
-  jurisdiction: string;
-}
-
-export interface Data {
-  focalyear: number;
-  focalaccommodations: number;
-
-  targetyear: number;
-  targetaccommodations: number;
-
-  stattype: string;
-  subject: string;
-  grade: number;
-
-  jurisdiction: string;
-  subScale: string;
-
-  category: string;
-  categoryindex: number;
-
-  focalvalue: number;
-  isFocalStatDisplayable: number;
-  FocalErrorFlag: number;
-
-  targetvalue: number;
-  isTargetStatDisplayable: number;
-  isSigDisplayable: number;
-
-  gap: number;
-  sig: string;
-}
+// re-export Data type from API module
+export {Data};
 
 export interface Grouped {
   P1: Data[];
