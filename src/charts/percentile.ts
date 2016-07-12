@@ -69,29 +69,26 @@ export default class PercentileChart extends Chart<Data> {
   }
 
   protected loaded(data: Grouped): void {
-    const score = makeScale({
-      bounds: [0, 500],
-      domain: data.extent,
-      interval: 10,
-      intervalSize: 30,
-      reverse: true,
-    });
+    const score = makeScale()
+      .bounds([0, 500])
+      .domain(data.extent)
+      .interval(10)
+      .intervalSize(30)
+      .reverse();
 
-    const year = makeScale({
-      domain: [2009, 2015],
-      interval: 1,
-      intervalSize: 20,
-    });
+    const padding = 20;
+    const year = makeScale()
+      .domain([2009, 2015])
+      .interval(1)
+      .intervalSize(20)
+      .offset(20);
+
+    const [lo, hi] = year.range(),
+          width = (hi - lo) + padding * 2;
 
     const series = makeSeries<Data>()
       .x(d => year(d.targetyear))
       .y(d => score(d.targetvalue));
-
-    const [lo, hi] = year.range(),
-          padding = 40,
-          width = hi + padding;
-
-    year.range([lo + padding/2, hi + padding/2]);
 
     this.width(width)
       .height(score.range()[0]);
