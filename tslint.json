@@ -46,6 +46,10 @@
     "no-eval": true,
     "no-empty": true,
     "no-consecutive-blank-lines": true,
+    "max-line-length": [
+      true,
+      120
+    ],
 
     "no-backbone-get-set-outside-model": true,
     "no-for-in": true,
