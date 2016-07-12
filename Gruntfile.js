@@ -9,6 +9,14 @@ module.exports = function (grunt) {
         },
       },
     },
+    tslint: {
+      default: {
+        options: {
+          configuration: 'tslint.json',
+        },
+        src: ['src/**/*.ts', '!src/baseDir.ts']
+      },
+    },
     ts: {
       default: {
         options: {
@@ -50,7 +58,7 @@ module.exports = function (grunt) {
       },
       typescript: {
         files: ['src/**/*.ts', '!src/.baseDir.ts'],
-        tasks: ['ts:default'],
+        tasks: ['tslint:default', 'ts:default'],
       },
       index: {
         files: 'index.html',
@@ -68,8 +76,9 @@ module.exports = function (grunt) {
 
   grunt.loadNpmTasks('grunt-ts');
   grunt.loadNpmTasks('grunt-sass');
+  grunt.loadNpmTasks('grunt-tslint');
   grunt.loadNpmTasks('grunt-bower-task');
 
-  grunt.registerTask('build', ['bower:default', 'sass:default', 'ts:default']);
+  grunt.registerTask('build', ['tslint:default', 'bower:default', 'sass:default', 'ts:default']);
   grunt.registerTask('default', ['build', 'connect:default', 'watch']);
 };

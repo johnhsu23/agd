@@ -1,0 +1,64 @@
+{
+  "rules": {
+    "curly": true,
+    "indent": [
+      true,
+      "spaces"
+    ],
+    "triple-equals": [
+      true
+    ],
+    "class-name": true,
+    "whitespace": [
+      true,
+      "check-branch",
+      "check-decl",
+      "check-module",
+      "check-operator",
+      "check-separator",
+      "check-type",
+      "check-typecast"
+    ],
+    "no-any": false,
+    "semicolon": [
+      true,
+      "always"
+    ],
+    "trailing-comma": [
+      true,
+      {
+        "multiline": "always",
+        "singleline": "never"
+      }
+    ],
+    "no-trailing-whitespace": true,
+    "no-require-imports": true,
+    "no-var-keyword": true,
+    "no-unused-expression": true,
+    "no-unused-variable": [
+      true
+    ],
+    "eofline": true,
+    "linebreak-style": [
+      true,
+      "LF"
+    ],
+
+    "no-eval": true,
+    "no-empty": true,
+
+    "no-backbone-get-set-outside-model": true,
+    "no-for-in": true,
+    "no-octal-literal": true,
+    "no-unnecessary-local-variable": true,
+    "no-unnecessary-semicolons": true,
+    "no-unnecessary-override": true,
+    "no-unused-imports": true,
+    "no-with-statement": true,
+    "prefer-const": true,
+    "valid-typeof": true
+  },
+  "rulesDirectory": [
+    "node_modules/tslint-microsoft-contrib"
+  ]
+}
