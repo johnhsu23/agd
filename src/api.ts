@@ -28,7 +28,7 @@ function serialize(params: any): { [key: string]: string } {
   });
 }
 
-export function load<Params, Data>(params: Params): Promise<Data[]> {
+export default function load<Params, Data>(params: Params): Promise<Data[]> {
   const options: JQueryAjaxSettings = {
     url: 'https://nrcpreview3.naepims.org/nrcdataservice/GetChartData.aspx',
     data: serialize(params),
@@ -51,5 +51,3 @@ export function load<Params, Data>(params: Params): Promise<Data[]> {
       }
     });
 }
-
-export default load;
