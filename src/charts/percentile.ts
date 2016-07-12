@@ -16,17 +16,17 @@ function tagOf(data: Data[]): string {
 }
 
 export default class PercentileChart extends Chart<Data> {
-  protected setHover(tag: string) {
+  protected setHover(tag: string): void {
     this.d3el.select('.series--' + tag)
       .classed('is-hover', true);
   }
 
-  protected clearHover(tag: string) {
+  protected clearHover(tag: string): void {
     this.d3el.select('.series--' + tag)
       .classed('is-hover', false);
   }
 
-  protected setActive(tag: string) {
+  protected setActive(tag: string): void {
     this.d3el.selectAll('.series')
       .each(function (d) {
         const active = tag === tagOf(d.points);
@@ -38,7 +38,7 @@ export default class PercentileChart extends Chart<Data> {
       });
   }
 
-  protected clearActive() {
+  protected clearActive(): void {
     this.d3el
       .selectAll('.series')
       .classed({
@@ -47,7 +47,7 @@ export default class PercentileChart extends Chart<Data> {
       });
   }
 
-  initialize(options?: Backbone.ViewOptions<any>) {
+  initialize(options?: Backbone.ViewOptions<any>): void {
     super.initialize(options);
 
     this.on('child:hover:set', this.setHover, this);

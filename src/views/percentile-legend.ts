@@ -5,17 +5,17 @@ import LegendView from 'views/legend';
 import {EventsHash} from 'backbone';
 
 export default class PercentileLegendView extends LegendView {
-  protected setHover(tag: string) {
+  protected setHover(tag: string): void {
     this.$(`[data-tag=${tag}]`)
       .addClass('is-hover');
   }
 
-  protected clearHover(tag: string) {
+  protected clearHover(tag: string): void {
     this.$(`[data-tag=${tag}]`)
       .removeClass('is-hover');
   }
 
-  protected setActive(tag: string) {
+  protected setActive(tag: string): void {
     this.$('[data-tag]')
       .each((_, elt) => {
         const $elt = $(elt);
@@ -31,7 +31,7 @@ export default class PercentileLegendView extends LegendView {
       });
   }
 
-  protected clearActive() {
+  protected clearActive(): void {
     this.$('[data-tag]')
       .removeClass('is-active is-inactive');
   }

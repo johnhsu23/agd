@@ -8,7 +8,7 @@ import configure from 'util/configure';
 export default class FigureView extends LayoutView<any> {
   template: boolean;
 
-  regions() {
+  regions(): { [key: string]: string } {
     return {
       'inner': '.figure__inner',
       'legend': '.figure__legend',

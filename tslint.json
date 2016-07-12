@@ -56,9 +56,14 @@
     "no-unused-imports": true,
     "no-with-statement": true,
     "prefer-const": true,
-    "valid-typeof": true
+    "valid-typeof": true,
+
+    "promise-chain-should-complete": true,
+    "return-type-decl": true,
+    "no-nested-ternary": true
   },
   "rulesDirectory": [
-    "node_modules/tslint-microsoft-contrib"
+    "node_modules/tslint-microsoft-contrib",
+    "node_modules/f1-tslint-misc/lib/rules"
   ]
 }

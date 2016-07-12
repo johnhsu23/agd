@@ -36,25 +36,25 @@ export default class PercentileScores extends Figure {
     });
   }
 
-  protected setHover(child: ItemView<any>, tag: string) {
+  protected setHover(child: ItemView<any>, tag: string): void {
     this.eachChild(child => {
       child.trigger('child:hover:set', tag);
     });
   }
 
-  protected clearHover(child: ItemView<any>, tag: string) {
+  protected clearHover(child: ItemView<any>, tag: string): void {
     this.eachChild(child => {
       child.trigger('child:hover:clear', tag);
     });
   }
 
-  protected setActive(child: ItemView<any>, tag: string) {
+  protected setActive(child: ItemView<any>, tag: string): void {
     this.eachChild(child => {
       child.trigger('child:active:set', tag);
     });
   }
 
-  protected clearActive(child: ItemView<any>, tag: string) {
+  protected clearActive(child: ItemView<any>, tag: string): void {
     this.eachChild(child => {
       child.trigger('child:active:clear');
     });

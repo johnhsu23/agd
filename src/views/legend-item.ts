@@ -7,7 +7,7 @@ import Legend from 'legends/model';
   template: false,
 })
 export default class LegendItemView extends D3View<Legend> {
-  render() {
+  render(): this {
     const model = this.model;
 
     this.$el.empty();
@@ -38,13 +38,13 @@ export default class LegendItemView extends D3View<Legend> {
     return this;
   }
 
-  protected renderNote() {
+  protected renderNote(): void {
     this.d3el
       .datum(this.model)
       .html(legend => legend.description);
   }
 
-  protected renderText() {
+  protected renderText(): void {
     const el = this.d3el
       .datum(this.model);
 
@@ -57,7 +57,7 @@ export default class LegendItemView extends D3View<Legend> {
       .html(legend => legend.description);
   }
 
-  protected renderPath() {
+  protected renderPath(): void {
     const el = this.d3el
       .datum(this.model);
 
