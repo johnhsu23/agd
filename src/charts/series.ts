@@ -40,9 +40,9 @@ function series<T>(): Series<T> {
 
   const series = ((rows: T[]): Output<T> => {
     rows.forEach((row, i) => {
-      (row as Point<T>).x = x(row, i); 
+      (row as Point<T>).x = x(row, i);
       (row as Point<T>).y = y(row, i);
-    })
+    });
 
     return {
       line: line(rows as Point<T>[]),

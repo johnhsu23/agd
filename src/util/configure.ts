@@ -5,7 +5,7 @@ function configure<Props, Proto extends Props, Class extends Function>(propertie
     for (const key of Object.keys(properties)) {
       constructor.prototype[key] = (properties as any)[key];
     }
-  }
+  };
 }
 
 export default configure;

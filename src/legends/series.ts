@@ -10,5 +10,5 @@ export default function series(type: string, description: string): Model {
     type: 'path',
     marker: symbol.type(type)(null),
     description,
-  })
+  });
 }

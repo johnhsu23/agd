@@ -18,7 +18,7 @@ function isSuccess<T>(response: Response<T>): response is SuccessResponse<T> {
   return response.status === 200;
 }
 
-function serialize(params: any): { [key: string]: string } {
+function serialize(params: Object): { [key: string]: string } {
   return _.mapObject(params, value => {
     if (_.isArray(value)) {
       return value.join(',');
@@ -37,7 +37,7 @@ export default function load<Params, Data>(params: Params): Promise<Data[]> {
     dataType: 'json',
     xhrFields: {
       withCredentials: true,
-    }
+    },
   };
 
   const request = $.ajax(options);

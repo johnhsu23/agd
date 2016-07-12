@@ -1,5 +1,5 @@
 export function interpolate(v0: number, v1: number, t: number): number {
-  return (1 - t)*v0 + t*v1;
+  return (1 - t) * v0 + t * v1;
 }
 
 export function deinterpolate(v0: number, v1: number, v: number): number {
@@ -9,5 +9,5 @@ export function deinterpolate(v0: number, v1: number, v: number): number {
     return v0;
   }
 
-  return (v0 - v)/(v0 - v1); 
+  return (v0 - v) / (v0 - v1);
 }

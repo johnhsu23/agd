@@ -1,5 +1,4 @@
-import {svg, Selection, select} from 'd3';
-import {ViewOptions} from 'backbone'; 
+import {svg, select} from 'd3';
 
 import Chart from 'charts/chart';
 import makeScale from 'charts/scale';
@@ -53,7 +52,7 @@ export default class PercentileChart extends Chart<Data> {
 
     this.on('child:hover:set', this.setHover, this);
     this.on('child:hover:clear', this.clearHover, this);
-    
+
     this.on('child:active:set', this.setActive, this);
     this.on('child:active:clear', this.clearActive, this);
   }
@@ -137,7 +136,7 @@ export default class PercentileChart extends Chart<Data> {
         y: d => d.y,
         dy: '-10px',
       })
-      .text(d => Math.round(d.targetvalue))
+      .text(d => Math.round(d.targetvalue));
 
     const sym = svg.symbol<Point<Data>>()
       .size(192)
@@ -167,7 +166,7 @@ export default class PercentileChart extends Chart<Data> {
       .classed('series__point__symbol', true)
       .attr({
         d: sym,
-        transform: ({x, y}) => `translate(${x}, ${y})`
-      })
+        transform: ({x, y}) => `translate(${x}, ${y})`,
+      });
   }
 }

@@ -9,7 +9,9 @@ require.config({
     'backbone.wreqr': '../vendor/backbone.wreqr/backbone.wreqr',
     'backbone.babysitter': '../vendor/backbone.babysitter/backbone.babysitter',
     'backbone.marionette': '../vendor/backbone.marionette/backbone.marionette',
-  }
+  },
 });
 
+/* tslint:disable no-var-requires */
 require(['app']);
+/* tslint:enable no-var-requires */

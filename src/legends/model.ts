@@ -6,7 +6,7 @@ interface LegendAttributes {
   type: LegendType;
   marker: string;
   description: string;
-  tag?: string,
+  tag?: string;
 }
 
 class Legend extends Model implements LegendAttributes {

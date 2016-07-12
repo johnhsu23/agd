@@ -31,7 +31,7 @@ export interface Scale {
    *
    * The scale will ensure that enough space is given in the output range to
    * accommodate a break marker.
-   * 
+   *
    * By way of example: if a scale has bounds [0, 100] but the domain is only
    * [20, 80], then the scale will ensure that 0 and 100 have output points (see the
    * `ticks' method).
@@ -43,12 +43,12 @@ export interface Scale {
    */
   interval(): number;
   /**
-   * Sets the interval for this scale. The interval is the number of input domain 
+   * Sets the interval for this scale. The interval is the number of input domain
    * units between each axis tick mark.
    */
   interval(interval: number): this;
 
-  /** 
+  /**
    * Returns the interval size for this scale.
    */
   intervalSize(): number;
@@ -58,20 +58,20 @@ export interface Scale {
    */
   intervalSize(intervalSize: number): this;
 
-  /** 
+  /**
    * Returns the output offset.
    */
   offset(): number;
   /**
-   * Sets the output offset. The output range is defined to begin with this offset 
-   * value, which defaults to zero. Set to another value to, e.g., accommodate 
+   * Sets the output offset. The output range is defined to begin with this offset
+   * value, which defaults to zero. Set to another value to, e.g., accommodate
    * padding from some known value.
    */
   offset(offset: number): this;
 
   /**
    * Force the scale to reverse the output domain.
-   * 
+   *
    * This is equivalent to calling scale.reversed(true).
    */
   reverse(): this;
@@ -92,19 +92,19 @@ export interface Scale {
    */
   range(): [number, number];
 
-  /** 
+  /**
    * Returns an array of values corresponding to break marker positions.
    */
   breaks(): number[];
 
   /**
-   * Returns an array of tick marks. The first value is the domain value 
-   * corresponding to this tick mark, which can be thought of as the label. The 
-   * second value is the range value corresponding to this tick mark -- the position 
+   * Returns an array of tick marks. The first value is the domain value
+   * corresponding to this tick mark, which can be thought of as the label. The
+   * second value is the range value corresponding to this tick mark -- the position
    * of the mark.
-   * 
-   * In general, the label and position correspond logically with each other unless 
-   * the scale's bounds have been set. In that case, the first and last values have 
+   *
+   * In general, the label and position correspond logically with each other unless
+   * the scale's bounds have been set. In that case, the first and last values have
    * positions that may not correspond with what the scale would otherwise compute.
    */
   ticks(): Array<[number, number]>;
@@ -127,7 +127,7 @@ export function scale(): Scale {
   //
   // This is, admittedly, something of an edge case, but it's an edge case
   // nonetheless.
-  let inputDomain: Pair = [0, 1], 
+  let inputDomain: Pair = [0, 1],
       domain: Pair = [0, 1],
       range: Pair = [0, 1],
       bounds: Pair = null,
@@ -206,17 +206,16 @@ export function scale(): Scale {
 
   scale.ticks = function () {
     const output: Pair[] = [],
-          [rangeMin, rangeMax] = range,
           [min, max] = domain;
 
     for (let pos = min; pos < max; pos += interval) {
       output.push([
         pos,
-        scale(pos)
+        scale(pos),
       ]);
     }
 
-    output.push([max, rangeMax]);
+    output.push([max, range[1]]);
 
     if (bounds) {
       output[0][0] = bounds[0];
@@ -224,7 +223,7 @@ export function scale(): Scale {
     }
 
     return output;
-  }
+  };
 
   scale.breaks = function () {
     const output: number[] = [];
@@ -233,15 +232,15 @@ export function scale(): Scale {
     }
 
     if (domain[0] !== bounds[0]) {
-      output.push(domain[0] + interval/2);
+      output.push(domain[0] + interval / 2);
     }
-    
+
     if (domain[1] !== bounds[1]) {
-      output.push(domain[1] - interval/2);
+      output.push(domain[1] - interval / 2);
     }
 
     return output.map(scale);
-  }
+  };
 
   function recompute(): Scale {
     let [lo, hi] = inputDomain;
@@ -253,7 +252,7 @@ export function scale(): Scale {
     }
     domain = [lo, hi];
 
-    let intervals = Math.ceil((hi - lo)/interval);
+    const intervals = Math.ceil((hi - lo) / interval);
     lo = offset;
     hi = offset + intervals * intervalSize;
     if (reversed) {

@@ -43,9 +43,9 @@
       true,
       "LF"
     ],
-
     "no-eval": true,
     "no-empty": true,
+    "no-consecutive-blank-lines": true,
 
     "no-backbone-get-set-outside-model": true,
     "no-for-in": true,

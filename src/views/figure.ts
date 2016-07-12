@@ -12,7 +12,7 @@ export default class FigureView extends LayoutView<any> {
     return {
       'inner': '.figure__inner',
       'legend': '.figure__legend',
-    }
+    };
   }
 
   setTitle(title: string): void {

@@ -1,4 +1,3 @@
-import * as d3 from 'd3';
 import D3View from 'views/d3';
 import configure from 'util/configure';
 

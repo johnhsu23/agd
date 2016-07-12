@@ -45,7 +45,7 @@ export default class PercentileScores extends Figure {
   protected clearHover(child: ItemView<any>, tag: string) {
     this.eachChild(child => {
       child.trigger('child:hover:clear', tag);
-    })
+    });
   }
 
   protected setActive(child: ItemView<any>, tag: string) {
@@ -84,7 +84,7 @@ export default class PercentileScores extends Figure {
     for (const [type, tag, description] of list) {
       const legend = series(type, description);
 
-      legend.tag = tag; 
+      legend.tag = tag;
       models.push(legend);
     }
 

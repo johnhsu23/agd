@@ -9,7 +9,7 @@ class D3View<TModel extends Model> extends ItemView<TModel> {
   d3el: d3.Selection<any>;
 
   _createElement(tagName: string): Element {
-    let result = d3.ns.qualify(tagName);
+    const result = d3.ns.qualify(tagName);
 
     if (typeof result === 'string') {
       return document.createElement(result);

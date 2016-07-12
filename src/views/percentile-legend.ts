@@ -2,7 +2,7 @@ import * as $ from 'jquery';
 
 import Legend from 'legends/model';
 import LegendView from 'views/legend';
-import {EventsHash, ViewOptions} from 'backbone';
+import {EventsHash} from 'backbone';
 
 export default class PercentileLegendView extends LegendView {
   protected setHover(tag: string) {
