@@ -1,5 +1,5 @@
 import {zip, svg} from 'd3';
-import {View, Collection} from 'backbone';
+import {Collection} from 'backbone';
 import {ItemView, Region} from 'backbone.marionette';
 
 import Figure from 'views/figure';
@@ -30,34 +30,26 @@ export default class PercentileScores extends Figure {
     }
   }
 
-  protected eachChild(callback: (childView: View<any>) => void): void {
-    this.eachRegion(region => {
-      callback(region.currentView);
+  protected sendToChildren(event: string, ...data: any[]): void {
+    this.eachRegion(({currentView}) => {
+      (currentView as ItemView<any>).triggerMethod(event, ...data);
     });
   }
 
   protected setHover(child: ItemView<any>, tag: string): void {
-    this.eachChild(child => {
-      child.trigger('child:hover:set', tag);
-    });
+    this.sendToChildren('child:hover:set', tag);
   }
 
   protected clearHover(child: ItemView<any>, tag: string): void {
-    this.eachChild(child => {
-      child.trigger('child:hover:clear', tag);
-    });
+    this.sendToChildren('child:hover:clear', tag);
   }
 
   protected setActive(child: ItemView<any>, tag: string): void {
-    this.eachChild(child => {
-      child.trigger('child:active:set', tag);
-    });
+    this.sendToChildren('child:active:set', tag);
   }
 
   protected clearActive(child: ItemView<any>, tag: string): void {
-    this.eachChild(child => {
-      child.trigger('child:active:clear');
-    });
+    this.sendToChildren('child:active:clear', tag);
   }
 
   protected buildLegend(): void {

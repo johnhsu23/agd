@@ -1,21 +1,20 @@
 import * as $ from 'jquery';
 
-import Legend from 'legends/model';
 import LegendView from 'views/legend';
 import {EventsHash} from 'backbone';
 
 export default class PercentileLegendView extends LegendView {
-  protected setHover(tag: string): void {
+  protected onChildHoverSet(tag: string): void {
     this.$(`[data-tag=${tag}]`)
       .addClass('is-hover');
   }
 
-  protected clearHover(tag: string): void {
+  protected onChildHoverClear(tag: string): void {
     this.$(`[data-tag=${tag}]`)
       .removeClass('is-hover');
   }
 
-  protected setActive(tag: string): void {
+  protected onChildActiveSet(tag: string): void {
     this.$('[data-tag]')
       .each((_, elt) => {
         const $elt = $(elt);
@@ -31,19 +30,9 @@ export default class PercentileLegendView extends LegendView {
       });
   }
 
-  protected clearActive(): void {
+  protected onChildActiveClear(): void {
     this.$('[data-tag]')
       .removeClass('is-active is-inactive');
-  }
-
-  initialize(options?: Backbone.ViewOptions<Legend>): void {
-    super.initialize(options);
-
-    this.on('child:hover:set', this.setHover, this);
-    this.on('child:hover:clear', this.clearHover, this);
-
-    this.on('child:active:set', this.setActive, this);
-    this.on('child:active:clear', this.clearActive, this);
   }
 
   events(): EventsHash {

@@ -23,19 +23,19 @@ export default class PercentileChart extends Chart<Data> {
   protected marginBottom = 30;
   protected marginTop = 30;
 
-  protected setHover(tag: string): void {
+  protected onChildHoverSet(tag: string): void {
     this.inner
       .select('.series--' + tag)
       .classed('is-hover', true);
   }
 
-  protected clearHover(tag: string): void {
+  protected onChildHoverClear(tag: string): void {
     this.inner
       .select('.series--' + tag)
       .classed('is-hover', false);
   }
 
-  protected setActive(tag: string): void {
+  protected onChildActiveSet(tag: string): void {
     this.inner
       .selectAll('.series')
       .each(function (d) {
@@ -48,23 +48,13 @@ export default class PercentileChart extends Chart<Data> {
       });
   }
 
-  protected clearActive(): void {
+  protected onChildActiveClear(): void {
     this.inner
       .selectAll('.series')
       .classed({
         'is-active': false,
         'is-inactive': false,
       });
-  }
-
-  initialize(options?: Backbone.ViewOptions<any>): void {
-    super.initialize(options);
-
-    this.on('child:hover:set', this.setHover, this);
-    this.on('child:hover:clear', this.clearHover, this);
-
-    this.on('child:active:set', this.setActive, this);
-    this.on('child:active:clear', this.clearActive, this);
   }
 
   render(): this {
