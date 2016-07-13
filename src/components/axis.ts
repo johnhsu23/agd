@@ -38,6 +38,17 @@ export interface Axis {
    * and are expected to return a string.
    */
   format(format: Format): this;
+
+  /**
+   * Returns the padding in use by this axis.
+   */
+  padding(): number;
+
+  /**
+   * Set the padding for this axis. The axis padding is used to artificially extend
+   * the axis line (to account for, e.g., scale offsets).
+   */
+  padding(padding: number): this;
 }
 
 const tickLength = 5;
@@ -46,65 +57,83 @@ function defaultFormat(n: number): string {
   return '' + n;
 }
 
-export function horizontalBottom(): Axis {
+type AxisArgs = {
+  modifier: string;
+  direction: string;
+
+  tickPosition(tick: Tick): [number, number];
+
+  text: {
+    dx?: number | string;
+    dy?: number | string;
+  };
+
+  line: {
+    x1: number;
+    y1: number;
+    x2: number;
+    y2: number;
+  }
+};
+
+function makeAxis(args: AxisArgs): Axis {
   type Setter<T> = {
     (): T;
     (value: T): Axis;
-  }
+  };
 
-  let ticks: Tick[] = [],
+  const modifier = 'axis--' + args.modifier,
+        {tickPosition, direction} = args,
+        text = args.text as {} as {[key: string]: number | string},
+        line = args.line as {} as {[key: string]: number | number};
+
+  let ticks: Tick[] = null,
       scale = makeScale(),
-      format = defaultFormat;
+      format = defaultFormat,
+      padding = 0;
 
   const axis = function (selection: Selection<{}>): void {
-    selection
-      .classed('axis axis--horizontal-bottom', true);
+    selection.classed('axis ' + modifier, true);
 
-    let line = selection.select('.axis__line');
-    if (line.empty()) {
-      line = selection.append('line')
+    let axisLine = selection.select('.axis__line');
+    if (axisLine.empty()) {
+      axisLine = selection.append('line')
         .classed('axis__line', true);
     }
 
-    const range = scale.range();
+    let [lo, hi] = scale.range();
+    if (lo > hi) {
+      [lo, hi] = [hi, lo];
+    }
 
-    line.attr({
-      x1: range[0],
-      y1: 0,
-      x2: range[1],
-      y2: 0,
-    });
+    axisLine
+      .attr(direction + 1, lo - padding)
+      .attr(direction + 2, hi + padding);
 
     const groups = selection.selectAll('.axis__tick')
-      .data(ticks || scale.ticks());
+      .data(ticks || scale.ticks())
+      .attr('transform', tick => 'translate(' + tickPosition(tick) + ')');
 
     groups.select('.axis__label')
-      .text(tick => format(tick.label));
+      .text(tick => format(tick.label))
+      .attr(text);
 
     const enter = groups.enter()
       .append('g')
       .classed('axis__tick', true)
-      .attr('transform', tick => `translate(${tick.value}, 0)`);
+      .attr('transform', tick => 'translate(' + tickPosition(tick) + ')');
 
     enter.append('line')
       .classed('axis__mark', true)
-      .attr({
-        x1: 0,
-        y1: 0,
-        x2: 0,
-        y2: tickLength,
-      });
+      .attr(line);
 
-    enter
-      .append('text')
+    enter.append('text')
       .classed('axis__label', true)
       .text(tick => format(tick.label))
-      .attr({
-        x: 0,
-        y: 0,
-        dy: '1em',
-      });
+      .attr(text);
 
+    groups.exit()
+      .remove();
   } as Axis;
 
   axis.ticks = function (value?: Tick[]): Tick[] | Axis {
@@ -134,104 +163,49 @@ export function horizontalBottom(): Axis {
     return format;
   } as Setter<Format>;
 
+  axis.padding = function (value?: number): number | Axis {
+    if (arguments.length) {
+      padding = +value;
+      return axis;
+    }
+
+    return padding;
+  } as Setter<number>;
+
   return axis;
 }
 
 export function verticalLeft(): Axis {
-  type Setter<T> = {
-    (): T;
-    (value: T): Axis;
-  }
-
-  let ticks: Tick[] = [],
-      scale = makeScale(),
-      format = defaultFormat;
-
-  const axis = function (selection: Selection<{}>): void {
-    selection
-      .classed('axis axis--vertical-left', true);
-
-    let line = selection.select('.axis__line');
-    if (line.empty()) {
-      line = selection.append('line')
-        .classed('axis__line', true);
-    }
-
-    const range = scale.range();
-
-    line.attr({
+  return makeAxis({
+    modifier: 'vertical-left',
+    tickPosition: tick => [0, tick.value],
+    direction: 'y',
+    text: {
+      dx: -7,
+      dy: '0.37em',
+    },
+    line: {
       x1: 0,
-      y1: range[0],
+      y1: 0,
+      x2: -tickLength,
+      y2: 0,
+    },
+  });
+}
+
+export function horizontalBottom(): Axis {
+  return makeAxis({
+    modifier: 'horizontal-bottom',
+    tickPosition: tick => [tick.value, 0],
+    direction: 'x',
+    text: {
+      dy: '1em',
+    },
+    line: {
+      x1: 0,
+      y1: 0,
       x2: 0,
-      y2: range[1],
-    });
-
-    const groups = selection.selectAll('.axis__tick')
-      .data(ticks);
-
-    groups.select('.axis__label')
-      .text(tick => tick.label)
-      .attr('y', tick => tick.value);
-
-    groups.select('.axis__line')
-      .attr({
-        y1: tick => tick.value,
-        y2: tick => tick.value,
-      });
-
-    const enter = groups.enter()
-      .append('g')
-      .classed('axis__tick', true);
-
-    enter.append('line')
-      .classed('axis__mark', true)
-      .attr({
-        x1: 0,
-        y1: tick => tick.value,
-        x2: -5,
-        y2: tick => tick.value,
-      });
-
-    enter
-      .append('text')
-      .classed('axis__label', true)
-      .text(tick => tick.label)
-      .attr({
-        x: 0,
-        dx: -7,
-        y: tick => tick.value,
-        dy: '0.37em',
-      });
-
-  } as Axis;
-
-  axis.ticks = function (value?: Tick[]): Tick[] | Axis {
-    if (arguments.length) {
-      ticks = value;
-      return axis;
-    }
-
-    return ticks;
-  } as Setter<Tick[]>;
-
-  axis.scale = function (value?: Scale): Scale | Axis {
-    if (arguments.length) {
-      scale = value;
-      ticks = scale.ticks();
-      return axis;
-    }
-
-    return scale;
-  } as Setter<Scale>;
-
-  axis.format = function (value?: Format): Format | Axis {
-    if (arguments.length) {
-      format = value;
-      return axis;
-    }
-
-    return format;
-  } as Setter<Format>;
-
-  return axis;
+      y2: tickLength,
+    },
+  });
 }
