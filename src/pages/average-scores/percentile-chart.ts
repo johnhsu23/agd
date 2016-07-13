@@ -3,7 +3,7 @@ import {svg, select} from 'd3';
 import Chart from 'views/chart';
 import makeScale, {Scale} from 'components/scale';
 import makeSeries from 'components/series';
-import {verticalLeft} from 'components/axis';
+import {verticalLeft, horizontalBottom} from 'components/axis';
 
 import {load, Grouped, Data} from 'data/percentiles';
 
@@ -76,7 +76,7 @@ export default class PercentileChart extends Chart<Data> {
     return this;
   }
 
-  protected addAxis(scale: Scale): void {
+  protected addScoreAxis(scale: Scale): void {
     let g = this.d3el
       .select('g.axis.axis--vertical');
 
@@ -86,6 +86,33 @@ export default class PercentileChart extends Chart<Data> {
 
     const axis = verticalLeft().scale(scale);
     g.attr('transform', `translate(${this.marginLeft}, ${this.marginTop})`)
+      .call(axis);
+  }
+
+  protected addYearAxis(scale: Scale): void {
+    const years = [2009, 2015].map(year => {
+      return {
+        label: year,
+        value: scale(year),
+      };
+    });
+
+    let g = this.d3el
+      .select('g.axis.axis--horizontal-bottom');
+
+    if (g.empty()) {
+      g = this.d3el.append('g');
+    }
+
+    const axis = horizontalBottom()
+      .scale(scale)
+      .ticks(years)
+      .format(n => "'" + ('' + n).substr(2, 2));
+
+    const left = this.marginLeft,
+          top = this.marginTop + this.innerHeight;
+
+    g.attr('transform', `translate(${left}, ${top})`)
       .call(axis);
   }
 
@@ -107,14 +134,15 @@ export default class PercentileChart extends Chart<Data> {
     const [lo, hi] = year.range(),
           width = (hi - lo) + padding * 2;
 
-    this.addAxis(score);
-
     const series = makeSeries<Data>()
       .x(d => year(d.targetyear))
       .y(d => score(d.targetvalue));
 
     this.width(width)
       .height(score.range()[0]);
+
+    this.addScoreAxis(score);
+    this.addYearAxis(year);
 
     const groups = [data.P1, data.P2, data.P5, data.P7, data.P9].map(series);
 

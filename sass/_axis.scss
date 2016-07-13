@@ -3,6 +3,10 @@
     text-anchor: end;
   }
 
+  &--horizontal-bottom .axis__label {
+    text-anchor: middle;
+  }
+
   &__line {
     stroke: $axis;
   }
