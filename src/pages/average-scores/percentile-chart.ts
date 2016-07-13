@@ -107,6 +107,7 @@ export default class PercentileChart extends Chart<Data> {
     const axis = horizontalBottom()
       .scale(scale)
       .ticks(years)
+      .padding(20)
       .format(n => "'" + ('' + n).substr(2, 2));
 
     const left = this.marginLeft,
@@ -162,7 +163,7 @@ export default class PercentileChart extends Chart<Data> {
         this.triggerMethod('parent:hover:clear', tagOf(d.points));
       })
       .on('click', function (d) {
-        const elt = d3.select(this);
+        const elt = select(this);
 
         if (elt.classed('is-active')) {
           chart.triggerMethod('parent:active:clear', tagOf(d.points));
