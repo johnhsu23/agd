@@ -1,5 +1,10 @@
 import {interpolate, deinterpolate} from 'math/interpolate';
 
+export type Tick = {
+  value: number;
+  label: number;
+};
+
 export interface Scale {
   /**
    * Transform the given value in the input domain to the output range.
@@ -107,7 +112,7 @@ export interface Scale {
    * the scale's bounds have been set. In that case, the first and last values have
    * positions that may not correspond with what the scale would otherwise compute.
    */
-  ticks(): Array<[number, number]>;
+  ticks(): Tick[];
 }
 
 export function scale(): Scale {
@@ -205,21 +210,24 @@ export function scale(): Scale {
   };
 
   scale.ticks = function () {
-    const output: Pair[] = [],
+    const output: Tick[] = [],
           [min, max] = domain;
 
     for (let pos = min; pos < max; pos += interval) {
-      output.push([
-        pos,
-        scale(pos),
-      ]);
+      output.push({
+        label: pos,
+        value: scale(pos),
+      });
     }
 
-    output.push([max, range[1]]);
+    output.push({
+      label: max,
+      value: range[1],
+    });
 
     if (bounds) {
-      output[0][0] = bounds[0];
-      output[output.length - 1][0] = bounds[1];
+      output[0].label = bounds[0];
+      output[output.length - 1].label = bounds[1];
     }
 
     return output;
