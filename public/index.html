@@ -6,18 +6,22 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <h1>Site header</h1>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <h1>Site header</h1>
+    </div>
   </header>
-  <main>
+  <main id="main">
     <div id="figure" class="figure figure--chart">
       <div class="figure__title"></div>
       <div class="figure__inner"></div>
       <div class="figure__legend"></div>
     </div>
   </main>
-  <footer>
-    <p>Sample text &copy; YYYY</p>
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <p>Sample text &copy; YYYY</p>
+    </div>
   </footer>
 
   <script src="vendor/requirejs/require.js" data-main="lib/main.js"></script>

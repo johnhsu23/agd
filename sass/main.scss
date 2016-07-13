@@ -21,7 +21,7 @@ main {
   padding: 10px 0;
 }
 
-header, footer {
+.site-header, .site-footer {
   @extend %u-clearfix;
 
   padding: 40px 20px;
@@ -29,7 +29,7 @@ header, footer {
   color: white;
   background-color: $brand-blue;
 
-  > * {
+  &__inner {
     width: 1024px;
     margin: 0 auto;
   }
