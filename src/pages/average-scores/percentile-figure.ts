@@ -3,8 +3,8 @@ import {View, Collection} from 'backbone';
 import {ItemView, Region} from 'backbone.marionette';
 
 import Figure from 'views/figure';
-import Chart from 'charts/percentile';
-import LegendView from 'views/percentile-legend';
+import Chart from 'pages/average-scores/percentile-chart';
+import LegendView from 'pages/average-scores/percentile-legend';
 
 import Legend from 'legends/model';
 import significant from 'legends/sig-diff';

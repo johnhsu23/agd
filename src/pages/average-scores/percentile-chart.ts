@@ -1,8 +1,8 @@
 import {svg, select} from 'd3';
 
-import Chart from 'charts/chart';
-import makeScale from 'charts/scale';
-import makeSeries from 'charts/series';
+import Chart from 'views/chart';
+import makeScale from 'components/scale';
+import makeSeries from 'components/series';
 
 import {load, Grouped, Data} from 'data/percentiles';
 
