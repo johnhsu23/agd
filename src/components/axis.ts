@@ -1,4 +1,4 @@
-import makeScale, {Scale, Tick} from 'components/scale';
+import {scale as makeScale, Scale, Tick} from 'components/scale';
 import {Selection} from 'd3';
 
 type Format = (n: number) => string;

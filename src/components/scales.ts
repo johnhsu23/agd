@@ -1,4 +1,4 @@
-import scale, {Scale} from 'components/scale';
+import {scale, Scale} from 'components/scale';
 
 export {Scale};
 
