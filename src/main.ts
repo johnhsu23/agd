@@ -1,7 +1,11 @@
 require.config({
   baseUrl: 'lib',
   paths: {
+    templates: '../templates',
+
+    // dependencies
     d3: '../vendor/d3/d3',
+    text: '../vendor/text/text',
     jquery: '../vendor/jquery/jquery',
     backbone: '../vendor/backbone/backbone',
     bluebird: '../vendor/bluebird/bluebird',

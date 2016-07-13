@@ -1,8 +1,9 @@
-import noTemplate from 'util/no-template';
 import {LayoutView} from 'backbone.marionette';
+import * as template from 'text!templates/section.html';
 
-@noTemplate
 export default class SectionView extends LayoutView<any> {
+  template = () => template;
+
   regions(): {[key: string]: string} {
     return {
       inner: '.section__inner',

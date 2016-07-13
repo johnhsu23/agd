@@ -7,7 +7,6 @@ bower_components
 
 # Build artifacts
 .tscache
-public/vendor
-public/lib
-public/style.css
-public/style.css.map
+public/*
+# Keep index.html
+!public/index.html

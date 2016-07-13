@@ -12,9 +12,9 @@ module.exports = function (grunt) {
         files: ['src/**/*.ts', '!src/.baseDir.ts'],
         tasks: ['tslint:default', 'ts:default'],
       },
-      index: {
-        files: 'index.html',
-        tasks: [],
+      templates: {
+        files: ['templates/**/*.html'],
+        tasks: ['copy:templates'],
       },
       bower: {
         files: 'bower.json',

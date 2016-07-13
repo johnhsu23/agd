@@ -15,9 +15,16 @@ export default class PageView extends LayoutView<any> {
   pushSection(): void {
     const name = 'section-' + this.count;
 
+    const elt = document.createElement('div');
+    elt.id = name;
+
+    this.$('.main__inner')
+      .append(elt);
+
     this.addRegion(name, {
       selector: '#' + name,
     });
+
     this.count++;
   }
 }

@@ -1,3 +1,11 @@
 module.exports = function (grunt) {
-  grunt.registerTask('build', ['tslint:default', 'bower:default', 'sass:default', 'ts:default']);
+  var tasks = [
+    'tslint:default',
+    'ts:default',
+    'copy:templates',
+    'bower:default',
+    'sass:default',
+  ];
+
+  grunt.registerTask('build', tasks);
 }
