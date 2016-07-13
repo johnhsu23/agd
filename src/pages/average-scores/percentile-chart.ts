@@ -1,7 +1,8 @@
 import {svg, select} from 'd3';
 
 import Chart from 'views/chart';
-import makeScale, {Scale} from 'components/scale';
+import * as scales from 'components/scales';
+
 import makeSeries from 'components/series';
 import {verticalLeft, horizontalBottom} from 'components/axis';
 
@@ -76,7 +77,7 @@ export default class PercentileChart extends Chart<Data> {
     return this;
   }
 
-  protected addScoreAxis(scale: Scale): void {
+  protected addScoreAxis(scale: scales.Scale): void {
     let g = this.d3el
       .select('g.axis.axis--vertical');
 
@@ -89,7 +90,7 @@ export default class PercentileChart extends Chart<Data> {
       .call(axis);
   }
 
-  protected addYearAxis(scale: Scale): void {
+  protected addYearAxis(scale: scales.Scale): void {
     const years = [2009, 2015].map(year => {
       return {
         label: year,
@@ -118,18 +119,14 @@ export default class PercentileChart extends Chart<Data> {
   }
 
   protected loaded(data: Grouped): void {
-    const score = makeScale()
+    const score = scales.score()
       .bounds([0, 500])
       .domain(data.extent)
-      .interval(10)
-      .intervalSize(30)
       .reverse();
 
     const padding = 20;
-    const year = makeScale()
+    const year = scales.year()
       .domain([2009, 2015])
-      .interval(1)
-      .intervalSize(20)
       .offset(20);
 
     const [lo, hi] = year.range(),
