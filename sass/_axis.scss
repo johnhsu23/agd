@@ -1,0 +1,13 @@
+.axis {
+  &--vertical-left .axis__label {
+    text-anchor: end;
+  }
+
+  &__line {
+    stroke: $axis;
+  }
+
+  &__mark {
+    stroke: $axis;
+  }
+}
