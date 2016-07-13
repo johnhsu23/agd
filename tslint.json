@@ -6,7 +6,8 @@
       "spaces"
     ],
     "triple-equals": [
-      true
+      true,
+      "allow-null-check"
     ],
     "class-name": true,
     "whitespace": [
