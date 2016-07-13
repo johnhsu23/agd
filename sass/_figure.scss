@@ -6,6 +6,11 @@
   &__inner {
     width: 768px;
     float: left;
+
+    & > .chart {
+      display: block;
+      margin: 0 auto;
+    }
   }
 
   &__legend {
@@ -14,9 +19,4 @@
 
     border: 1px solid black;
   }
-}
-
-.figure--chart .chart {
-  display: block;
-  margin: 0 auto;
 }
