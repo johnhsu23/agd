@@ -1,11 +1,9 @@
 import D3View from 'views/d3';
-import configure from 'util/configure';
+import noTemplate from 'util/no-template';
 
 import Legend from 'legends/model';
 
-@configure({
-  template: false,
-})
+@noTemplate
 export default class LegendItemView extends D3View<Legend> {
   render(): this {
     const model = this.model;

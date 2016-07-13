@@ -1,13 +1,8 @@
 import {LayoutView} from 'backbone.marionette';
+import noTemplate from 'util/no-template';
 
-import configure from 'util/configure';
-
-@configure({
-  template: false,
-})
+@noTemplate
 export default class FigureView extends LayoutView<any> {
-  template: boolean;
-
   regions(): { [key: string]: string } {
     return {
       'inner': '.figure__inner',

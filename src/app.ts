@@ -1,19 +1,18 @@
 import * as $ from 'jquery';
 import {Application} from 'backbone.marionette';
-import Figure from 'pages/average-scores/percentile-figure';
+import Page from 'pages/average-scores';
 
 $(() => {
   const app = new Application;
 
   app.on('start', () => {
-    const figure = new Figure({
-      el: '#figure',
+    const page = new Page({
+      el: '#main',
     });
 
-    figure.setTitle('Something something chart title...');
-
-    figure.render();
-    figure.triggerMethod('show');
+    page.render();
+    page.triggerMethod('before:show');
+    page.triggerMethod('show');
   });
 
   app.start();

@@ -1,6 +1,9 @@
 import {Selection} from 'd3';
 import View from 'views/d3';
 
+import configure from 'util/configure';
+import noTemplate from 'util/no-template';
+
 interface Margins {
   left?: number;
   right?: number;
@@ -8,6 +11,11 @@ interface Margins {
   bottom?: number;
 }
 
+@noTemplate
+@configure({
+  tagName: 'svg',
+  className: 'chart',
+})
 export default class Chart<T> extends View<any> {
   protected marginLeft = 0;
   protected marginRight = 0;
@@ -111,7 +119,3 @@ export default class Chart<T> extends View<any> {
     return this.innerHeight;
   }
 }
-
-Chart.prototype.tagName = 'svg';
-Chart.prototype.className = 'chart';
-(Chart.prototype as any).template = false;

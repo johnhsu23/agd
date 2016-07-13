@@ -5,7 +5,6 @@ import {Model} from 'backbone';
 import {ItemView} from 'backbone.marionette';
 
 class D3View<TModel extends Model> extends ItemView<TModel> {
-  template: boolean;
   d3el: d3.Selection<any>;
 
   _createElement(tagName: string): Element {

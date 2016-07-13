@@ -91,14 +91,10 @@ export default class PercentileScores extends Figure {
     this.collection.reset(models);
   }
 
-  render(): this {
+  onBeforeShow(): void {
     this.buildLegend();
-
-    super.render();
 
     this.showChildView('legend', new LegendView({ collection: this.collection }));
     this.showChildView('inner', new Chart);
-
-    return this;
   }
 }
