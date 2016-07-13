@@ -1,8 +1,12 @@
-bower_components
+# Install locations
 node_modules
+bower_components
 
+# Editor cruft
+.vscode
+
+# Build artifacts
 .tscache
-
 public/vendor
 public/lib
 public/style.css
