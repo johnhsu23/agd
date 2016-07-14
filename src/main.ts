@@ -16,6 +16,5 @@ require.config({
   },
 });
 
-/* tslint:disable no-var-requires */
+// tslint:disable-next-line:no-require-imports
 require(['app']);
-/* tslint:enable no-var-requires */
