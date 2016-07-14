@@ -6,7 +6,7 @@ import * as scales from 'components/scales';
 import makeSeries from 'components/series';
 import {verticalLeft, horizontalBottom} from 'components/axis';
 
-import {load, Grouped, Data} from 'pages/average-scores/percentiles-data';
+import {load, Grouped, Data} from 'pages/average-scores/percentile-data';
 
 type Point<T> = T & {
   x: number;
