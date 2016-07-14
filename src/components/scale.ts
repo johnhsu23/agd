@@ -1,4 +1,4 @@
-import {interpolate, deinterpolate} from 'math/interpolate';
+import {interpolate, deinterpolate} from 'util/interpolate';
 
 export type Tick = {
   value: number;
