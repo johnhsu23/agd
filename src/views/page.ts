@@ -1,5 +1,6 @@
 import noTemplate from 'util/no-template';
-import {LayoutView} from 'backbone.marionette';
+import {Model} from 'backbone';
+import {View, LayoutView, Region} from 'backbone.marionette';
 
 @noTemplate
 export default class PageView extends LayoutView<any> {
@@ -12,8 +13,9 @@ export default class PageView extends LayoutView<any> {
     }
   }
 
-  pushSection(): void {
+  pushSection<TModel extends Model>(view?: View<Model>): Region {
     const name = 'section-' + this.count;
+    this.count++;
 
     const elt = document.createElement('div');
     elt.id = name;
@@ -21,10 +23,14 @@ export default class PageView extends LayoutView<any> {
     this.$('.main__inner')
       .append(elt);
 
-    this.addRegion(name, {
+    const region = this.addRegion(name, {
       selector: '#' + name,
     });
 
-    this.count++;
+    if (view) {
+      this.showChildView(name, view);
+    }
+
+    return region;
   }
 }
