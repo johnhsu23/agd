@@ -82,17 +82,13 @@ export default class PercentileScores extends Figure {
 
     models.push(significant());
 
-    models.push(new Legend({
-      type: 'note',
-      marker: null,
-      description: '[...]',
-    }));
-
     this.collection.reset(models);
   }
 
   onBeforeShow(): void {
     this.buildLegend();
+
+    this.setTitle('percentile scores');
 
     this.showChildView('legend', new LegendView({ collection: this.collection }));
     this.showChildView('inner', new Chart);
