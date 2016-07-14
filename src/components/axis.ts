@@ -1,4 +1,5 @@
 import {scale as makeScale, Scale, Tick} from 'components/scale';
+import {vertical} from 'components/break';
 import {Selection} from 'd3';
 
 type Format = (n: number) => string;
@@ -133,6 +134,20 @@ function makeAxis(args: AxisArgs): Axis {
       .attr(text);
 
     groups.exit()
+      .remove();
+
+    const breaks = selection.selectAll('.axis__break')
+      .data(scale.breaks());
+
+    breaks
+      .call(vertical);
+
+    breaks.enter()
+      .append('path')
+      .classed('axis__break', true)
+      .call(vertical);
+
+    breaks.exit()
       .remove();
   } as Axis;
 

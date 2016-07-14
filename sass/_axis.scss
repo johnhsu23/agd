@@ -14,4 +14,9 @@
   &__mark {
     stroke: $axis;
   }
+
+  &__break {
+    fill: white;
+    stroke: $axis;
+  }
 }
