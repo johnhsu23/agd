@@ -27,3 +27,7 @@
     stroke: $color;
   }
 }
+
+%path--primary {
+  stroke: $series-default;
+}

@@ -18,6 +18,10 @@
       @extend %path--#{$tag}
     }
   }
+
+  .series--primary & {
+    @extend %path--primary;
+  }
 }
 
 .series {
@@ -31,7 +35,7 @@
       text-anchor: middle;
       transition: visibility 250ms, opacity 250ms;
 
-      .chart & {
+      .chart--multi-series & {
         visibility: hidden;
         opacity: 0;
       }

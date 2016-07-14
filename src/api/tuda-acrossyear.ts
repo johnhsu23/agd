@@ -1,6 +1,7 @@
 export interface Params {
   type: 'tuda-acrossyear';
 
+  subscale?: string;
   subject: string;
   grade: number;
 

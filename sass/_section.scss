@@ -1,9 +1,7 @@
 .section {
-  & + & {
-    padding-top: 1em;
-  }
+  @extend %u-clearfix;
 
-  &:nth-child(n + 1) {
-    background-color: gray;
+  & + & {
+    border-top: 1em solid gray;
   }
 }
