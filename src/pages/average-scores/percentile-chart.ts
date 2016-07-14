@@ -60,6 +60,8 @@ export default class PercentileChart extends Chart<Data> {
   render(): this {
     super.render();
 
+    this.d3el.classed('chart--multi-series', true);
+
     load('science', 4, ['2009R3', '2015R3'])
       .then(data => this.loaded(data))
       .done();
