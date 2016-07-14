@@ -112,7 +112,7 @@ export default class PercentileChart extends Chart<Data> {
 
   protected loaded(data: Grouped): void {
     const score = scales.score()
-      .bounds([0, 500])
+      .bounds([0, 300])
       .domain(data.extent)
       .reverse();
 
