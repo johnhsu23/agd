@@ -3,7 +3,7 @@ import * as scales from 'components/scales';
 import * as axes from 'components/axis';
 import makeSeries from 'components/series';
 
-import {extent, svg} from 'd3';
+import {Selection, extent, svg} from 'd3';
 
 import {Data} from 'api/tuda-acrossyear';
 import load from 'pages/average-scores/trend-data';
@@ -19,8 +19,17 @@ export default class TrendChart extends Chart<Data> {
   protected marginBottom = 30;
   protected marginTop = 30;
 
+  protected firstRender = true;
+  protected scoreAxis: Selection<void>;
+  protected yearAxis: Selection<void>;
+
   render(): this {
     super.render();
+
+    if (this.firstRender) {
+      this.addAxes();
+      this.firstRender = false;
+    }
 
     load('science', 4, ['2009R3', '2015R3'])
       .then(data => this.loaded(data))
@@ -29,16 +38,17 @@ export default class TrendChart extends Chart<Data> {
     return this;
   }
 
+  protected addAxes(): void {
+    this.scoreAxis = this.d3el.append('g');
+    this.yearAxis = this.d3el.append('g');
+  }
+
   protected addScoreAxis(scale: scales.Scale): void {
-    let g = this.d3el
-      .select('g.axis.axis--vertical');
+    const axis = axes.verticalLeft()
+      .scale(scale);
 
-    if (g.empty()) {
-      g = this.d3el.append('g');
-    }
-
-    const axis = axes.verticalLeft().scale(scale);
-    g.attr('transform', `translate(${this.marginLeft}, ${this.marginTop})`)
+    this.scoreAxis
+      .attr('transform', `translate(${this.marginLeft}, ${this.marginTop})`)
       .call(axis);
   }
 
@@ -50,13 +60,6 @@ export default class TrendChart extends Chart<Data> {
       };
     });
 
-    let g = this.d3el
-      .select('g.axis.axis--horizontal-bottom');
-
-    if (g.empty()) {
-      g = this.d3el.append('g');
-    }
-
     const axis = axes.horizontalBottom()
       .scale(scale)
       .ticks(years)
@@ -66,7 +69,8 @@ export default class TrendChart extends Chart<Data> {
     const left = this.marginLeft,
           top = this.marginTop + this.innerHeight;
 
-    g.attr('transform', `translate(${left}, ${top})`)
+    this.yearAxis
+      .attr('transform', `translate(${left}, ${top})`)
       .call(axis);
   }
 

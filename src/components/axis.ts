@@ -8,7 +8,7 @@ export interface Axis {
   /**
    * Draw the axis on the specified selection (should be an SVG grouping element).
    */
-  (selection: Selection<{}>): void;
+  <T>(selection: Selection<T>): void;
 
   /**
    * Return the scale tied to this axis.
@@ -93,7 +93,7 @@ function makeAxis(args: AxisArgs): Axis {
       format = defaultFormat,
       padding = 0;
 
-  const axis = function (selection: Selection<{}>): void {
+  const axis = function <T>(selection: Selection<T>): void {
     selection.classed('axis ' + modifier, true);
 
     let axisLine = selection.select('.axis__line');
@@ -108,8 +108,8 @@ function makeAxis(args: AxisArgs): Axis {
     }
 
     axisLine
-      .attr(direction + 1, lo - padding)
-      .attr(direction + 2, hi + padding);
+      .attr(direction + '1', lo - padding)
+      .attr(direction + '2', hi + padding);
 
     const groups = selection.selectAll('.axis__tick')
       .data(ticks || scale.ticks())
