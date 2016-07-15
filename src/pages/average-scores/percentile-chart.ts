@@ -1,8 +1,9 @@
 import * as $ from 'jquery';
-import {svg, select} from 'd3';
+import {svg, select, Selection} from 'd3';
 import {EventsHash} from 'backbone';
 
 import Chart from 'views/chart';
+import makeCutpoints from 'components/cutpoint';
 import * as scales from 'components/scales';
 
 import makeSeries from 'components/series';
@@ -21,10 +22,16 @@ function tagOf(data: Data[]): string {
 }
 
 export default class PercentileChart extends Chart<Data> {
-  protected marginLeft = 50;
-  protected marginRight = 50;
+  protected marginLeft = 40;
+  protected marginRight = 150;
   protected marginBottom = 30;
   protected marginTop = 30;
+
+  protected scoreAxis: Selection<void>;
+  protected yearAxis: Selection<void>;
+  protected cutpoints: Selection<void>;
+
+  protected firstRender = true;
 
   events(): EventsHash {
     return {
@@ -92,10 +99,21 @@ export default class PercentileChart extends Chart<Data> {
       });
   }
 
+  protected addAxes(): void {
+    this.scoreAxis = this.d3el.append('g');
+    this.yearAxis = this.d3el.append('g');
+    this.cutpoints = this.d3el.append('g');
+  }
+
   render(): this {
     super.render();
 
     this.d3el.classed('chart--multi-series', true);
+
+    if (this.firstRender) {
+      this.addAxes();
+      this.firstRender = false;
+    }
 
     load('science', 4, ['2009R3', '2015R3'])
       .then(data => this.loaded(data))
@@ -105,15 +123,11 @@ export default class PercentileChart extends Chart<Data> {
   }
 
   protected addScoreAxis(scale: scales.Scale): void {
-    let g = this.d3el
-      .select('g.axis.axis--vertical');
+    const axis = verticalLeft()
+      .scale(scale);
 
-    if (g.empty()) {
-      g = this.d3el.append('g');
-    }
-
-    const axis = verticalLeft().scale(scale);
-    g.attr('transform', `translate(${this.marginLeft}, ${this.marginTop})`)
+    this.scoreAxis
+      .attr('transform', `translate(${this.marginLeft}, ${this.marginTop})`)
       .call(axis);
   }
 
@@ -125,33 +139,61 @@ export default class PercentileChart extends Chart<Data> {
       };
     });
 
-    let g = this.d3el
-      .select('g.axis.axis--horizontal-bottom');
-
-    if (g.empty()) {
-      g = this.d3el.append('g');
-    }
-
     const axis = horizontalBottom()
       .scale(scale)
       .ticks(years)
-      .padding(20)
+      .padding(30)
       .format(n => "'" + ('' + n).substr(2, 2));
 
     const left = this.marginLeft,
           top = this.marginTop + this.innerHeight;
 
-    g.attr('transform', `translate(${left}, ${top})`)
+    this.yearAxis
+      .attr('transform', `translate(${left}, ${top})`)
       .call(axis);
+  }
+
+  protected addCutpoints(scale: scales.Scale, width: number): void {
+    const acls = [
+      {
+        label: 'Basic',
+        value: 131,
+      },
+      {
+        label: 'Proficient',
+        value: 167,
+      },
+      {
+        label: 'Advanced',
+        value: 224,
+      },
+    ];
+
+    const cutpoints = makeCutpoints()
+      .position(scale)
+      .cutpoints(acls);
+
+    this.cutpoints
+      .attr('transform', `translate(${this.marginLeft + width}, ${this.marginTop})`)
+      .call(cutpoints);
+  }
+
+  protected resizeExtent(extent: [number, number]): [number, number] {
+    let [lo, hi] = extent;
+
+    lo = Math.min(lo, 131);
+    hi = Math.max(hi, 224);
+
+    return [lo, hi];
   }
 
   protected loaded(data: Grouped): void {
     const score = scales.score()
       .bounds([0, 300])
-      .domain(data.extent)
+      .domain(this.resizeExtent(data.extent))
       .reverse();
 
-    const padding = 20;
+    const padding = 30;
     const year = scales.year()
       .domain([2009, 2015])
       .offset(20);
@@ -168,6 +210,7 @@ export default class PercentileChart extends Chart<Data> {
 
     this.addScoreAxis(score);
     this.addYearAxis(year);
+    this.addCutpoints(score, width);
 
     const groups = [data.P1, data.P2, data.P5, data.P7, data.P9].map(series);
 
