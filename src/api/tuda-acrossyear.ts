@@ -38,8 +38,9 @@ export interface Data {
 
   targetvalue: number;
   isTargetStatDisplayable: number;
-  isSigDisplayable: number;
+  TargetErrorFlag: number;
 
+  isSigDisplayable: number;
   gap: number;
   sig: string;
 }

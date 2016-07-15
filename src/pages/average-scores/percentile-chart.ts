@@ -5,6 +5,7 @@ import * as scales from 'components/scales';
 
 import makeSeries from 'components/series';
 import {verticalLeft, horizontalBottom} from 'components/axis';
+import {formatValue} from 'codes';
 
 import {load, Grouped, Data} from 'pages/average-scores/percentile-data';
 
@@ -179,7 +180,7 @@ export default class PercentileChart extends Chart<Data> {
         y: d => d.y,
         dy: '-10px',
       })
-      .text(d => Math.round(d.targetvalue));
+      .text(d => formatValue(d.targetvalue, d.sig, d.TargetErrorFlag));
 
     const sym = svg.symbol<Point<Data>>()
       .size(192)
