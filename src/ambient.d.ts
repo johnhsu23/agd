@@ -9,3 +9,8 @@ declare module 'text!templates/section.html' {
   const content: string;
   export = content;
 }
+
+declare module 'text!templates/table.html' {
+  const content: string;
+  export = content;
+}
