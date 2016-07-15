@@ -10,7 +10,7 @@ export default class TrendFigure extends Figure {
   collection = new Collection([significant()]);
 
   onBeforeShow(): void {
-    this.setTitle('average scores by science and something something something');
+    this.setTitle('average scores');
 
     this.showChildView('inner', new TrendChart);
 
