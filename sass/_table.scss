@@ -1,0 +1,36 @@
+%table__cell {
+  padding: 0.5em;
+  text-align: center;
+}
+
+.table {
+  td {
+    @extend %table__cell;
+  }
+
+  th {
+    @extend %table__cell;
+    font-weight: bold;
+  }
+
+  thead {
+    color: $table-header-fore;
+    background-color: $table-header-back;
+  }
+
+  tbody {
+    tr {
+      &:nth-child(odd) {
+        background-color: $table-odd;
+      }
+
+      &:nth-child(even) {
+        background-color: $table-even;
+      }
+    }
+  }
+
+  &--full-width {
+    @extend %u-full-width;
+  }
+}

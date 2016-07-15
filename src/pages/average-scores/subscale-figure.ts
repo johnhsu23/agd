@@ -16,7 +16,7 @@ export default class SubscaleFigure extends Figure {
 
   protected showTable(): void {
     if (!this.table) {
-      this.table = new Table<RowModel, RowView>({
+      const table = new Table<RowModel, RowView>({
         collection: new Collection,
         sort: false,
         header: new DefaultHeader({
@@ -29,7 +29,10 @@ export default class SubscaleFigure extends Figure {
         }),
       });
 
-      this.table.childView = RowView;
+      table.childView = RowView;
+      table.$el.addClass('table--full-width');
+
+      this.table = table;
     }
 
     this.populateTable();
