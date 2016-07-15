@@ -58,7 +58,7 @@ export default class Chart<T> extends View<any> {
 
     if (!this.inner) {
       this.inner = this.d3el.append('g')
-        .classed('.chart__inner', true);
+        .classed('chart__inner', true);
     }
 
     this.inner
