@@ -1,4 +1,6 @@
+import * as $ from 'jquery';
 import {svg, select} from 'd3';
+import {EventsHash} from 'backbone';
 
 import Chart from 'views/chart';
 import * as scales from 'components/scales';
@@ -23,6 +25,38 @@ export default class PercentileChart extends Chart<Data> {
   protected marginRight = 50;
   protected marginBottom = 30;
   protected marginTop = 30;
+
+  events(): EventsHash {
+    return {
+      'mouseover .series': 'seriesMouseover',
+      'mouseout .series': 'seriesMouseout',
+      'click .series': 'seriesClick',
+    };
+  }
+
+  protected seriesMouseover(event: JQueryMouseEventObject): void {
+    const {points} = $(event.currentTarget).prop('__data__');
+
+    this.triggerMethod('parent:hover:set', tagOf(points));
+  }
+
+  protected seriesMouseout(event: JQueryMouseEventObject): void {
+    const {points} = $(event.currentTarget).prop('__data__');
+
+    this.triggerMethod('parent:hover:clear', tagOf(points));
+  }
+
+  protected seriesClick(event: JQueryMouseEventObject): void {
+    const $series = $(event.currentTarget),
+          {points} = $series.prop('__data__'),
+          tag = tagOf(points);
+
+    if ($series.hasClass('is-active')) {
+      this.triggerMethod('parent:active:clear', tag);
+    } else {
+      this.triggerMethod('parent:active:set', tag);
+    }
+  }
 
   protected onChildHoverSet(tag: string): void {
     this.inner
@@ -141,26 +175,9 @@ export default class PercentileChart extends Chart<Data> {
       .selectAll('.series')
       .data(groups);
 
-    const chart = this;
-
     const enter = sel.enter()
       .append('g')
-      .attr('class', d => `series series--${tagOf(d.points)}`)
-      .on('mouseover', d => {
-        this.triggerMethod('parent:hover:set', tagOf(d.points));
-      })
-      .on('mouseout', d => {
-        this.triggerMethod('parent:hover:clear', tagOf(d.points));
-      })
-      .on('click', function (d) {
-        const elt = select(this);
-
-        if (elt.classed('is-active')) {
-          chart.triggerMethod('parent:active:clear', tagOf(d.points));
-        } else {
-          chart.triggerMethod('parent:active:set', tagOf(d.points));
-        }
-      });
+      .attr('class', d => `series series--${tagOf(d.points)}`);
 
     enter.append('path')
       .classed('series__line', true)
