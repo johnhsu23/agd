@@ -6,6 +6,7 @@ module.exports = function (grunt) {
           failOnTypeErrors: true,
           inlineSourceMap: true,
           inlineSources: true,
+          fast: 'never',
         },
         tsconfig: 'src/tsconfig.json',
         outDir: 'public/lib',
