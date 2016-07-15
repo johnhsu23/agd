@@ -105,8 +105,6 @@ export default class TrendChart extends Chart<Data> {
       .selectAll('.series')
       .data([series(data)]);
 
-    console.log(series(data));
-
     const enter = sel.enter()
       .append('g')
       .classed('series series--primary', true);
