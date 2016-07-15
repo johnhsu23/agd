@@ -2,6 +2,7 @@ import Chart from 'views/chart';
 import * as scales from 'components/scales';
 import * as axes from 'components/axis';
 import makeSeries from 'components/series';
+import {formatValue} from 'codes';
 
 import {Selection, extent, svg} from 'd3';
 
@@ -128,7 +129,7 @@ export default class TrendChart extends Chart<Data> {
         y: d => d.y,
         dy: '-10px',
       })
-      .text(d => Math.round(d.targetvalue));
+      .text(d => formatValue(d.targetvalue, d.sig, d.TargetErrorFlag));
 
     points.append('path')
       .classed('series__point__symbol', true)
