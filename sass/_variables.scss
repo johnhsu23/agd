@@ -3,6 +3,10 @@ $brand-blue: #001871;
 $brand-gold: #c69214;
 $brand-green: #00a795;
 
+$slate-grey: #d0cbc3;
+$darker-grey: #a19788;
+
+
 // Axis colors
 $axis: grey;
 
@@ -36,3 +40,7 @@ $table-header-fore: white;
 $table-even: white;
 $table-odd: #f5f4f3;
 $table-border: #e2dfdb;
+
+// Cutpoint colors
+$cutpoint-foreground: $slate-grey;
+$cutpoint-background: $darker-grey;

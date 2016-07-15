@@ -1,0 +1,14 @@
+.cutpoint {
+  &__foreground {
+    fill: $cutpoint-foreground;
+  }
+
+  &__background {
+    fill: $cutpoint-background;
+  }
+
+  &__text {
+    font-size: smaller;
+    font-style: italic;
+  }
+}
