@@ -3,8 +3,9 @@ import * as scales from 'components/scales';
 import * as axes from 'components/axis';
 import makeSeries from 'components/series';
 import {formatValue} from 'codes';
+import makeCutpoints from 'components/cutpoint';
 
-import {Selection, extent, svg} from 'd3';
+import {Selection, extent as d3Extent, svg} from 'd3';
 
 import {Data} from 'api/tuda-acrossyear';
 import load from 'pages/average-scores/trend-data';
@@ -15,14 +16,15 @@ type Point<T> = T & {
 };
 
 export default class TrendChart extends Chart<Data> {
-  protected marginLeft = 50;
-  protected marginRight = 50;
+  protected marginLeft = 30;
+  protected marginRight = 150;
   protected marginBottom = 30;
   protected marginTop = 30;
 
   protected firstRender = true;
   protected scoreAxis: Selection<void>;
   protected yearAxis: Selection<void>;
+  protected cutpoints: Selection<void>;
 
   render(): this {
     super.render();
@@ -42,6 +44,7 @@ export default class TrendChart extends Chart<Data> {
   protected addAxes(): void {
     this.scoreAxis = this.d3el.append('g');
     this.yearAxis = this.d3el.append('g');
+    this.cutpoints = this.d3el.append('g');
   }
 
   protected addScoreAxis(scale: scales.Scale): void {
@@ -64,7 +67,7 @@ export default class TrendChart extends Chart<Data> {
     const axis = axes.horizontalBottom()
       .scale(scale)
       .ticks(years)
-      .padding(20)
+      .padding(30)
       .format(n => "'" + ('' + n).substr(2, 2));
 
     const left = this.marginLeft,
@@ -75,15 +78,41 @@ export default class TrendChart extends Chart<Data> {
       .call(axis);
   }
 
+  protected addCutpoints(scale: scales.Scale, width: number): void {
+    const acls = [
+      {
+        label: 'Basic',
+        value: 131,
+      },
+      {
+        label: 'Proficient',
+        value: 167,
+      },
+      {
+        label: 'Advanced',
+        value: 224,
+      },
+    ];
+
+    const cutpoints = makeCutpoints()
+      .position(scale)
+      .cutpoints(acls);
+
+    this.cutpoints
+      .attr('transform', `translate(${width + this.marginLeft}, 0)`)
+      .call(cutpoints);
+  }
+
   protected loaded(data: Data[]): void {
-    console.log('loaded', data);
+    let extent = d3Extent(data, row => row.targetvalue);
+    extent = d3Extent([...extent, 131, 167, 224]);
 
     const score = scales.score()
       .bounds([0, 300])
-      .domain(extent(data, row => row.targetvalue))
+      .domain(extent)
       .reverse();
 
-    const padding = 20;
+    const padding = 30;
     const year = scales.year()
       .domain([2009, 2015])
       .offset(padding);
@@ -94,6 +123,7 @@ export default class TrendChart extends Chart<Data> {
     this.width(width)
       .height(score.range()[0]);
 
+    this.addCutpoints(score, width);
     this.addScoreAxis(score);
     this.addYearAxis(year);
 
