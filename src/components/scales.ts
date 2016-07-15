@@ -11,5 +11,5 @@ export function score(): Scale {
 export function year(): Scale {
   return scale()
     .interval(1)
-    .intervalSize(20);
+    .intervalSize(40);
 }
