@@ -16,7 +16,7 @@ type Point<T> = T & {
 };
 
 export default class TrendChart extends Chart<Data> {
-  protected marginLeft = 30;
+  protected marginLeft = 40;
   protected marginRight = 150;
   protected marginBottom = 30;
   protected marginTop = 30;
@@ -99,7 +99,7 @@ export default class TrendChart extends Chart<Data> {
       .cutpoints(acls);
 
     this.cutpoints
-      .attr('transform', `translate(${width + this.marginLeft}, 0)`)
+      .attr('transform', `translate(${width + this.marginLeft}, ${this.marginTop})`)
       .call(cutpoints);
   }
 
