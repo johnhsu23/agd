@@ -2,31 +2,31 @@
  * List of error codes from the NDE-fed 'GetChartData' API.
  */
 export const enum ErrorFlag {
-    // double dagger
-    StandardsNotMet = 1 << 0,
-    HighCV = 1 << 2,
+  // double dagger
+  StandardsNotMet = 1 << 0,
+  HighCV = 1 << 2,
 
-    // show raised 1 after year
-    NonAccommodatedSample = 1 << 3,
+  // show raised 1 after year
+  NonAccommodatedSample = 1 << 3,
 
-    // double dagger
-    ExclusionList = 1 << 4,
-    NonQualifiedIndependentVariable = 1 << 5,
+  // double dagger
+  ExclusionList = 1 << 4,
+  NonQualifiedIndependentVariable = 1 << 5,
 
-    // em dash
-    NoData = 1 << 6,
+  // em dash
+  NoData = 1 << 6,
 
-    // pound sign
-    RoundsToZero = 1 << 7,
+  // pound sign
+  RoundsToZero = 1 << 7,
 
-    // single dagger for SE (unused for NRC reporting)
-    StandardErrNotApplicable = 1 << 8,
+  // single dagger for SE (unused for NRC reporting)
+  StandardErrNotApplicable = 1 << 8,
 
-    // special notes
-    RaceNoteType1 = 1 << 9,
-    JurisdictionNote = 1 << 17,
-    RaceNoteType2 = 1 << 22,
-    RaceNoteType3 = 1 << 23,
+  // special notes
+  RaceNoteType1 = 1 << 9,
+  JurisdictionNote = 1 << 17,
+  RaceNoteType2 = 1 << 22,
+  RaceNoteType3 = 1 << 23,
 }
 
 /**
@@ -42,7 +42,7 @@ export const notApplicable = ErrorFlag.StandardsNotMet
  * If this function returns true, code should display an em dash (U+2014) and suppress the significance marker.
  */
 export function isNotAvailable(errorCode: number): boolean {
-    return (errorCode & ErrorFlag.NoData) !== 0;
+  return (errorCode & ErrorFlag.NoData) !== 0;
 }
 
 /**
@@ -50,7 +50,7 @@ export function isNotAvailable(errorCode: number): boolean {
  * If this function returns true, code should display a double dagger (U+2021) and suppress the significance marker.
  */
 export function isNotApplicable(errorCode: number): boolean {
-    return (errorCode & notApplicable) !== 0;
+  return (errorCode & notApplicable) !== 0;
 }
 
 /**
@@ -58,7 +58,7 @@ export function isNotApplicable(errorCode: number): boolean {
  * If this function returns true, code should display a pound sign (#). It is safe to display the significance marker.
  */
 export function isRoundsToZero(errorCode: number): boolean {
-    return (errorCode & ErrorFlag.RoundsToZero) !== 0;
+  return (errorCode & ErrorFlag.RoundsToZero) !== 0;
 }
 
 /**
@@ -68,25 +68,25 @@ export function isRoundsToZero(errorCode: number): boolean {
  * @param errorCode the error code returned by the NDE API.
  */
 export function formatValue(estimate: number, sig: string, errorCode: number): string {
-    if (isNotAvailable(errorCode)) {
-        return '\u2014';
-    }
+  if (isNotAvailable(errorCode)) {
+    return '\u2014';
+  }
 
-    if (isNotApplicable(errorCode)) {
-        return '\u2021';
-    }
+  if (isNotApplicable(errorCode)) {
+    return '\u2021';
+  }
 
-    let formatted: string;
-    if (isRoundsToZero(errorCode)) {
-        formatted = '#';
-    } else {
-        formatted = '' + Math.round(estimate);
-    }
+  let formatted: string;
+  if (isRoundsToZero(errorCode)) {
+    formatted = '#';
+  } else {
+    formatted = '' + Math.round(estimate);
+  }
 
-    // hack: 2015 rows have some issues
-    if ((sig === '<' || sig === '>')) {
-        formatted += '*';
-    }
+  // hack: 2015 rows have some issues
+  if ((sig === '<' || sig === '>')) {
+    formatted += '*';
+  }
 
-    return formatted;
+  return formatted;
 }
