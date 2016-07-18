@@ -8,9 +8,15 @@ import configure from 'util/configure';
 export default class SectionView extends LayoutView<any> {
   template = () => template;
 
+  setTitle(title: string): void {
+    this.$('.section__title')
+      .text(title);
+  }
+
   regions(): {[key: string]: string} {
     return {
       inner: '.section__inner',
+      controls: '.section__controls',
     };
   }
 }
