@@ -1,0 +1,5 @@
+.grade-switcher {
+  [aria-checked=true]:before {
+    content: '* ';
+  }
+}
