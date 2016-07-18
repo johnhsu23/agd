@@ -10,3 +10,5 @@ bower_components
 public/*
 # Keep index.html
 !public/index.html
+# Keep templates directory
+!public/templates
