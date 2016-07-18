@@ -24,6 +24,7 @@ main {
   padding: 10px 0;
 }
 
+// Crappy demo of site-level element styling.
 .site-header, .site-footer {
   @extend %u-clearfix;
 

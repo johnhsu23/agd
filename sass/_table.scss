@@ -1,3 +1,7 @@
+// Table styles.
+// We should use a 'table' class in order to ensure that the base style is opt-in.
+// This should (hopefully!) avoid clashes with special tables that need their own styling.
+
 %table__cell {
   padding: 0.5em;
   text-align: center;

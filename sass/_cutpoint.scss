@@ -1,3 +1,13 @@
+// Represents the "<==" shape we use to denote where achievement levels lie on a chart.
+//
+// Note: I worry that the class names here suck.
+//
+// Elements:
+// * cutpoint__foreground: The actual "<==" shape
+// * cutpoint__background: The small folded corner below the foreground element. Used to be called drop-shadow.
+// * cutpoint__link: An SVG anchor holding the (?) icon. May not be present in all cases.
+// * cutpoint__text: The cutpoint's label (i.e., "Basic", "Proficient", or "Advanced").
+
 .cutpoint {
   &__foreground {
     fill: $cutpoint-foreground;

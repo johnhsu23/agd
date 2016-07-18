@@ -1,3 +1,6 @@
+// Base styles for vector path data.
+// The three modifiers are used almost exclusively with the percentiles chart.
+
 %path {
   transition-property: opacity stroke-width;
   transition-duration: 250ms;
@@ -22,12 +25,14 @@
   stroke-width: 4px;
 }
 
+// Percentile colors
 @each $percentile, $color in $percentile-colors {
   %path--#{$percentile} {
     stroke: $color;
   }
 }
 
+// Single-series colors
 %path--primary {
   stroke: $series-default;
 }

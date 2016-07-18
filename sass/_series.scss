@@ -1,3 +1,22 @@
+// Definition: a series is an SVG <g> element grouping a set of data.
+//
+// Elements:
+// * series__line: The d3-generated <path> element showing the trend line.
+// * series__point: a <g> element holding both a graphical symbol and the associated text (almost always the scale score value).
+// * series__point__symbol: The graphical symbol.
+// * series__point__text: The label text (i.e., scale score value).
+//
+// Modifiers are used to indicate the kind of series it is. There are, at present, two kinds of series:
+// * Primary series. Only one line is shown. This is the default for charts like the nat'l average scores page.
+// * Percentile series. Five lines are shown, and are tagged with the statistic type: p1, p2, p5, p7, and p9.
+//
+// There is a planned third set of modifiers for comparison-style series: these would be visible
+// in the gaps and state comparison charts. The two series would be series--focal and series--target.
+// Per current style recommendations, the target series would have its data points italicized.
+//
+// Note that this may require some restructuring, as a "series" logically can consist of two
+// arrays of data -- one each for accommodated and non-accommodated assessments.
+
 %series__path {
   @extend %path;
 
@@ -35,6 +54,9 @@
       text-anchor: middle;
       transition: visibility 250ms, opacity 250ms;
 
+      // We are now always outputting text elements, even if they aren't initially visible.
+      // As a result, we have to change the visibility when the chart is a "multi-series" (i.e., percentile) chart.
+      // This modifier name is... not great, probably.
       .chart--multi-series & {
         visibility: hidden;
         opacity: 0;

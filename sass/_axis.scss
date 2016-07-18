@@ -1,4 +1,20 @@
+// Chart axis component.
+//
+// Elements:
+// * axis__line: The line showing the extent of the data (e.g., scale score or assessment year)
+// * axis__tick: <g> element containing both tick mark and label
+// * axis__mark: Tick mark
+// * axis__text: Tick mark's label
+// * axis__break: The "//" symbol.
+//   This is drawn with D3 code and has its own stroke-dasharray, so we no longer need to render both a <rect> and a <path> separately.
+//
+// Modifiers:
+// * vertical-left: Axis orientation (see below)
+// * horizontal-bottom: Axis orientation (see below)
+
 .axis {
+  // Orientation: vertical
+  // Position: left-hand side of chart
   &--vertical-left .axis__label {
     text-anchor: end;
   }

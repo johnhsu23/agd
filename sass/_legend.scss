@@ -1,14 +1,36 @@
+// Definition: a "legend" is a block containing a list of symbols and their descriptions.
+// The symbols may be graphical or textual. If textual, they more often than not are a single
+// character (e.g., "*" to indicate stastical significance).
+//
+// Elements:
+// * legend__note: Ancillary "NOTE:" information. Often a long string of text. Does not contain a symbol of any kind.
+// * legend__item: A legend item. Has two children: a marker and its description.
+// * legend__marker: A legend marker.
+// * legend__description: The description of the legend symbol.
+//
+// Modifiers:
+// * legend__marker--path: Indicates that the marker is an SVG element containing
+//   vector data.
+// * legend__marker--text: Indicates that the marker is a <p> tag containing a textual
+//   symbol.
+
 %legend__path {
   @extend %path;
 
+  // Indicates that the user has clicked on this series to focus in on it.
   .is-active & {
     @extend %path--selected;
   }
 
+  // Indicates that the user has clicked on some other series to focus in.
   .is-inactive & {
     @extend %path--unselected;
   }
 
+  // Note: we don't use the :hover pseudo-class because the hover information
+  // may have come from the associated chart rather than this item directly.
+  // It seems easier for the code to unconditionally use the 'is-hover' class
+  // than to distinguish between a hover here and a hover there.
   .is-hover & {
     @extend %path--hover;
   }
@@ -45,7 +67,7 @@
 
   &__marker-text {
     @extend %legend__marker;
-  
+
     text-align: center;
     font-size: xx-large;
     font-weight: bold;
@@ -66,7 +88,7 @@
     font-size: smaller;
     width: $legend-width - $legend-item-width;
     min-height: $legend-height;
- 
+
     display: table-cell;
     vertical-align: middle;
 

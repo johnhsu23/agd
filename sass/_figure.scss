@@ -1,3 +1,23 @@
+// Definition: a "figure" is a labeled block with three required components:
+// * a title
+// * a legend
+// * an "inner" area for whatever the figure wraps
+//
+// Figures may have controls associated with them.
+//
+// Elements:
+// * figure__title: This figure's title. (Replaces the old .chart__title class)
+// * figure__legend: This figure's legend. May be empty.
+// * figure__inner: Container for the thing this figure wraps, be it a chart, table,
+//   or even a static image.
+// * figure__controls (not yet implemented): Holds any controls that may modify the figure.
+//   (Think the baseline selectors for the achievement-level charts).
+//
+// Discussion:
+// The "figure" block is intended to free up the "chart" namespace for actual charting elements.
+// It's a concept we use frequently, so it seems to make sense to bless it as a real thing
+// rather than one created implicitly.
+
 .figure {
   width: 100%;
   margin: 0;
