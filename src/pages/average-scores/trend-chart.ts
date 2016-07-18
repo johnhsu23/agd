@@ -4,8 +4,11 @@ import * as axes from 'components/axis';
 import makeSeries from 'components/series';
 import {formatValue} from 'codes';
 import makeCutpoints from 'components/cutpoint';
+import * as Promise from 'bluebird';
 
 import {Selection, extent as d3Extent, svg} from 'd3';
+
+import grade from 'models/grade';
 
 import {Data} from 'api/tuda-acrossyear';
 import load from 'pages/average-scores/trend-data';
@@ -26,6 +29,22 @@ export default class TrendChart extends Chart<Data> {
   protected yearAxis: Selection<void>;
   protected cutpoints: Selection<void>;
 
+  protected promise = Promise.resolve(void 0);
+
+  delegateEvents(): this {
+    super.delegateEvents();
+
+    this.listenTo(grade, 'change:grade', this.renderData);
+
+    return this;
+  }
+
+  undelegateEvents(): this {
+    this.stopListening(grade, 'change:grade');
+
+    return super.undelegateEvents();
+  }
+
   render(): this {
     super.render();
 
@@ -34,11 +53,22 @@ export default class TrendChart extends Chart<Data> {
       this.firstRender = false;
     }
 
-    load('science', 4, ['2009R3', '2015R3'])
-      .then(data => this.loaded(data))
-      .done();
+    this.renderData();
 
     return this;
+  }
+
+  protected renderData(): void {
+    let years = ['2009R3', '2015R3'];
+    if (grade.grade === 8) {
+      years = ['2009R3', '2011R3', '2015R3'];
+    }
+
+    this.promise = this.promise
+      .then(() => load('science', grade.grade, years))
+      .then(data => this.loaded(data));
+
+    this.promise.done();
   }
 
   protected addAxes(): void {
@@ -56,8 +86,8 @@ export default class TrendChart extends Chart<Data> {
       .call(axis);
   }
 
-  protected addYearAxis(scale: scales.Scale): void {
-    const years = [2009, 2015].map(year => {
+  protected addYearAxis(scale: scales.Scale, years: number[]): void {
+    const labeled = years.map(year => {
       return {
         label: year,
         value: scale(year),
@@ -66,7 +96,7 @@ export default class TrendChart extends Chart<Data> {
 
     const axis = axes.horizontalBottom()
       .scale(scale)
-      .ticks(years)
+      .ticks(labeled)
       .padding(30)
       .format(n => "'" + ('' + n).substr(2, 2));
 
@@ -114,7 +144,7 @@ export default class TrendChart extends Chart<Data> {
 
     const padding = 30;
     const year = scales.year()
-      .domain([2009, 2015])
+      .domain(d3.extent(data, row => row.targetyear))
       .offset(padding);
 
     const [lo, hi] = year.range(),
@@ -125,7 +155,7 @@ export default class TrendChart extends Chart<Data> {
 
     this.addCutpoints(score, width);
     this.addScoreAxis(score);
-    this.addYearAxis(year);
+    this.addYearAxis(year, data.map(d => d.targetyear));
 
     const series = makeSeries<Data>()
       .x(row => year(row.targetyear))
@@ -134,6 +164,46 @@ export default class TrendChart extends Chart<Data> {
     const sel = this.inner
       .selectAll('.series')
       .data([series(data)]);
+
+    sel.select('.series__line')
+      .datum(d => d.line)
+      .attr('d', d => d);
+
+    const update = sel.selectAll('.series__point')
+      .data<Point<Data>>(d => d.points, d => '' + d.targetyear);
+
+    update.select('.series__point__symbol')
+      .attr('transform', ({x, y}) => `translate(${x}, ${y})`);
+
+    update.select('.series__point__text')
+      .attr({
+        x: d => d.x,
+        y: d => d.y,
+      })
+      .text(d => formatValue(d.targetvalue, d.sig, d.TargetErrorFlag));
+
+    let points = update.enter()
+      .append('g')
+      .classed('series__point', true);
+
+    points.append('text')
+      .classed('series__point__text', true)
+      .attr({
+        x: d => d.x,
+        y: d => d.y,
+        dy: '-10px',
+      })
+      .text(d => formatValue(d.targetvalue, d.sig, d.TargetErrorFlag));
+
+    points.append('path')
+      .classed('series__point__symbol', true)
+      .attr({
+        d: svg.symbol<Point<Data>>().size(192),
+        transform: ({x, y}) => `translate(${x}, ${y})`,
+      });
+
+    update.exit()
+      .remove();
 
     const enter = sel.enter()
       .append('g')
@@ -144,7 +214,7 @@ export default class TrendChart extends Chart<Data> {
       .datum(d => d.line)
       .attr('d', d => d);
 
-    const points = enter.selectAll('.series__point')
+    points = enter.selectAll('.series__point')
       .data<Point<Data>>(d => d.points)
       .enter()
       .append('g')

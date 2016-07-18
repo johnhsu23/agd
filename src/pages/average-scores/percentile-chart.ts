@@ -1,10 +1,13 @@
 import * as $ from 'jquery';
+import * as Promise from 'bluebird';
 import {svg, select, Selection} from 'd3';
 import {EventsHash} from 'backbone';
 
 import Chart from 'views/chart';
 import makeCutpoints from 'components/cutpoint';
 import * as scales from 'components/scales';
+
+import grade from 'models/grade';
 
 import makeSeries from 'components/series';
 import {verticalLeft, horizontalBottom} from 'components/axis';
@@ -32,6 +35,21 @@ export default class PercentileChart extends Chart<Data> {
   protected cutpoints: Selection<void>;
 
   protected firstRender = true;
+  protected promise = Promise.resolve(void 0);
+
+  delegateEvents(): this {
+    super.delegateEvents();
+
+    this.listenTo(grade, 'change:grade', this.renderData);
+
+    return this;
+  }
+
+  undelegateEvents(): this {
+    this.stopListening(grade, 'change:grade');
+
+    return super.undelegateEvents();
+  }
 
   events(): EventsHash {
     return {
@@ -39,6 +57,19 @@ export default class PercentileChart extends Chart<Data> {
       'mouseout .series': 'seriesMouseout',
       'click .series': 'seriesClick',
     };
+  }
+
+  protected renderData(): void {
+    let years = ['2009R3', '2015R3'];
+    if (grade.grade === 8) {
+      years = ['2009R3', '2011R3', '2015R3'];
+    }
+
+    this.promise = this.promise
+      .then(() => load('science', grade.grade, years))
+      .then(data => this.loaded(data));
+
+    this.promise.done();
   }
 
   protected seriesMouseover(event: JQueryMouseEventObject): void {
@@ -214,34 +245,6 @@ export default class PercentileChart extends Chart<Data> {
 
     const groups = [data.P1, data.P2, data.P5, data.P7, data.P9].map(series);
 
-    const sel = this.inner
-      .selectAll('.series')
-      .data(groups);
-
-    const enter = sel.enter()
-      .append('g')
-      .attr('class', d => `series series--${tagOf(d.points)}`);
-
-    enter.append('path')
-      .classed('series__line', true)
-      .datum(d => d.line)
-      .attr('d', d => d);
-
-    const points = enter.selectAll('.series__point')
-      .data<Point<Data>>(d => d.points)
-      .enter()
-      .append('g')
-      .classed('series__point', true);
-
-    points.append('text')
-      .classed('series__point__text', true)
-      .attr({
-        x: d => d.x,
-        y: d => d.y,
-        dy: '-10px',
-      })
-      .text(d => formatValue(d.targetvalue, d.sig, d.TargetErrorFlag));
-
     const sym = svg.symbol<Point<Data>>()
       .size(192)
       .type(d => {
@@ -265,6 +268,74 @@ export default class PercentileChart extends Chart<Data> {
             throw new Error(`Unknown stattype ${d.stattype}`);
         }
       });
+
+    const sel = this.inner
+      .selectAll('.series')
+      .data(groups);
+
+    sel.select('.series__line')
+      .datum(d => d.line)
+      .attr('d', d => d);
+
+    const update = sel.selectAll('.series__point')
+      .data<Point<Data>>(d => d.points, d => '' + d.targetyear);
+
+    update.select('.series__point__symbol')
+      .attr('transform', ({x, y}) => `translate(${x}, ${y})`);
+
+    update.select('.series__point__text')
+      .attr({
+        x: d => d.x,
+        y: d => d.y,
+      })
+      .text(d => formatValue(d.targetvalue, d.sig, d.TargetErrorFlag));
+
+    let points = update.enter()
+      .append('g')
+      .classed('series__point', true);
+
+    points.append('text')
+      .classed('series__point__text', true)
+      .attr({
+        x: d => d.x,
+        y: d => d.y,
+        dy: '-10px',
+      })
+      .text(d => formatValue(d.targetvalue, d.sig, d.TargetErrorFlag));
+
+    points.append('path')
+      .classed('series__point__symbol', true)
+      .attr({
+        d: sym,
+        transform: ({x, y}) => `translate(${x}, ${y})`,
+      });
+
+    update.exit()
+      .remove();
+
+    const enter = sel.enter()
+      .append('g')
+      .attr('class', d => `series series--${tagOf(d.points)}`);
+
+    enter.append('path')
+      .classed('series__line', true)
+      .datum(d => d.line)
+      .attr('d', d => d);
+
+    points = enter.selectAll('.series__point')
+      .data<Point<Data>>(d => d.points)
+      .enter()
+      .append('g')
+      .classed('series__point', true);
+
+    points.append('text')
+      .classed('series__point__text', true)
+      .attr({
+        x: d => d.x,
+        y: d => d.y,
+        dy: '-10px',
+      })
+      .text(d => formatValue(d.targetvalue, d.sig, d.TargetErrorFlag));
 
     points.append('path')
       .classed('series__point__symbol', true)
