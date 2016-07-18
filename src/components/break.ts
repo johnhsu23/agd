@@ -17,17 +17,48 @@ const verticalRotation = -30;
  * axis component.
  */
 
+export interface Break {
+  <T>(selection: Selection<T>): void;
+
+  values(): number[];
+  values(values: number[]): this;
+}
+
 /**
  * Create a scale break appropriate for a vertically-oriented axis.
  */
-export function vertical(selection: Selection<number>): void {
-  selection.each(function (pos) {
-    const elt = d3.select(this);
+export function vertical<T>(): Break {
+  let values: number[] = [];
 
-    elt.attr({
-      d: path,
-      transform: `translate(0, ${pos}) rotate(${verticalRotation})`,
-    })
-    .style('stroke-dasharray', width + ' ' + height);
-  });
+  const breakFn = function <T>(parent: Selection<T>): void {
+    const selection = parent.selectAll('.axis__break')
+      .data(values);
+
+    selection
+      .attr('transform', pos => `translate(0, ${pos}) rotate(${verticalRotation})`);
+
+    selection.enter()
+      .append('path')
+      .classed('axis__break', true)
+      .attr('d', path)
+      .attr('transform', pos => `translate(0, ${pos}) rotate(${verticalRotation})`)
+      .style('stroke-dasharray', width + ' ' + height);
+
+    selection.exit()
+      .remove();
+  } as Break;
+
+  breakFn.values = function (value?: number[]): Break | number[] {
+    if (arguments.length) {
+      values = value.map(Number);
+      return breakFn;
+    }
+
+    return values;
+  } as {
+    (): number[];
+    (values: number[]): Break;
+  };
+
+  return breakFn;
 }

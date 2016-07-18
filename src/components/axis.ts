@@ -136,19 +136,10 @@ function makeAxis(args: AxisArgs): Axis {
     groups.exit()
       .remove();
 
-    const breaks = selection.selectAll('.axis__break')
-      .data(scale.breaks());
-
-    breaks
-      .call(vertical);
-
-    breaks.enter()
-      .append('path')
-      .classed('axis__break', true)
-      .call(vertical);
-
-    breaks.exit()
-      .remove();
+    // Add/remove breaks as needed
+    vertical()
+      .values(scale.breaks())
+      (selection);
   } as Axis;
 
   axis.ticks = function (value?: Tick[]): Tick[] | Axis {
