@@ -1,6 +1,8 @@
 import {View} from 'backbone.marionette';
-import Section from 'views/section';
 import {ViewOptions} from 'backbone';
+
+import Switcher from 'views/grade-switcher';
+import Section from 'views/section';
 
 export interface DefaultSectionOptions extends ViewOptions<any> {
   inner: View<any>;
@@ -17,6 +19,7 @@ export class DefaultSection extends Section {
 
   onBeforeShow(): void {
     this.showChildView('inner', this.inner);
+    this.showChildView('controls', new Switcher);
   }
 }
 
