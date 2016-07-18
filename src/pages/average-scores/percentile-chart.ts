@@ -1,9 +1,10 @@
 import * as $ from 'jquery';
 import * as Promise from 'bluebird';
-import {svg, select, Selection} from 'd3';
+import {select, Selection} from 'd3';
 import {EventsHash} from 'backbone';
 
 import Chart from 'views/chart';
+import {symbol as makeSymbol, types as symbolTypes} from 'components/symbol';
 import makeCutpoints from 'components/cutpoint';
 import * as scales from 'components/scales';
 
@@ -23,6 +24,31 @@ type Point<T> = T & {
 function tagOf(data: Data[]): string {
   return data[0].stattype.toLowerCase();
 }
+
+const symbol = makeSymbol<Point<Data>>()
+  .size(194)
+  .type(d => {
+    let index = 0;
+    switch (d.stattype) {
+      case 'P2':
+        index = 1;
+        break;
+
+      case 'P5':
+        index = 2;
+        break;
+
+      case 'P7':
+        index = 3;
+        break;
+
+      case 'P9':
+        index = 4;
+        break;
+    }
+
+    return symbolTypes[index];
+  });
 
 export default class PercentileChart extends Chart<Data> {
   protected marginLeft = 40;
@@ -245,30 +271,6 @@ export default class PercentileChart extends Chart<Data> {
 
     const groups = [data.P1, data.P2, data.P5, data.P7, data.P9].map(series);
 
-    const sym = svg.symbol<Point<Data>>()
-      .size(192)
-      .type(d => {
-        switch (d.stattype) {
-          case 'P1':
-            return svg.symbolTypes[0];
-
-          case 'P2':
-            return svg.symbolTypes[1];
-
-          case 'P5':
-            return svg.symbolTypes[2];
-
-          case 'P7':
-            return svg.symbolTypes[3];
-
-          case 'P9':
-            return svg.symbolTypes[4];
-
-          default:
-            throw new Error(`Unknown stattype ${d.stattype}`);
-        }
-      });
-
     const sel = this.inner
       .selectAll('.series')
       .data(groups);
@@ -306,7 +308,7 @@ export default class PercentileChart extends Chart<Data> {
     points.append('path')
       .classed('series__point__symbol', true)
       .attr({
-        d: sym,
+        d: symbol,
         transform: ({x, y}) => `translate(${x}, ${y})`,
       });
 
@@ -340,7 +342,7 @@ export default class PercentileChart extends Chart<Data> {
     points.append('path')
       .classed('series__point__symbol', true)
       .attr({
-        d: sym,
+        d: symbol,
         transform: ({x, y}) => `translate(${x}, ${y})`,
       });
   }

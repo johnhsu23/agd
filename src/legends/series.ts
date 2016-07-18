@@ -1,14 +1,14 @@
 import Model from 'legends/model';
 
-import {svg as gen} from 'd3';
+import makeSymbol from 'components/symbol';
 
-const symbol = gen.symbol<void>()
+const symbol = makeSymbol<void>()
   .size(194);
 
 export default function series(type: string, description: string): Model {
   return new Model({
     type: 'path',
-    marker: symbol.type(type)(null),
+    marker: symbol.type(type)(null, null),
     description,
   });
 }

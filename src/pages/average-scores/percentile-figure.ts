@@ -1,6 +1,8 @@
-import {zip, svg} from 'd3';
+import {zip} from 'd3';
 import {Collection} from 'backbone';
 import {ItemView, Region} from 'backbone.marionette';
+
+import {types as symbolTypes} from 'components/symbol';
 
 import Figure from 'views/figure';
 import Chart from 'pages/average-scores/percentile-chart';
@@ -71,7 +73,7 @@ export default class PercentileScores extends Figure {
       'p9',
     ];
 
-    const list = zip(svg.symbolTypes, tags, names).reverse();
+    const list = zip(symbolTypes, tags, names).reverse();
 
     for (const [type, tag, description] of list) {
       const legend = series(type, description);
