@@ -19,8 +19,6 @@ export default class SubscaleRow extends ItemView<Model> {
 <td>${data.SRPS3}</td>`;
 
   serializeData(): Data {
-    console.log(this);
-
     const {year, SRPS1, SRPS2, SRPS3} = this.model;
 
     return {
