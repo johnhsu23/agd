@@ -1,5 +1,13 @@
-.grade-switcher {
-  [aria-checked=true]:before {
-    content: '* ';
+.grade-switcher [role=radio] {
+  display: inline-block;
+  width: 10em;
+  padding: 0.5em;
+  text-align: center;
+
+  background-color: $radio-inactive;
+  color: white;
+
+  &[aria-checked=true] {
+    background-color: $radio-active;
   }
 }
