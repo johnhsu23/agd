@@ -1,9 +1,6 @@
 module.exports = function (grunt) {
   grunt.config.merge({
     watch: {
-      options: {
-        livereload: true,
-      },
       stylesheets: {
         files: ['sass/**/*.scss'],
         tasks: ['sass:default'],
@@ -15,6 +12,12 @@ module.exports = function (grunt) {
       bower: {
         files: 'bower.json',
         tasks: ['bower:default'],
+      },
+      reload: {
+        options: {
+          livereload: true,
+        },
+        files: ['public/index.html', 'public/style.css', 'public/lib/main.js']
       }
     },
   })
