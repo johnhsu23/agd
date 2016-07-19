@@ -10,7 +10,7 @@ module.exports = function (grunt) {
       },
       typescript: {
         files: ['src/**/*.ts', '!src/.baseDir.ts'],
-        tasks: ['tslint:default', 'ts:default'],
+        tasks: ['newer:tslint:default', 'ts:default'],
       },
       bower: {
         files: 'bower.json',
