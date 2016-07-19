@@ -111,34 +111,38 @@ function makeAxis(args: AxisArgs): Axis {
       .attr(direction + '1', lo - padding)
       .attr(direction + '2', hi + padding);
 
-    const groups = selection.selectAll('.axis__tick')
+    const tickUpdate = selection.selectAll('.axis__tick')
       .data(ticks || scale.ticks(), tick => '' + tick.label);
 
-    groups
+    tickUpdate
+      .classed('is-exiting', false)
       .interrupt()
       .transition()
       .duration(250)
       .attr('transform', tick => 'translate(' + tickPosition(tick) + ')');
 
-    groups.select('.axis__label')
+    tickUpdate.select('.axis__label')
       .text(tick => format(tick.label))
       .attr(text);
 
-    const enter = groups.enter()
-      .append('g')
+    const tickEnter = tickUpdate.enter()
+      .insert('g')
       .classed('axis__tick', true)
       .attr('transform', tick => 'translate(' + tickPosition(tick) + ')');
 
-    enter.append('line')
+    tickEnter.append('line')
       .classed('axis__mark', true)
       .attr(line);
 
-    enter.append('text')
+    tickEnter.append('text')
       .classed('axis__label', true)
       .text(tick => format(tick.label))
       .attr(text);
 
-    groups.exit()
+    tickUpdate.exit()
+      .classed('is-exiting', true)
+      .transition()
+      .delay(250)
       .remove();
 
     // Add/remove breaks as needed

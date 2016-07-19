@@ -23,6 +23,10 @@
     text-anchor: middle;
   }
 
+  &__tick {
+    @include fade-in-out;
+  }
+
   &__line {
     stroke: $axis;
   }
