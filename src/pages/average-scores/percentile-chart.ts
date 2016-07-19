@@ -2,13 +2,15 @@ import * as $ from 'jquery';
 import * as Promise from 'bluebird';
 import {select, Selection} from 'd3';
 import {EventsHash} from 'backbone';
+import {extent as d3Extent} from 'd3';
 
 import Chart from 'views/chart';
 import {symbol as makeSymbol, types as symbolTypes} from 'components/symbol';
 import makeCutpoints from 'components/cutpoint';
 import * as scales from 'components/scales';
 
-import grade from 'models/grade';
+import context from 'models/grade';
+import acls from 'data/acls';
 
 import makeSeries from 'components/series';
 import {verticalLeft, horizontalBottom} from 'components/axis';
@@ -66,13 +68,13 @@ export default class PercentileChart extends Chart<Data> {
   delegateEvents(): this {
     super.delegateEvents();
 
-    this.listenTo(grade, 'change:grade', this.renderData);
+    this.listenTo(context, 'change:grade', this.renderData);
 
     return this;
   }
 
   undelegateEvents(): this {
-    this.stopListening(grade, 'change:grade');
+    this.stopListening(context, 'change:grade');
 
     return super.undelegateEvents();
   }
@@ -87,12 +89,12 @@ export default class PercentileChart extends Chart<Data> {
 
   protected renderData(): void {
     let years = ['2009R3', '2015R3'];
-    if (grade.grade === 8) {
+    if (context.grade === 8) {
       years = ['2009R3', '2011R3', '2015R3'];
     }
 
     this.promise = this.promise
-      .then(() => load('science', grade.grade, years))
+      .then(() => load('science', context.grade, years))
       .then(data => this.loaded(data));
 
     this.promise.done();
@@ -211,24 +213,9 @@ export default class PercentileChart extends Chart<Data> {
   }
 
   protected addCutpoints(scale: scales.Scale, width: number): void {
-    const acls = [
-      {
-        label: 'Basic',
-        value: 131,
-      },
-      {
-        label: 'Proficient',
-        value: 167,
-      },
-      {
-        label: 'Advanced',
-        value: 224,
-      },
-    ];
-
     const cutpoints = makeCutpoints()
       .position(scale)
-      .cutpoints(acls);
+      .cutpoints(acls[context.grade]);
 
     this.cutpoints
       .attr('transform', `translate(${this.marginLeft + width}, ${this.marginTop})`)
@@ -236,12 +223,10 @@ export default class PercentileChart extends Chart<Data> {
   }
 
   protected resizeExtent(extent: [number, number]): [number, number] {
-    let [lo, hi] = extent;
-
-    lo = Math.min(lo, 131);
-    hi = Math.max(hi, 224);
-
-    return [lo, hi];
+    return d3Extent([
+      ...extent,
+      ...acls[context.grade].map(acl => acl.value),
+    ]);
   }
 
   protected loaded(data: Grouped): void {

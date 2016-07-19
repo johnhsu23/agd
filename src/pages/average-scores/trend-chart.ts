@@ -8,7 +8,8 @@ import * as Promise from 'bluebird';
 
 import {Selection, extent as d3Extent, svg} from 'd3';
 
-import grade from 'models/grade';
+import context from 'models/grade';
+import acls from 'data/acls';
 
 import {Data} from 'api/tuda-acrossyear';
 import load from 'pages/average-scores/trend-data';
@@ -34,13 +35,13 @@ export default class TrendChart extends Chart<Data> {
   delegateEvents(): this {
     super.delegateEvents();
 
-    this.listenTo(grade, 'change:grade', this.renderData);
+    this.listenTo(context, 'change:grade', this.renderData);
 
     return this;
   }
 
   undelegateEvents(): this {
-    this.stopListening(grade, 'change:grade');
+    this.stopListening(context, 'change:grade');
 
     return super.undelegateEvents();
   }
@@ -60,12 +61,12 @@ export default class TrendChart extends Chart<Data> {
 
   protected renderData(): void {
     let years = ['2009R3', '2015R3'];
-    if (grade.grade === 8) {
+    if (context.grade === 8) {
       years = ['2009R3', '2011R3', '2015R3'];
     }
 
     this.promise = this.promise
-      .then(() => load('science', grade.grade, years))
+      .then(() => load('science', context.grade, years))
       .then(data => this.loaded(data));
 
     this.promise.done();
@@ -109,24 +110,9 @@ export default class TrendChart extends Chart<Data> {
   }
 
   protected addCutpoints(scale: scales.Scale, width: number): void {
-    const acls = [
-      {
-        label: 'Basic',
-        value: 131,
-      },
-      {
-        label: 'Proficient',
-        value: 167,
-      },
-      {
-        label: 'Advanced',
-        value: 224,
-      },
-    ];
-
     const cutpoints = makeCutpoints()
       .position(scale)
-      .cutpoints(acls);
+      .cutpoints(acls[context.grade]);
 
     this.cutpoints
       .attr('transform', `translate(${width + this.marginLeft}, ${this.marginTop})`)
@@ -134,8 +120,10 @@ export default class TrendChart extends Chart<Data> {
   }
 
   protected loaded(data: Data[]): void {
+    const cutpoints = acls[context.grade].map(acl => acl.value);
+
     let extent = d3Extent(data, row => row.targetvalue);
-    extent = d3Extent([...extent, 131, 167, 224]);
+    extent = d3Extent([...extent, ...cutpoints]);
 
     const score = scales.score()
       .bounds([0, 300])
