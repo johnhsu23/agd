@@ -10,14 +10,14 @@ export default class LegendItemView extends D3View<Legend> {
 
     this.$el.empty();
 
-    const type = model.type;
+    const type = model.type,
+          isNote = type === 'note';
     this.d3el
       .attr('data-tag', model.tag || null)
       .attr('class', null)
       .classed({
-        'legend__note': type === 'note',
-        'legend__item legend__item--text': type === 'text',
-        'legend__item legend__item--path': type === 'path',
+        legend__note: isNote,
+        legend__item: !isNote,
        });
 
     switch (type) {
@@ -47,7 +47,7 @@ export default class LegendItemView extends D3View<Legend> {
       .datum(this.model);
 
     el.append('p')
-      .classed('legend__marker legend__marker-text', true)
+      .classed('legend__marker legend__marker--text', true)
       .text(legend => legend.marker);
 
     el.append('p')
@@ -60,7 +60,7 @@ export default class LegendItemView extends D3View<Legend> {
       .datum(this.model);
 
     el.append('svg')
-      .classed('legend__marker legend__marker-path', true)
+      .classed('legend__marker legend__marker--path', true)
       .attr('viewBox', '0 0 30 30')
       .append('path')
       .attr('d', legend => legend.marker)

@@ -42,12 +42,6 @@
   }
 }
 
-%legend__marker {
-  display: table-cell;
-  width: $legend-item-width;
-  height: $legend-item-width;
-}
-
 .legend {
   &__note {
     padding-top: 0.25em;
@@ -65,18 +59,18 @@
     display: table-row;
   }
 
-  &__marker-text {
-    @extend %legend__marker;
+  &__marker {
+    display: table-cell;
+    width: $legend-item-width;
+    height: $legend-item-width;
 
-    text-align: center;
-    font-size: xx-large;
-    font-weight: bold;
-  }
+    &--text {
+      text-align: center;
+      font-size: xx-large;
+      font-weight: bold;
+    }
 
-  &__marker-path {
-    @extend %legend__marker;
-
-    path {
+    &--path path {
       @extend %legend__path;
       fill: white;
     }
