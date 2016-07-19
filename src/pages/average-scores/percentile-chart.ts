@@ -191,7 +191,12 @@ export default class PercentileChart extends Chart<Data> {
   }
 
   protected addYearAxis(scale: scales.Scale): void {
-    const years = [2009, 2015].map(year => {
+    let years = [2009, 2015];
+    if (context.grade === 8) {
+      years = [2009, 2011, 2015];
+    }
+
+    const ticks = years.map(year => {
       return {
         label: year,
         value: scale(year),
@@ -200,7 +205,7 @@ export default class PercentileChart extends Chart<Data> {
 
     const axis = horizontalBottom()
       .scale(scale)
-      .ticks(years)
+      .ticks(ticks)
       .padding(30)
       .format(n => "'" + ('' + n).substr(2, 2));
 
@@ -256,64 +261,69 @@ export default class PercentileChart extends Chart<Data> {
 
     const groups = [data.P1, data.P2, data.P5, data.P7, data.P9].map(series);
 
-    const sel = this.inner
+    const seriesUpdate = this.inner
       .selectAll('.series')
       .data(groups);
 
-    sel.select('.series__line')
-      .datum(d => d.line)
-      .attr('d', d => d);
+    seriesUpdate.select('.series__line')
+      .transition()
+      .attr('d', d => d.line);
 
-    const update = sel.selectAll('.series__point')
+    const pointUpdate = seriesUpdate.selectAll('.series__point')
       .data<Point<Data>>(d => d.points, d => '' + d.targetyear);
 
-    update
+    pointUpdate
+      .classed('is-exiting', false)
+      .interrupt()
       .transition()
       .duration(250)
       .attr('transform', ({x, y}) => `translate(${x}, ${y})`);
 
-    update.select('.series__point__text')
+    pointUpdate.select('.series__point__text')
       .text(d => formatValue(d.targetvalue, d.sig, d.TargetErrorFlag));
 
-    let points = update.enter()
+    let pointEnter = pointUpdate.enter()
       .append('g')
       .classed('series__point', true)
       .attr('transform', ({x, y}) => `translate(${x}, ${y})`);
 
-    points.append('text')
+    pointEnter.append('text')
       .classed('series__point__text', true)
       .attr('dy', '-10px')
       .text(d => formatValue(d.targetvalue, d.sig, d.TargetErrorFlag));
 
-    points.append('path')
+    pointEnter.append('path')
       .classed('series__point__symbol', true)
       .attr('d', symbol);
 
-    update.exit()
+    pointUpdate.exit()
+      .classed('is-exiting', true)
+      .transition()
+      .delay(250)
       .remove();
 
-    const enter = sel.enter()
+    const seriesEnter = seriesUpdate.enter()
       .append('g')
       .attr('class', d => `series series--${tagOf(d.points)}`);
 
-    enter.append('path')
+    seriesEnter.append('path')
       .classed('series__line', true)
       .datum(d => d.line)
       .attr('d', d => d);
 
-    points = enter.selectAll('.series__point')
+    pointEnter = seriesEnter.selectAll('.series__point')
       .data<Point<Data>>(d => d.points)
       .enter()
       .append('g')
       .classed('series__point', true)
       .attr('transform', ({x, y}) => `translate(${x}, ${y})`);
 
-    points.append('text')
+    pointEnter.append('text')
       .classed('series__point__text', true)
       .attr('dy', '-10px')
       .text(d => formatValue(d.targetvalue, d.sig, d.TargetErrorFlag));
 
-    points.append('path')
+    pointEnter.append('path')
       .classed('series__point__symbol', true)
       .attr('d', symbol);
   }
