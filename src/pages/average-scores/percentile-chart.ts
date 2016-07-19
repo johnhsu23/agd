@@ -267,35 +267,27 @@ export default class PercentileChart extends Chart<Data> {
     const update = sel.selectAll('.series__point')
       .data<Point<Data>>(d => d.points, d => '' + d.targetyear);
 
-    update.select('.series__point__symbol')
+    update
+      .transition()
+      .duration(250)
       .attr('transform', ({x, y}) => `translate(${x}, ${y})`);
 
     update.select('.series__point__text')
-      .attr({
-        x: d => d.x,
-        y: d => d.y,
-      })
       .text(d => formatValue(d.targetvalue, d.sig, d.TargetErrorFlag));
 
     let points = update.enter()
       .append('g')
-      .classed('series__point', true);
+      .classed('series__point', true)
+      .attr('transform', ({x, y}) => `translate(${x}, ${y})`);
 
     points.append('text')
       .classed('series__point__text', true)
-      .attr({
-        x: d => d.x,
-        y: d => d.y,
-        dy: '-10px',
-      })
+      .attr('dy', '-10px')
       .text(d => formatValue(d.targetvalue, d.sig, d.TargetErrorFlag));
 
     points.append('path')
       .classed('series__point__symbol', true)
-      .attr({
-        d: symbol,
-        transform: ({x, y}) => `translate(${x}, ${y})`,
-      });
+      .attr('d', symbol);
 
     update.exit()
       .remove();
@@ -313,22 +305,16 @@ export default class PercentileChart extends Chart<Data> {
       .data<Point<Data>>(d => d.points)
       .enter()
       .append('g')
-      .classed('series__point', true);
+      .classed('series__point', true)
+      .attr('transform', ({x, y}) => `translate(${x}, ${y})`);
 
     points.append('text')
       .classed('series__point__text', true)
-      .attr({
-        x: d => d.x,
-        y: d => d.y,
-        dy: '-10px',
-      })
+      .attr('dy', '-10px')
       .text(d => formatValue(d.targetvalue, d.sig, d.TargetErrorFlag));
 
     points.append('path')
       .classed('series__point__symbol', true)
-      .attr({
-        d: symbol,
-        transform: ({x, y}) => `translate(${x}, ${y})`,
-      });
+      .attr('d', symbol);
   }
 }

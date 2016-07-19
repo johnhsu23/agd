@@ -55,6 +55,9 @@ export function cutpoints(): Cutpoints {
       .data(points, point => point.label);
 
     cutpoints
+      .interrupt()
+      .transition()
+      .duration(250)
       .attr('transform', d => `translate(0, ${position(d.value)})`);
 
     const enter = cutpoints.enter()

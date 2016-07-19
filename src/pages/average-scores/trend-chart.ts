@@ -2,11 +2,12 @@ import Chart from 'views/chart';
 import * as scales from 'components/scales';
 import * as axes from 'components/axis';
 import makeSeries from 'components/series';
+import makeSymbol from 'components/symbol';
 import {formatValue} from 'codes';
 import makeCutpoints from 'components/cutpoint';
 import * as Promise from 'bluebird';
 
-import {Selection, extent as d3Extent, svg} from 'd3';
+import {Selection, extent as d3Extent} from 'd3';
 
 import context from 'models/grade';
 import acls from 'data/acls';
@@ -18,6 +19,8 @@ type Point<T> = T & {
   x: number;
   y: number;
 };
+
+const symbol = makeSymbol().size(194);
 
 export default class TrendChart extends Chart<Data> {
   protected marginLeft = 40;
@@ -149,79 +152,65 @@ export default class TrendChart extends Chart<Data> {
       .x(row => year(row.targetyear))
       .y(row => score(row.targetvalue));
 
-    const sel = this.inner
+    const seriesUpdate = this.inner
       .selectAll('.series')
       .data([series(data)]);
 
-    sel.select('.series__line')
+    seriesUpdate.select('.series__line')
       .datum(d => d.line)
       .attr('d', d => d);
 
-    const update = sel.selectAll('.series__point')
+    const pointUpdate = seriesUpdate.selectAll('.series__point')
       .data<Point<Data>>(d => d.points, d => '' + d.targetyear);
 
-    update.select('.series__point__symbol')
+    pointUpdate
+      .interrupt()
+      .transition()
       .attr('transform', ({x, y}) => `translate(${x}, ${y})`);
 
-    update.select('.series__point__text')
-      .attr({
-        x: d => d.x,
-        y: d => d.y,
-      })
+    pointUpdate.select('.series__point__text')
       .text(d => formatValue(d.targetvalue, d.sig, d.TargetErrorFlag));
 
-    let points = update.enter()
+    let pointEnter = pointUpdate.enter()
       .append('g')
-      .classed('series__point', true);
+      .classed('series__point', true)
+      .attr('transform', ({x, y}) => `translate(${x}, ${y})`);
 
-    points.append('text')
+    pointEnter.append('text')
       .classed('series__point__text', true)
-      .attr({
-        x: d => d.x,
-        y: d => d.y,
-        dy: '-10px',
-      })
+      .attr('dy', '-10px')
       .text(d => formatValue(d.targetvalue, d.sig, d.TargetErrorFlag));
 
-    points.append('path')
+    pointEnter.append('path')
       .classed('series__point__symbol', true)
-      .attr({
-        d: svg.symbol<Point<Data>>().size(192),
-        transform: ({x, y}) => `translate(${x}, ${y})`,
-      });
+      .attr('d', symbol);
 
-    update.exit()
+    pointUpdate.exit()
       .remove();
 
-    const enter = sel.enter()
+    const seriesEnter = seriesUpdate.enter()
       .append('g')
       .classed('series series--primary', true);
 
-    enter.append('path')
+    seriesEnter.append('path')
       .classed('series__line', true)
       .datum(d => d.line)
       .attr('d', d => d);
 
-    points = enter.selectAll('.series__point')
+    pointEnter = seriesEnter.selectAll('.series__point')
       .data<Point<Data>>(d => d.points)
       .enter()
       .append('g')
-      .classed('series__point', true);
+      .classed('series__point', true)
+      .attr('transform', ({x, y}) => `translate(${x}, ${y})`);
 
-    points.append('text')
+    pointEnter.append('text')
       .classed('series__point__text', true)
-      .attr({
-        x: d => d.x,
-        y: d => d.y,
-        dy: '-10px',
-      })
+      .attr('dy', '-10px')
       .text(d => formatValue(d.targetvalue, d.sig, d.TargetErrorFlag));
 
-    points.append('path')
+    pointEnter.append('path')
       .classed('series__point__symbol', true)
-      .attr({
-        d: svg.symbol<Point<Data>>().size(192),
-        transform: ({x, y}) => `translate(${x}, ${y})`,
-      });
+      .attr('d', symbol);
   }
 }

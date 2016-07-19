@@ -112,7 +112,12 @@ function makeAxis(args: AxisArgs): Axis {
       .attr(direction + '2', hi + padding);
 
     const groups = selection.selectAll('.axis__tick')
-      .data(ticks || scale.ticks())
+      .data(ticks || scale.ticks(), tick => '' + tick.label);
+
+    groups
+      .interrupt()
+      .transition()
+      .duration(250)
       .attr('transform', tick => 'translate(' + tickPosition(tick) + ')');
 
     groups.select('.axis__label')
