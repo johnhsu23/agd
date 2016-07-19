@@ -44,12 +44,16 @@
 }
 
 .series {
+  @include fade-in-out;
+
   &__line {
     @extend %series__path;
     fill: none;
   }
 
   &__point {
+    @include fade-in-out;
+
     &__text {
       text-anchor: middle;
       transition: visibility 250ms, opacity 250ms;

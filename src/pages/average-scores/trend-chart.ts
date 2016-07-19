@@ -157,13 +157,15 @@ export default class TrendChart extends Chart<Data> {
       .data([series(data)]);
 
     seriesUpdate.select('.series__line')
-      .datum(d => d.line)
-      .attr('d', d => d);
+      .interrupt()
+      .transition()
+      .attr('d', d => d.line);
 
     const pointUpdate = seriesUpdate.selectAll('.series__point')
       .data<Point<Data>>(d => d.points, d => '' + d.targetyear);
 
     pointUpdate
+      .classed('is-exiting', false)
       .interrupt()
       .transition()
       .attr('transform', ({x, y}) => `translate(${x}, ${y})`);
@@ -172,7 +174,7 @@ export default class TrendChart extends Chart<Data> {
       .text(d => formatValue(d.targetvalue, d.sig, d.TargetErrorFlag));
 
     let pointEnter = pointUpdate.enter()
-      .append('g')
+      .insert('g')
       .classed('series__point', true)
       .attr('transform', ({x, y}) => `translate(${x}, ${y})`);
 
@@ -185,7 +187,11 @@ export default class TrendChart extends Chart<Data> {
       .classed('series__point__symbol', true)
       .attr('d', symbol);
 
-    pointUpdate.exit()
+    pointUpdate
+      .exit()
+      .classed('is-exiting', true)
+      .transition()
+      .delay(250)
       .remove();
 
     const seriesEnter = seriesUpdate.enter()
@@ -194,8 +200,7 @@ export default class TrendChart extends Chart<Data> {
 
     seriesEnter.append('path')
       .classed('series__line', true)
-      .datum(d => d.line)
-      .attr('d', d => d);
+      .attr('d', d => d.line);
 
     pointEnter = seriesEnter.selectAll('.series__point')
       .data<Point<Data>>(d => d.points)
