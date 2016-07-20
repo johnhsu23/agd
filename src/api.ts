@@ -43,6 +43,9 @@ export default function load<Params, Data>(params: Params): Promise<Data[]> {
   const request = $.ajax(options);
 
   return Promise.resolve(request)
+    .catch((xhr: JQueryXHR) => {
+      throw new Error(`AJAX request failed: ${xhr.status} ${xhr.statusText}`);
+    })
     .then((response: Response<Data>) => {
       if (isSuccess(response)) {
         return response.result;
