@@ -8,6 +8,10 @@ import * as Promise from 'bluebird';
 
 import context from 'models/grade';
 
+import nth from 'util/nth';
+import formatList from 'util/format-list';
+import {yearsForGrade, targetYearsForGrade} from 'data/assessment-years';
+
 import Table from 'views/table';
 import DefaultHeader from 'views/default-header';
 import RowView from 'pages/average-scores/subscale-row';
@@ -53,25 +57,29 @@ export default class SubscaleFigure extends Figure {
       this.table = table;
     }
 
+    this.setTitle(this.makeTitle());
     this.populateTable();
   }
 
   protected populateTable(): void {
-    let years = ['2009R3', '2015R3'];
-    if (context.grade === 8) {
-      years = ['2009R3', '2011R3', '2015R3'];
-    }
+    const {grade} = context,
+          years = targetYearsForGrade(grade);
 
-    this.promise = this.promise.then(() => load('science', context.grade, years))
+    this.promise = this.promise.then(() => load('science', grade, years))
       .then(models => this.table.collection.reset(models))
       .then(() => this.showChildView('inner', this.table));
 
     this.promise.done();
   }
 
-  onBeforeShow(): void {
-    this.setTitle('scores by subscale');
+  protected makeTitle(): string {
+    const {grade} = context;
+    const years = formatList(yearsForGrade(grade));
 
+    return `Average scores for ${nth(grade)}-grade students assessed in NAEP science, by content area: ${years}`;
+  }
+
+  onBeforeShow(): void {
     this.showChildView('legend', new LegendView({
       collection: this.collection,
     }));
