@@ -24,3 +24,8 @@ declare module 'text!templates/grade-switcher.html' {
   const content: string;
   export = content;
 }
+
+declare module 'text!templates/dialog.html' {
+  const content: string;
+  export = content;
+}
