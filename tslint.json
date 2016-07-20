@@ -21,6 +21,11 @@
       "check-typecast"
     ],
     "no-any": false,
+    "quotemark": [
+      true,
+      "single",
+      "avoid-escape"
+    ],
     "semicolon": [
       true,
       "always"
