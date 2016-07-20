@@ -11,6 +11,9 @@ import * as template from 'text!templates/grade-switcher.html';
   modelEvents: {
     'change:grade': 'changedGrade',
   },
+  attributes: {
+    role: 'radiogroup',
+  },
   template: () => template,
 })
 export default class Switcher extends ItemView<Grade> {
