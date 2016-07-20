@@ -1,8 +1,10 @@
 import * as $ from 'jquery';
 import * as Promise from 'bluebird';
 import {select, Selection} from 'd3';
-import {EventsHash} from 'backbone';
+import {EventsHash, ViewOptions} from 'backbone';
 import {extent as d3Extent} from 'd3';
+
+import {EventAggregator} from 'backbone.wreqr';
 
 import Chart from 'views/chart';
 import {symbol as makeSymbol, types as symbolTypes} from 'components/symbol';
@@ -52,6 +54,10 @@ const symbol = makeSymbol<Point<Data>>()
     return symbolTypes[index];
   });
 
+interface PercentileChartOptions extends ViewOptions<any> {
+  eventHandle: EventAggregator;
+}
+
 export default class PercentileChart extends Chart<Data> {
   protected marginLeft = 40;
   protected marginRight = 150;
@@ -64,6 +70,23 @@ export default class PercentileChart extends Chart<Data> {
 
   protected firstRender = true;
   protected promise = Promise.resolve(void 0);
+
+  protected eventHandle: EventAggregator;
+
+  constructor(options: PercentileChartOptions) {
+    super(options);
+
+    this.eventHandle = options.eventHandle;
+    this.listenToHandle();
+  }
+
+  protected listenToHandle(): void {
+    const handle = this.eventHandle;
+    this.listenTo(handle, 'hover:set', this.setHover);
+    this.listenTo(handle, 'hover:clear', this.clearHover);
+    this.listenTo(handle, 'active:set', this.setActive);
+    this.listenTo(handle, 'active:clear', this.clearActive);
+  }
 
   delegateEvents(): this {
     super.delegateEvents();
@@ -103,13 +126,13 @@ export default class PercentileChart extends Chart<Data> {
   protected seriesMouseover(event: JQueryMouseEventObject): void {
     const {points} = $(event.currentTarget).prop('__data__');
 
-    this.triggerMethod('parent:hover:set', tagOf(points));
+    this.eventHandle.trigger('hover:set', tagOf(points));
   }
 
   protected seriesMouseout(event: JQueryMouseEventObject): void {
     const {points} = $(event.currentTarget).prop('__data__');
 
-    this.triggerMethod('parent:hover:clear', tagOf(points));
+    this.eventHandle.trigger('hover:clear', tagOf(points));
   }
 
   protected seriesClick(event: JQueryMouseEventObject): void {
@@ -118,25 +141,25 @@ export default class PercentileChart extends Chart<Data> {
           tag = tagOf(points);
 
     if ($series.hasClass('is-active')) {
-      this.triggerMethod('parent:active:clear', tag);
+      this.eventHandle.trigger('active:clear', tag);
     } else {
-      this.triggerMethod('parent:active:set', tag);
+      this.eventHandle.trigger('active:set', tag);
     }
   }
 
-  protected onChildHoverSet(tag: string): void {
+  protected setHover(tag: string): void {
     this.inner
       .select('.series--' + tag)
       .classed('is-hover', true);
   }
 
-  protected onChildHoverClear(tag: string): void {
+  protected clearHover(tag: string): void {
     this.inner
       .select('.series--' + tag)
       .classed('is-hover', false);
   }
 
-  protected onChildActiveSet(tag: string): void {
+  protected setActive(tag: string): void {
     this.inner
       .selectAll('.series')
       .each(function (d) {
@@ -149,7 +172,7 @@ export default class PercentileChart extends Chart<Data> {
       });
   }
 
-  protected onChildActiveClear(): void {
+  protected clearActive(): void {
     this.inner
       .selectAll('.series')
       .classed({

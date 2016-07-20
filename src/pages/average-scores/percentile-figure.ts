@@ -1,6 +1,5 @@
 import {zip} from 'd3';
 import {Collection} from 'backbone';
-import {ItemView, Region} from 'backbone.marionette';
 
 import {types as symbolTypes} from 'components/symbol';
 
@@ -18,47 +17,12 @@ import {yearsForGrade} from 'data/assessment-years';
 import formatList from 'util/format-list';
 import nth from 'util/nth';
 
+import {EventAggregator} from 'backbone.wreqr';
+
 export default class PercentileScores extends Figure {
+  protected handle = new EventAggregator;
+
   collection: Collection<Legend> = new Collection<Legend>();
-
-  childEvents(): { [key: string]: string } {
-    return {
-      'parent:hover:set': 'setHover',
-      'parent:hover:clear': 'clearHover',
-      'parent:active:set': 'setActive',
-      'parent:active:clear': 'clearActive',
-    };
-  }
-
-  protected eachRegion(callback: (region: Region, name: string) => void): void {
-    const regions = this.getRegions();
-
-    for (const key of Object.keys(regions)) {
-      callback(regions[key], name);
-    }
-  }
-
-  protected sendToChildren(event: string, ...data: any[]): void {
-    this.eachRegion(({currentView}) => {
-      (currentView as ItemView<any>).triggerMethod(event, ...data);
-    });
-  }
-
-  protected setHover(child: ItemView<any>, tag: string): void {
-    this.sendToChildren('child:hover:set', tag);
-  }
-
-  protected clearHover(child: ItemView<any>, tag: string): void {
-    this.sendToChildren('child:hover:clear', tag);
-  }
-
-  protected setActive(child: ItemView<any>, tag: string): void {
-    this.sendToChildren('child:active:set', tag);
-  }
-
-  protected clearActive(child: ItemView<any>, tag: string): void {
-    this.sendToChildren('child:active:clear', tag);
-  }
 
   protected buildLegend(): void {
     const models: Legend[] = [];
@@ -121,7 +85,12 @@ export default class PercentileScores extends Figure {
 
     this.setTitle(this.makeTitle());
 
-    this.showChildView('legend', new LegendView({ collection: this.collection }));
-    this.showChildView('inner', new Chart);
+    this.showChildView('legend', new LegendView({
+      eventHandle: this.handle,
+      collection: this.collection,
+    }));
+    this.showChildView('inner', new Chart({
+      eventHandle: this.handle,
+    }));
   }
 }

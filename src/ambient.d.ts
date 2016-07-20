@@ -1,5 +1,10 @@
 /// <reference path="../typings/index.d.ts" />
 
+declare module 'backbone.wreqr' {
+  import Wreqr = Backbone.Wreqr;
+  export = Wreqr;
+}
+
 declare module 'text!templates/figure.html' {
   const content: string;
   export = content;
