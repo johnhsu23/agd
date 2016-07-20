@@ -8,34 +8,37 @@ type Dict = {
 };
 
 const acls: Dict = Object.create(null);
-
+/*
+ * The ordering of these may seem strange, but it's intended to help with the
+ * focus order when the user tabs through the page.
+ */
 acls[4] = [
   {
-    label: 'Basic',
-    value: 131,
+    label: 'Advanced',
+    value: 224,
   },
   {
     label: 'Proficient',
     value: 167,
   },
   {
-    label: 'Advanced',
-    value: 224,
+    label: 'Basic',
+    value: 131,
   },
 ];
 
 acls[8] = [
   {
-    label: 'Basic',
-    value: 141,
+    label: 'Advanced',
+    value: 215,
   },
   {
     label: 'Proficient',
     value: 170,
   },
   {
-    label: 'Advanced',
-    value: 215,
+    label: 'Basic',
+    value: 141,
   },
 ];
 
