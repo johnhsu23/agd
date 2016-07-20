@@ -180,16 +180,36 @@ export default class Dialog<TModel extends Model> extends LayoutView<TModel> {
   render(): this {
     super.render();
 
+    // Store the element that was last active (if any)
     this.active = document.activeElement;
     this.register();
 
+    // Ensure that we are as far to the end of the document order as possible
+    // And, more importantly, we are a child of the co
     const el: Element = this.el;
-
     if (el.parentNode) {
       el.parentNode.removeChild(el);
     }
-    $(document.body).append(el);
-    this.$el.focus();
+    document.body.appendChild(el);
+
+    // Defer the setting of focus.
+    // This handles the following chain of events:
+    // 1. A dialog is open
+    // 2. The user clicks on something that opens up a new dialog
+    //
+    // If we didn't defer, we'd end up with a sequence of steps like this:
+    // 3. The second dialog renders and focuses itself
+    // 4. The first dialog sense a 'click' event that has bubbled up to the body, and
+    //    dismisses itself -- restoring focus to the element that had focus when it
+    //    was rendered.
+    //
+    // The ordering of #3 and #4 is guaranteed since the first dialog listens to click events
+    // on the <body>.
+    //
+    // Thus, we defer, ensuring that the first dialog is able to set focus and _then_ we set ours.
+    defer(() => {
+      this.$el.focus();
+    });
 
     return this;
   }
