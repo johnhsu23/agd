@@ -96,8 +96,8 @@ export function cutpoints(): Cutpoints {
           }
 
           dialog
-            .render()
             .position([left, top])
+            .render()
             .$('.dialog__contents')
             .html(`<em>${acl.label}</em> (${acl.value})`);
         })
