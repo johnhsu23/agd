@@ -85,11 +85,12 @@ export default class PercentileScores extends Figure {
 
     this.setTitle(this.makeTitle());
 
-    this.showChildView('legend', new LegendView({
+    this.showLegend(new LegendView({
       eventHandle: this.handle,
       collection: this.collection,
     }));
-    this.showChildView('inner', new Chart({
+
+    this.showContents(new Chart({
       eventHandle: this.handle,
     }));
   }

@@ -1,10 +1,11 @@
 // Definition: a "section" is what we currently call the "chart__section" class.
 // A section contains these elements (at time of writing, all but "section__inner" are unimplemented):
+// * section__inner: The 'inner' element is included in order to implement width enforcement per our style guidance.
 // * section__title: The headline for this section.
 // * section__controls: Any controls that modify this section (think the grade switcher)
 // * section__subtitle: Currently the "chart__section__desc" class.
 // * section__commentary: Commentary for this particular section.
-// * section__inner: Currently used to denote the inner figure (if there is one). Could be repurposed.
+// * section__contents: Currently used to denote the inner figure (if there is one). Could be repurposed.
 
 // Note that figures embedded in a section are intended to control their own legend and title, so those elements
 // are no longer needed at the section level.
@@ -16,7 +17,18 @@
     border-top: 1em solid gray;
   }
 
+  &__inner {
+    @include desktop {
+      width: 1024px;
+      margin: 0 auto;
+    }
+  }
+
   &__controls {
-    padding-bottom: 1em;
+    padding: 1em 0;
+
+    @include tablet {
+      padding: 1em;
+    }
   }
 }

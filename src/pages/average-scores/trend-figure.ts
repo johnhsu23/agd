@@ -40,9 +40,9 @@ export default class TrendFigure extends Figure {
   onBeforeShow(): void {
     this.setTitle(this.makeTitle());
 
-    this.showChildView('inner', new TrendChart);
+    this.showContents(new TrendChart);
 
-    this.showChildView('legend', new LegendView({
+    this.showLegend(new LegendView({
       collection: this.collection,
     }));
   }

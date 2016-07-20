@@ -15,7 +15,7 @@ export default class SectionView extends LayoutView<any> {
 
   regions(): {[key: string]: string} {
     return {
-      inner: '.section__inner',
+      contents: '.section__contents',
       controls: '.section__controls',
     };
   }

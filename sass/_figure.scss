@@ -8,7 +8,7 @@
 // Elements:
 // * figure__title: This figure's title. (Replaces the old .chart__title class)
 // * figure__legend: This figure's legend. May be empty.
-// * figure__inner: Container for the thing this figure wraps, be it a chart, table,
+// * figure__contents: Container for the thing this figure wraps, be it a chart, table,
 //   or even a static image.
 // * figure__controls (not yet implemented): Holds any controls that may modify the figure.
 //   (Think the baseline selectors for the achievement-level charts).
@@ -23,9 +23,12 @@
   margin: 0;
   padding: 0;
 
-  &__inner {
+  &__contents {
     width: 768px;
-    float: left;
+
+    @include desktop {
+      float: left;
+    }
 
     & > .chart {
       display: block;
@@ -34,9 +37,15 @@
   }
 
   &__legend {
-    width: $legend-width;
-    float: right;
-
     border: 1px solid black;
+    width: $legend-width;
+
+    @include desktop {
+      float: right;
+    }
+
+    @include tablet {
+      margin: 0 auto;
+    }
   }
 }

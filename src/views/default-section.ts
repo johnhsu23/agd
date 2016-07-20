@@ -18,7 +18,7 @@ export class DefaultSection extends Section {
   }
 
   onBeforeShow(): void {
-    this.showChildView('inner', this.inner);
+    this.showChildView('contents', this.inner);
     this.showChildView('controls', new Switcher);
   }
 }

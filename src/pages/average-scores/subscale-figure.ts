@@ -67,7 +67,7 @@ export default class SubscaleFigure extends Figure {
 
     this.promise = this.promise.then(() => load('science', grade, years))
       .then(models => this.table.collection.reset(models))
-      .then(() => this.showChildView('inner', this.table));
+      .then(() => this.showContents(this.table));
 
     this.promise.done();
   }
@@ -80,7 +80,7 @@ export default class SubscaleFigure extends Figure {
   }
 
   onBeforeShow(): void {
-    this.showChildView('legend', new LegendView({
+    this.showLegend(new LegendView({
       collection: this.collection,
     }));
 
