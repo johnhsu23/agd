@@ -1,7 +1,12 @@
+// Animation helpers
+
 @mixin fade-in-out($duration: 250ms) {
   animation-name: fade-in;
   animation-duration: $duration;
 
+  // Code that wishes to remove an element will need to add the "is-exiting" class to the element
+  // that originally included this mixin.
+  // (Naming convention comes from d3's update pattern, which is enter/update/exit.)
   &.is-exiting {
     animation-name: fade-out;
     opacity: 0;
