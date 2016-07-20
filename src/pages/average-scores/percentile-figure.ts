@@ -12,6 +12,12 @@ import Legend from 'legends/model';
 import significant from 'legends/sig-diff';
 import series from 'legends/series';
 
+import context from 'models/grade';
+
+import {yearsForGrade} from 'data/assessment-years';
+import formatList from 'util/format-list';
+import nth from 'util/nth';
+
 export default class PercentileScores extends Figure {
   collection: Collection<Legend> = new Collection<Legend>();
 
@@ -87,10 +93,33 @@ export default class PercentileScores extends Figure {
     this.collection.reset(models);
   }
 
+  delegateEvents(): this {
+    super.delegateEvents();
+
+    this.listenTo(context, 'change:grade', () => {
+      this.setTitle(this.makeTitle());
+    });
+
+    return this;
+  }
+
+  undelegateEvents(): this {
+    this.stopListening(context);
+
+    return super.undelegateEvents();
+  }
+
+  protected makeTitle(): string {
+    const {grade} = context;
+    const years = formatList(yearsForGrade(grade));
+
+    return `Percentile scores for ${nth(grade)}-grade students assessed in NAEP science: ${years}`;
+  }
+
   onBeforeShow(): void {
     this.buildLegend();
 
-    this.setTitle('percentile scores');
+    this.setTitle(this.makeTitle());
 
     this.showChildView('legend', new LegendView({ collection: this.collection }));
     this.showChildView('inner', new Chart);
