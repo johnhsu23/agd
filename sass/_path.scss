@@ -2,7 +2,7 @@
 // The three modifiers are used almost exclusively with the percentiles chart.
 
 %path {
-  transition: opacity 250ms, stroke-width 250ms;
+  transition: stroke-opacity 250ms 0s, stroke-width 250ms 0s;
 
   stroke: $series-default;
 
