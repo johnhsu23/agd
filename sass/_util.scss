@@ -16,6 +16,13 @@
   }
 }
 
+@mixin enforce-width {
+  @include desktop {
+    width: 1024px;
+    margin: 0 auto;
+  }
+}
+
 @mixin tablet {
   @media (max-width: 1023px) {
     @content;
