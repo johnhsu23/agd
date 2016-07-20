@@ -1,4 +1,5 @@
-import {Selection} from 'd3';
+import {Selection, mouse, event} from 'd3';
+import Dialog from 'views/dialog';
 
 const width = 95,
       height = 30,
@@ -80,6 +81,25 @@ export function cutpoints(): Cutpoints {
         .attr({
           'xlink:href': '#',
           transform: `translate(${width})`,
+        })
+        .on('click', function (acl) {
+          const dialog = new Dialog;
+          let [left, top] = mouse(document.body);
+
+          (event as Event).preventDefault();
+
+          // If this click event is synthetic, both offset values are 0
+          // Which means that we'll just "borrow" the offset of the clicked element instead
+          // in order to set the position of the overlay
+          if (left === 0 && top === 0) {
+            ({left, top} = $(this).offset());
+          }
+
+          dialog
+            .render()
+            .position([left, top])
+            .$('.dialog__contents')
+            .html(`<em>${acl.label}</em> (${acl.value})`);
         })
         .append('svg:image')
         .attr({
