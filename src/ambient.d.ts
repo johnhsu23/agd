@@ -29,3 +29,9 @@ declare module 'text!templates/dialog.html' {
   const content: string;
   export = content;
 }
+
+declare module 'json!commentary/average-scores.json' {
+  type Dict<T> = { [key: string]: T };
+  const content: Dict<Dict<string>>;
+  export = content;
+}

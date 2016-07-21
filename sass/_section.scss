@@ -17,6 +17,15 @@
     padding-top: 1em;
   }
 
+  &__title {
+    text-transform: uppercase;
+  }
+
+  &__subtitle {
+    font-size: xx-large;
+    font-weight: bold;
+  }
+
   &__inner {
     @include enforce-width;
   }

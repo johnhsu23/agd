@@ -2,9 +2,11 @@ require.config({
   baseUrl: 'lib',
   paths: {
     templates: '../templates',
+    commentary: '../commentary',
 
     // dependencies
     d3: '../vendor/d3/d3',
+    json: '../vendor/requirejs-plugins/json',
     text: '../vendor/text/text',
     jquery: '../vendor/jquery/jquery',
     backbone: '../vendor/backbone/backbone',
