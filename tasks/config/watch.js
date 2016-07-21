@@ -13,6 +13,10 @@ module.exports = function (grunt) {
         files: 'bower.json',
         tasks: ['bower:default'],
       },
+      commentary: {
+        files: 'commentary/*/*.html',
+        tasks: ['html-data:default'],
+      },
       reload: {
         options: {
           livereload: true,
@@ -20,5 +24,5 @@ module.exports = function (grunt) {
         files: ['public/index.html', 'public/style.css', 'public/lib/main.js']
       }
     },
-  })
+  });
 }

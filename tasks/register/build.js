@@ -4,6 +4,7 @@ module.exports = function (grunt) {
     'ts:default',
     'bower:default',
     'sass:default',
+    'html-data',
   ];
 
   grunt.registerTask('build', tasks);
