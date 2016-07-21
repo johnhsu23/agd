@@ -5,6 +5,8 @@
 @import "animation";
 @import "path";
 
+@import "site-header";
+
 @import "dialog";
 @import "legend";
 @import "figure";
@@ -21,16 +23,6 @@ html, body {
   font-family: sans-serif;
 }
 
-// Crappy demo of site-level element styling.
-.site-header, .site-footer {
-  @extend %u-clearfix;
-
-  padding: 40px 20px;
-
-  color: white;
-  background-color: $brand-blue;
-
-  &__inner {
-    @include enforce-width;
-  }
+em {
+  font-style: italic;
 }
