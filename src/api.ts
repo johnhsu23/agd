@@ -54,3 +54,15 @@ export default function load<Params, Data>(params: Params): Promise<Data[]> {
       }
     });
 }
+
+function loadAll<Params, Data>(params: Params[]): Promise<Data[]> {
+  return Promise.all<Data[]>(params.map(load))
+    .then(rows => {
+      return [].concat.apply([], rows) as Data[];
+    });
+}
+
+export {
+  load,
+  loadAll,
+}
