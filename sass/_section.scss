@@ -12,9 +12,10 @@
 
 .section {
   @extend %u-clearfix;
+  padding: 1em 0;
 
-  & + & {
-    padding-top: 1em;
+  &__inner {
+    @include enforce-width;
   }
 
   &__title {
@@ -26,8 +27,8 @@
     font-weight: bold;
   }
 
-  &__inner {
-    @include enforce-width;
+  &__commentary {
+    padding: 1em 0;
   }
 
   &__controls {
