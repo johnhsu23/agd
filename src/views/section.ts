@@ -3,7 +3,7 @@ import * as template from 'text!templates/section.html';
 import configure from 'util/configure';
 
 @configure({
-  className: 'section',
+  className: 'section__inner',
 })
 export default class SectionView extends LayoutView<any> {
   template = () => template;

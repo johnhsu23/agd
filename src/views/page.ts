@@ -19,6 +19,7 @@ export default class PageView extends LayoutView<any> {
 
     const elt = document.createElement('div');
     elt.id = name;
+    elt.setAttribute('class', 'section');
 
     this.$('.main__inner')
       .append(elt);

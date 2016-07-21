@@ -14,7 +14,7 @@
   @extend %u-clearfix;
 
   & + & {
-    border-top: 1em solid gray;
+    padding-top: 1em;
   }
 
   &__inner {
