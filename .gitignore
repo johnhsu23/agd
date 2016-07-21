@@ -8,6 +8,7 @@ bower_components
 # Build artifacts
 .tscache
 public/*
+!public/img
 # Keep index.html
 !public/index.html
 # Keep templates directory
