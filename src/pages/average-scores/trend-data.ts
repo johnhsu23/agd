@@ -3,12 +3,16 @@ import * as Promise from 'bluebird';
 import {Params, Data} from 'api/tuda-acrossyear';
 import loadData from 'api';
 
-function makeParams(subject: string, grade: number, years: string[]): Params {
+import {targetYearsForGrade} from 'data/assessment-years';
+
+function makeParams(grade: number): Params {
+  const years = targetYearsForGrade(grade);
+
   return {
     type: 'tuda-acrossyear',
     subscale: 'SRPUV',
 
-    subject,
+    subject: 'science',
     grade,
 
     variable: 'TOTAL',
@@ -22,7 +26,7 @@ function makeParams(subject: string, grade: number, years: string[]): Params {
   };
 }
 
-export default function load(subject: string, grade: number, years: string[]): Promise<Data[]> {
-  return loadData<Params, Data>(makeParams(subject, grade, years))
+export default function load(grade: number): Promise<Data[]> {
+  return loadData<Params, Data>(makeParams(grade))
     .then(rows => rows.sort((a, b) => d3.ascending(a.targetyear, b.targetyear)));
 }

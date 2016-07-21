@@ -69,7 +69,7 @@ export default class TrendChart extends Chart<Data> {
     }
 
     this.promise = this.promise
-      .then(() => load('science', context.grade, years))
+      .then(() => load(context.grade))
       .then(data => this.loaded(data));
 
     this.promise.done();
