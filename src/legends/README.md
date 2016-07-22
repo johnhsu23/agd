@@ -1,0 +1,1 @@
+This directory houses a model pertaining to anything we need to display as a footnote/legend element. The module `legend/model` contains the model itself, and the other modules expose convenience functions for generating well-known legends.
