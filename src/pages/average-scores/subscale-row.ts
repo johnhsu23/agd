@@ -1,12 +1,19 @@
 import {ItemView} from 'backbone.marionette';
 import Model from 'pages/average-scores/subscale-model';
 import configure from 'util/configure';
+import {formatValue} from 'codes';
 
 interface Data {
   year: number;
   SRPS1: string;
   SRPS2: string;
   SRPS3: string;
+}
+
+function format(datum: typeof Model.prototype.SRPS1): string {
+  const {targetvalue, sig, TargetErrorFlag} = datum;
+
+  return formatValue(targetvalue, sig, TargetErrorFlag);
 }
 
 @configure({
@@ -23,9 +30,9 @@ export default class SubscaleRow extends ItemView<Model> {
 
     return {
       year,
-      SRPS1: '' + Math.round(SRPS1.targetvalue),
-      SRPS2: '' + Math.round(SRPS2.targetvalue),
-      SRPS3: '' + Math.round(SRPS3.targetvalue),
+      SRPS1: format(SRPS1),
+      SRPS2: format(SRPS2),
+      SRPS3: format(SRPS3),
     };
   }
 }
