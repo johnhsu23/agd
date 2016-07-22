@@ -17,11 +17,7 @@ import {yearsForGrade} from 'data/assessment-years';
 import formatList from 'util/format-list';
 import nth from 'util/nth';
 
-import {EventAggregator} from 'backbone.wreqr';
-
 export default class PercentileScores extends Figure {
-  protected handle = new EventAggregator;
-
   collection: Collection<Legend> = new Collection<Legend>();
 
   protected buildLegend(): void {
@@ -86,12 +82,9 @@ export default class PercentileScores extends Figure {
     this.setTitle(this.makeTitle());
 
     this.showLegend(new LegendView({
-      eventHandle: this.handle,
       collection: this.collection,
     }));
 
-    this.showContents(new Chart({
-      eventHandle: this.handle,
-    }));
+    this.showContents(new Chart);
   }
 }

@@ -1,15 +1,14 @@
-import * as $ from 'jquery';
 import * as Promise from 'bluebird';
-import {select, Selection} from 'd3';
-import {EventsHash, ViewOptions} from 'backbone';
+import {Selection} from 'd3';
 import {extent as d3Extent} from 'd3';
-
-import {EventAggregator} from 'backbone.wreqr';
 
 import Chart from 'views/chart';
 import {symbol as makeSymbol, types as symbolTypes} from 'components/symbol';
 import makeCutpoints from 'components/cutpoint';
 import * as scales from 'components/scales';
+
+import HoverBehavior from 'behaviors/percentile-hover';
+import configure from 'util/configure';
 
 import context from 'models/grade';
 import acls from 'data/acls';
@@ -54,10 +53,13 @@ const symbol = makeSymbol<Point<Data>>()
     return symbolTypes[index];
   });
 
-interface PercentileChartOptions extends ViewOptions<any> {
-  eventHandle: EventAggregator;
-}
-
+@configure({
+  behaviors: {
+    Hover: {
+      behaviorClass: HoverBehavior,
+    },
+  },
+})
 export default class PercentileChart extends Chart<Data> {
   protected marginLeft = 40;
   protected marginRight = 150;
@@ -70,23 +72,6 @@ export default class PercentileChart extends Chart<Data> {
 
   protected firstRender = true;
   protected promise = Promise.resolve(void 0);
-
-  protected eventHandle: EventAggregator;
-
-  constructor(options: PercentileChartOptions) {
-    super(options);
-
-    this.eventHandle = options.eventHandle;
-    this.listenToHandle();
-  }
-
-  protected listenToHandle(): void {
-    const handle = this.eventHandle;
-    this.listenTo(handle, 'hover:set', this.setHover);
-    this.listenTo(handle, 'hover:clear', this.clearHover);
-    this.listenTo(handle, 'active:set', this.setActive);
-    this.listenTo(handle, 'active:clear', this.clearActive);
-  }
 
   delegateEvents(): this {
     super.delegateEvents();
@@ -102,14 +87,6 @@ export default class PercentileChart extends Chart<Data> {
     return super.undelegateEvents();
   }
 
-  events(): EventsHash {
-    return {
-      'mouseover .series': 'seriesMouseover',
-      'mouseout .series': 'seriesMouseout',
-      'click .series': 'seriesClick',
-    };
-  }
-
   protected renderData(): void {
     let years = ['2009R3', '2015R3'];
     if (context.grade === 8) {
@@ -121,64 +98,6 @@ export default class PercentileChart extends Chart<Data> {
       .then(data => this.loaded(data));
 
     this.promise.done();
-  }
-
-  protected seriesMouseover(event: JQueryMouseEventObject): void {
-    const {points} = $(event.currentTarget).prop('__data__');
-
-    this.eventHandle.trigger('hover:set', tagOf(points));
-  }
-
-  protected seriesMouseout(event: JQueryMouseEventObject): void {
-    const {points} = $(event.currentTarget).prop('__data__');
-
-    this.eventHandle.trigger('hover:clear', tagOf(points));
-  }
-
-  protected seriesClick(event: JQueryMouseEventObject): void {
-    const $series = $(event.currentTarget),
-          {points} = $series.prop('__data__'),
-          tag = tagOf(points);
-
-    if ($series.hasClass('is-active')) {
-      this.eventHandle.trigger('active:clear', tag);
-    } else {
-      this.eventHandle.trigger('active:set', tag);
-    }
-  }
-
-  protected setHover(tag: string): void {
-    this.inner
-      .select('.series--' + tag)
-      .classed('is-hover', true);
-  }
-
-  protected clearHover(tag: string): void {
-    this.inner
-      .select('.series--' + tag)
-      .classed('is-hover', false);
-  }
-
-  protected setActive(tag: string): void {
-    this.inner
-      .selectAll('.series')
-      .each(function (d) {
-        const active = tag === tagOf(d.points);
-        select(this)
-          .classed({
-            'is-active': active,
-            'is-inactive': !active,
-          });
-      });
-  }
-
-  protected clearActive(): void {
-    this.inner
-      .selectAll('.series')
-      .classed({
-        'is-active': false,
-        'is-inactive': false,
-      });
   }
 
   protected addAxes(): void {
@@ -327,7 +246,8 @@ export default class PercentileChart extends Chart<Data> {
 
     const seriesEnter = seriesUpdate.enter()
       .append('g')
-      .attr('class', d => `series series--${tagOf(d.points)}`);
+      .attr('class', d => `series series--${tagOf(d.points)}`)
+      .attr('data-tag', d => tagOf(d.points));
 
     seriesEnter.append('path')
       .classed('series__line', true)
