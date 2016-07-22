@@ -30,7 +30,8 @@ module.exports = function (grunt) {
           className = options.prefix + '__' + element;
         }
 
-        data[element] = $('.' + className).html().trim();
+        // Ensure we always have *some* string data to trim
+        data[element] = ($('.' + className).html() || '').trim();
       });
 
       result[key] = data;
