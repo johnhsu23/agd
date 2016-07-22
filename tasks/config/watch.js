@@ -14,8 +14,8 @@ module.exports = function (grunt) {
         tasks: ['bower:default'],
       },
       commentary: {
-        files: 'commentary/*/*.html',
-        tasks: ['html-data:default'],
+        files: ['commentary/*', 'commentary/**/*.html'],
+        tasks: ['html-data'],
       },
       reload: {
         options: {
