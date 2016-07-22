@@ -10,7 +10,7 @@ import * as scales from 'components/scales';
 import HoverBehavior from 'behaviors/percentile-hover';
 import configure from 'util/configure';
 
-import context from 'models/grade';
+import context from 'models/context';
 import acls from 'data/acls';
 
 import makeSeries from 'components/series';

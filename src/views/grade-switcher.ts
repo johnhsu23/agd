@@ -2,7 +2,7 @@ import * as $ from 'jquery';
 import {EventsHash, ViewOptions} from 'backbone';
 import {ItemView} from 'backbone.marionette';
 
-import {grade, Grade} from 'models/grade';
+import {context, Context} from 'models/context';
 import configure from 'util/configure';
 import * as template from 'text!templates/grade-switcher.html';
 
@@ -16,11 +16,11 @@ import * as template from 'text!templates/grade-switcher.html';
   },
   template: () => template,
 })
-export default class Switcher extends ItemView<Grade> {
+export default class Switcher extends ItemView<Context> {
   template: () => string;
 
-  constructor(options?: ViewOptions<Grade>) {
-    options = $.extend({ model: grade }, options);
+  constructor(options?: ViewOptions<Context>) {
+    options = $.extend({ model: context }, options);
     super(options);
   }
 
@@ -47,7 +47,7 @@ export default class Switcher extends ItemView<Grade> {
     this.model.grade = +$(event.currentTarget).data('grade');
   }
 
-  protected changedGrade(model: Grade): void {
+  protected changedGrade(model: Context): void {
     const grade = model.grade;
 
     this.$('[data-grade]')

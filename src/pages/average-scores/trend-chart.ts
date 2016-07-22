@@ -9,7 +9,7 @@ import * as Promise from 'bluebird';
 
 import {Selection, extent as d3Extent} from 'd3';
 
-import context from 'models/grade';
+import context from 'models/context';
 import acls from 'data/acls';
 
 import {Data} from 'api/tuda-acrossyear';

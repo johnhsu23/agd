@@ -11,7 +11,7 @@ import Legend from 'legends/model';
 import significant from 'legends/sig-diff';
 import series from 'legends/series';
 
-import context from 'models/grade';
+import context from 'models/context';
 
 import {yearsForGrade} from 'data/assessment-years';
 import formatList from 'util/format-list';

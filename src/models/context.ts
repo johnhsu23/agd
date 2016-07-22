@@ -1,17 +1,17 @@
 import {Model} from 'backbone';
 import modelProperty from 'util/model-property';
 
-class Grade extends Model {
+class Context extends Model {
   @modelProperty()
   grade: number;
 }
 
-const grade = new Grade({
+const context = new Context({
   grade: 4,
 });
 
-export default grade;
+export default context;
 export {
-  Grade,
-  grade,
+  Context,
+  context,
 };

@@ -6,7 +6,7 @@ import significant from 'legends/sig-diff';
 
 import TrendChart from 'pages/average-scores/trend-chart';
 
-import context from 'models/grade';
+import context from 'models/context';
 import {yearsForGrade} from 'data/assessment-years';
 import formatList from 'util/format-list';
 import nth from 'util/nth';

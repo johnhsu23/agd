@@ -3,7 +3,7 @@ import {ViewOptions} from 'backbone';
 
 import Switcher from 'views/grade-switcher';
 import Section from 'views/section';
-import context from 'models/grade';
+import context from 'models/context';
 
 import configure from 'util/configure';
 

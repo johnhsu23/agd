@@ -6,7 +6,7 @@ import {Collection} from 'backbone';
 import load from 'pages/average-scores/subscale-data';
 import * as Promise from 'bluebird';
 
-import context from 'models/grade';
+import context from 'models/context';
 
 import nth from 'util/nth';
 import formatList from 'util/format-list';
