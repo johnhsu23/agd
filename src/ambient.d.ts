@@ -41,3 +41,9 @@ declare module 'json!commentary/percentiles.json' {
   const content: Dict<Dict<string>>;
   export = content;
 }
+
+declare module 'json!commentary/subscale-trends.json' {
+  type Dict<T> = { [key: string]: T };
+  const content: Dict<Dict<string>>;
+  export = content;
+}

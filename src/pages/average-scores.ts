@@ -8,6 +8,7 @@ import SubscaleFigure from 'pages/average-scores/subscale-figure';
 
 import * as trendCommentary from 'json!commentary/average-scores.json';
 import * as percentilesCommentary from 'json!commentary/percentiles.json';
+import * as subscaleCommentary from 'json!commentary/subscale-trends.json';
 
 export default class AverageScores extends Page {
   onBeforeShow(): void {
@@ -23,6 +24,7 @@ export default class AverageScores extends Page {
 
     this.pushSection(new DefaultSection({
       inner: new SubscaleFigure,
+      commentary: subscaleCommentary,
     }));
   }
 }
