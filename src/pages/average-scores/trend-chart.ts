@@ -13,7 +13,6 @@ import context from 'models/context';
 import acls from 'data/acls';
 
 import {Data} from 'api/tuda-acrossyear';
-import load from 'pages/average-scores/trend-data';
 
 type Point<T> = T & {
   x: number;
@@ -35,47 +34,14 @@ export default class TrendChart extends Chart<Data> {
 
   protected promise = Promise.resolve(void 0);
 
-  delegateEvents(): this {
-    super.delegateEvents();
-
-    this.listenTo(context, 'change:grade', this.renderData);
-
-    return this;
-  }
-
-  undelegateEvents(): this {
-    this.stopListening(context, 'change:grade');
-
-    return super.undelegateEvents();
-  }
-
-  render(): this {
-    super.render();
-
-    if (this.firstRender) {
-      this.addAxes();
-      this.firstRender = false;
+  initialize(): void {
+    if (super.initialize) {
+      super.initialize();
     }
-
-    this.renderData();
-
-    return this;
+    this.setupAxes();
   }
 
-  protected renderData(): void {
-    let years = ['2009R3', '2015R3'];
-    if (context.grade === 8) {
-      years = ['2009R3', '2011R3', '2015R3'];
-    }
-
-    this.promise = this.promise
-      .then(() => load(context.grade))
-      .then(data => this.loaded(data));
-
-    this.promise.done();
-  }
-
-  protected addAxes(): void {
+  protected setupAxes(): void {
     this.scoreAxis = this.d3el.append('g');
     this.yearAxis = this.d3el.append('g');
     this.cutpoints = this.d3el.append('g');
@@ -122,7 +88,7 @@ export default class TrendChart extends Chart<Data> {
       .call(cutpoints);
   }
 
-  protected loaded(data: Data[]): void {
+  renderSeries([data]: Data[][]): void {
     const cutpoints = acls[context.grade].map(acl => acl.value);
 
     let extent = d3Extent(data, row => row.targetvalue);
