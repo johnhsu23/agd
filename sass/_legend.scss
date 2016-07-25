@@ -43,6 +43,13 @@
 }
 
 .legend {
+  border: 1px solid black;
+  width: $legend-width;
+
+  &.is-empty {
+    visibility: hidden;
+  }
+
   &__note {
     padding-top: 0.25em;
     font-size: smaller;

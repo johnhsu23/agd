@@ -9,4 +9,11 @@ import configure from 'util/configure';
   childView: LegendItemView as { new(...args: any[]): LegendItemView },
 })
 export default class LegendView extends CollectionView<Legend, LegendItemView> {
+  render(): this {
+    super.render();
+
+    this.$el.toggleClass('is-empty', this.collection.isEmpty());
+
+    return this;
+  }
 }

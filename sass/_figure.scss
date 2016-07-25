@@ -37,9 +37,6 @@
   }
 
   &__legend {
-    border: 1px solid black;
-    width: $legend-width;
-
     @include desktop {
       float: right;
     }
