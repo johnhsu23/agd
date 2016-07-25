@@ -187,10 +187,12 @@ export default class Dialog<TModel extends Model> extends LayoutView<TModel> {
     this.active = document.activeElement;
     this.register();
 
-    // Ensure that we are as far to the end of the document order as possible
-    // And, more importantly, we are a child of the co
+    // Ensure that:
+    // 1. We are as far to the end of the document order as possible
+    // 2. We are a child of the root (to avoid issues with CSS positioning)
     const el: Element = this.el;
     if (el.parentNode) {
+      // Detach from previous parent, if any
       el.parentNode.removeChild(el);
     }
     document.body.appendChild(el);
