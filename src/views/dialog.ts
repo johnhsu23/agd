@@ -115,6 +115,9 @@ export default class Dialog<TModel extends Model> extends LayoutView<TModel> {
       return;
     }
 
+    // Don't restore focus when the user clicks away from the dialog
+    // On most (if not all) platforms, a 'click' event changes focus, so we should respect that.
+    this.active = null;
     this.destroy();
   }
 
@@ -192,25 +195,7 @@ export default class Dialog<TModel extends Model> extends LayoutView<TModel> {
     }
     document.body.appendChild(el);
 
-    // Defer the setting of focus.
-    // This handles the following chain of events:
-    // 1. A dialog is open
-    // 2. The user clicks on something that opens up a new dialog
-    //
-    // If we didn't defer, we'd end up with a sequence of steps like this:
-    // 3. The second dialog renders and focuses itself
-    // 4. The first dialog sense a 'click' event that has bubbled up to the body, and
-    //    dismisses itself -- restoring focus to the element that had focus when it
-    //    was rendered.
-    //
-    // The ordering of #3 and #4 is guaranteed since the first dialog listens to click events
-    // on the <body>.
-    //
-    // Thus, we defer, ensuring that the first dialog is able to set focus and _then_ we set ours.
-    defer(() => {
-      this.$el.focus();
-    });
-
+    this.$el.focus();
     return this;
   }
 }
