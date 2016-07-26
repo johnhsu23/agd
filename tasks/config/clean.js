@@ -14,6 +14,10 @@ module.exports = function (grunt) {
         // We don't have to clean bower_components or public/vendor:
         // 'grunt-bower-task' handles that for us
       ],
+      // Clean up the docs directory
+      docs: [
+        'docs',
+      ]
     },
   });
 }
