@@ -1,11 +1,16 @@
-import AverageScores from 'pages/average-scores';
+import {AppRouter} from 'backbone.marionette';
+import {radio} from 'backbone.wreqr';
 
-export default class Router extends Marionette.AppRouter {
-  controller: Controller;
+import configure from 'util/configure';
 
+@configure({
   appRoutes: {
     'average-scores': 'averageScores',
-  };
+  } as {[key: string]: string},
+})
+export default class Router extends AppRouter {
+  appRoutes: {[key: string]: string};
+  controller: Controller;
 
   initialize(): void {
     this.controller = new Controller();
@@ -13,12 +18,14 @@ export default class Router extends Marionette.AppRouter {
 }
 
 class Controller extends Marionette.Object {
+  protected channel = radio.channel('page');
+
+  protected showPage(path: string): void {
+    const {vent} = this.channel;
+    vent.trigger('page', path);
+  }
+
   averageScores(): void {
-    const page = new AverageScores({
-      el: '#main',
-    });
-    page.render();
-    page.triggerMethod('before:show');
-    page.triggerMethod('show');
-  };
+    this.showPage('pages/average-scores');
+  }
 }
