@@ -23,7 +23,7 @@ function each<T>(list: DOMList<T>, callback: (item: T, index: number) => void): 
 /**
  * Given an <svg> node, return an array of styles that apply to it and its children.
  */
-function applicableStyles(node: SVGSVGElement): string[] {
+export default function applicableStyles(node: SVGSVGElement): string[] {
   const styles: string[] = [];
 
   each(document.styleSheets, eachSheet);
@@ -65,20 +65,4 @@ function applicableStyles(node: SVGSVGElement): string[] {
       }
     }
   }
-}
-
-/**
- * Clone an <svg> node, preserving any CSS style information.
- */
-export default function clone(node: SVGSVGElement): SVGSVGElement {
-  const clone = node.cloneNode(true) as SVGSVGElement,
-        // Important: use node (not its clone!) to get styles
-        // (this way stuff that depends on, e.g., document position is preserved)
-        styles = applicableStyles(node);
-
-  const style = document.createElementNS('http://www.w3.org/2000/svg', 'style');
-  style.textContent = styles.join('\n');
-  clone.insertBefore(style, clone.firstElementChild);
-
-  return clone;
 }
