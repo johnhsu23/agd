@@ -96,6 +96,12 @@ export function canvasFromSvg(svg: SVGSVGElement): Promise<HTMLCanvasElement> {
  * Given an HTML <canvas> element, download its contents using navigator.msToBlob.
  */
 function saveCanvasAsBlob(canvas: HTMLCanvasElement, filename: string): void {
+  // The reason we have separate code paths is because IE does not allow navigation to a "data:" URI, for security.
+  // Which is fair enough, but it means that the click-injection behavior we have (see the below function) won't
+  // work.
+  // Hence this code.
+
+  // Use best available `toBlob()` method
   let blob: Blob;
   if (canvas.toBlob) {
     blob = canvas.toBlob();
@@ -115,13 +121,15 @@ function saveCanvasAsBlob(canvas: HTMLCanvasElement, filename: string): void {
 }
 
 function saveCanvasWithClickInject(canvas: HTMLCanvasElement, filename: string): void {
-  const body = document.body;
-
+  // This works in most browsers ("most" as defined by Chrome and Firefox).
+  // We generate an empty <a> element and click it. The "download" attribute requests that the browser
+  // download the file instead of displaying it to the user, and the value of the attribute is a suggested
+  // file name.
   const a = document.createElement('a');
   a.href = canvas.toDataURL();
-
   a.setAttribute('download', filename);
 
+  const body = document.body;
   body.appendChild(a);
   a.click();
   body.removeChild(a);
