@@ -1,5 +1,7 @@
 import * as Promise from 'bluebird';
 
+import cloneSvg from 'util/clone-svg';
+
 // Declare 'unescape' function for below
 declare function unescape(contents: string): string;
 
@@ -20,11 +22,9 @@ function encode(data: string): string {
 /**
  * Serialize a node to a string.
  */
-function serialize(node: Node): string {
-  const clone = node.cloneNode(true);
-
+function serialize(node: SVGSVGElement): string {
   return new XMLSerializer()
-    .serializeToString(clone);
+    .serializeToString(cloneSvg(node));
 }
 
 /**
