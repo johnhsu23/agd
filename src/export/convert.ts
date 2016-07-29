@@ -2,6 +2,7 @@ import * as Promise from 'bluebird';
 
 import clone from 'export/clone';
 import serialize from 'export/serialize';
+import ensureAttached from 'util/ensure-attached';
 
 /**
  * The data URI prefix for a base64-encoded SVG image.
@@ -19,13 +20,14 @@ const prefix = 'data:image/svg+xml;base64,';
 export function imageFromSvg(svg: SVGSVGElement): Promise<HTMLImageElement> {
   // Serialize the SVG now, and read out its width and height.
   // The latter step avoids the issue of the browser adding its default dimensions.
+  // (As usual, we have to make sure the SVG element is attached before we determine its metrics.)
   const data = prefix + serialize(clone(svg));
-  const {width, height} = svg.getBoundingClientRect();
+  const {width, height} = ensureAttached(svg, svg => svg.getBoundingClientRect());
 
   return new Promise<HTMLImageElement>((resolve, reject) => {
     const image = document.createElement('img');
-    image.width = width;
-    image.height = height;
+    image.width = Math.ceil(width);
+    image.height = Math.ceil(height);
 
     // Once this event fires, the image is ready for use.
     image.addEventListener('load', () => {
