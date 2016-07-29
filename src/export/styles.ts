@@ -42,8 +42,8 @@ export default function applicableStyles(node: SVGSVGElement): string[] {
    */
   function eachRule(rule: CSSRule): void {
     if (rule instanceof CSSStyleRule) {
-      // If there's a child to which this rule applies, copy the style.
-      if (node.querySelector(rule.selectorText)) {
+      // If the node or one of its children match the rule, copy the style.
+      if (node.matches(rule.selectorText) || node.querySelector(rule.selectorText)) {
         styles.push(rule.cssText);
         return;
       }
