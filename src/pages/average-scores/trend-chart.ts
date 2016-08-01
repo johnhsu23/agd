@@ -9,6 +9,7 @@ import * as Promise from 'bluebird';
 
 import {Selection, extent as d3Extent} from 'd3';
 
+import interpolate from 'util/path-interpolate';
 import context from 'models/context';
 import acls from 'data/acls';
 
@@ -125,7 +126,9 @@ export default class TrendChart extends Chart<Data> {
     seriesUpdate.select('.series__line')
       .interrupt()
       .transition()
-      .attr('d', d => d.line);
+      .attrTween('d', function (d) {
+        return interpolate(this.getAttribute('d'), d.line);
+      });
 
     const pointUpdate = seriesUpdate.selectAll('.series__point')
       .data<Point<Data>>(d => d.points, d => '' + d.targetyear);
