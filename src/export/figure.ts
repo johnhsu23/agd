@@ -1,7 +1,8 @@
 // import * as Promise from 'bluebird';
 import {select, Selection} from 'd3';
 
-import wrap from 'util/wrap';
+import renderTitle from 'render/figure-title';
+
 import ensureAttached from 'util/ensure-attached';
 import save from 'export/save';
 
@@ -50,27 +51,6 @@ export default function render<T>(figure: Selection<T>): void {
   svg.setAttribute('height', '' + (offset + chartHeight));
 
   save(svg).done();
-}
-
-function renderTitle<T>(title: Selection<T>): SVGSVGElement {
-  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-
-  return ensureAttached(svg, svg => {
-    const sel = select(svg)
-      .attr('width', 1024)
-      .append('text')
-      .text(title.text())
-      .attr('y', '1em')
-      .attr('class', title.attr('class'))
-      .call(wrap, 1024);
-
-    // Ensure the title SVG element has a defined height
-    // (NB. 1.1 is the line height used by `wrap()`).
-    const lines = sel.selectAll('tspan').size();
-    select(svg).attr('height', (lines * 1.1) + 'em');
-
-    return svg;
-  });
 }
 
 function renderLegend<T>(legend: Selection<T>): SVGSVGElement {
