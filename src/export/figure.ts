@@ -148,6 +148,8 @@ function renderLegend<T>(legend: Selection<T>): SVGSVGElement {
     const {left} = offset(legendNode, node);
 
     const text = row.append('text')
+      // text-after-edge lets us use the bottom of the em-box (see `baseline()`) for text alignment
+      // (unfortunately, this isn't supported by IE so text there will be off by a few pixels.)
       .attr('dominant-baseline', 'text-after-edge')
       .attr('class', description.attr('class'))
       .attr('x', left)
@@ -268,6 +270,9 @@ function renderLegend<T>(legend: Selection<T>): SVGSVGElement {
     document.body.removeChild(svg);
   }
 
+  /**
+   * Determines the bottom of the em-box of the passed-in node.
+   */
   function baseline(node: Element): number {
     const span = document.createElement('span');
     span.textContent = 'M';
@@ -284,10 +289,16 @@ function renderLegend<T>(legend: Selection<T>): SVGSVGElement {
     return baseline;
   }
 
+  /**
+   * Determines the offset of a child element relative to some parent element.
+   */
   function offset(parent: Element, child: Element): { top: number; left: number } {
     return offsetRect(parent.getBoundingClientRect(), child.getBoundingClientRect());
   }
 
+  /**
+   * Determines the offset of a child element's ClientRect relative to some parent element's ClientRect.
+   */
   function offsetRect(parent: ClientRect, child: ClientRect): { top: number; left: number } {
     const top = child.top - parent.top;
     const left = child.left - parent.left;
