@@ -7,14 +7,11 @@ import save from 'export/save';
 
 const figureWidth = 1024;
 
-select('#section-2 .figure')
-  .call(render);
-
 function metrics(node: Element): ClientRect {
   return ensureAttached(node, node => node.getBoundingClientRect());
 }
 
-function render<T>(figure: Selection<T>): void {
+export default function render<T>(figure: Selection<T>): void {
   const title = renderTitle(figure.select('.figure__title')),
         chart = figure.select('.chart').node().cloneNode(true) as SVGSVGElement,
         legend = renderLegend(figure.select('.legend'));
