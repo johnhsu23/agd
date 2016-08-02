@@ -10,37 +10,67 @@ import {Selection} from 'd3';
  * @param width The width to constrain to
  */
 export default function wrap<T>(text: Selection<T>, width: number): void {
-  // cf. http://bl.ocks.org/mbostock/7555321
   text.each(function () {
-    const text = d3.select(this),
-        words = text.text().split(/\s+/),
-        lineHeight = 1.1,
-        y = text.attr('y') || 0,
-        dy = parseFloat(text.attr('dy') || '0');
+    const parent: SVGTextElement = this;
 
-    let line: string[] = [],
-        lineNumber = 0,
-        tspan = text.text(null)
-          .append('tspan')
-          .attr('x', 0)
-          .attr('y', y)
-          .attr('dy', dy + 'em');
+    const boxes: Node[] = [];
+    while (parent.firstChild) {
+      const node = parent.firstChild;
 
-    for (const word of words) {
-      line.push(word);
-      tspan.text(line.join(' '));
+      if (node instanceof Text) {
+        let text = node,
+            result: RegExpMatchArray;
 
-      if ((tspan.node() as SVGTextElement).getComputedTextLength() > width) {
-        lineNumber++;
-        line.pop();
-        tspan.text(line.join(' '));
+        while ((result = text.textContent.match(/\s/)) !== null) {
+          text = text.splitText(result.index + 1);
 
-        line = [word];
-        tspan = text.append('tspan')
-          .attr('x', 0)
-          .attr('y', y)
-          .attr('dy', lineNumber * lineHeight + dy + 'em');
+          const previous = text.previousSibling;
+          parent.removeChild(previous);
+          boxes.push(previous);
+        }
+
+        parent.removeChild(text);
+        boxes.push(text);
+      } else {
+        parent.removeChild(node);
+        boxes.push(node);
+      }
+    }
+
+    const x = parent.x.baseVal,
+          y = parent.y.baseVal;
+
+    let text = document.createElementNS('http://www.w3.org/2000/svg', 'tspan');
+    parent.appendChild(text);
+    copyList(x, text.x.baseVal);
+    copyList(y, text.y.baseVal);
+
+    let line = 0;
+    const lineHeight = 1.1;
+
+    for (const box of boxes) {
+      text.appendChild(box);
+
+      if (text.getComputedTextLength() > width) {
+        text.removeChild(box);
+        line++;
+
+        text = document.createElementNS('http://www.w3.org/2000/svg', 'tspan');
+        parent.appendChild(text);
+        copyList(x, text.x.baseVal);
+        copyList(y, text.y.baseVal);
+
+        text.appendChild(box);
+        text.setAttribute('dy', (line * lineHeight) + 'em');
       }
     }
   });
+}
+
+function copyList(source: SVGLengthList, dest: SVGLengthList): void {
+  dest.clear();
+
+  for (let i = 0; i < source.numberOfItems; i++) {
+    dest.appendItem(source.getItem(i));
+  }
 }
