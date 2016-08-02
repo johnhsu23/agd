@@ -14,6 +14,7 @@ export default class FigureView extends LayoutView<any> {
     return {
       'contents': '.figure__contents',
       'legend': '.figure__legend',
+      'controls': '.figure__controls',
     };
   }
 
@@ -28,5 +29,9 @@ export default class FigureView extends LayoutView<any> {
 
   showLegend(view: LegendView): void {
     this.showChildView('legend', view);
+  }
+
+  showControls<M extends Model, V extends View<M>>(view: V): void {
+    this.showChildView('controls', view);
   }
 }
