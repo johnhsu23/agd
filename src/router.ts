@@ -6,6 +6,7 @@ import configure from 'util/configure';
 @configure({
   appRoutes: {
     'average-scores': 'averageScores',
+    'achievement-levels': 'achievementLevels',
   } as {[key: string]: string},
 })
 export default class Router extends AppRouter {
@@ -27,5 +28,9 @@ class Controller extends Marionette.Object {
 
   averageScores(): void {
     this.showPage('pages/average-scores');
+  }
+
+  achievementLevels(): void {
+    this.showPage('pages/achievement-levels');
   }
 }
