@@ -9,6 +9,9 @@ import save from 'export/save';
 
 const figureWidth = 1024;
 
+/**
+ * Helper function: get the bounding ClientRect of an element that may not be attached to the document
+ */
 function metrics(node: Element): ClientRect {
   return ensureAttached(node, node => node.getBoundingClientRect());
 }
@@ -31,25 +34,39 @@ export default function render<T>(figure: Selection<T>): void {
   const {width: legendWidth, height: legendHeight} = metrics(legend);
 
   const x = figureWidth - legendWidth;
-  legend.x.baseVal.value = figureWidth - legendWidth;
+
+  // legend is offset by 1 to allow border to occupy final 1px of figure
+  legend.x.baseVal.value = x - 1;
   legend.y.baseVal.value = offset;
 
-  const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-  rect.x.baseVal.value = x - 1;
-  rect.y.baseVal.value = offset - 1;
-  rect.width.baseVal.value = legendWidth + 2;
-  rect.height.baseVal.value = legendHeight + 2;
-  rect.style.setProperty('stroke', 'black');
-  rect.style.setProperty('stroke-width', '1px');
-  rect.style.setProperty('fill', 'none');
+  // +/- 2 due to 1px border (need to ensure both sides are in the frame!)
+  const border = makeBorder(x - 2, offset, legendWidth + 2, legendHeight + 2);
 
   svg.appendChild(title);
   svg.appendChild(chart);
-  svg.appendChild(rect);
+  svg.appendChild(border);
   svg.appendChild(legend);
 
-  svg.setAttribute('width', '' + (figureWidth + 1)); // +1 to account for the legend border
+  svg.setAttribute('width', '' + figureWidth);
   svg.setAttribute('height', '' + (offset + chartHeight));
 
   save(svg).done();
+}
+
+function makeBorder(x: number, y: number, width: number, height: number): SVGRectElement {
+  const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+
+  // dimensions
+  rect.x.baseVal.value = x;
+  rect.y.baseVal.value = y;
+  rect.width.baseVal.value = width;
+  rect.height.baseVal.value = height;
+
+  // set inline styles to emulate the legend border
+  const {style} = rect;
+  style.stroke = 'black';
+  style.strokeWidth = '1px';
+  style.fill = 'none';
+
+  return rect;
 }
