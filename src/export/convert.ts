@@ -10,9 +10,9 @@ import ensureAttached from 'util/ensure-attached';
 const prefix = 'data:image/svg+xml;base64,';
 
 /**
- * Converts an SVG image into an HTML <img> element.
+ * Converts an SVG image into an HTML `<img>` element.
  *
- * This function exists because drawing an SVG element directly onto a <canvas> activates the taint flag,
+ * This function exists because drawing an SVG element directly onto a `<canvas>` activates the taint flag,
  * which means that we can no longer read the data from it.
  *
  * The content of this function was (ahem) _borrowed_ liberally from Pablo.js: http://pablojs.com/
@@ -44,7 +44,7 @@ export function imageFromSvg(svg: SVGSVGElement): Promise<HTMLImageElement> {
 }
 
 /**
- * Fills a canvas from an HTML <img> element.
+ * Fills a canvas from an HTML `<img>` element.
  */
 function canvasFromImage(image: HTMLImageElement): HTMLCanvasElement {
   const canvas = document.createElement('canvas'),
