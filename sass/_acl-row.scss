@@ -17,6 +17,11 @@
     }
   }
 
+  &__label {
+    text-anchor: end;
+    @include fade-in-out(500ms);
+  }
+
   &__text {
     text-anchor: middle;
 

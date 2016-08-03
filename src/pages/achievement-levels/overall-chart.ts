@@ -3,9 +3,11 @@ import {sortBy} from 'underscore';
 
 import Chart from 'views/chart';
 
-import * as codes from 'codes';
 import makeStack from 'components/stack';
 import * as scales from 'components/scales';
+import {horizontalBottom} from 'components/axis';
+
+import * as codes from 'codes';
 import context from 'models/context';
 import {Data} from 'api/tuda-acrossyear';
 import {yearsForGrade} from 'data/assessment-years';
@@ -16,10 +18,28 @@ const rowHeight = 30,
 type Baseline = 'basic' | 'proficient';
 
 export default class OverallChart extends Chart<Data> {
+  protected marginBottom = 30;
+  protected marginLeft = 50;
+  protected marginRight = 50;
+
   protected baseline: Baseline = 'basic';
+
+  protected firstRender = true;
+  protected scoreAxis: d3.Selection<void>;
 
   setBaseline(baseline: Baseline): void {
     this.baseline = baseline;
+  }
+
+  render(): this {
+    super.render();
+
+    if (this.firstRender) {
+      this.scoreAxis = this.d3el.append('g');
+      this.firstRender = false;
+    }
+
+    return this;
   }
 
   renderData(rows: Data[][]): void {
@@ -37,6 +57,33 @@ export default class OverallChart extends Chart<Data> {
 
     const [lo, hi] = x.range();
     this.width(hi - lo);
+
+    const axis = horizontalBottom()
+      .format(n => '' + Math.abs(n))
+      .scale(x);
+
+    this.scoreAxis
+      .call(axis);
+
+    if (this.scoreAxis.attr('transform')) {
+      this.scoreAxis
+        .transition()
+        .duration(duration)
+        .attr('transform', () => {
+          const x = this.marginLeft;
+          const y = this.marginTop + this.height();
+
+          return `translate(${x}, ${y})`;
+        });
+    } else {
+      this.scoreAxis
+        .attr('transform', () => {
+          const x = this.marginLeft;
+          const y = this.marginTop + this.height();
+
+          return `translate(${x}, ${y})`;
+        });
+    }
 
     const stack = makeStack<Data>()
       .defined(d => !(codes.isNotApplicable(d.TargetErrorFlag) || codes.isNotAvailable(d.TargetErrorFlag)))
@@ -82,7 +129,7 @@ export default class OverallChart extends Chart<Data> {
     });
 
     const rowEnter = rowUpdate.enter()
-      .append('g')
+      .insert('g')
       .classed('acl-row', true)
       .attr('transform', ([row]) => `translate(0, ${y(row.targetyear)})`);
 
@@ -93,7 +140,8 @@ export default class OverallChart extends Chart<Data> {
       sel.append('text')
         .classed('acl-row__label', true)
         .text(ba.targetyear)
-        .attr('dy', '1em');
+        .attr('x', -10)
+        .attr('y', '1.1em');
 
       const baseline = x(0) - ba.offset;
 
@@ -136,14 +184,20 @@ export default class OverallChart extends Chart<Data> {
         });
     });
 
-    rowUpdate.order();
+    const rowExit = rowUpdate.exit();
 
-    const rowExit = rowUpdate.exit()
+    rowExit.select('.acl-row__label')
+      .classed('is-exiting', true)
+      .transition()
+      .delay(500)
+      .remove();
+
+    const rowTx = rowExit
       .transition()
       .duration(500)
       .remove();
 
-    const itemExit = rowExit.selectAll('.acl-row__item')
+    const itemExit = rowTx.selectAll('.acl-row__item')
       .attr('transform', `translate(${x(0)})`);
 
     itemExit.select('.acl-row__text')
