@@ -13,3 +13,10 @@ export function year(): Scale {
     .interval(1)
     .intervalSize(40);
 }
+
+export function percent(): Scale {
+  return scale()
+    .bounds([-100, 100])
+    .interval(10)
+    .intervalSize(25);
+}
