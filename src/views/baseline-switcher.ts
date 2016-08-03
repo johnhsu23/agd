@@ -1,3 +1,4 @@
+import {EventsHash} from 'backbone';
 import {uniqueId} from 'underscore';
 import {ItemView} from 'backbone.marionette';
 
@@ -26,5 +27,17 @@ export default class BaselineSwitcher extends ItemView<any> {
     }
 
     return this;
+  }
+
+  events(): EventsHash {
+    return {
+      'change input[type=radio]': 'switchBaseline',
+    };
+  }
+
+  protected switchBaseline(): void {
+    const baseline = this.$('input[type=radio]:checked').val();
+
+    this.triggerMethod('baseline:set', baseline);
   }
 }

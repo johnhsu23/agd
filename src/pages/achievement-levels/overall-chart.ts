@@ -10,10 +10,23 @@ import context from 'models/context';
 import {Data} from 'api/tuda-acrossyear';
 import {yearsForGrade} from 'data/assessment-years';
 
-const rowHeight = 30;
+const rowHeight = 30,
+      duration = 500;
+
+type Baseline = 'basic' | 'proficient';
 
 export default class OverallChart extends Chart<Data> {
+  protected baseline: Baseline = 'basic';
+
+  setBaseline(baseline: Baseline): void {
+    this.baseline = baseline;
+  }
+
   renderData(rows: Data[][]): void {
+    console.trace('hello world');
+
+    const base = this.baseline === 'basic' ? 1 : 2;
+
     const height = rows.length * rowHeight;
     this.height(height);
 
@@ -34,6 +47,37 @@ export default class OverallChart extends Chart<Data> {
     const rowUpdate = this.inner.selectAll('.acl-row')
       .data(rows.map(stack), ([row]) => '' + row.targetyear);
 
+    rowUpdate.each(function (rows) {
+      const sel = d3.select(this),
+            ba = rows[base];
+
+      const baseline = x(0) - ba.offset;
+
+      const itemUpdate = sel.selectAll('.acl-row__item')
+        .data(rows);
+
+      const itemTx = itemUpdate
+        .transition()
+        .duration(duration)
+        .attr('transform', d => `translate(${d.offset + baseline})`);
+
+      itemUpdate.select('.acl-row__text')
+        .text(d => codes.formatValue(d.targetvalue, d.sig, d.TargetErrorFlag))
+        .classed('is-shifted-right', d => d.size < 5);
+
+      itemTx.select('.acl-row__text')
+        .attr('x', d => {
+          if (d.size > 5) {
+            return d.size / 2;
+          }
+
+          return d.size + 2;
+        });
+
+      itemTx.select('.acl-row__bar')
+        .attr('width', d => d.size);
+    });
+
     const rowEnter = rowUpdate.enter()
       .append('g')
       .classed('acl-row', true)
@@ -41,16 +85,17 @@ export default class OverallChart extends Chart<Data> {
 
     rowEnter.each(function (rows) {
       const sel = d3.select(this),
-            ba = rows[1];
+            ba = rows[base];
 
       sel.append('text')
+        .classed('acl-row__label', true)
         .text(ba.targetyear)
         .attr('dy', '1em');
 
       const baseline = x(0) - ba.offset;
 
       const enter = sel.selectAll('.acl-row__item')
-        .data(rows)
+        .data(rows, d => d.stattype)
         .enter()
         .append('g')
         .classed('acl-row__item', true)

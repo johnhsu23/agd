@@ -1,5 +1,5 @@
 import * as Promise from 'bluebird';
-import {Collection} from 'backbone';
+import {Collection, EventsHash} from 'backbone';
 
 import Figure from 'views/figure';
 import BaselineSwitcher from 'views/baseline-switcher';
@@ -21,7 +21,21 @@ export default class OverallFigure extends Figure {
   collection = new Collection<Model>();
 
   protected chart: Chart = new Chart;
-  protected promise = Promise.resolve(void 0);
+  protected promise: Promise<Data[]> = Promise.resolve(null);
+
+  childEvents(): EventsHash {
+    return {
+      'baseline:set': 'onBaselineSet',
+    };
+  }
+
+  protected onBaselineSet(view: {}, baseline: 'basic' | 'proficient'): void {
+    this.chart.setBaseline(baseline);
+
+    this.promise
+      .then(data => this.loaded(data))
+      .done();
+  }
 
   protected makeTitle(): string {
     const {grade} = context;
@@ -53,8 +67,10 @@ export default class OverallFigure extends Figure {
       collection: this.collection,
     }));
 
-    this.promise = load(context.grade)
-      .then(data => this.loaded(data));
-    this.promise.done();
+    this.promise = this.promise.then(() => load(context.grade));
+
+    this.promise
+      .then(data => this.loaded(data))
+      .done();
   }
 }
