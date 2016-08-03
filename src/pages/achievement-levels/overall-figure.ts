@@ -1,8 +1,16 @@
+import * as Promise from 'bluebird';
+import {Collection} from 'backbone';
+
 import Figure from 'views/figure';
 import BaselineSwitcher from 'views/baseline-switcher';
+import LegendView from 'views/legend';
+
+import sigDiff from 'legends/sig-diff';
+import Model from 'legends/model';
+import {all as gatherNotes} from 'legends/gather';
 
 import Chart from 'pages/achievement-levels/overall-chart';
-// import {load, Data} from 'pages/achievement-levels/overall-data';
+import {group, load, Data} from 'pages/achievement-levels/overall-data';
 import context from 'models/context';
 
 import {yearsForGrade} from 'data/assessment-years';
@@ -10,6 +18,11 @@ import formatList from 'util/format-list';
 import nth from 'util/nth';
 
 export default class OverallFigure extends Figure {
+  collection = new Collection<Model>();
+
+  protected chart: Chart = new Chart;
+  protected promise = Promise.resolve(void 0);
+
   protected makeTitle(): string {
     const {grade} = context;
     const years = formatList(yearsForGrade(grade));
@@ -17,9 +30,31 @@ export default class OverallFigure extends Figure {
     return `Achievement-level results for ${nth(grade)}-grade students assessed in NAEP science: ${years}`;
   }
 
+  protected resetNotes(data: Data[]): void {
+    let notes: Model[] = [];
+    if (data.some(row => row.sig === '<' || row.sig === '>')) {
+      notes.push(sigDiff());
+    }
+
+    notes = notes.concat(...gatherNotes(data, row => row.TargetErrorFlag));
+    this.collection.reset(notes);
+  }
+
+  protected loaded(data: Data[]): void {
+    this.resetNotes(data);
+    this.chart.renderData(group(data));
+  }
+
   onBeforeShow(): void {
     this.setTitle(this.makeTitle());
-    this.showContents(new Chart);
+    this.showContents(this.chart);
     this.showControls(new BaselineSwitcher);
+    this.showLegend(new LegendView({
+      collection: this.collection,
+    }));
+
+    this.promise = load(context.grade)
+      .then(data => this.loaded(data));
+    this.promise.done();
   }
 }
