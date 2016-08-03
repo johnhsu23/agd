@@ -83,8 +83,7 @@ export function formatValue(estimate: number, sig: string, errorCode: number): s
     formatted = '' + Math.round(estimate);
   }
 
-  // hack: 2015 rows have some issues
-  if ((sig === '<' || sig === '>')) {
+  if (sig === '<' || sig === '>') {
     formatted += '*';
   }
 
