@@ -23,8 +23,6 @@ export default class OverallChart extends Chart<Data> {
   }
 
   renderData(rows: Data[][]): void {
-    console.trace('hello world');
-
     const base = this.baseline === 'basic' ? 1 : 2;
 
     const height = rows.length * rowHeight;
@@ -46,6 +44,11 @@ export default class OverallChart extends Chart<Data> {
 
     const rowUpdate = this.inner.selectAll('.acl-row')
       .data(rows.map(stack), ([row]) => '' + row.targetyear);
+
+    rowUpdate
+      .transition()
+      .duration(duration)
+      .attr('transform', ([row]) => `translate(0, ${y(row.targetyear)})`);
 
     rowUpdate.each(function (rows) {
       const sel = d3.select(this),
@@ -99,27 +102,55 @@ export default class OverallChart extends Chart<Data> {
         .enter()
         .append('g')
         .classed('acl-row__item', true)
+        .attr('transform', `translate(${x(0)})`);
+
+      enter
+        .transition()
+        .duration(duration)
         .attr('transform', d => `translate(${d.offset + baseline})`);
 
       enter
         .append('rect')
         .attr('class', d => `acl-row__bar acl-row__bar--${d.stattype.toLowerCase()}`)
-        .attr('width', d => d.size)
-        .attr('height', y.rangeBand());
+        .attr('width', 0)
+        .attr('height', y.rangeBand())
+        .transition()
+        .duration(duration)
+        .attr('width', d => d.size);
 
       enter
         .append('text')
         .classed('acl-row__text', true)
         .classed('is-shifted-right', d => d.size < 5)
+        .attr('x', 0)
+        .attr('y', '1.1em')
+        .text(d => codes.formatValue(d.targetvalue, d.sig, d.TargetErrorFlag))
+        .transition()
+        .duration(duration)
         .attr('x', d => {
           if (d.size > 5) {
             return d.size / 2;
           }
 
           return d.size + 2;
-        })
-        .attr('y', '1.1em')
-        .text(d => codes.formatValue(d.targetvalue, d.sig, d.TargetErrorFlag));
+        });
     });
+
+    rowUpdate.order();
+
+    const rowExit = rowUpdate.exit()
+      .transition()
+      .duration(500)
+      .remove();
+
+    const itemExit = rowExit.selectAll('.acl-row__item')
+      .attr('transform', `translate(${x(0)})`);
+
+    itemExit.select('.acl-row__text')
+      .attr('x', 0);
+
+    itemExit.select('.acl-row__bar')
+      .attr('width', 0);
+
   }
 }
