@@ -1,7 +1,7 @@
 import * as Promise from 'bluebird';
 import {Collection, EventsHash} from 'backbone';
 
-import Figure from 'views/figure';
+import Figure from 'views/default-figure';
 import BaselineSwitcher from 'views/baseline-switcher';
 import LegendView from 'views/legend';
 
@@ -27,6 +27,14 @@ export default class OverallFigure extends Figure {
     return {
       'baseline:set': 'onBaselineSet',
     };
+  }
+
+  protected onGradeChanged(): void {
+    this.promise = this.promise.then(() => load(context.grade));
+
+    this.promise
+      .then(data => this.loaded(data))
+      .done();
   }
 
   protected onBaselineSet(view: {}, baseline: 'basic' | 'proficient'): void {
@@ -67,10 +75,7 @@ export default class OverallFigure extends Figure {
       collection: this.collection,
     }));
 
-    this.promise = this.promise.then(() => load(context.grade));
-
-    this.promise
-      .then(data => this.loaded(data))
-      .done();
+    // manually trigger data change
+    this.onGradeChanged();
   }
 }
