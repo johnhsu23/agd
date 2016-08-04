@@ -45,18 +45,34 @@ export default class OverallChart extends Chart<Data> {
   renderData(rows: Data[][]): void {
     const base = this.baseline === 'basic' ? 1 : 2;
 
-    const height = rows.length * rowHeight;
-    this.height(height);
-
-    const y = d3.scale.ordinal<number, number>()
-      .domain(sortBy(yearsForGrade(context.grade), n => -n))
-      .rangeRoundBands([0, height], 0.125);
+    // First render test here: we don't know the actual size of the chart until data arrives,
+    // which means that we have to do silly checks like this to discern if this is our
+    // first call to renderData().
+    const firstRender = !this.el.style.height;
 
     const x = scales.percent()
       .domain([-100, 100]);
 
     const [lo, hi] = x.range();
     this.width(hi - lo);
+
+    const height = rows.length * rowHeight;
+    const delay = this.height() > height ? duration / 2 : 0;
+    if (firstRender) {
+      this.height(height);
+    } else {
+      this.d3el
+        .transition()
+        .delay(delay)
+        .duration(duration)
+        .style('height', this.computeHeight(height) + 'px');
+
+      this.innerHeight = height;
+    }
+
+    const y = d3.scale.ordinal<number, number>()
+      .domain(sortBy(yearsForGrade(context.grade), n => -n))
+      .rangeRoundBands([0, height], 0.125);
 
     const axis = horizontalBottom()
       .format(n => '' + Math.abs(n))
@@ -65,10 +81,8 @@ export default class OverallChart extends Chart<Data> {
     this.scoreAxis
       .call(axis);
 
-    if (this.scoreAxis.attr('transform')) {
+    if (firstRender) {
       this.scoreAxis
-        .transition()
-        .duration(duration)
         .attr('transform', () => {
           const x = this.marginLeft;
           const y = this.marginTop + this.height();
@@ -77,6 +91,9 @@ export default class OverallChart extends Chart<Data> {
         });
     } else {
       this.scoreAxis
+        .transition()
+        .delay(delay)
+        .duration(duration)
         .attr('transform', () => {
           const x = this.marginLeft;
           const y = this.marginTop + this.height();

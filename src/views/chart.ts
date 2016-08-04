@@ -78,11 +78,17 @@ export default class Chart<T> extends View<any> {
     return this.getMargins();
   }
 
-  protected resize(): this {
-    const {marginLeft: left, marginTop: top} = this;
+  protected computeWidth(width: number): number {
+    return this.marginLeft + this.marginRight + width;
+  }
 
-    const width = this.innerWidth + left + this.marginRight;
-    const height = this.innerHeight + top + this.marginBottom;
+  protected computeHeight(height: number): number {
+    return this.marginTop + this.marginBottom + height;
+  }
+
+  protected resize(): this {
+    const width = this.computeWidth(this.innerWidth),
+          height = this.computeHeight(this.innerHeight);
 
     this.d3el.style({
       width: width + 'px',
@@ -91,7 +97,7 @@ export default class Chart<T> extends View<any> {
 
     if (this.inner) {
       this.inner
-        .attr('transform', `translate(${left}, ${top})`);
+        .attr('transform', `translate(${this.marginLeft}, ${this.marginTop})`);
     }
 
     return this;
