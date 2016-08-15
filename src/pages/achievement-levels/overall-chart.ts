@@ -60,7 +60,7 @@ export default class OverallChart extends Chart<Data> {
     const delay = this.height() > height ? duration / 2 : 0;
     if (firstRender) {
       this.height(height);
-    } else {
+    } else if (this.height() !== height) {
       this.d3el
         .transition()
         .delay(delay)
