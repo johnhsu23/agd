@@ -107,7 +107,7 @@ export default class OverallChart extends Chart<Data> {
       .baseline(base);
 
     this.inner.selectAll('.acl-row')
-      .data(rows)
+      .data(rows, ([row]) => '' + row.targetyear)
       .call(bar);
   }
 }
