@@ -1,5 +1,4 @@
 import * as Promise from 'bluebird';
-import {indexBy} from 'underscore';
 import {descending} from 'd3';
 
 import loadData from 'api';
@@ -42,13 +41,7 @@ export function group(data: Data[]): Data[][] {
     dict[year].push(row);
   }
 
-  const out: Data[][] = [];
-
-  for (const key of Object.keys(dict).sort(descending)) {
-    const {BB, BA, PR, AD} = indexBy(dict[+key], d => d.stattype);
-
-    out.push([BB, BA, PR, AD]);
-  }
-
-  return out;
+  return Object.keys(dict)
+    .sort(descending)
+    .map(key => dict[+key]);
 }

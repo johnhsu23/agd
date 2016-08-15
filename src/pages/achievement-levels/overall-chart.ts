@@ -3,11 +3,10 @@ import {sortBy} from 'underscore';
 
 import Chart from 'views/chart';
 
-import makeStack from 'components/stack';
+import makeBar from 'components/acl-bar';
 import * as scales from 'components/scales';
 import {horizontalBottom} from 'components/axis';
 
-import * as codes from 'codes';
 import context from 'models/context';
 import {Data} from 'api/tuda-acrossyear';
 import {yearsForGrade} from 'data/assessment-years';
@@ -102,126 +101,13 @@ export default class OverallChart extends Chart<Data> {
         });
     }
 
-    const stack = makeStack<Data>()
-      .defined(d => !(codes.isNotApplicable(d.TargetErrorFlag) || codes.isNotAvailable(d.TargetErrorFlag)))
-      .size(d => x(d.targetvalue) - x(0));
+    const bar = makeBar()
+      .x(x)
+      .y(y)
+      .baseline(base);
 
-    const rowUpdate = this.inner.selectAll('.acl-row')
-      .data(rows.map(stack), ([row]) => '' + row.targetyear);
-
-    rowUpdate
-      .transition()
-      .duration(duration)
-      .attr('transform', ([row]) => `translate(0, ${y(row.targetyear)})`);
-
-    rowUpdate.each(function (rows) {
-      const sel = d3.select(this),
-            ba = rows[base];
-
-      const baseline = x(0) - ba.offset;
-
-      const itemUpdate = sel.selectAll('.acl-row__item')
-        .data(rows);
-
-      const itemTx = itemUpdate
-        .transition()
-        .duration(duration)
-        .attr('transform', d => `translate(${d.offset + baseline})`);
-
-      itemUpdate.select('.acl-row__text')
-        .text(d => codes.formatValue(d.targetvalue, d.sig, d.TargetErrorFlag))
-        .classed('is-shifted-right', d => d.size < 5);
-
-      itemTx.select('.acl-row__text')
-        .attr('x', d => {
-          if (d.size > 5) {
-            return d.size / 2;
-          }
-
-          return d.size + 2;
-        });
-
-      itemTx.select('.acl-row__bar')
-        .attr('width', d => d.size);
-    });
-
-    const rowEnter = rowUpdate.enter()
-      .insert('g')
-      .classed('acl-row', true)
-      .attr('transform', ([row]) => `translate(0, ${y(row.targetyear)})`);
-
-    rowEnter.each(function (rows) {
-      const sel = d3.select(this),
-            ba = rows[base];
-
-      sel.append('text')
-        .classed('acl-row__label', true)
-        .text(ba.targetyear)
-        .attr('x', -10)
-        .attr('y', '1.1em');
-
-      const baseline = x(0) - ba.offset;
-
-      const enter = sel.selectAll('.acl-row__item')
-        .data(rows, d => d.stattype)
-        .enter()
-        .append('g')
-        .classed('acl-row__item', true)
-        .attr('transform', `translate(${x(0)})`);
-
-      enter
-        .transition()
-        .duration(duration)
-        .attr('transform', d => `translate(${d.offset + baseline})`);
-
-      enter
-        .append('rect')
-        .attr('class', d => `acl-row__bar acl-row__bar--${d.stattype.toLowerCase()}`)
-        .attr('width', 0)
-        .attr('height', y.rangeBand())
-        .transition()
-        .duration(duration)
-        .attr('width', d => d.size);
-
-      enter
-        .append('text')
-        .classed('acl-row__text', true)
-        .classed('is-shifted-right', d => d.size < 5)
-        .attr('x', 0)
-        .attr('y', '1.1em')
-        .text(d => codes.formatValue(d.targetvalue, d.sig, d.TargetErrorFlag))
-        .transition()
-        .duration(duration)
-        .attr('x', d => {
-          if (d.size > 5) {
-            return d.size / 2;
-          }
-
-          return d.size + 2;
-        });
-    });
-
-    const rowExit = rowUpdate.exit();
-
-    rowExit.select('.acl-row__label')
-      .classed('is-exiting', true)
-      .transition()
-      .delay(500)
-      .remove();
-
-    const rowTx = rowExit
-      .transition()
-      .duration(500)
-      .remove();
-
-    const itemExit = rowTx.selectAll('.acl-row__item')
-      .attr('transform', `translate(${x(0)})`);
-
-    itemExit.select('.acl-row__text')
-      .attr('x', 0);
-
-    itemExit.select('.acl-row__bar')
-      .attr('width', 0);
-
+    this.inner.selectAll('.acl-row')
+      .data(rows)
+      .call(bar);
   }
 }
