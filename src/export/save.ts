@@ -11,22 +11,15 @@ function saveCanvasAsBlob(canvas: HTMLCanvasElement, filename: string): void {
   // work.
   // Hence this code.
 
-  // Use best available `toBlob()` method
-  let blob: Blob;
   if (canvas.toBlob) {
-    blob = canvas.toBlob();
+    canvas.toBlob(blob => {
+      navigator.msSaveBlob(blob, filename);
+    });
   } else if (canvas.msToBlob) {
-    blob = canvas.msToBlob();
+    const blob = canvas.msToBlob();
+    navigator.msSaveBlob(blob, filename);
   } else {
     throw new Error("Can't save blob from canvas.");
-  }
-
-  // https://msdn.microsoft.com/en-us/library/windows/apps/hh441122.aspx
-  navigator.msSaveBlob(blob, filename);
-
-  // Dispose of the blob, when we can
-  if (blob.msClose) {
-    blob.msClose();
   }
 }
 
