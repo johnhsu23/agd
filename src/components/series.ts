@@ -1,4 +1,4 @@
-import {functor, svg as gen} from 'd3';
+import * as shape from 'd3-shape';
 
 type Project<T, Out> = (datum: T, index: number) => Out;
 
@@ -31,9 +31,9 @@ interface Series<T> {
 function series<T>(): Series<T> {
   let x: Project<T, number> = d => (d as any).x,
       y: typeof x = d => (d as any).y,
-      defined: Project<T, boolean> = functor(true);
+      defined: Project<T, boolean> = () => true;
 
-  const line = gen.line<Point<T>>()
+  const line = shape.line<Point<T>>()
     .x(d => d.x)
     .y(d => d.y)
     .defined(defined);
@@ -61,7 +61,7 @@ function series<T>(): Series<T> {
   function seriesX(x: Project<T, number>): Series<T>;
   function seriesX(val?: number | Project<T, number>): Project<T, number> | Series<T> {
     if (arguments.length) {
-      x = functor(val as number);
+      x = typeof val === 'function' ? val : (() => val) as Project<T, number>;
       return series;
     }
 
@@ -73,7 +73,7 @@ function series<T>(): Series<T> {
   function seriesY(y: Project<T, number>): Series<T>;
   function seriesY(val?: number | Project<T, number>): Project<T, number> | Series<T> {
     if (arguments.length) {
-      y = functor(val as number);
+      y = typeof val === 'function' ? val : (() => val) as Project<T, number>;
       return series;
     }
 
@@ -85,7 +85,8 @@ function series<T>(): Series<T> {
   function seriesDefined(defined: Project<T, boolean>): Series<T>;
   function seriesDefined(val?: boolean | Project<T, boolean>): Project<T, boolean> | Series<T> {
     if (arguments.length) {
-      line.defined(defined = functor(val as boolean));
+      defined = typeof val === 'function' ? val : (() => val) as Project<T, boolean>;
+      line.defined(defined);
       return series;
     }
 

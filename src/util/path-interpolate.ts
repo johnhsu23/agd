@@ -1,4 +1,4 @@
-import {interpolateArray} from 'd3';
+import {interpolateArray} from 'd3-interpolate';
 
 type Interpolator = (t: number) => string;
 
