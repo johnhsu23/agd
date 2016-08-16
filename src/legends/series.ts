@@ -1,14 +1,15 @@
 import Model from 'legends/model';
 
-import makeSymbol from 'components/symbol';
+import {symbol, SymbolType} from 'd3-shape';
 
-const symbol = makeSymbol<void>()
-  .size(194);
+export default function series(type: SymbolType, description: string): Model {
+  const marker = symbol()
+    .size(194)
+    .type(type);
 
-export default function series(type: string, description: string): Model {
   return new Model({
     type: 'path',
-    marker: symbol.type(type)(null, null),
+    marker: marker(),
     description,
   });
 }
