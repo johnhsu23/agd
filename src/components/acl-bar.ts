@@ -1,5 +1,6 @@
 import {sortBy} from 'underscore';
-import {select, selection, scale} from 'd3';
+import {select, Selection} from 'd3-selection';
+import {scaleBand, ScaleBand} from 'd3-scale';
 
 import {scale as makeScale, Scale} from 'components/scale';
 import {stack as makeStack, Bar} from 'components/stack';
@@ -46,13 +47,13 @@ function stackedBarOffset<T>(d: Bar<T>): number {
 }
 
 export interface AclBar {
-  <T>(selection: selection.Update<T>): void;
+  <T>(selection: Selection<SVGGElement, Data[], null, T>): void;
 
   x(): Scale;
   x(x: Scale): this;
 
-  y(): scale.Ordinal<number, number>;
-  y(y: scale.Ordinal<number, number>): this;
+  y(): ScaleBand<number>;
+  y(y: ScaleBand<number>): this;
 
   baseline(): number;
   baseline(baseline: number): this;
@@ -67,13 +68,13 @@ export function aclBar(): AclBar {
 
   let baseline = 1,
       x = makeScale(),
-      y = scale.ordinal<number, number>();
+      y = scaleBand<number>();
 
   const stack = makeStack<Data>()
       .defined(d => !(codes.isNotApplicable(d.TargetErrorFlag) || codes.isNotAvailable(d.TargetErrorFlag)))
       .size(d => x(d.targetvalue) - x(0));
 
-  const aclBar = function (rowUpdate: selection.Update<Data[]>) {
+  const aclBar = function <T>(rowUpdate: Selection<SVGGElement, Data[], null, T>) {
     rowUpdate.transition()
       .duration(duration)
       .attr('transform', ([row]) => `translate(0, ${y(row.targetyear)})`);
@@ -89,7 +90,7 @@ export function aclBar(): AclBar {
       sel.select('.acl-row__label')
         .text(label);
 
-      const update = sel.selectAll('.acl-row__item')
+      const update = sel.selectAll<SVGGElement, Bar<Data>>('.acl-row__item')
         .data(stacked, d => d.stattype);
 
       const tx = update.transition()
@@ -108,7 +109,8 @@ export function aclBar(): AclBar {
     });
 
     const rowEnter = rowUpdate.enter()
-      .insert('g')
+      .append('g')
+      .order()
       .classed('acl-row', true)
       .attr('transform', ([row]) => `translate(0, ${y(row.targetyear)})`);
 
@@ -126,7 +128,7 @@ export function aclBar(): AclBar {
         .attr('x', -10)
         .attr('y', '1.1em');
 
-      const enter = sel.selectAll('.acl-row__item')
+      const enter = sel.selectAll<SVGGElement, Bar<Data>>('.acl-row__item')
         .data(stacked, d => d.stattype)
         .enter()
         .append('g')
@@ -142,7 +144,7 @@ export function aclBar(): AclBar {
         .append('rect')
         .attr('class', d => `acl-row__bar acl-row__bar--${d.stattype.toLowerCase()}`)
         .attr('width', 0)
-        .attr('height', y.rangeBand())
+        .attr('height', y.bandwidth())
         .transition()
         .duration(duration)
         .attr('width', d => d.size);
@@ -191,14 +193,14 @@ export function aclBar(): AclBar {
     return x;
   } as Setter<Scale>;
 
-  aclBar.y = function (value?: scale.Ordinal<number, number>): AclBar | scale.Ordinal<number, number> {
+  aclBar.y = function (value?: ScaleBand<number>): AclBar | ScaleBand<number> {
     if (arguments.length) {
       y = value;
       return aclBar;
     }
 
     return y;
-  } as Setter<scale.Ordinal<number, number>>;
+  } as Setter<ScaleBand<number>>;
 
   aclBar.baseline = function (value?: number): AclBar | number {
     if (arguments.length) {
