@@ -3,6 +3,8 @@ import {Application} from 'backbone.marionette';
 import Router from 'router';
 import RootView from 'views/root';
 
+import 'd3-transition';
+
 const app = new Application;
 
 app.on('start', () => {
