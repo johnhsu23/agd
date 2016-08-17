@@ -1,5 +1,5 @@
 import * as Promise from 'bluebird';
-import {descending} from 'd3';
+import {descending} from 'd3-array';
 
 import loadData from 'api';
 import {Params, Data} from 'api/tuda-acrossyear';

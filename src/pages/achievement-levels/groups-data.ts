@@ -1,5 +1,5 @@
 import * as Promise from 'bluebird';
-import {range} from 'd3';
+import {range} from 'd3-array';
 
 import {Params, Data} from 'api/tuda-acrossyear';
 import {Variable} from 'data/variables';
