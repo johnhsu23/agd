@@ -12,7 +12,7 @@ module.exports = function (grunt) {
         },
         files: [{
           expand: true,
-          src: ['commentary/*', '!commentary/acls'],
+          src: ['commentary/*/*', '!commentary/acls'],
           filter: 'isDirectory',
           dest: 'public',
           ext: '.json',

@@ -17,7 +17,7 @@ module.exports = function (grunt) {
           preamble: 'type Dict<T> = { [key: string]: T };',
         },
         files: [{
-          src: 'public/commentary/*.json',
+          src: 'public/commentary/**/*.json',
           dest: 'src/commentary.d.ts',
         }],
       },
