@@ -1,4 +1,6 @@
-import {descending, scale} from 'd3';
+import {descending} from 'd3-array';
+import {scaleBand} from 'd3-scale';
+
 import {sortBy} from 'underscore';
 
 import Chart from 'views/chart';
@@ -88,9 +90,10 @@ export default class GroupsChart extends Chart<Data> {
     this.width(hi - lo);
 
     const years = sortBy(yearsForGrade(context.grade), year => -year);
-    const y = scale.ordinal<number, number>()
+    const y = scaleBand<number>()
       .domain(years)
-      .rangeRoundBands([0, barHeight * years.length], 0.125);
+      .rangeRound([0, barHeight * years.length])
+      .padding(0.125);
 
     const groupHeight = headerHeight + barHeight * years.length,
           height = grouped.length * groupHeight,
@@ -118,8 +121,8 @@ export default class GroupsChart extends Chart<Data> {
       .duration(duration)
       .attr('transform', (_, i) => `translate(0, ${headerHeight + i * groupHeight})`);
 
-    subchartUpdate.selectAll('.acl-row')
-      .data<Data[]>(d => d.map(order), ([d]) => '' + d.targetyear)
+    subchartUpdate.selectAll<SVGGElement, Data[]>('.acl-row')
+      .data(d => d.map(order), ([d]) => '' + d.targetyear)
       .call(bar);
 
     const subchartEnter = subchartUpdate.enter()
@@ -143,8 +146,8 @@ export default class GroupsChart extends Chart<Data> {
       .attr('y', -headerPadding)
       .text((_, i) => GENDER.categories[i]);
 
-    subchartEnter.selectAll('.acl-row')
-      .data<Data[]>(d => d.map(order), ([d]) => '' + d.targetyear)
+    subchartEnter.selectAll<SVGGElement, Data[]>('.acl-row')
+      .data(d => d.map(order), ([d]) => '' + d.targetyear)
       .call(bar);
 
     this.firstRender = false;

@@ -1,4 +1,6 @@
-import * as d3 from 'd3';
+import {scaleBand} from 'd3-scale';
+import {Selection} from 'd3-selection';
+
 import {sortBy} from 'underscore';
 
 import Chart from 'views/chart';
@@ -24,7 +26,7 @@ export default class OverallChart extends Chart<Data> {
   protected baseline: Baseline = 'basic';
 
   protected firstRender = true;
-  protected scoreAxis: d3.Selection<void>;
+  protected scoreAxis: Selection<SVGGElement, {}, null, void>;
 
   setBaseline(baseline: Baseline): void {
     this.baseline = baseline;
@@ -34,7 +36,7 @@ export default class OverallChart extends Chart<Data> {
     super.render();
 
     if (this.firstRender) {
-      this.scoreAxis = this.d3el.append('g');
+      this.scoreAxis = this.d3el.append<SVGGElement>('g');
       this.firstRender = false;
     }
 
@@ -69,9 +71,10 @@ export default class OverallChart extends Chart<Data> {
       this.innerHeight = height;
     }
 
-    const y = d3.scale.ordinal<number, number>()
+    const y = scaleBand<number>()
       .domain(sortBy(yearsForGrade(context.grade), n => -n))
-      .rangeRoundBands([0, height], 0.125);
+      .rangeRound([0, height])
+      .padding(0.125);
 
     const axis = horizontalBottom()
       .format(n => '' + Math.abs(n))
@@ -106,7 +109,7 @@ export default class OverallChart extends Chart<Data> {
       .y(y)
       .baseline(base);
 
-    this.inner.selectAll('.acl-row')
+    this.inner.selectAll<SVGGElement, Data[]>('.acl-row')
       .data(rows, ([row]) => '' + row.targetyear)
       .call(bar);
   }
