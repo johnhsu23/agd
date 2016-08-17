@@ -1,6 +1,5 @@
 module.exports = function (grunt) {
   var cheerio = require('cheerio'),
-      util = require('util'),
       basename = require('path').basename;
 
   grunt.registerMultiTask('html-data', 'Convert HTML into static data files', runTask);
