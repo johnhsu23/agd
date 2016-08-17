@@ -1,4 +1,4 @@
-import {functor} from 'd3';
+import constant from 'util/constant';
 
 export type Bar<T> = T & {
   /**
@@ -32,7 +32,7 @@ export function stack<T>(): Stack<T> {
     (value: Projection<Val>): Stack<T>;
   }
 
-  let defined: Projection<boolean> = functor(true),
+  let defined: Projection<boolean> = () => true,
       size: Projection<number> = Number;
 
   const stack = function (values: T[]) {
@@ -57,16 +57,16 @@ export function stack<T>(): Stack<T> {
 
   stack.defined = function (value?: boolean | Projection<boolean>): Stack<T> | Projection<boolean> {
     if (arguments.length) {
-      defined = functor(value as boolean);
+      defined = typeof value === 'function' ? value : constant(value);
       return stack;
     }
 
     return defined;
   } as Property<boolean>;
 
-  stack.size = function (val?: number | Projection<number>): Stack<T> | Projection<number> {
+  stack.size = function (value?: number | Projection<number>): Stack<T> | Projection<number> {
     if (arguments.length) {
-      size = functor(val as number);
+      size = typeof value === 'function' ? value : constant(value);
       return stack;
     }
 
