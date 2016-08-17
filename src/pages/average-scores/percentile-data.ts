@@ -1,5 +1,6 @@
+import {extent, ascending} from 'd3-array';
+import {nest} from 'd3-collection';
 import * as Promise from 'bluebird';
-import * as d3 from 'd3';
 
 import loadData from 'api';
 
@@ -37,12 +38,12 @@ function makeParams(subject: string, grade: number, years: string[]): Params {
 }
 
 function groupData(rows: Data[]): Grouped {
-  const grouped = d3.nest<Data>()
+  const grouped = nest<Data>()
     .key(d => d.stattype)
-    .sortValues((a, b) => d3.ascending(a.targetyear, b.targetyear))
-    .map(rows) as Grouped;
+    .sortValues((a, b) => ascending(a.targetyear, b.targetyear))
+    .object(rows) as Grouped;
 
-  grouped.extent = d3.extent(rows, row => row.targetvalue);
+  grouped.extent = extent(rows, row => row.targetvalue);
 
   return grouped;
 }

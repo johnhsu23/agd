@@ -1,4 +1,4 @@
-import {Selection} from 'd3';
+import {Selection} from 'd3-selection';
 import View from 'views/d3';
 
 import configure from 'util/configure';
@@ -16,7 +16,7 @@ interface Margins {
   tagName: 'svg',
   className: 'chart',
 })
-export default class Chart<T> extends View<any> {
+export default class Chart<T> extends View<SVGSVGElement, any> {
   protected marginLeft = 0;
   protected marginRight = 0;
   protected marginTop = 0;
@@ -51,13 +51,13 @@ export default class Chart<T> extends View<any> {
     }
   }
 
-  protected inner: Selection<any>;
+  protected inner: Selection<SVGGElement, {}, null, void>;
 
   render(): this {
     super.render();
 
     if (!this.inner) {
-      this.inner = this.d3el.append('g')
+      this.inner = this.d3el.append<SVGGElement>('g')
         .classed('chart__inner', true);
     }
 
@@ -90,10 +90,9 @@ export default class Chart<T> extends View<any> {
     const width = this.computeWidth(this.innerWidth),
           height = this.computeHeight(this.innerHeight);
 
-    this.d3el.style({
-      width: width + 'px',
-      height: height + 'px',
-    });
+    this.d3el
+      .style('width', width + 'px')
+      .style('height', height + 'px');
 
     if (this.inner) {
       this.inner

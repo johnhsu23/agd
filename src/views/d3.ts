@@ -1,14 +1,14 @@
-import * as d3 from 'd3';
+import {select, selection, Selection, namespace} from 'd3-selection';
 import * as $ from 'jquery';
 
 import {Model} from 'backbone';
 import {ItemView} from 'backbone.marionette';
 
-class D3View<TModel extends Model> extends ItemView<TModel> {
-  d3el: d3.Selection<any>;
+class D3View<TElement extends Element, TModel extends Model> extends ItemView<TModel> {
+  d3el: Selection<TElement, {}, null, void>;
 
   _createElement(tagName: string): Element {
-    const result = d3.ns.qualify(tagName);
+    const result = namespace(tagName);
 
     if (typeof result === 'string') {
       return document.createElement(result);
@@ -18,29 +18,33 @@ class D3View<TModel extends Model> extends ItemView<TModel> {
   }
 
   _setAttributes(attributes: {[key: string]: string}): void {
-    this.d3el.attr(attributes);
+    const elt = this.d3el;
+
+    for (const k of Object.keys(attributes)) {
+      elt.attr(k, attributes[k]);
+    }
   }
 
   setElement(el: any, delegate?: boolean): this {
     super.setElement(el, delegate);
 
     if (el instanceof $) {
-      this.d3el = d3.select(el[0]);
-    } else if (el instanceof d3.selection) {
+      this.d3el = select(el[0]);
+    } else if (el instanceof selection) {
       this.d3el = el;
     } else {
-      this.d3el = d3.select(el);
+      this.d3el = select(el);
     }
 
     return this;
   }
 
-  select(selector: string): d3.Selection<any> {
-    return this.d3el.select(selector);
+  select<Child extends Element>(selector: string): Selection<Child, {}, null, void> {
+    return this.d3el.select<Child>(selector);
   }
 
-  selectAll(selector: string): d3.Selection<any> {
-    return this.d3el.selectAll(selector);
+  selectAll<Child extends Element, OldDatum>(selector: string): Selection<Child, OldDatum, TElement, {}> {
+    return this.d3el.selectAll<Child, OldDatum>(selector);
   }
 }
 

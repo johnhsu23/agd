@@ -8,9 +8,11 @@ module.exports = function (grunt) {
           inlineSources: true,
           fast: 'never',
         },
-        tsconfig: 'src/tsconfig.json',
-        outDir: 'public/lib',
-      }
+        tsconfig: {
+          tsconfig: 'src/tsconfig.json',
+          passThrough: true
+        },
+      },
     },
   });
 }

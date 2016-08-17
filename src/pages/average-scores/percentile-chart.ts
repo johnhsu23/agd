@@ -1,9 +1,12 @@
 import * as Promise from 'bluebird';
-import {Selection} from 'd3';
-import {extent as d3Extent} from 'd3';
+import {extent as d3Extent} from 'd3-array';
+import {symbol as makeSymbol, symbols as symbolTypes} from 'd3-shape';
+import {Selection} from 'd3-selection';
+
+import 'd3-transition';
 
 import Chart from 'views/chart';
-import {symbol as makeSymbol, types as symbolTypes} from 'components/symbol';
+
 import makeCutpoints from 'components/cutpoint';
 import * as scales from 'components/scales';
 
@@ -67,9 +70,9 @@ export default class PercentileChart extends Chart<Data> {
   protected marginBottom = 30;
   protected marginTop = 30;
 
-  protected scoreAxis: Selection<void>;
-  protected yearAxis: Selection<void>;
-  protected cutpoints: Selection<void>;
+  protected scoreAxis: Selection<SVGGElement, {}, null, void>;
+  protected yearAxis: Selection<SVGGElement, {}, null, void>;
+  protected cutpoints: Selection<SVGGElement, {}, null, void>;
 
   protected firstRender = true;
   protected promise = Promise.resolve(void 0);
@@ -102,9 +105,9 @@ export default class PercentileChart extends Chart<Data> {
   }
 
   protected addAxes(): void {
-    this.scoreAxis = this.d3el.append('g');
-    this.yearAxis = this.d3el.append('g');
-    this.cutpoints = this.d3el.append('g');
+    this.scoreAxis = this.d3el.append<SVGGElement>('g');
+    this.yearAxis = this.d3el.append<SVGGElement>('g');
+    this.cutpoints = this.d3el.append<SVGGElement>('g');
   }
 
   render(): this {
@@ -208,15 +211,15 @@ export default class PercentileChart extends Chart<Data> {
       .selectAll('.series')
       .data(groups);
 
-    seriesUpdate.select('.series__line')
+    seriesUpdate.select<SVGPathElement>('.series__line')
       .interrupt()
       .transition()
       .attrTween('d', function (d) {
         return interpolate(this.getAttribute('d'), d.line);
       });
 
-    const pointUpdate = seriesUpdate.selectAll('.series__point')
-      .data<Point<Data>>(d => d.points, d => '' + d.targetyear);
+    const pointUpdate = seriesUpdate.selectAll<SVGGElement, Point<Data>>('.series__point')
+      .data(d => d.points, d => '' + d.targetyear);
 
     pointUpdate
       .classed('is-exiting', false)
@@ -259,7 +262,7 @@ export default class PercentileChart extends Chart<Data> {
       .attr('d', d => d);
 
     pointEnter = seriesEnter.selectAll('.series__point')
-      .data<Point<Data>>(d => d.points)
+      .data(d => d.points)
       .enter()
       .append('g')
       .classed('series__point', true)

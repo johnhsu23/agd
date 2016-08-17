@@ -1,7 +1,6 @@
 {
   "globalDependencies": {
     "backbone-global": "registry:dt/backbone-global#1.0.0+20160621223104",
-    "d3": "registry:dt/d3#0.0.0+20160620220125",
     "jquery": "registry:dt/jquery#1.10.0+20160620094458",
     "marionette": "registry:dt/marionette#0.0.0+20160317120654",
     "requirejs": "registry:env/requirejs#2.2.0+20160319062041",

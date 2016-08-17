@@ -1,4 +1,6 @@
-import {Selection, mouse, event} from 'd3';
+import {Selection, mouse, event} from 'd3-selection';
+import 'd3-transition';
+
 import Dialog from 'views/dialog';
 
 const width = 95,
@@ -27,7 +29,7 @@ export type Cutpoint = {
 type Position = (position: number) => number;
 
 export interface Cutpoints {
-  <T>(selection: Selection<T>): void;
+  <T, U>(selection: Selection<SVGGElement | SVGSVGElement, T, null, U>): void;
 
   image(): boolean;
   image(image: boolean): this;
@@ -50,9 +52,9 @@ export function cutpoints(): Cutpoints {
       points: Cutpoint[],
       showImage = true;
 
-  const cutpoints = function <T>(selection: Selection<T>) {
+  const cutpoints = function <T, U>(selection: Selection<SVGGElement | SVGSVGElement, T, null, U>) {
     const cutpoints = selection.classed('cutpoints', true)
-      .selectAll('.cutpoint')
+      .selectAll<SVGGElement, Cutpoint>('.cutpoint')
       .data(points, point => point.label);
 
     cutpoints
@@ -78,10 +80,8 @@ export function cutpoints(): Cutpoints {
       const diameter = imageRadius * 2;
       enter.append('svg:a')
         .classed('cutpoint__link', true)
-        .attr({
-          'xlink:href': '#',
-          transform: `translate(${width})`,
-        })
+        .attr('xlink:href', '#')
+        .attr('transform', `translate(${width})`)
         .on('click', function (acl) {
           const dialog = new Dialog;
           let [left, top] = mouse(document.body);
@@ -102,12 +102,10 @@ export function cutpoints(): Cutpoints {
             .html(`<em>${acl.label}</em> (${acl.value})`);
         })
         .append('svg:image')
-        .attr({
-          'xlink:href': 'img/question.svg',
-          width: diameter,
-          height: diameter,
-          transform: `translate(${-imageRadius}, ${-imageRadius})`,
-        });
+        .attr('xlink:href', 'img/question.svg')
+        .attr('width', diameter)
+        .attr('height', diameter)
+        .attr('transform', `translate(${-imageRadius}, ${-imageRadius})`);
     }
 
     enter.append('text')

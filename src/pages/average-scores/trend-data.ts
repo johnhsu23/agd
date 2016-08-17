@@ -1,4 +1,5 @@
 import * as Promise from 'bluebird';
+import {ascending} from 'd3-array';
 
 import {Params, Data} from 'api/tuda-acrossyear';
 import loadData from 'api';
@@ -28,5 +29,5 @@ function makeParams(grade: number): Params {
 
 export default function load(grade: number): Promise<Data[]> {
   return loadData<Params, Data>(makeParams(grade))
-    .then(rows => rows.sort((a, b) => d3.ascending(a.targetyear, b.targetyear)));
+    .then(rows => rows.sort((a, b) => ascending(a.targetyear, b.targetyear)));
 }

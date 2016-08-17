@@ -1,5 +1,5 @@
 // import * as Promise from 'bluebird';
-import {Selection} from 'd3';
+import {Selection} from 'd3-selection';
 
 import renderTitle from 'render/figure-title';
 import renderLegend from 'render/figure-legend';
@@ -16,10 +16,10 @@ function metrics(node: Element): ClientRect {
   return ensureAttached(node, node => node.getBoundingClientRect());
 }
 
-export default function render<T>(figure: Selection<T>): void {
+export default function render<T, U>(figure: Selection<Element, T, null, U>): void {
   const title = renderTitle(figure.select('.figure__title')),
-        chart = figure.select('.chart').node().cloneNode(true) as SVGSVGElement,
-        legend = renderLegend(figure.select('.legend'));
+        chart = figure.select<SVGSVGElement>('.chart').node().cloneNode(true) as SVGSVGElement,
+        legend = renderLegend(figure.select<Element>('.legend'));
 
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
 

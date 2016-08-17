@@ -4,8 +4,16 @@
     "noEmitOnError": true,
     "target": "ES5",
     "module": "amd",
-    "moduleResolution": "classic",
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "inlineSourceMap": true,
+    "outDir": "../public/lib",
+    "baseUrl": ".",
+    "paths": {
+      "*": [
+        "*",
+        "../node_modules/@types/*/index.d.ts"
+      ]
+    }
   }
 }

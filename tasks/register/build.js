@@ -15,6 +15,7 @@ module.exports = function (grunt) {
 
     // Reinstall dependencies
     'bower:default',
+    'copy-deps',
 
     // Last but not least -- get our style on
     'sass:default',

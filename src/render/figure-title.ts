@@ -1,11 +1,11 @@
-import {select, Selection} from 'd3';
+import {select, Selection, BaseType} from 'd3-selection';
 
 import wrap from 'util/wrap';
 import ensureAttached from 'util/ensure-attached';
 
 const figureWidth = 1024;
 
-export default function render<T>(text: Selection<T>): SVGSVGElement {
+export default function render<T, U>(text: Selection<BaseType, T, null, U>): SVGSVGElement {
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
 
   return ensureAttached(svg, svg => {
