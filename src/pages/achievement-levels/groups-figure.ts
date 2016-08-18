@@ -1,7 +1,9 @@
 import * as Promise from 'bluebird';
+import {EventsHash} from 'backbone';
 
 import DefaultFigure from 'views/default-figure';
 import LegendView from 'views/legend';
+import BaselineSwitcher from 'views/baseline-switcher';
 import * as vars from 'data/variables';
 import context from 'models/context';
 import sigDiff from 'legends/sig-diff';
@@ -19,6 +21,12 @@ export default class Figure extends DefaultFigure {
   protected variable = vars.GENDER;
   protected chart = new Chart;
 
+  childEvents(): EventsHash {
+    return {
+      'baseline:set': 'onBaselineSet',
+    };
+  }
+
   protected loaded(data: Data[]): void {
     this.resetNotes(data);
     this.chart.renderData(data);
@@ -34,6 +42,14 @@ export default class Figure extends DefaultFigure {
     this.collection.reset(notes);
   }
 
+  protected onBaselineSet(view: {}, baseline: 'basic' | 'proficient'): void {
+    this.chart.setBaseline(baseline);
+
+    this.promise
+      .then(data => this.loaded(data))
+      .done();
+  }
+
   onGradeChanged(): void {
     this.promise = this.promise.then(() => load(context.grade, this.variable));
 
@@ -44,6 +60,7 @@ export default class Figure extends DefaultFigure {
 
   onBeforeShow(): void {
     this.showContents(this.chart);
+    this.showControls(new BaselineSwitcher);
     this.showLegend(new LegendView({
       collection: this.collection,
     }));

@@ -68,6 +68,8 @@ function group(data: Data[]): Row[][] {
   });
 }
 
+type Baseline = 'basic' | 'proficient';
+
 const headerHeight = 30,
       headerPadding = 10,
       barHeight = 30,
@@ -78,7 +80,13 @@ export default class GroupsChart extends Chart<Data> {
   protected marginLeft = 50;
   protected marginRight = 50;
 
+  protected baseline: Baseline = 'basic';
+
   protected firstRender = true;
+
+  setBaseline(baseline: Baseline): void {
+    this.baseline = baseline;
+  }
 
   renderData(data: Data[]): void {
     const grouped = group(data);
@@ -111,7 +119,10 @@ export default class GroupsChart extends Chart<Data> {
       this.innerHeight = height;
     }
 
-    const bar = makeBar().x(x).y(y);
+    const bar = makeBar()
+      .x(x)
+      .y(y)
+      .baseline(this.baseline);
 
     const subchartUpdate = this.inner.selectAll('.subchart')
       .data(grouped);
