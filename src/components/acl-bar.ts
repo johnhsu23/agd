@@ -1,5 +1,5 @@
 import {sortBy} from 'underscore';
-import {select, Selection} from 'd3-selection';
+import {Selection, local} from 'd3-selection';
 import {scaleBand, ScaleBand} from 'd3-scale';
 
 import {scale as makeScale, Scale} from 'components/scale';
@@ -59,6 +59,9 @@ export interface AclBar {
   baseline(baseline: number): this;
 }
 
+const offset = local(),
+      stacks = local();
+
 export default aclBar;
 export function aclBar(): AclBar {
   type Setter<T> = {
@@ -79,87 +82,86 @@ export function aclBar(): AclBar {
       .duration(duration)
       .attr('transform', ([row]) => `translate(0, ${y(row.targetyear)})`);
 
-    rowUpdate.each(function (rows) {
-      rows = order(rows);
+    rowUpdate.datum(order)
+      .each(function (rows) {
+        const stacked = stack(rows.slice(2));
 
-      const sel = select(this),
-            label = rows[0].targetyear,
-            stacked = stack(rows.slice(2)),
-            offset = x(0) - stacked[baseline].offset;
+        stacks.set(this, stacked);
+        offset.set(this, x(0) - stacked[baseline].offset);
+      });
 
-      sel.select('.acl-row__label')
-        .text(label);
+    rowUpdate.select('.acl-row__label')
+      .text(([row]) => row.targetyear);
 
-      const update = sel.selectAll<SVGGElement, Bar<Data>>('.acl-row__item')
-        .data(stacked, d => d.stattype);
+    const itemUpdate = rowUpdate.selectAll<SVGGElement, Bar<Data>>('.acl-row__item')
+      .data(function () { return stacks.get(this) as Bar<Data>[]; }, d => d.stattype);
 
-      const tx = update.transition()
-        .duration(duration)
-        .attr('transform', d => `translate(${d.offset + offset})`);
+    itemUpdate.select('.acl-row__text')
+      .text(d => codes.formatValue(d.targetvalue, d.sig, d.TargetErrorFlag))
+      .classed('is-shifted-right', shouldShiftRight);
 
-      update.select('.acl-row__text')
-        .text(d => codes.formatValue(d.targetvalue, d.sig, d.TargetErrorFlag))
-        .classed('is-shifted-right', shouldShiftRight);
+    const itemTx = itemUpdate.transition()
+      .duration(duration)
+      .attr('transform', function (d) {
+        return `translate(${d.offset + offset.get(this)})`;
+      });
 
-      tx.select('.acl-row__text')
-        .attr('x', stackedBarOffset);
+    itemTx.select('.acl-row__text')
+      .attr('x', stackedBarOffset);
 
-      tx.select('.acl-row__bar')
-        .attr('width', d => d.size);
-    });
+    itemTx.select('.acl-row__bar')
+      .attr('width', d => d.size);
 
     const rowEnter = rowUpdate.enter()
-      .append('g')
+      .append<SVGGElement>('g')
       .order()
       .classed('acl-row', true)
-      .attr('transform', ([row]) => `translate(0, ${y(row.targetyear)})`);
+      .attr('transform', ([row]) => `translate(0, ${y(row.targetyear)})`)
+      .datum(order)
+      .each(function (rows) {
+        const stacked = stack(rows.slice(2));
 
-    rowEnter.each(function (rows) {
-      rows = order(rows);
+        stacks.set(this, stacked);
+        offset.set(this, x(0) - stacked[baseline].offset);
+      });
 
-      const sel = select(this),
-            label = rows[0].targetyear,
-            stacked = stack(rows.slice(2)),
-            offset = x(0) - stacked[baseline].offset;
+    rowEnter.append('text')
+      .classed('acl-row__label', true)
+      .text(([row]) => row.targetyear)
+      .attr('x', -10)
+      .attr('y', '1.1em');
 
-      sel.append('text')
-        .classed('acl-row__label', true)
-        .text(label)
-        .attr('x', -10)
-        .attr('y', '1.1em');
+    const itemEnter = rowEnter.selectAll<SVGGElement, Bar<Data>>('.acl-row__item')
+      .data(function () { return stacks.get(this) as Bar<Data>[]; }, d => d.stattype)
+      .enter()
+      .append<SVGGElement>('g')
+      .classed('acl-row__item', true)
+      .attr('transform', `translate(${x(0)})`);
 
-      const enter = sel.selectAll<SVGGElement, Bar<Data>>('.acl-row__item')
-        .data(stacked, d => d.stattype)
-        .enter()
-        .append('g')
-        .classed('acl-row__item', true)
-        .attr('transform', `translate(${x(0)})`);
+    itemEnter.transition()
+      .duration(duration)
+      .attr('transform', function (d) {
+        return `translate(${d.offset + offset.get(this)})`;
+      });
 
-      enter
-        .transition()
-        .duration(duration)
-        .attr('transform', d => `translate(${d.offset + offset})`);
+    itemEnter.append('rect')
+      .attr('class', d => `acl-row__bar acl-row__bar--${d.stattype.toLowerCase()}`)
+      .attr('width', 0)
+      .attr('height', y.bandwidth())
+      .transition()
+      .duration(duration)
+      .attr('width', d => d.size);
 
-      enter
-        .append('rect')
-        .attr('class', d => `acl-row__bar acl-row__bar--${d.stattype.toLowerCase()}`)
-        .attr('width', 0)
-        .attr('height', y.bandwidth())
-        .transition()
-        .duration(duration)
-        .attr('width', d => d.size);
-
-      enter
-        .append('text')
-        .classed('acl-row__text', true)
-        .classed('is-shifted-right', shouldShiftRight)
-        .attr('x', 0)
-        .attr('y', '1.1em')
-        .text(d => codes.formatValue(d.targetvalue, d.sig, d.TargetErrorFlag))
-        .transition()
-        .duration(duration)
-        .attr('x', stackedBarOffset);
-    });
+    itemEnter
+      .append('text')
+      .classed('acl-row__text', true)
+      .classed('is-shifted-right', shouldShiftRight)
+      .attr('x', 0)
+      .attr('y', '1.1em')
+      .text(d => codes.formatValue(d.targetvalue, d.sig, d.TargetErrorFlag))
+      .transition()
+      .duration(duration)
+      .attr('x', stackedBarOffset);
 
     const rowExit = rowUpdate.exit();
 
