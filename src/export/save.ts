@@ -3,24 +3,31 @@ import * as Promise from 'bluebird';
 import {canvasFromSvg} from 'export/convert';
 
 /**
- * Given an HTML <canvas> element, download its contents using navigator.msToBlob.
+ * Turn a canvas into a blob, respecting prefixed versions that don't match the `HTMLCanvasElement#toBlob` spec.
+ */
+function toBlob(canvas: HTMLCanvasElement, callback: (blob: Blob) => any): void {
+  if (canvas.toBlob) {
+    canvas.toBlob(callback);
+  } else if (canvas.msToBlob) {
+    callback(canvas.msToBlob());
+  } else {
+    throw new Error("Can't save blob from canvas");
+  }
+}
+
+/**
+ * Given an HTML `<canvas>` element, download its contents using `navigator.msToBlob`.
  */
 function saveCanvasAsBlob(canvas: HTMLCanvasElement, filename: string): void {
   // The reason we have separate code paths is because IE does not allow navigation to a "data:" URI, for security.
   // Which is fair enough, but it means that the click-injection behavior we have (see the below function) won't
   // work.
+  //
   // Hence this code.
 
-  if (canvas.toBlob) {
-    canvas.toBlob(blob => {
-      navigator.msSaveBlob(blob, filename);
-    });
-  } else if (canvas.msToBlob) {
-    const blob = canvas.msToBlob();
+  toBlob(canvas, blob => {
     navigator.msSaveBlob(blob, filename);
-  } else {
-    throw new Error("Can't save blob from canvas.");
-  }
+  });
 }
 
 function saveCanvasWithClickInject(canvas: HTMLCanvasElement, filename: string): void {
