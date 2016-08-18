@@ -4,12 +4,12 @@ import {ItemView} from 'backbone.marionette';
 
 import configure from 'util/configure';
 
-import * as template from 'text!templates/baseline-switcher.html';
+import * as template from 'text!templates/baseline-selector.html';
 
 @configure({
-  className: 'baseline-switcher',
+  className: 'selector selector--baseline',
 })
-export default class BaselineSwitcher extends ItemView<any> {
+export default class BaselineSelector extends ItemView<any> {
   template = () => template;
 
   protected prefix: string;

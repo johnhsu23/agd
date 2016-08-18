@@ -3,7 +3,7 @@ import {EventsHash} from 'backbone';
 
 import DefaultFigure from 'views/default-figure';
 import LegendView from 'views/legend';
-import BaselineSwitcher from 'views/baseline-switcher';
+import BaselineSelector from 'views/baseline-selector';
 import * as vars from 'data/variables';
 import context from 'models/context';
 import sigDiff from 'legends/sig-diff';
@@ -60,7 +60,7 @@ export default class Figure extends DefaultFigure {
 
   onBeforeShow(): void {
     this.showContents(this.chart);
-    this.showControls(new BaselineSwitcher);
+    this.showControls(new BaselineSelector);
     this.showLegend(new LegendView({
       collection: this.collection,
     }));

@@ -2,7 +2,7 @@ import * as Promise from 'bluebird';
 import {Collection, EventsHash} from 'backbone';
 
 import Figure from 'views/default-figure';
-import BaselineSwitcher from 'views/baseline-switcher';
+import BaselineSelector from 'views/baseline-selector';
 import LegendView from 'views/legend';
 
 import sigDiff from 'legends/sig-diff';
@@ -70,7 +70,7 @@ export default class OverallFigure extends Figure {
   onBeforeShow(): void {
     this.setTitle(this.makeTitle());
     this.showContents(this.chart);
-    this.showControls(new BaselineSwitcher);
+    this.showControls(new BaselineSelector);
     this.showLegend(new LegendView({
       collection: this.collection,
     }));
