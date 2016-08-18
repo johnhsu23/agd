@@ -8,6 +8,8 @@ import * as codes from 'codes';
 
 import {Data} from 'api/tuda-acrossyear';
 
+export type Baseline = 'basic' | 'proficient';
+
 const duration = 500;
 
 function order(data: Data[]): Data[] {
@@ -55,8 +57,8 @@ export interface AclBar {
   y(): ScaleBand<number>;
   y(y: ScaleBand<number>): this;
 
-  baseline(): number;
-  baseline(baseline: number): this;
+  baseline(): Baseline;
+  baseline(baseline: Baseline): this;
 }
 
 const offset = local(),
@@ -69,7 +71,7 @@ export function aclBar(): AclBar {
     (value: T): AclBar;
   };
 
-  let baseline = 1,
+  let baseline: Baseline = 'basic',
       x = makeScale(),
       y = scaleBand<number>();
 
@@ -87,7 +89,7 @@ export function aclBar(): AclBar {
         const stacked = stack(rows.slice(2));
 
         stacks.set(this, stacked);
-        offset.set(this, x(0) - stacked[baseline].offset);
+        offset.set(this, x(0) - stacked[baseline === 'basic' ? 1 : 2].offset);
       });
 
     rowUpdate.select('.acl-row__label')
@@ -122,7 +124,7 @@ export function aclBar(): AclBar {
         const stacked = stack(rows.slice(2));
 
         stacks.set(this, stacked);
-        offset.set(this, x(0) - stacked[baseline].offset);
+        offset.set(this, x(0) - stacked[baseline === 'basic' ? 1 : 2].offset);
       });
 
     rowEnter.append('text')
@@ -204,14 +206,14 @@ export function aclBar(): AclBar {
     return y;
   } as Setter<ScaleBand<number>>;
 
-  aclBar.baseline = function (value?: number): AclBar | number {
+  aclBar.baseline = function (value?: Baseline): AclBar | Baseline {
     if (arguments.length) {
-      baseline = +value;
+      baseline = value;
       return aclBar;
     }
 
     return baseline;
-  } as Setter<number>;
+  } as Setter<Baseline>;
 
   return aclBar;
 }

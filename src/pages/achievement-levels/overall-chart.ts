@@ -44,8 +44,6 @@ export default class OverallChart extends Chart<Data> {
   }
 
   renderData(rows: Data[][]): void {
-    const base = this.baseline === 'basic' ? 1 : 2;
-
     // First render test here: we don't know the actual size of the chart until data arrives,
     // which means that we have to do silly checks like this to discern if this is our
     // first call to renderData().
@@ -107,7 +105,7 @@ export default class OverallChart extends Chart<Data> {
     const bar = makeBar()
       .x(x)
       .y(y)
-      .baseline(base);
+      .baseline(this.baseline);
 
     this.inner.selectAll<SVGGElement, Data[]>('.acl-row')
       .data(rows, ([row]) => '' + row.targetyear)
