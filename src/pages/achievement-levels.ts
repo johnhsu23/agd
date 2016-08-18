@@ -4,8 +4,8 @@ import Page from 'views/page';
 import OverallFigure from 'pages/achievement-levels/overall-figure';
 import GroupsFigure from 'pages/achievement-levels/groups-figure';
 
-import * as overallCommentary from 'json!commentary/acls-overall.json';
-import * as groupsCommentary from 'json!commentary/acls-groups.json';
+import * as overallCommentary from 'json!commentary/achievement-levels/overall.json';
+import * as groupsCommentary from 'json!commentary/achievement-levels/groups.json';
 
 export default class AchievementLevels extends Page {
   onBeforeShow(): void {
