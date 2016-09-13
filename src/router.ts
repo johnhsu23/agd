@@ -5,6 +5,7 @@ import configure from 'util/configure';
 
 @configure({
   appRoutes: {
+    '': 'homepage',
     'average-scores': 'averageScores',
     'achievement-levels': 'achievementLevels',
   } as {[key: string]: string},
@@ -24,6 +25,10 @@ class Controller extends Object {
   protected showPage(path: string): void {
     const {vent} = this.channel;
     vent.trigger('page', path);
+  }
+
+  homepage(): void {
+    this.showPage('pages/homepage');
   }
 
   averageScores(): void {
