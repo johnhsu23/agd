@@ -44,7 +44,7 @@ module.exports = function (grunt) {
         options: {
           livereload: true,
         },
-        files: ['public/index.html', 'public/style.css', 'public/lib/main.js']
+        files: ['public/**/*.html', 'public/style.css', 'public/lib/main.js']
       }
     },
   });
