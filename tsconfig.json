@@ -16,10 +16,7 @@
         "*",
         "../node_modules/@types/*/index"
       ]
-    },
-    "listFiles": true,
-    "listEmittedFiles": true,
-    "traceResolution": true
+    }
   },
   "include": [
     "src/**/*.d.ts",
