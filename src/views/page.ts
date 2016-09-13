@@ -1,9 +1,11 @@
-import noTemplate from 'util/no-template';
 import {Model} from 'backbone';
 import {View, LayoutView, Region} from 'backbone.marionette';
 
-@noTemplate
+import * as template from 'text!templates/page.html';
+
 export default class PageView extends LayoutView<any> {
+  template = () => template;
+
   protected count = 1;
 
   popSection(): void {

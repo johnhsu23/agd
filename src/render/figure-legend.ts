@@ -1,11 +1,14 @@
-import {select, Selection} from 'd3';
+import {select, Selection, BaseType} from 'd3-selection';
 
 import ensureAttached from 'util/ensure-attached';
 import * as offset from 'util/offset';
 import emBox from 'util/em-box';
 import wrap from 'util/wrap';
 
-export default function render<T>(legend: Selection<T>): SVGSVGElement {
+// Shorthand since we don't really care about the element types
+type Sel<T, U> = Selection<BaseType, T, null, U>;
+
+export default function render<T, U>(legend: Sel<T, U>): SVGSVGElement {
   const legendNode = legend.node() as Element;
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   const sel = select(svg);
@@ -16,7 +19,7 @@ export default function render<T>(legend: Selection<T>): SVGSVGElement {
     .attr('width', width)
     .attr('height', height);
 
-  legend.selectAll('.legend__item')
+  legend.selectAll<HTMLDivElement, {}>('.legend__item')
     .each(function () {
       const {top} = offset.node(legendNode, this);
 
@@ -31,7 +34,7 @@ export default function render<T>(legend: Selection<T>): SVGSVGElement {
   return svg;
 }
 
-function renderItem<T, U>(item: Selection<T>, row: Selection<U>): void {
+function renderItem<T1, T2, U1, U2>(item: Sel<T1, T2>, row: Sel<U1, U2>): void {
   item.select('.legend__marker')
     .call(renderMarker, row);
 
@@ -39,7 +42,7 @@ function renderItem<T, U>(item: Selection<T>, row: Selection<U>): void {
     .call(renderDescription, row);
 }
 
-function renderMarker<T, U>(marker: Selection<T>, row: Selection<U>): void {
+function renderMarker<T1, T2, U1, U2>(marker: Sel<T1, T2>, row: Sel<U1, U2>): void {
   if (marker.classed('legend__marker--text')) {
     renderTextMarker(marker, row);
   } else if (marker.classed('legend__marker--path')) {
@@ -49,7 +52,7 @@ function renderMarker<T, U>(marker: Selection<T>, row: Selection<U>): void {
   }
 }
 
-function renderTextMarker<T, U>(marker: Selection<T>, row: Selection<U>): void {
+function renderTextMarker<T1, T2, U1, U2>(marker: Sel<T1, T2>, row: Sel<U1, U2>): void {
   const node = marker.node() as HTMLElement;
 
   // Our x-position will be computed based on existing display (since we want to center it inside a table-cell box)
@@ -64,7 +67,7 @@ function renderTextMarker<T, U>(marker: Selection<T>, row: Selection<U>): void {
     .text(marker.text());
 }
 
-function renderPathMarker<T, U>(marker: Selection<T>, row: Selection<U>): void {
+function renderPathMarker<T1, T2, U1, U2>(marker: Sel<T1, T2>, row: Sel<U1, U2>): void {
   const node = marker.node() as SVGSVGElement,
         svg = node.cloneNode(true) as SVGSVGElement,
         bounds = node.getBoundingClientRect();
@@ -72,15 +75,15 @@ function renderPathMarker<T, U>(marker: Selection<T>, row: Selection<U>): void {
   svg.setAttribute('width', '' + bounds.width);
   svg.setAttribute('height', '' + bounds.height);
 
-  row.node().appendChild(svg);
+  row.append(() => svg);
 }
 
-function renderDescription<T, U>(description: Selection<T>, row: Selection<U>): void {
+function renderDescription<T1, T2, U1, U2>(description: Sel<T1, T2>, row: Sel<U1, U2>): void {
   const node = description.node() as HTMLElement;
   const metrics = node.getBoundingClientRect();
   const {left} = offset.rect(node.parentElement.getBoundingClientRect(), metrics);
 
-  const text = row.append('text')
+  const text = row.append<SVGTextElement>('text')
     .attr('class', description.attr('class'))
     .attr('dominant-baseline', 'text-after-edge')
     .attr('x', left)
@@ -91,7 +94,7 @@ function renderDescription<T, U>(description: Selection<T>, row: Selection<U>): 
     const node = nodes.item(i);
 
     if (node instanceof Text) {
-      text.append(() => node.cloneNode());
+      text.append(() => node.cloneNode() as Element);
     } else if (node instanceof Element) {
       text.append('tspan')
         .attr('class', node.getAttribute('class'))

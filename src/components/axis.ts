@@ -1,6 +1,7 @@
+import {Selection} from 'd3-selection';
+
 import {scale as makeScale, Scale, Tick} from 'components/scale';
 import {vertical} from 'components/break';
-import {Selection} from 'd3';
 
 type Format = (n: number) => string;
 
@@ -8,7 +9,7 @@ export interface Axis {
   /**
    * Draw the axis on the specified selection (should be an SVG grouping element).
    */
-  <T>(selection: Selection<T>): void;
+  <T, U>(selection: Selection<SVGGElement | SVGSVGElement, T, null, U>): void;
 
   /**
    * Return the scale tied to this axis.
@@ -85,15 +86,15 @@ function makeAxis(args: AxisArgs): Axis {
 
   const modifier = 'axis--' + args.modifier,
         {tickPosition, direction} = args,
-        text = args.text as {} as {[key: string]: number | string},
-        line = args.line as {} as {[key: string]: number | number};
+        text = args.text,
+        line = args.line;
 
   let ticks: Tick[] = null,
       scale = makeScale(),
       format = defaultFormat,
       padding = 0;
 
-  const axis = function <T>(selection: Selection<T>): void {
+  const axis = function <T, U>(selection: Selection<SVGGElement | SVGSVGElement, T, null, U>): void {
     selection.classed('axis ' + modifier, true);
 
     let axisLine = selection.select('.axis__line');
@@ -111,7 +112,7 @@ function makeAxis(args: AxisArgs): Axis {
       .attr(direction + '1', lo - padding)
       .attr(direction + '2', hi + padding);
 
-    const tickUpdate = selection.selectAll('.axis__tick')
+    const tickUpdate = selection.selectAll<SVGGElement, Tick>('.axis__tick')
       .data(ticks || scale.ticks(), tick => '' + tick.label);
 
     tickUpdate
@@ -123,21 +124,26 @@ function makeAxis(args: AxisArgs): Axis {
 
     tickUpdate.select('.axis__label')
       .text(tick => format(tick.label))
-      .attr(text);
+      .attr('dx', text.dx)
+      .attr('dy', text.dy);
 
     const tickEnter = tickUpdate.enter()
-      .insert('g')
+      .insert('g', undefined)
       .classed('axis__tick', true)
       .attr('transform', tick => 'translate(' + tickPosition(tick) + ')');
 
     tickEnter.append('line')
       .classed('axis__mark', true)
-      .attr(line);
+      .attr('x1', line.x1)
+      .attr('x2', line.x2)
+      .attr('y1', line.y1)
+      .attr('y2', line.y2);
 
     tickEnter.append('text')
       .classed('axis__label', true)
       .text(tick => format(tick.label))
-      .attr(text);
+      .attr('dx', text.dx)
+      .attr('dy', text.dy);
 
     tickUpdate.exit()
       .classed('is-exiting', true)

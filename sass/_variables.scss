@@ -29,6 +29,12 @@ $percentile-colors: (
   p9: $series-4,
 );
 
+// Achievement-level colors
+$acl-bb: #dde2eb;
+$acl-ba: #bdc9db;
+$acl-pr: #889bc0;
+$acl-ad: #41639e;
+
 // Legend dimensions
 $legend-width: 250px;
 $legend-height: 30px;
@@ -54,3 +60,5 @@ $radio-inactive: $brand-green;
 $dialog-top-color: $brand-blue;
 $dialog-background: $slate-grey;
 $dialog-top: 30px;
+
+$subchart-backdrop: $darker-grey;

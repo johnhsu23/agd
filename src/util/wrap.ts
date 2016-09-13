@@ -1,4 +1,4 @@
-import {Selection} from 'd3';
+import {Selection} from 'd3-selection';
 
 /**
  * Wraps the text inside a given SVG <text> element to fit a particular width.
@@ -9,13 +9,11 @@ import {Selection} from 'd3';
  * @param text A selection of SVG <text> elements
  * @param width The width to constrain to
  */
-export default function wrap<T>(text: Selection<T>, width: number): void {
+export default function wrap<T, U>(text: Selection<SVGTextElement, T, null, U>, width: number): void {
   text.each(function () {
-    const parent: SVGTextElement = this;
-
     const boxes: Node[] = [];
-    while (parent.firstChild) {
-      const node = parent.firstChild;
+    while (this.firstChild) {
+      const node = this.firstChild;
 
       if (node instanceof Text) {
         let text = node,
@@ -25,23 +23,23 @@ export default function wrap<T>(text: Selection<T>, width: number): void {
           text = text.splitText(result.index + 1);
 
           const previous = text.previousSibling;
-          parent.removeChild(previous);
+          this.removeChild(previous);
           boxes.push(previous);
         }
 
-        parent.removeChild(text);
+        this.removeChild(text);
         boxes.push(text);
       } else {
-        parent.removeChild(node);
+        this.removeChild(node);
         boxes.push(node);
       }
     }
 
-    const x = parent.x.baseVal,
-          y = parent.y.baseVal;
+    const x = this.x.baseVal,
+          y = this.y.baseVal;
 
     let text = document.createElementNS('http://www.w3.org/2000/svg', 'tspan');
-    parent.appendChild(text);
+    this.appendChild(text);
     copyList(x, text.x.baseVal);
     copyList(y, text.y.baseVal);
 
@@ -56,7 +54,7 @@ export default function wrap<T>(text: Selection<T>, width: number): void {
         line++;
 
         text = document.createElementNS('http://www.w3.org/2000/svg', 'tspan');
-        parent.appendChild(text);
+        this.appendChild(text);
         copyList(x, text.x.baseVal);
         copyList(y, text.y.baseVal);
 

@@ -13,14 +13,16 @@
 // * horizontal-bottom: Axis orientation (see below)
 
 .axis {
-  // Orientation: vertical
-  // Position: left-hand side of chart
-  &--vertical-left .axis__label {
-    text-anchor: end;
-  }
+  &__label {
+    font-size: smaller;
 
-  &--horizontal-bottom .axis__label {
-    text-anchor: middle;
+    .axis--vertical-left & {
+      text-anchor: end;
+    }
+
+    .axis--horizontal-bottom & {
+      text-anchor: middle;
+    }
   }
 
   &__tick {

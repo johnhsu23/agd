@@ -6,7 +6,7 @@ export interface Params {
   grade: number;
 
   variable: string;
-  categoryindex: number;
+  categoryindex: number | number[];
 
   targetyears: string[];
   focalyear: string;
@@ -29,6 +29,7 @@ export interface Data {
   jurisdiction: string;
   subScale: string;
 
+  variable: string;
   category: string;
   categoryindex: number;
 

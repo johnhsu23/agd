@@ -4,7 +4,7 @@ import noTemplate from 'util/no-template';
 import Legend from 'legends/model';
 
 @noTemplate
-export default class LegendItemView extends D3View<Legend> {
+export default class LegendItemView extends D3View<HTMLDivElement, Legend> {
   render(): this {
     const model = this.model;
 
@@ -15,10 +15,8 @@ export default class LegendItemView extends D3View<Legend> {
     this.d3el
       .attr('data-tag', model.tag || null)
       .attr('class', null)
-      .classed({
-        legend__note: isNote,
-        legend__item: !isNote,
-       });
+      .classed('legend__node', isNote)
+      .classed('legend__item', !isNote);
 
     switch (type) {
       case 'note':

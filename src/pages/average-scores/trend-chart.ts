@@ -1,13 +1,16 @@
+import {extent as d3Extent} from 'd3-array';
+import {symbol as makeSymbol} from 'd3-shape';
+import {Selection} from 'd3-selection';
+
+import 'd3-transition';
+
 import Chart from 'views/chart';
 import * as scales from 'components/scales';
 import * as axes from 'components/axis';
 import makeSeries from 'components/series';
-import makeSymbol from 'components/symbol';
 import {formatValue} from 'codes';
 import makeCutpoints from 'components/cutpoint';
 import * as Promise from 'bluebird';
-
-import {Selection, extent as d3Extent} from 'd3';
 
 import interpolate from 'util/path-interpolate';
 import context from 'models/context';
@@ -29,9 +32,9 @@ export default class TrendChart extends Chart<Data> {
   protected marginTop = 30;
 
   protected firstRender = true;
-  protected scoreAxis: Selection<void>;
-  protected yearAxis: Selection<void>;
-  protected cutpoints: Selection<void>;
+  protected scoreAxis: Selection<SVGGElement, {}, null, void>;
+  protected yearAxis: Selection<SVGGElement, {}, null, void>;
+  protected cutpoints: Selection<SVGGElement, {}, null, void>;
 
   protected promise = Promise.resolve(void 0);
 
@@ -43,9 +46,9 @@ export default class TrendChart extends Chart<Data> {
   }
 
   protected setupAxes(): void {
-    this.scoreAxis = this.d3el.append('g');
-    this.yearAxis = this.d3el.append('g');
-    this.cutpoints = this.d3el.append('g');
+    this.scoreAxis = this.d3el.append<SVGGElement>('g');
+    this.yearAxis = this.d3el.append<SVGGElement>('g');
+    this.cutpoints = this.d3el.append<SVGGElement>('g');
   }
 
   protected addScoreAxis(scale: scales.Scale): void {
@@ -102,7 +105,7 @@ export default class TrendChart extends Chart<Data> {
 
     const padding = 30;
     const year = scales.year()
-      .domain(d3.extent(data, row => row.targetyear))
+      .domain(d3Extent(data, row => row.targetyear))
       .offset(padding);
 
     const [lo, hi] = year.range(),
@@ -123,15 +126,15 @@ export default class TrendChart extends Chart<Data> {
       .selectAll('.series')
       .data([series(data)]);
 
-    seriesUpdate.select('.series__line')
+    seriesUpdate.select<SVGPathElement>('.series__line')
       .interrupt()
       .transition()
       .attrTween('d', function (d) {
         return interpolate(this.getAttribute('d'), d.line);
       });
 
-    const pointUpdate = seriesUpdate.selectAll('.series__point')
-      .data<Point<Data>>(d => d.points, d => '' + d.targetyear);
+    const pointUpdate = seriesUpdate.selectAll<SVGGElement, Point<Data>>('.series__point')
+      .data(d => d.points, d => '' + d.targetyear);
 
     pointUpdate
       .classed('is-exiting', false)
@@ -143,7 +146,7 @@ export default class TrendChart extends Chart<Data> {
       .text(d => formatValue(d.targetvalue, d.sig, d.TargetErrorFlag));
 
     let pointEnter = pointUpdate.enter()
-      .insert('g')
+      .insert('g', undefined)
       .classed('series__point', true)
       .attr('transform', ({x, y}) => `translate(${x}, ${y})`);
 
@@ -172,7 +175,7 @@ export default class TrendChart extends Chart<Data> {
       .attr('d', d => d.line);
 
     pointEnter = seriesEnter.selectAll('.series__point')
-      .data<Point<Data>>(d => d.points)
+      .data(d => d.points)
       .enter()
       .append('g')
       .classed('series__point', true)

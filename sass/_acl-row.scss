@@ -1,0 +1,32 @@
+.acl-row {
+  &__bar {
+    &--bb {
+      fill: $acl-bb;
+    }
+
+    &--ba {
+      fill: $acl-ba;
+    }
+
+    &--pr {
+      fill: $acl-pr;
+    }
+
+    &--ad {
+      fill: $acl-ad;
+    }
+  }
+
+  &__label {
+    text-anchor: end;
+    @include fade-in-out(500ms);
+  }
+
+  &__text {
+    text-anchor: middle;
+
+    &.is-shifted-right {
+      text-anchor: start;
+    }
+  }
+}
