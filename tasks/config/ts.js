@@ -9,7 +9,7 @@ module.exports = function (grunt) {
           fast: 'never',
         },
         tsconfig: {
-          tsconfig: 'src/tsconfig.json',
+          tsconfig: 'tsconfig.json',
           passThrough: true
         },
       },

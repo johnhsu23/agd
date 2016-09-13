@@ -1,6 +1,6 @@
 import {radio} from 'backbone.wreqr';
 import {LayoutView} from 'backbone.marionette';
-import {Model} from 'backbone';
+import {Model, View} from 'backbone';
 
 import configure from 'util/configure';
 
@@ -29,8 +29,8 @@ export default class RootView extends LayoutView<Model> {
     // Using dynamic require here to avoid front-loading every page and its supporting modules
     // (we'll have r.js include them, of course)
     // tslint:disable-next-line:no-require-imports
-    require([path], ({default: View}) => {
-      this.showChildView('main', new View);
+    require([path], (mod: { default: typeof View}) => {
+      this.showChildView('main', new mod.default);
     });
   }
 }

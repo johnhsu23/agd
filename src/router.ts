@@ -1,4 +1,4 @@
-import {AppRouter} from 'backbone.marionette';
+import {AppRouter, Object} from 'backbone.marionette';
 import {radio} from 'backbone.wreqr';
 
 import configure from 'util/configure';
@@ -18,7 +18,7 @@ export default class Router extends AppRouter {
   };
 }
 
-class Controller extends Marionette.Object {
+class Controller extends Object {
   protected channel = radio.channel('page');
 
   protected showPage(path: string): void {

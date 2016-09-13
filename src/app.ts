@@ -1,5 +1,7 @@
 import * as $ from 'jquery';
+import * as Backbone from 'backbone';
 import {Application} from 'backbone.marionette';
+
 import Router from 'router';
 import RootView from 'views/root';
 

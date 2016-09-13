@@ -20,7 +20,7 @@ function isSuccess<T>(response: Response<T>): response is SuccessResponse<T> {
 
 function serialize(params: Object): { [key: string]: string } {
   return _.mapObject(params, value => {
-    if (_.isArray(value)) {
+    if (Array.isArray(value)) {
       return value.join(',');
     } else {
       return '' + value;

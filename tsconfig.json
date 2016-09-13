@@ -4,17 +4,25 @@
     "noEmitOnError": true,
     "target": "ES5",
     "module": "amd",
+    "moduleResolution": "classic",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "inlineSourceMap": true,
     "inlineSources": true,
-    "outDir": "../public/lib",
-    "baseUrl": ".",
+    "outDir": "public/lib",
+    "baseUrl": "src",
     "paths": {
       "*": [
         "*",
-        "../node_modules/@types/*/index.d.ts"
+        "../node_modules/@types/*/index"
       ]
-    }
-  }
+    },
+    "listFiles": true,
+    "listEmittedFiles": true,
+    "traceResolution": true
+  },
+  "include": [
+    "src/**/*.d.ts",
+    "src/**/*"
+  ]
 }
