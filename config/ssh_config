@@ -1,0 +1,4 @@
+# Custom SSH config
+host dev.forumone.com
+  hostname dev.forumone.com
+  forwardagent yes
