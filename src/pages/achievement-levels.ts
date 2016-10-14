@@ -10,12 +10,20 @@ import * as groupsCommentary from 'json!commentary/achievement-levels/groups.jso
 export default class AchievementLevels extends Page {
   onBeforeShow(): void {
     this.pushSection(new DefaultSection({
-      inner: new OverallFigure,
+      inner: new OverallFigure({
+        share: {
+          download: true,
+        },
+      }),
       commentary: overallCommentary,
     }));
 
     this.pushSection(new DefaultSection({
-      inner: new GroupsFigure,
+      inner: new GroupsFigure({
+        share: {
+          download: true,
+        },
+      }),
       commentary: groupsCommentary,
     }));
   }
