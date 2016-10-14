@@ -5,7 +5,6 @@ import renderTitle from 'render/figure-title';
 import renderLegend from 'render/figure-legend';
 
 import ensureAttached from 'util/ensure-attached';
-import save from 'export/save';
 
 const figureWidth = 1024;
 
@@ -16,7 +15,7 @@ function metrics(node: Element): ClientRect {
   return ensureAttached(node, node => node.getBoundingClientRect());
 }
 
-export default function render<T, U>(figure: Selection<Element, T, null, U>): void {
+export default function render<T, U>(figure: Selection<Element, T, null, U>): SVGSVGElement {
   const title = renderTitle(figure.select('.figure__title')),
         chart = figure.select<SVGSVGElement>('.chart').node().cloneNode(true) as SVGSVGElement,
         legend = renderLegend(figure.select<Element>('.legend'));
@@ -50,7 +49,7 @@ export default function render<T, U>(figure: Selection<Element, T, null, U>): vo
   svg.setAttribute('width', '' + figureWidth);
   svg.setAttribute('height', '' + (offset + chartHeight));
 
-  save(svg).done();
+  return svg;
 }
 
 function makeBorder(x: number, y: number, width: number, height: number): SVGRectElement {
