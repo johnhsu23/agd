@@ -40,8 +40,8 @@ export default function wrap<T, U>(text: Selection<SVGTextElement, T, null, U>, 
 
     let text = document.createElementNS('http://www.w3.org/2000/svg', 'tspan');
     this.appendChild(text);
-    copyList(x, text.x.baseVal);
-    copyList(y, text.y.baseVal);
+    copyList.call(this, x, text.x.baseVal);
+    copyList.call(this, y, text.y.baseVal);
 
     let line = 0;
     const lineHeight = 1.1;
