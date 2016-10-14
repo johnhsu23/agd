@@ -13,17 +13,29 @@ import * as subscaleCommentary from 'json!commentary/average-scores/subscales.js
 export default class AverageScores extends Page {
   onBeforeShow(): void {
     this.pushSection(new DefaultSection({
-      inner: new TrendFigure,
+      inner: new TrendFigure({
+        share: {
+          download: true,
+        },
+      }),
       commentary: trendCommentary,
     }));
 
     this.pushSection(new DefaultSection({
-      inner: new PercentileFigure,
+      inner: new PercentileFigure({
+        share: {
+          download: true,
+        },
+      }),
       commentary: percentilesCommentary,
     }));
 
     this.pushSection(new DefaultSection({
-      inner: new SubscaleFigure,
+      inner: new SubscaleFigure({
+        share: {
+          download: false,
+        },
+      }),
       commentary: subscaleCommentary,
     }));
   }

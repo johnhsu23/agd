@@ -1,4 +1,5 @@
 import {zip} from 'd3-array';
+import {SymbolType} from 'd3-shape';
 import {Collection} from 'backbone';
 
 import {types as symbolTypes} from 'components/symbol';
@@ -39,12 +40,10 @@ export default class PercentileScores extends Figure {
       'p9',
     ];
 
-    const list = zip(tags, names);
+    const list = zip<string | SymbolType>(tags, names, symbolTypes) as [string, string, SymbolType][];
 
-    for (let i = list.length - 1; i > 0; i--) {
-      const [tag, description] = list[i],
-            type = symbolTypes[i],
-            legend = series(type, description);
+    for (const [tag, description, type] of list.reverse()) {
+      const legend = series(type, description);
 
       legend.tag = tag;
       models.push(legend);

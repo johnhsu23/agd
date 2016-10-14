@@ -1,5 +1,6 @@
 import * as Promise from 'bluebird';
 import {Collection, EventsHash} from 'backbone';
+import {extend} from 'underscore';
 
 import Figure from 'views/default-figure';
 import BaselineSelector from 'views/baseline-selector';
@@ -24,9 +25,11 @@ export default class OverallFigure extends Figure {
   protected promise: Promise<Data[]> = Promise.resolve(null);
 
   childEvents(): EventsHash {
-    return {
+    const events = super.childEvents();
+
+    return extend(events, {
       'baseline:set': 'onBaselineSet',
-    };
+    });
   }
 
   protected onGradeChanged(): void {

@@ -28,3 +28,8 @@
     @content;
   }
 }
+
+// This utility class has the penultimate precedence.
+.is-hidden {
+  display: none !important;
+}

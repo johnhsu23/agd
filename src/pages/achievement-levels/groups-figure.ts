@@ -1,5 +1,6 @@
 import * as Promise from 'bluebird';
 import {EventsHash} from 'backbone';
+import {extend} from 'underscore';
 
 import DefaultFigure from 'views/default-figure';
 import LegendView from 'views/legend';
@@ -22,9 +23,11 @@ export default class Figure extends DefaultFigure {
   protected chart = new Chart;
 
   childEvents(): EventsHash {
-    return {
+    const events = super.childEvents();
+
+    return extend(events, {
       'baseline:set': 'onBaselineSet',
-    };
+    });
   }
 
   protected loaded(data: Data[]): void {

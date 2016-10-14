@@ -10,7 +10,7 @@ import {Selection} from 'd3-selection';
  * @param width The width to constrain to
  */
 export default function wrap<T, U>(text: Selection<SVGTextElement, T, null, U>, width: number): void {
-  text.each(function () {
+  text.each(function (this: SVGTextElement) {
     const boxes: Node[] = [];
     while (this.firstChild) {
       const node = this.firstChild;
@@ -66,8 +66,15 @@ export default function wrap<T, U>(text: Selection<SVGTextElement, T, null, U>, 
 }
 
 function copyList(source: SVGLengthList, dest: SVGLengthList): void {
-  dest.clear();
+  if (source.numberOfItems === 0) {
+    const length = this.ownerSVGElement.createSVGLength();
+    length.value = 0;
 
+    dest.initialize(length);
+    return;
+  }
+
+  dest.clear();
   for (let i = 0; i < source.numberOfItems; i++) {
     dest.appendItem(source.getItem(i));
   }
