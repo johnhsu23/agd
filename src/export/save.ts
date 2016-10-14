@@ -48,7 +48,10 @@ function saveCanvasWithClickInject(canvas: HTMLCanvasElement, filename: string):
 const saveMethod = typeof navigator.msSaveBlob === 'function' ? saveCanvasAsBlob : saveCanvasWithClickInject;
 
 /**
- * Given an SVG and a filename, attempt to force the browser to download
+ * Given an SVG and a filename, attempt to force the browser to download the rendered contents.
+ *
+ * @param svg
+ * @param filename The name of the file. The `.png` extension will be added automatically.
  */
 export default function save(svg: SVGSVGElement, filename = 'download'): Promise<void> {
   filename += '.png';
