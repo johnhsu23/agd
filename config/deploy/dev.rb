@@ -2,7 +2,7 @@
 set :stage, :dev
 
 # An array containing site URL, used for Varnish bans
-set :site_url, %w{naep-prototype.dev.forumone.com}
+set :site_url, %w{ets-arts-2016.dev.forumone.com}
 
 # An array containing drupal sites to copy settings files in
 set :site_folder, %w{default}
@@ -11,7 +11,7 @@ set :site_folder, %w{default}
 set :webroot, 'public'
 
 # The path to the project on the server
-set :deploy_to, '/var/www/vhosts/naep-prototype.dev'
+set :deploy_to, '/var/www/vhosts/ets-arts-2016.dev'
 
 # Where the temporary directory is
 set :tmp_dir, fetch(:deploy_to)
@@ -24,9 +24,9 @@ set :branch, "master"
 # Supports bulk-adding hosts to roles, the primary
 # server in each group is considered to be the first
 # unless any hosts have the primary property set.
-role :app, %w{naep-prototype@dev.forumone.com}, :primary => true
-role :web, %w{naep-prototype@dev.forumone.com}
-role :db,  %w{naep-prototype@dev.forumone.com}
+role :app, %w{ets-arts-2016@dev.forumone.com}, :primary => true
+role :web, %w{ets-arts-2016@dev.forumone.com}
+role :db,  %w{ets-arts-2016@dev.forumone.com}
 
 # Extended Server Syntax
 # ======================

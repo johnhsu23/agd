@@ -8,7 +8,7 @@ set :platform, 'javascript'
 set :app_webroot, 'public'
 
 # The repo URL
-set :repo_url, 'git@github.com:forumone/naep-prototype.git'
+set :repo_url, 'git@github.com:forumone/ETS-NAEP_Data-Arts-2016.git'
 
 # Use git for the SCM
 # set :scm, :git

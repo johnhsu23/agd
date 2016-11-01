@@ -1,3 +1,1 @@
-# NAEP Prototype
-
-Official home of the New Regime™
+# Arts 2016
