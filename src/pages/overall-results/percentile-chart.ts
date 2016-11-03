@@ -1,5 +1,4 @@
 import * as Promise from 'bluebird';
-import {extent as d3Extent} from 'd3-array';
 import {symbol as makeSymbol, symbols as symbolTypes} from 'd3-shape';
 import {Selection} from 'd3-selection';
 
@@ -7,21 +6,18 @@ import 'd3-transition';
 
 import Chart from 'views/chart';
 
-import makeCutpoints from 'components/cutpoint';
 import * as scales from 'components/scales';
 
 import HoverBehavior from 'behaviors/percentile-hover';
 import configure from 'util/configure';
 
 import interpolate from 'util/path-interpolate';
-import context from 'models/context';
-import acls from 'data/acls';
 
 import makeSeries from 'components/series';
 import {verticalLeft, horizontalBottom} from 'components/axis';
 import {formatValue} from 'codes';
 
-import {load, Grouped, Data} from 'pages/average-scores/percentile-data';
+import {load, Grouped, Data} from 'pages/overall-results/percentile-data';
 
 type Point<T> = T & {
   x: number;
@@ -77,28 +73,11 @@ export default class PercentileChart extends Chart<Data> {
   protected firstRender = true;
   protected promise = Promise.resolve(void 0);
 
-  delegateEvents(): this {
-    super.delegateEvents();
-
-    this.listenTo(context, 'change:grade', this.renderData);
-
-    return this;
-  }
-
-  undelegateEvents(): this {
-    this.stopListening(context, 'change:grade');
-
-    return super.undelegateEvents();
-  }
-
   protected renderData(): void {
-    let years = ['2009R3', '2015R3'];
-    if (context.grade === 8) {
-      years = ['2009R3', '2011R3', '2015R3'];
-    }
+    const years = ['2009R3', '2015R3'];
 
     this.promise = this.promise
-      .then(() => load('science', context.grade, years))
+      .then(() => load('science', years))
       .then(data => this.loaded(data));
 
     this.promise.done();
@@ -120,7 +99,7 @@ export default class PercentileChart extends Chart<Data> {
       this.firstRender = false;
     }
 
-    load('science', 4, ['2009R3', '2015R3'])
+    load('science', ['2009R3', '2015R3'])
       .then(data => this.loaded(data))
       .done();
 
@@ -137,10 +116,7 @@ export default class PercentileChart extends Chart<Data> {
   }
 
   protected addYearAxis(scale: scales.Scale): void {
-    let years = [2009, 2015];
-    if (context.grade === 8) {
-      years = [2009, 2011, 2015];
-    }
+    const years = [2009, 2015];
 
     const ticks = years.map(year => {
       return {
@@ -163,27 +139,10 @@ export default class PercentileChart extends Chart<Data> {
       .call(axis);
   }
 
-  protected addCutpoints(scale: scales.Scale, width: number): void {
-    const cutpoints = makeCutpoints()
-      .position(scale)
-      .cutpoints(acls[context.grade]);
-
-    this.cutpoints
-      .attr('transform', `translate(${this.marginLeft + width}, ${this.marginTop})`)
-      .call(cutpoints);
-  }
-
-  protected resizeExtent(extent: [number, number]): [number, number] {
-    return d3Extent([
-      ...extent,
-      ...acls[context.grade].map(acl => acl.value),
-    ]);
-  }
-
   protected loaded(data: Grouped): void {
     const score = scales.score()
       .bounds([0, 300])
-      .domain(this.resizeExtent(data.extent))
+      .domain(data.extent)
       .reverse();
 
     const padding = 30;
@@ -203,7 +162,6 @@ export default class PercentileChart extends Chart<Data> {
 
     this.addScoreAxis(score);
     this.addYearAxis(year);
-    this.addCutpoints(score, width);
 
     const groups = [data.P1, data.P2, data.P5, data.P7, data.P9].map(series);
 
