@@ -3,7 +3,9 @@ node_modules
 bower_components
 
 # Editor cruft
-.vscode
+.vscode/*
+# But do keep the VS Code recommended extensions
+!.vscode/extensions.json
 
 # Build tool cruft
 .tscache
