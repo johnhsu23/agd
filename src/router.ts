@@ -6,8 +6,7 @@ import configure from 'util/configure';
 @configure({
   appRoutes: {
     '': 'homepage',
-    'average-scores': 'averageScores',
-    'achievement-levels': 'achievementLevels',
+    'overall-results': 'overallResults',
   } as {[key: string]: string},
 })
 export default class Router extends AppRouter {
@@ -31,11 +30,7 @@ class Controller extends Object {
     this.showPage('pages/homepage');
   }
 
-  averageScores(): void {
-    this.showPage('pages/average-scores');
-  }
-
-  achievementLevels(): void {
-    this.showPage('pages/achievement-levels');
+  overallResults(): void {
+    this.showPage('pages/overall-results');
   }
 }

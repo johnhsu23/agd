@@ -5,14 +5,12 @@ import {Collection} from 'backbone';
 import {types as symbolTypes} from 'components/symbol';
 
 import Figure from 'views/figure';
-import Chart from 'pages/average-scores/percentile-chart';
-import LegendView from 'pages/average-scores/percentile-legend';
+import Chart from 'pages/overall-results/percentile-chart';
+import LegendView from 'pages/overall-results/percentile-legend';
 
 import Legend from 'legends/model';
 import significant from 'legends/sig-diff';
 import series from 'legends/series';
-
-import context from 'models/context';
 
 import {yearsForGrade} from 'data/assessment-years';
 import formatList from 'util/format-list';
@@ -53,27 +51,10 @@ export default class PercentileScores extends Figure {
     this.collection.reset(models);
   }
 
-  delegateEvents(): this {
-    super.delegateEvents();
-
-    this.listenTo(context, 'change:grade', () => {
-      this.setTitle(this.makeTitle());
-    });
-
-    return this;
-  }
-
-  undelegateEvents(): this {
-    this.stopListening(context);
-
-    return super.undelegateEvents();
-  }
-
   protected makeTitle(): string {
-    const {grade} = context;
-    const years = formatList(yearsForGrade(grade));
+    const years = formatList(yearsForGrade(12));
 
-    return `Percentile scores for ${nth(grade)}-grade students assessed in NAEP science: ${years}`;
+    return `Percentile scores for ${nth(12)}-grade students assessed in NAEP science: ${years}`;
   }
 
   onBeforeShow(): void {

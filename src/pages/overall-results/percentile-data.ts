@@ -19,12 +19,12 @@ export interface Grouped {
   extent: [number, number];
 }
 
-function makeParams(subject: string, grade: number, years: string[]): Params {
+function makeParams(subject: string, years: string[]): Params {
   return {
     type: 'tuda-acrossyear',
 
     subject,
-    grade,
+    grade: 12,
 
     variable: 'TOTAL',
     categoryindex: 0,
@@ -48,8 +48,8 @@ function groupData(rows: Data[]): Grouped {
   return grouped;
 }
 
-export function load(subject: string, grade: number, years: string[]): Promise<Grouped> {
-  const params = makeParams(subject, grade, years);
+export function load(subject: string, years: string[]): Promise<Grouped> {
+  const params = makeParams(subject, years);
 
   return loadData<Params, Data>(params)
     .then(groupData);
