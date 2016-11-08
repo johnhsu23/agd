@@ -1,0 +1,11 @@
+.gap-selector {
+  display: table;
+
+  &__row {
+    display: table-row;
+  }
+
+  &__cell {
+    display: table-cell;
+  }
+}

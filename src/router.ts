@@ -7,6 +7,7 @@ import configure from 'util/configure';
   appRoutes: {
     '': 'homepage',
     'overall-results': 'overallResults',
+    'score-gaps': 'scoreGaps',
   } as {[key: string]: string},
 })
 export default class Router extends AppRouter {
@@ -32,5 +33,9 @@ class Controller extends Object {
 
   overallResults(): void {
     this.showPage('pages/overall-results');
+  }
+
+  scoreGaps(): void {
+    this.showPage('pages/score-gaps');
   }
 }

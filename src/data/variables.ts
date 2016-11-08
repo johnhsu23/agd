@@ -27,3 +27,12 @@ export const GENDER: Variable = {
     'Female',
   ],
 };
+
+export const SLUNCH3: Variable = {
+  id: 'SLUNCH3',
+  name: 'NSLP Eligibility',
+  categories: [
+    'Eligible for National School Lunch Program (NSLP)',
+    'Not eligible for National School Lunch Program (NSLP)',
+  ],
+};

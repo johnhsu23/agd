@@ -19,9 +19,11 @@
 @import "axis";
 @import "acl-row";
 @import "subchart";
+@import "gaps";
+
 @import "selectability";
 
-@import "grade-switcher";
+@import "gap-selector";
 
 html, body {
   font-family: sans-serif;
