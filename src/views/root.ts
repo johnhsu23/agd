@@ -25,7 +25,7 @@ export default class RootView extends LayoutView<Model> {
     return this;
   }
 
-  protected changePage(path: string): void {
+  protected changePage(path: string, subject?: string): void {
     // Using dynamic require here to avoid front-loading every page and its supporting modules
     // (we'll have r.js include them, of course)
     // tslint:disable-next-line:no-require-imports
