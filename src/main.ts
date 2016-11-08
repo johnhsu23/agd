@@ -32,8 +32,9 @@ require.config({
     'backbone.wreqr': '../vendor/backbone.wreqr/backbone.wreqr',
     'backbone.babysitter': '../vendor/backbone.babysitter/backbone.babysitter',
     'backbone.marionette': '../vendor/backbone.marionette/backbone.marionette',
+    'jquery.selectability': '../vendor/jquery-selectability/jquery.selectability',
   },
 });
 
 // tslint:disable-next-line:no-require-imports
-require(['app']);
+require(['jquery.selectability', 'app']);

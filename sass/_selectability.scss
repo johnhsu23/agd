@@ -1,0 +1,17 @@
+.selectability {
+  [role=heading] {
+    font-size: larger;
+    border-bottom: 1px solid black;
+    margin: 0.25em 0;
+  }
+
+  [role=option][aria-selected=false] {
+    &:focus, &:hover {
+      background: lightgrey;
+    }
+  }
+}
+
+.selectability-offscreen {
+  display: none;
+}
