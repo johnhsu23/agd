@@ -1,11 +1,14 @@
 import {radio} from 'backbone.wreqr';
 import {LayoutView} from 'backbone.marionette';
 import {Model} from 'backbone';
+import noTemplate from 'util/no-template';
 
 import Page from 'views/page';
 
+import SiteHeader from 'views/site-header';
 import configure from 'util/configure';
 
+@noTemplate
 @configure({
   el: document.body,
 })
@@ -25,6 +28,10 @@ export default class RootView extends LayoutView<Model> {
     this.listenTo(vent, 'page', this.changePage);
 
     return this;
+  }
+
+  onRender(): void {
+    this.showChildView('header', new SiteHeader);
   }
 
   protected changePage(path: string, subject?: string): void {
