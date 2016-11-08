@@ -1,12 +1,25 @@
-import {Model} from 'backbone';
+import {Model, ViewOptions} from 'backbone';
 import {View, LayoutView, Region} from 'backbone.marionette';
 
 import * as template from 'text!templates/page.html';
 
+export interface PageViewOptions extends ViewOptions<any> {
+  subject?: string;
+}
+
 export default class PageView extends LayoutView<any> {
   template = () => template;
 
+  protected subject: string;
   protected count = 1;
+
+  constructor(options?: PageViewOptions) {
+    super(options);
+
+    if (options && options.subject) {
+      this.subject = options.subject;
+    }
+  }
 
   popSection(): void {
     if (this.count > 1) {
