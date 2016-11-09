@@ -12,8 +12,6 @@ export const SDRACE: Variable = {
     'Black',
     'Hispanic',
     'Asian/Pacific Islander',
-    'Asian',
-    'Native Hawaiian/Other Pacific Islander',
     'American Indian/Alaska Native',
     'Two or More Races',
   ],
