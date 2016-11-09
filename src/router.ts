@@ -29,6 +29,12 @@ class Controller extends Object {
   protected showPage(path: string, subject?: string): void {
     const {vent} = this.channel;
     vent.trigger('page', path, subject);
+    this.updateSecondaryNav(subject);
+  }
+
+  protected updateSecondaryNav(subject?: string): void {
+    const {vent} = radio.channel('secondary-nav');
+    vent.trigger('secondary-nav', subject);
   }
 
   homepage(): void {
