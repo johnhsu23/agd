@@ -17,4 +17,8 @@ export default class AverageScores extends Page {
       commentary: percentilesCommentary['visual-arts'],
     }));
   }
+
+  onDomRefresh(): void {
+    this.loadInPageNav();
+  }
 }

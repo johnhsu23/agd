@@ -1,5 +1,6 @@
 import {Model, ViewOptions} from 'backbone';
 import {View, LayoutView, Region} from 'backbone.marionette';
+import InPageNav from 'views/in-page-nav';
 
 import * as template from 'text!templates/page.html';
 
@@ -12,6 +13,7 @@ export default class PageView extends LayoutView<any> {
 
   protected subject: string;
   protected count = 1;
+  protected nav: InPageNav;
 
   constructor(options?: PageViewOptions) {
     super(options);
@@ -48,5 +50,14 @@ export default class PageView extends LayoutView<any> {
     }
 
     return region;
+  }
+
+  loadInPageNav(): void {
+    if (this.nav) {
+      this.nav.remove();
+    }
+    this.nav = new InPageNav();
+
+    this.nav.render();
   }
 }
