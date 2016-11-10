@@ -17,7 +17,7 @@ export default class RootView extends LayoutView<Model> {
   regions(): {[key: string]: string} {
     return {
       header: 'header',
-      secondaryNav: 'div#secondary-nav',
+      'secondary-nav': '#secondary-nav',
       main: 'main',
       footer: 'footer',
     };
@@ -34,7 +34,7 @@ export default class RootView extends LayoutView<Model> {
 
   onRender(): void {
     this.showChildView('header', new SiteHeader);
-    this.showChildView('secondaryNav', new SecondaryNav());
+    this.showChildView('secondary-nav', new SecondaryNav());
   }
 
   protected changePage(path: string, subject?: string): void {

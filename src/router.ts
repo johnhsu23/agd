@@ -24,44 +24,44 @@ export default class Router extends AppRouter {
 }
 
 class Controller extends Object {
-  protected channel = radio.channel('page');
+  protected page = radio.channel('page').vent;
+  protected nav = radio.channel('secondary-nav').vent;
 
-  protected showPage(path: string, subject?: string): void {
-    const {vent} = this.channel;
-    vent.trigger('page', path, subject);
-    this.updateSecondaryNav(subject);
-  }
+  protected showPage(page: string, subject?: string): void {
+    this.page.trigger('page', 'pages/' + page, subject);
 
-  protected updateSecondaryNav(subject?: string): void {
-    const {vent} = radio.channel('secondary-nav');
-    vent.trigger('secondary-nav', subject);
+    if (subject) {
+      this.nav.trigger('show', page, subject);
+    } else {
+      this.nav.trigger('hide');
+    }
   }
 
   homepage(): void {
-    this.showPage('pages/homepage');
+    this.showPage('homepage');
   }
 
   overallResults(subject: string): void {
-    this.showPage('pages/overall-results', subject);
+    this.showPage('overall-results', subject);
   }
 
   studentGroups(subject: string): void {
-    this.showPage('pages/student-groups', subject);
+    this.showPage('student-groups', subject);
   }
 
   scoreGaps(subject: string): void {
-    this.showPage('pages/score-gaps', subject);
+    this.showPage('score-gaps', subject);
   }
 
   questionsAnalysis(subject: string): void {
-    this.showPage('pages/questions-analysis', subject);
+    this.showPage('questions-analysis', subject);
   }
 
   studentExperiences(subject: string): void {
-    this.showPage('pages/student-experiences', subject);
+    this.showPage('student-experiences', subject);
   }
 
   about(): void {
-    this.showPage('pages/about');
+    this.showPage('about');
   }
 }

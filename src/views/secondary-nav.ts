@@ -1,13 +1,15 @@
 import {radio} from 'backbone.wreqr';
 import {ItemView} from 'backbone.marionette';
-import {Model, ViewOptions} from 'backbone';
+import {Model} from 'backbone';
+import * as $ from 'jquery';
+
+import configure from 'util/configure';
 
 import * as template from 'text!templates/secondary-nav.html';
 
-export interface SecondaryNavOptions extends ViewOptions<any> {
-  subject?: string;
-}
-
+@configure({
+  className: 'secondary-nav__inner',
+})
 export default class SecondaryNav extends ItemView<Model> {
   template = () => template;
 
@@ -15,31 +17,25 @@ export default class SecondaryNav extends ItemView<Model> {
     super.delegateEvents();
 
     const {vent} = radio.channel('secondary-nav');
-    this.listenTo(vent, 'secondary-nav', this.updateLinks);
+    this.listenTo(vent, 'show', this.showNav);
+    this.listenTo(vent, 'hide', this.hideNav);
 
     return this;
   }
 
-  updateLinks(subject?: string): void {
-    if (subject) {
-      $(this.el).show();
+  protected showNav(page: string, subject: string): void {
+    this.$el.removeClass('is-hidden');
 
-      const subjectRe = /^#\/(music|visual-arts)/;
+    this.$('.secondary-nav__link a').each(function () {
+      const $this = $(this),
+            path = $this.data('path');
 
-      this.$('a').each((i, elem) => {
-        const $elem = $(elem);
-        let href = $elem.attr('href');
+      $this.attr('href', '#/' + subject + '/' + path)
+        .toggleClass('is-active', page === path);
+    });
+  }
 
-        if (subjectRe.test(href)) {
-          const subjectInString = subjectRe.exec(href)[0];
-          href = href.slice(subjectInString.length);
-        }
-
-        href = '#/' + subject + href;
-        $elem.attr('href', href);
-      });
-    } else {
-      $(this.el).hide();
-    }
+  protected hideNav(): void {
+    this.$el.addClass('is-hidden');
   }
 }
