@@ -1,56 +1,50 @@
 import {ItemView} from 'backbone.marionette';
-import {Model, EventsHash} from 'backbone';
+import {Model, EventsHash, history} from 'backbone';
+import * as $ from 'jquery';
 
-import getPath from 'util/get-path';
+import configure from 'util/configure';
 
 import * as template from 'text!templates/in-page-nav.html';
 
+@configure({
+  className: 'in-page-nav',
+})
 export default class InPageNav extends ItemView<Model> {
   template = () => template;
 
-  protected sections(): JQuery {
-    return $('div.section');
-  }
-
-  protected getTitle(element: Element): string {
-    return $(element).find('div.section__title').text();
-  }
-
   events(): EventsHash {
     return {
-      'click a.pageLink': 'visitAnchor',
+      'click a': 'visitAnchor',
     };
   }
 
   onRender(): void {
-    this.updateLinks();
-  }
+    const list = this.$('.in-page-nav__list'),
+          frag = history.getFragment();
 
-  updateLinks(): void {
-    $('.main__header').after(this.$el.html(template));
+    $('.section').each(function () {
+      const $this = $(this),
+            title = $this.find('.section__title').text(),
+            anchor = $this.attr('id');
 
-    this.sections().each((index, value) => {
-      console.log(getPath());
-      const title = this.getTitle(value),
-            location = getPath().location,
-            anchor = '#' + $(value).attr('id'),
-            full_anchor = location + anchor,
-            element = $('<a>')
-              .text(title)
-              .attr({
-                'class': 'pageLink',
-                'href': full_anchor,
-                'data-anchor': anchor,
-              });
-      this.$('.pageNavList').append($('<li>').append(element));
+      const link = $('<a>', {
+        href: `#/${frag}?section=${anchor}`,
+        'data-anchor': anchor,
+      });
+
+      link.text(title);
+
+      $('<li>')
+        .append(link)
+        .appendTo(list);
     });
   }
 
-  visitAnchor(event: JQueryEventObject): void {
+  protected visitAnchor(event: JQueryEventObject): void {
     event.preventDefault();
 
     const anchor = $(event.target).data('anchor'),
-          position = $(anchor).offset().top;
+          position = $('#' + anchor).offset().top;
 
     $(window).scrollTop(position);
   }

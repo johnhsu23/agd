@@ -13,7 +13,12 @@ export default class PageView extends LayoutView<any> {
 
   protected subject: string;
   protected count = 1;
-  protected nav: InPageNav;
+
+  regions(): { [key: string]: string } {
+    return {
+      'in-page-nav': '.main__header',
+    };
+  }
 
   constructor(options?: PageViewOptions) {
     super(options);
@@ -52,12 +57,9 @@ export default class PageView extends LayoutView<any> {
     return region;
   }
 
-  loadInPageNav(): void {
-    if (this.nav) {
-      this.nav.remove();
+  onAttach(): void {
+    if (this.subject) {
+      this.showChildView('in-page-nav', new InPageNav);
     }
-    this.nav = new InPageNav();
-
-    this.nav.render();
   }
 }
