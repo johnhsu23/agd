@@ -1,0 +1,8 @@
+// @file
+// Helper class partials
+//
+// Helper classes. Build sub-folders and partials in the 'helper-classes'
+// folder. Sass globbing will automatically import these partials.
+
+@import 'helper-classes/accessibility';
+@import 'helper-classes/clearfix';

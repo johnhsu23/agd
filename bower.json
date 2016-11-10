@@ -21,7 +21,9 @@
     "jquery": "~2",
     "bluebird": "^3.4.1",
     "d3": "^3.5.17",
-    "requirejs-plugins": "^1.0.3"
+    "requirejs-plugins": "^1.0.3",
+    "breakpoint-sass": "^2.7.0",
+    "singularity": "^1.7.0"
   },
   "devDependencies": {
     "text": "requirejs-text#^2.0.15"

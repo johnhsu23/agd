@@ -8,7 +8,7 @@ module.exports = function (grunt) {
       },
       default: {
         files: {
-          'public/style.css': 'sass/main.scss',
+          'public/style.css': 'sass/styles.scss',
         },
       },
     },
