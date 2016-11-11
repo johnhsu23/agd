@@ -1,6 +1,5 @@
 import * as Promise from 'bluebird';
 import {Selection} from 'd3-selection';
-import {extent} from 'd3-array';
 import {area as makeArea} from 'd3-shape';
 
 import 'd3-transition';
@@ -14,6 +13,7 @@ import interpolate from 'util/path-interpolate';
 import {formatValue} from 'codes';
 
 import * as scales from 'components/scales';
+import * as axis from 'components/axis';
 import makeSeries from 'components/series';
 import {symbol as makeSymbol, types as symbolTypes} from 'components/symbol';
 
@@ -64,6 +64,8 @@ export default class GapsChart extends Chart<any> {
     super.render();
 
     if (this.firstRender) {
+      this.scoreAxis = this.d3el.append<SVGGElement>('g');
+      this.yearAxis = this.d3el.append<SVGGElement>('g');
       this.gap = this.inner.append<SVGGElement>('g');
 
       this.firstRender = false;
@@ -93,48 +95,90 @@ export default class GapsChart extends Chart<any> {
       .done();
   }
 
+  protected resizeExtent(data: Data[]): void {
+    let lo = Infinity,
+        hi = -Infinity;
+
+    for (const row of data) {
+      lo = Math.min(lo, row.focalValue, row.targetValue);
+      hi = Math.max(hi, row.focalValue, row.targetValue);
+    }
+
+    const lower = isFinite(this.extent[0]) ? this.extent[0] : lo,
+          diff = lo - lower;
+
+    if (diff <= 0) {
+      if (diff > -10) {
+        lo -= 20;
+      } else if (diff > -20) {
+        lo -= 10;
+      }
+    }
+
+    this.extent = [
+      Math.min(lo, this.extent[0]),
+      Math.max(hi, this.extent[1]),
+    ];
+  }
+
   protected loaded(data: Data[]): void {
-    const focalExtent = extent(data, d => d.focalValue),
-          targetExtent = extent(data, d => d.targetValue);
+    this.resizeExtent(data);
 
-    const lo = Math.min(this.extent[0], focalExtent[0], targetExtent[0]),
-          hi = Math.max(this.extent[1], focalExtent[1], targetExtent[1]);
+    const year = scales.year()
+      .domain([2008, 2016]);
 
-    this.extent = [lo, hi];
-
-    const x = scales.year()
-      .domain([2009, 2015])
-      .offset(30);
-
-    const y = scales.score()
+    const score = scales.score()
       .domain(this.extent)
-      .bounds([0, 300]);
+      .bounds([0, 300])
+      .reverse();
 
-    this.height(y.range()[1])
-      .width(x.range()[1]);
+    this.height(score.range()[0])
+      .width(year.range()[1]);
+
+    const yearAxis = axis.horizontalBottom()
+      .scale(year)
+      .format(n => "'" + ('' + n).substr(2))
+      .ticks([
+        { value: year(2009), label: 2009 },
+        { value: year(2016), label: 2016 },
+      ]);
+
+    this.yearAxis
+      .attr('transform', `translate(${this.marginLeft}, ${this.marginTop + this.innerHeight})`)
+      .call(yearAxis);
+
+    const scoreAxis = axis.verticalLeft()
+      .scale(score);
+
+    this.scoreAxis
+      .attr('transform', `translate(${this.marginLeft}, ${this.marginTop})`)
+      .call(scoreAxis);
 
     // Gap surface
 
     const area = makeArea<Data>()
-      .x(d => x(d.year))
-      .y0(d => y(Math.max(d.focalValue, d.targetValue)))
-      .y1(d => y(Math.min(d.focalValue, d.targetValue)))
+      .x(d => year(d.year))
+      .y0(d => score(d.focalValue))
+      .y1(d => score(d.targetValue))
       .defined(d => !!(d.isFocalStatDisplayable && d.isTargetStatDisplayable));
 
     const gapUpdate = this.gap.selectAll('path.chart--gaps__gap')
       .data([data]);
 
+    gapUpdate.interrupt()
+      .transition()
+      .attr('d', area);
+
     gapUpdate.enter()
       .append('path')
       .classed('chart--gaps__gap', true)
-      .merge(gapUpdate)
       .attr('d', area);
 
     // Focal series
 
     const focalSeries = makeSeries<Data>()
-      .x(d => x(d.year))
-      .y(d => y(d.focalValue))
+      .x(d => year(d.year))
+      .y(d => score(d.focalValue))
       .defined(d => d.isFocalStatDisplayable !== 0);
 
     const focalUpdate = this.inner.selectAll('.series.series--focal')
@@ -189,8 +233,8 @@ export default class GapsChart extends Chart<any> {
     // Target series
 
     const targetSeries = makeSeries<Data>()
-      .x(d => x(d.year))
-      .y(d => y(d.targetValue))
+      .x(d => year(d.year))
+      .y(d => score(d.targetValue))
       .defined(d => d.isFocalStatDisplayable !== 0);
 
     const targetUpdate = this.inner.selectAll('.series.series--target')
