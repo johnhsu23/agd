@@ -4,6 +4,17 @@ require.config({
     templates: '../templates',
     commentary: '../commentary',
 
+    // NRC scripts and fallbacks
+    'nrc-header': [
+      '/adminonly/themes/redesign_2015/header/header',
+      'nrc-header',
+    ],
+
+    'jquery-accessibleMegaMenu': [
+      '/adminonly/themes/redesign_2015/scripts/jquery-accessibleMegaMenu',
+      '../vendor/Accessible-Mega-Menu/jquery-accessibleMegaMenu',
+    ],
+
     // Shiny new d3!
     'd3-array': '../vendor/d3-array/d3-array',
     'd3-collection': '../vendor/d3-collection/d3-collection',
@@ -34,7 +45,13 @@ require.config({
     'backbone.marionette': '../vendor/backbone.marionette/backbone.marionette',
     'jquery.selectability': '../vendor/jquery-selectability/jquery.selectability',
   },
+  shim: {
+    'jquery-accessibleMegaMenu': {
+      deps: ['jquery'],
+      exports: 'jQuery.accessibleMegaMenu',
+    },
+  },
 });
 
 // tslint:disable-next-line:no-require-imports
-require(['jquery.selectability', 'app']);
+require(['jquery.selectability', 'jquery-accessibleMegaMenu', 'app']);

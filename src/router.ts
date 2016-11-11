@@ -6,8 +6,12 @@ import configure from 'util/configure';
 @configure({
   appRoutes: {
     '': 'homepage',
-    'overall-results': 'overallResults',
-    'score-gaps': 'scoreGaps',
+    ':subject/overall-results': 'overallResults',
+    ':subject/student-groups': 'studentGroups',
+    ':subject/score-gaps': 'scoreGaps',
+    ':subject/questions-analysis': 'questionsAnalysis',
+    ':subject/student-experiences': 'studentExperiences',
+    'about': 'about',
   } as {[key: string]: string},
 })
 export default class Router extends AppRouter {
@@ -20,22 +24,44 @@ export default class Router extends AppRouter {
 }
 
 class Controller extends Object {
-  protected channel = radio.channel('page');
+  protected page = radio.channel('page').vent;
+  protected nav = radio.channel('secondary-nav').vent;
 
-  protected showPage(path: string): void {
-    const {vent} = this.channel;
-    vent.trigger('page', path);
+  protected showPage(page: string, subject?: string): void {
+    this.page.trigger('page', 'pages/' + page, subject);
+
+    if (subject) {
+      this.nav.trigger('show', page, subject);
+    } else {
+      this.nav.trigger('hide');
+    }
   }
 
   homepage(): void {
-    this.showPage('pages/homepage');
+    this.showPage('homepage');
   }
 
-  overallResults(): void {
-    this.showPage('pages/overall-results');
+  overallResults(subject: string): void {
+    this.showPage('overall-results', subject);
   }
 
-  scoreGaps(): void {
-    this.showPage('pages/score-gaps');
+  studentGroups(subject: string): void {
+    this.showPage('student-groups', subject);
+  }
+
+  scoreGaps(subject: string): void {
+    this.showPage('score-gaps', subject);
+  }
+
+  questionsAnalysis(subject: string): void {
+    this.showPage('questions-analysis', subject);
+  }
+
+  studentExperiences(subject: string): void {
+    this.showPage('student-experiences', subject);
+  }
+
+  about(): void {
+    this.showPage('about');
   }
 }

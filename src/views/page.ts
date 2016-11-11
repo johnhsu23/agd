@@ -1,12 +1,32 @@
-import {Model} from 'backbone';
+import {Model, ViewOptions} from 'backbone';
 import {View, LayoutView, Region} from 'backbone.marionette';
+import InPageNav from 'views/in-page-nav';
 
 import * as template from 'text!templates/page.html';
+
+export interface PageViewOptions extends ViewOptions<any> {
+  subject?: string;
+}
 
 export default class PageView extends LayoutView<any> {
   template = () => template;
 
+  protected subject: string;
   protected count = 1;
+
+  regions(): { [key: string]: string } {
+    return {
+      'in-page-nav': '.main__header',
+    };
+  }
+
+  constructor(options?: PageViewOptions) {
+    super(options);
+
+    if (options && options.subject) {
+      this.subject = options.subject;
+    }
+  }
 
   popSection(): void {
     if (this.count > 1) {
@@ -35,5 +55,11 @@ export default class PageView extends LayoutView<any> {
     }
 
     return region;
+  }
+
+  onAttach(): void {
+    if (this.subject) {
+      this.showChildView('in-page-nav', new InPageNav);
+    }
   }
 }

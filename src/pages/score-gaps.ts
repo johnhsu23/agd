@@ -1,5 +1,4 @@
 import Page from 'views/page';
-
 import DefaultSection from 'views/default-section';
 
 import ScoreGapsFigure from 'pages/score-gaps/gaps-figure';
