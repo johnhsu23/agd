@@ -20,8 +20,8 @@
     "requirejs": "^2.2.0",
     "jquery": "~2",
     "bluebird": "^3.4.1",
-    "d3": "^3.5.17",
-    "requirejs-plugins": "^1.0.3"
+    "requirejs-plugins": "^1.0.3",
+    "Accessible-Mega-Menu": "adobe-accessibility/Accessible-Mega-Menu#726ea8eaf716757ab778d5d8fce73cbc8e889de3"
   },
   "devDependencies": {
     "text": "requirejs-text#^2.0.15"
@@ -29,6 +29,9 @@
   "exportsOverride": {
     "requirejs-plugins": {
       "": "src/json.js"
+    },
+    "Accessible-Mega-Menu": {
+      "": "js/jquery-accessibleMegaMenu.js"
     }
   }
 }

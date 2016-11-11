@@ -34,6 +34,11 @@ export default class RootView extends LayoutView<Model> {
   }
 
   onRender(): void {
+    // We have to dynamically require this script since it's part of an external service
+    // Our own version is a stub that outputs the header markup
+    // tslint:disable-next-line:no-require-imports
+    require(['nrc-header']);
+
     this.showChildView('header', new SiteHeader);
     this.showChildView('footer', new SiteFooter);
     this.showChildView('secondary-nav', new SecondaryNav());
