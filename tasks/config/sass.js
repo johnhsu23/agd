@@ -5,6 +5,9 @@ module.exports = function (grunt) {
         sourceMap: true,
         soucreMapContents: true,
         sourceMapEmbed: true,
+        includePaths: [
+          'public/vendor'
+        ]
       },
       default: {
         files: {
