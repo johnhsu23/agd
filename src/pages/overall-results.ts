@@ -1,3 +1,6 @@
+import {Model} from 'backbone';
+import {ItemView} from 'backbone.marionette';
+
 import Page from 'views/page';
 
 import DefaultSection from 'views/default-section';
@@ -12,11 +15,7 @@ import * as respondingTaskCommentary from 'json!commentary/overall-results/respo
 export default class AverageScores extends Page {
   onBeforeShow(): void {
     this.pushSection(new DefaultSection({
-      inner: new PercentileFigure({
-        share: {
-          download: true,
-        },
-      }),
+      inner: new (class extends ItemView<Model> { template = () => '' }),
       commentary: averageCommentary[this.subject],
     }));
 
@@ -30,20 +29,12 @@ export default class AverageScores extends Page {
     }));
 
     this.pushSection(new DefaultSection({
-      inner: new PercentileFigure({
-        share: {
-          download: true,
-        },
-      }),
+      inner: new (class extends ItemView<Model> { template = () => '' }),
       commentary: creatingTasksCommentary[this.subject],
     }));
 
     this.pushSection(new DefaultSection({
-      inner: new PercentileFigure({
-        share: {
-          download: true,
-        },
-      }),
+      inner: new (class extends ItemView<Model> { template = () => '' }),
       commentary: respondingTaskCommentary[this.subject],
     }));
   }
