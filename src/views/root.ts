@@ -6,6 +6,7 @@ import noTemplate from 'util/no-template';
 import Page from 'views/page';
 
 import SiteHeader from 'views/site-header';
+import SiteFooter from 'views/site-footer';
 import configure from 'util/configure';
 
 @noTemplate
@@ -32,6 +33,7 @@ export default class RootView extends LayoutView<Model> {
 
   onRender(): void {
     this.showChildView('header', new SiteHeader);
+    this.showChildView('footer', new SiteFooter);
   }
 
   protected changePage(path: string, subject?: string): void {
