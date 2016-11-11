@@ -6,6 +6,7 @@ import noTemplate from 'util/no-template';
 import Page from 'views/page';
 
 import SiteHeader from 'views/site-header';
+import SiteFooter from 'views/site-footer';
 import SecondaryNav from 'views/secondary-nav';
 import configure from 'util/configure';
 
@@ -34,6 +35,7 @@ export default class RootView extends LayoutView<Model> {
 
   onRender(): void {
     this.showChildView('header', new SiteHeader);
+    this.showChildView('footer', new SiteFooter);
     this.showChildView('secondary-nav', new SecondaryNav());
   }
 
