@@ -9,7 +9,7 @@ module.exports = function (grunt) {
       try {
         fs.symlinkSync(path.resolve('sass'), 'public/sass', 'dir');
       } catch (e) {
-        grunt.error(e);
+        grunt.log.error(e);
       }
     }
   );
