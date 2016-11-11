@@ -22,7 +22,8 @@
     "bluebird": "^3.4.1",
     "requirejs-plugins": "^1.0.3",
     "breakpoint-sass": "^2.7.0",
-    "singularity": "^1.7.0"
+    "singularity": "^1.7.0",
+    "Accessible-Mega-Menu": "adobe-accessibility/Accessible-Mega-Menu#726ea8eaf716757ab778d5d8fce73cbc8e889de3"
   },
   "devDependencies": {
     "text": "requirejs-text#^2.0.15"
@@ -36,6 +37,9 @@
     },
     "singularity": {
       "stylesheets": "**/*.scss"
+    },
+    "Accessible-Mega-Menu": {
+      "": "js/jquery-accessibleMegaMenu.js"
     }
   }
 }

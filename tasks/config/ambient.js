@@ -6,7 +6,7 @@ module.exports = function (grunt) {
       },
       templates: {
         files: [{
-          src: 'public/templates/*.html',
+          src: 'public/templates/*.{css,html}',
           dest: 'src/templates.d.ts',
         }]
       },
