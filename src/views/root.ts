@@ -10,6 +10,8 @@ import SiteFooter from 'views/site-footer';
 import SecondaryNav from 'views/secondary-nav';
 import configure from 'util/configure';
 
+import context from 'models/context';
+
 @noTemplate
 @configure({
   el: document.body,
@@ -49,7 +51,23 @@ export default class RootView extends LayoutView<Model> {
     // (we'll have r.js include them, of course)
     // tslint:disable-next-line:no-require-imports
     require([path], (mod: { default: typeof Page}) => {
-      this.showChildView('main', new mod.default({subject}));
+      switch (subject) {
+        case 'visual-arts':
+          context.subject = 'visual arts';
+          break;
+
+        case 'music':
+        case undefined:
+          // TS doesn't seem to like narrowing here
+          context.subject = subject as 'music';
+          break;
+
+        default:
+          // kaboom
+          throw new Error(`Invalid subject name "${subject}"`);
+      }
+
+      this.showChildView('main', new mod.default);
     });
   }
 }
