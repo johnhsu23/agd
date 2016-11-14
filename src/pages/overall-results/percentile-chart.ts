@@ -74,10 +74,10 @@ export default class PercentileChart extends Chart<Data> {
   protected promise = Promise.resolve(void 0);
 
   protected renderData(): void {
-    const years = ['2009R3', '2015R3'];
+    const years = ['2008R3', '2016R3'];
 
     this.promise = this.promise
-      .then(() => load('science', years))
+      .then(() => load('music', years))
       .then(data => this.loaded(data));
 
     this.promise.done();
@@ -99,7 +99,7 @@ export default class PercentileChart extends Chart<Data> {
       this.firstRender = false;
     }
 
-    load('science', ['2009R3', '2015R3'])
+    load('music', ['2008R3', '2016R3'])
       .then(data => this.loaded(data))
       .done();
 
@@ -116,7 +116,7 @@ export default class PercentileChart extends Chart<Data> {
   }
 
   protected addYearAxis(scale: scales.Scale): void {
-    const years = [2009, 2015];
+    const years = [2008, 2016];
 
     const ticks = years.map(year => {
       return {
@@ -147,7 +147,7 @@ export default class PercentileChart extends Chart<Data> {
 
     const padding = 30;
     const year = scales.year()
-      .domain([2009, 2015])
+      .domain([2008, 2016])
       .offset(20);
 
     const [lo, hi] = year.range(),

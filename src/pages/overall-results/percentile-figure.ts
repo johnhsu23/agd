@@ -52,9 +52,9 @@ export default class PercentileScores extends Figure {
   }
 
   protected makeTitle(): string {
-    const years = formatList(yearsForGrade(12));
+    const years = formatList(yearsForGrade(8));
 
-    return `Percentile scores for ${nth(12)}-grade students assessed in NAEP science: ${years}`;
+    return `Percentile scores for ${nth(8)}-grade students assessed in NAEP music: ${years}`;
   }
 
   onBeforeShow(): void {
