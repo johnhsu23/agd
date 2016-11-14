@@ -125,7 +125,7 @@ export default class GapsChart extends Chart<any> {
     this.resizeExtent(data);
 
     const year = scales.year()
-      .domain([2008, 2016]);
+      .domain([2007, 2017]);
 
     const score = scales.score()
       .domain(this.extent)
@@ -139,7 +139,7 @@ export default class GapsChart extends Chart<any> {
       .scale(year)
       .format(n => "'" + ('' + n).substr(2))
       .ticks([
-        { value: year(2009), label: 2009 },
+        { value: year(2008), label: 2008 },
         { value: year(2016), label: 2016 },
       ]);
 

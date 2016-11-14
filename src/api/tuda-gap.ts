@@ -1,8 +1,8 @@
 export interface Params {
   type: 'tuda-gap';
 
-  subscale?: string;
-  subject: string;
+  subscale: 'VISRP' | 'MUSRP';
+  subject: 'visual arts' | 'music';
   grade: number;
 
   variable: string;

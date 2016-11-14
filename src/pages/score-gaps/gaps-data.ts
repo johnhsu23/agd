@@ -1,5 +1,7 @@
 import * as Promise from 'bluebird';
 
+import context from 'models/context';
+
 import loadData from 'api';
 
 import * as gap from 'api/tuda-gap';
@@ -12,9 +14,9 @@ export function load(subject: string, variable: string, focal: number, target: n
   return loadData<gap.Params, gap.Data>({
     type: 'tuda-gap',
 
-    subject,
+    subject: context.subject,
     grade: 8,
-    subscale: 'SRPUV',
+    subscale: context.subject === 'visual arts' ? 'VISRP' : 'MUSRP',
 
     variable,
     categoryindex: focal,
@@ -23,7 +25,7 @@ export function load(subject: string, variable: string, focal: number, target: n
     jurisdiction: 'NT',
     stattype: 'MN',
 
-    year: [2009, 2015],
+    year: [2008, 2016],
   });
 }
 
