@@ -107,10 +107,20 @@ export default class GapsChart extends Chart<any> {
     const lower = isFinite(this.extent[0]) ? this.extent[0] : lo,
           diff = lo - lower;
 
+    // This resize logic is slightly overcomplicated, but here's the rationale:
+    // * `diff` represents the difference between the current lower bound (this.extent[0])
+    //   and the newly-computed bound (`lo`).
+    // * If this value is negative, it implies that the new lower bound *may* extend past the area we'd like to reserve
+    //   for the gap symbols themselves.
+    //
+    // We have to check if this difference is within the reserved 20 point difference. If it is, then we need to
+    // artificially extend the lower bound.
     if (diff <= 0) {
+      // If it's between 0 and 10 points, we need to add 20 points' worth of space to the bottom.
       if (diff > -10) {
         lo -= 20;
       } else if (diff > -20) {
+        // But if it's between 10 and 20 points, we only need to add 10 points' worth of space.
         lo -= 10;
       }
     }
