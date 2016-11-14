@@ -59,23 +59,6 @@ export type GapPoint<T, Data> = T & {
   data: Data;
 };
 
-export interface GapMarker<Data> {
-  // /**
-  //  * The value presented at this gap marker (the score gap between the two).
-  //  */
-  // value: number;
-
-  /**
-   * Is this gap marker defined (i.e., displayable)?
-   */
-  defined: boolean;
-
-  /**
-   * The data used to derive this record.
-   */
-  data: Data;
-}
-
 export interface GapOutput<Point, Data> {
   series: GapSeries<GapPoint<Point, Data>>[];
   area: string;
