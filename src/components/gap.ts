@@ -1,4 +1,4 @@
-// import * as shape from 'd3-shape';
+import * as shape from 'd3-shape';
 import * as series from 'components/series';
 
 export type PointInfo<T> = T & {
@@ -59,10 +59,27 @@ export type GapPoint<T, Data> = T & {
   data: Data;
 };
 
+export interface GapMarker<Data> {
+  // /**
+  //  * The value presented at this gap marker (the score gap between the two).
+  //  */
+  // value: number;
+
+  /**
+   * Is this gap marker defined (i.e., displayable)?
+   */
+  defined: boolean;
+
+  /**
+   * The data used to derive this record.
+   */
+  data: Data;
+}
+
 export interface GapOutput<Point, Data> {
-  focal: GapSeries<GapPoint<Point, Data>>;
-  target: GapSeries<GapPoint<Point, Data>>;
   series: GapSeries<GapPoint<Point, Data>>[];
+  area: string;
+  markers: Data[];
 }
 
 export interface Gap<Point, Data> {
@@ -102,6 +119,10 @@ export interface Gap<Point, Data> {
    * y-position (scale score).
    */
   location(location: (row: Data, index: number) => number): this;
+
+  defined(): (row: Data, index: number) => boolean;
+  defined(defined: boolean): this;
+  defined(defined: (row: Data, index: number) => boolean): this;
 }
 
 export default gap;
@@ -110,26 +131,41 @@ export function gap<Point, Data>(): Gap<Point, Data>;
 export function gap<Point, Data>(): Gap<Point, Data> {
   type Project<T> = (row: Data, index: number) => T;
 
+  type Area = {
+    x: number;
+    y0: number;
+    y1: number;
+    defined: boolean;
+  };
+
   const line = series.series<GapPoint<Point, Data>>()
     .x(d => d.location)
     .y(d => d.position)
     .defined(d => d.defined);
 
+  const area = shape.area<Area>()
+    .x(d => d.x)
+    .y0(d => d.y0)
+    .y1(d => d.y1)
+    .defined(d => d.defined);
+
   let focal: Project<PointInfo<Point>> = d => ({ value: (d as any).value } as PointInfo<Point>),
       target: typeof focal = d => ({ value: (d as any).value } as PointInfo<Point>),
-      location: Project<number> = d => (d as any).position;
+      location: Project<number> = d => (d as any).position,
+      defined: Project<boolean> = () => true;
 
   const gap = ((rows: Data[]): GapOutput<Point, Data> => {
     const focals: GapPoint<Point, Data>[] = [],
           targets: GapPoint<Point, Data>[] = [],
+          markers: /* GapMarker<Data> */ Data[] = [],
+          areas: Area[] = [],
           count = rows.length;
 
-    focals.length = targets.length = count;
+    areas.length = focals.length = targets.length = count;
 
     for (let i = 0; i < count; i++) {
-      const row = rows[i];
-
-      const focalInfo = focal(row, i) as GapPoint<Point, Data>,
+      const row = rows[i],
+            focalInfo = focal(row, i) as GapPoint<Point, Data>,
             targetInfo = target(row, i) as GapPoint<Point, Data>,
             pointLocation = location(row, i),
             focalAbove = focalInfo.value > targetInfo.value;
@@ -155,8 +191,20 @@ export function gap<Point, Data>(): Gap<Point, Data> {
       focalInfo.location = targetInfo.location = pointLocation;
       focalInfo.data = targetInfo.data = row;
 
+      const gapDefined = defined(row, i) && focalInfo.defined && targetInfo.defined;
+
       focals[i] = focalInfo;
       targets[i] = targetInfo;
+      areas[i] = {
+        x: pointLocation,
+        y0: focalInfo.position,
+        y1: targetInfo.position,
+        defined: gapDefined,
+      };
+
+      if (gapDefined) {
+        markers.push(row);
+      }
     }
 
     const focalSeries = line(focals) as GapSeries<GapPoint<Point, Data>>;
@@ -166,18 +214,19 @@ export function gap<Point, Data>(): Gap<Point, Data> {
     targetSeries.type = 'target';
 
     return {
-      focal: focalSeries,
-      target: targetSeries,
       series: [
         focalSeries,
         targetSeries,
       ],
+      area: area(areas),
+      markers,
     };
   }) as Gap<Point, Data>;
 
   gap.focal = gapFocal;
   gap.target = gapTarget;
   gap.location = gapLocation;
+  gap.defined = gapDefined;
 
   return gap;
 
@@ -212,5 +261,17 @@ export function gap<Point, Data>(): Gap<Point, Data> {
     }
 
     return location;
+  }
+
+  function gapDefined(): typeof defined;
+  function gapDefined(defined: boolean): typeof gap;
+  function gapDefined(defined: Project<boolean>): typeof gap;
+  function gapDefined(val?: boolean | Project<boolean>): typeof defined | typeof gap {
+    if (arguments.length) {
+      defined = typeof val === 'boolean' ? () => val : val;
+      return gap;
+    }
+
+    return defined;
   }
 }

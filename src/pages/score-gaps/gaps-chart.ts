@@ -1,6 +1,5 @@
 import * as Promise from 'bluebird';
 import {Selection} from 'd3-selection';
-import {area as makeArea} from 'd3-shape';
 
 import 'd3-transition';
 
@@ -15,7 +14,7 @@ import {formatValue} from 'codes';
 import * as scales from 'components/scales';
 import * as axis from 'components/axis';
 import {symbol as makeSymbol, types as symbolTypes} from 'components/symbol';
-import {gap as makeGap, GapPoint} from 'components/gap';
+import {gap as makeGap, GapPoint, PointInfo} from 'components/gap';
 
 type Point = {
   errorFlag: number;
@@ -167,49 +166,45 @@ export default class GapsChart extends Chart<any> {
       .attr('transform', `translate(${this.marginLeft}, ${this.marginTop})`)
       .call(scoreAxis);
 
+    function focalData(row: Data): PointInfo<Point> {
+      return {
+        category: row.categoryindex,
+        errorFlag: row.focalErrorFlag,
+        value: row.focalValue,
+        position: score(row.focalValue),
+        defined: row.isFocalStatDisplayable !== 0,
+      };
+    }
+
+    function targetData(row: Data): PointInfo<Point> {
+      return {
+        category: row.categorybindex,
+        errorFlag: row.targetErrorFlag,
+        value: row.targetValue,
+        position: score(row.targetValue),
+        defined: row.isTargetStatDisplayable !== 0,
+      };
+    }
+
     const gapData = makeGap<Point, Data>()
       .location(d => year(d.year))
-      .focal(d => {
-        return {
-          category: d.categoryindex,
-          errorFlag: d.focalErrorFlag,
-          value: d.focalValue,
-          position: score(d.focalValue),
-          defined: d.isFocalStatDisplayable !== 0,
-        };
-      })
-      .target(d => {
-        return {
-          category: d.categorybindex,
-          errorFlag: d.targetErrorFlag,
-          value: d.targetValue,
-          position: score(d.targetValue),
-          defined: d.isTargetStatDisplayable !== 0,
-        };
-      })
+      .focal(focalData)
+      .target(targetData)
       (data);
-
-    console.log(gapData);
 
     // Gap surface
 
-    const area = makeArea<Data>()
-      .x(d => year(d.year))
-      .y0(d => score(d.focalValue))
-      .y1(d => score(d.targetValue))
-      .defined(d => !!(d.isFocalStatDisplayable && d.isTargetStatDisplayable));
-
     const gapUpdate = this.gap.selectAll('path.chart--gaps__gap')
-      .data([data]);
+      .data([gapData.area]);
 
     gapUpdate.interrupt()
       .transition()
-      .attr('d', area);
+      .attr('d', d => d);
 
     gapUpdate.enter()
       .append('path')
       .classed('chart--gaps__gap', true)
-      .attr('d', area);
+      .attr('d', d => d);
 
     // Draw focal & target series
 
