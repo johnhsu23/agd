@@ -7,13 +7,13 @@ type Point<T> = T & {
   y: number;
 };
 
-type Output<T> = {
+export interface SeriesOutput<T> {
   line: string;
   points: Point<T>[];
-};
+}
 
-interface Series<T> {
-  (rows: T[]): Output<T>;
+export interface Series<T> {
+  (rows: T[]): SeriesOutput<T>;
 
   x(): Project<T, number>;
   x(x: number): this;
@@ -28,7 +28,8 @@ interface Series<T> {
   defined(defined: Project<T, boolean>): this;
 }
 
-function series<T>(): Series<T> {
+export default series;
+export function series<T>(): Series<T> {
   let x: Project<T, number> = d => (d as any).x,
       y: typeof x = d => (d as any).y,
       defined: Project<T, boolean> = () => true;
@@ -38,7 +39,7 @@ function series<T>(): Series<T> {
     .y(d => d.y)
     .defined(defined);
 
-  const series = ((rows: T[]): Output<T> => {
+  const series = ((rows: T[]): SeriesOutput<T> => {
     rows.forEach((row, i) => {
       (row as Point<T>).x = x(row, i);
       (row as Point<T>).y = y(row, i);
@@ -93,6 +94,3 @@ function series<T>(): Series<T> {
     return defined;
   }
 }
-
-export default series;
-export {Series, series};
