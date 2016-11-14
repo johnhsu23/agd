@@ -46,7 +46,7 @@ export function series<T>(): Series<T> {
     });
 
     return {
-      line: line(rows as Point<T>[]),
+      line: line(rows as Point<T>[]) || '', // avoid 'null' attribute errors
       points: (rows as Point<T>[]).filter(defined),
     };
   }) as Series<T>;
