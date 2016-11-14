@@ -2,8 +2,9 @@ import {Model} from 'backbone';
 import {ItemView} from 'backbone.marionette';
 
 import Page from 'views/page';
-
 import DefaultSection from 'views/default-section';
+
+import context from 'models/context';
 
 import * as sampleQuestionsCommentary from 'json!commentary/questions-analysis/sample-questions.json';
 import * as knowledgeSkillsCommentary from 'json!commentary/questions-analysis/knowledge-skills.json';
@@ -13,17 +14,17 @@ export default class QuestionsAnalysis extends Page {
   onBeforeShow(): void {
     this.pushSection(new DefaultSection({
       inner: new (class extends ItemView<Model> { template = () => '' }),
-      commentary: sampleQuestionsCommentary[this.subject],
+      commentary: sampleQuestionsCommentary[context.subject],
     }));
 
     this.pushSection(new DefaultSection({
       inner: new (class extends ItemView<Model> { template = () => '' }),
-      commentary: knowledgeSkillsCommentary[this.subject],
+      commentary: knowledgeSkillsCommentary[context.subject],
     }));
 
     this.pushSection(new DefaultSection({
       inner: new (class extends ItemView<Model> { template = () => '' }),
-      commentary: performanceCommentary[this.subject],
+      commentary: performanceCommentary[context.subject],
     }));
   }
 }
