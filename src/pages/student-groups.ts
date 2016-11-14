@@ -20,5 +20,7 @@ export default class StudentGroups extends Page {
       inner: new (class extends ItemView<Model> { template = () => '' }),
       commentary: percentagesCommentary[context.subject],
     }));
+
+    this.pageTitle = 'Scores by Student Group';
   }
 }

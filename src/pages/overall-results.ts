@@ -38,5 +38,7 @@ export default class AverageScores extends Page {
       inner: new (class extends ItemView<Model> { template = () => '' }),
       commentary: respondingTaskCommentary[context.subject],
     }));
+
+    this.pageTitle = 'Overall Results';
   }
 }

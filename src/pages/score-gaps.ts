@@ -20,5 +20,7 @@ export default class ScoreGaps extends Page {
       inner: new (class extends ItemView<Model> { template = () => '' }),
       commentary: creatingTaskCommentary[context.subject],
     }));
+
+    this.pageTitle = 'Group Score Gaps';
   }
 }

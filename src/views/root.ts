@@ -51,12 +51,15 @@ export default class RootView extends LayoutView<Model> {
     // (we'll have r.js include them, of course)
     // tslint:disable-next-line:no-require-imports
     require([path], (mod: { default: typeof Page}) => {
+      let subjectTitle: string = '';
       switch (subject) {
         case 'visual-arts':
+          subjectTitle = ' Visual Arts -';
           context.subject = 'visual arts';
           break;
 
         case 'music':
+          subjectTitle = ' Music -';
         case undefined:
           // TS doesn't seem to like narrowing here
           context.subject = subject as 'music';
@@ -66,8 +69,9 @@ export default class RootView extends LayoutView<Model> {
           // kaboom
           throw new Error(`Invalid subject name "${subject}"`);
       }
-
-      this.showChildView('main', new mod.default);
+      const pageView = new mod.default;
+      this.showChildView('main', pageView);
+      document.title = `NAEP - 2016 Arts Assessment -${subjectTitle} ${pageView.pageTitle}`;
     });
   }
 }

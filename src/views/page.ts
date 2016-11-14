@@ -9,6 +9,7 @@ import context from 'models/context';
 export default class PageView extends LayoutView<any> {
   template = () => template;
 
+  public pageTitle: string;
   protected count = 1;
 
   regions(): { [key: string]: string } {

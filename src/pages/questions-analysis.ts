@@ -26,5 +26,7 @@ export default class QuestionsAnalysis extends Page {
       inner: new (class extends ItemView<Model> { template = () => '' }),
       commentary: performanceCommentary[context.subject],
     }));
+
+    this.pageTitle = 'Sample Questions Analysis';
   }
 }
