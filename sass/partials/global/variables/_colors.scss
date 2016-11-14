@@ -2,6 +2,7 @@
 // Color variables
 // http://sass-lang.com/docs/yardoc/file.SASS_REFERENCE.html#variables_
 
+// Default colors
 $primary-text-color: #333;
 $secondary-text-color: #555;
 $heading-text-color: #333;
@@ -16,6 +17,74 @@ $error-color: #900;
 $border-color: #ccc;
 $gradient-light: rgba(255, 255, 255, 0.2);
 $gradient-dark: rgba(0, 0, 0, 0.2);
+
+// ETS Brand colors
+$brand-blue: #001871;
+$brand-gold: #c69214;
+$brand-green: #00a795;
+$brand-green-pale: #b1d6d1;
+$brand-orange: #c69214;
+
+$slate-grey: #d0cbc3;
+$darker-grey: #a19788;
+
+// Axis colors
+$axis: grey;
+
+// Chart series colors
+$series-default: $brand-blue;
+
+$series-0: lighten($brand-blue, 25%);
+$series-1: lighten($brand-blue, 12.5%);
+$series-2: $brand-blue;
+$series-3: darken($brand-blue, 12.5%);
+$series-4: darken($brand-blue, 25%);
+
+// Chart percentile colors
+$percentile-colors: (
+  p1: $series-0,
+  p2: $series-1,
+  p5: $series-2,
+  p7: $series-3,
+  p9: $series-4,
+);
+
+// Achievement-level colors
+$acl-bb: #dde2eb;
+$acl-ba: #bdc9db;
+$acl-pr: #889bc0;
+$acl-ad: #41639e;
+
+// Legend dimensions
+$legend-width: 250px;
+$legend-height: 30px;
+$legend-item-width: 30px;
+$legend-item-height: 30px;
+
+// Table colors
+$table-header-back: $brand-blue;
+$table-header-fore: white;
+$table-even: white;
+$table-odd: #f5f4f3;
+$table-border: #e2dfdb;
+
+// Cutpoint colors
+$cutpoint-foreground: $slate-grey;
+$cutpoint-background: $darker-grey;
+
+// Radio colors
+$radio-active: $brand-gold;
+$radio-inactive: $brand-green;
+
+// Dialog variables
+$dialog-top-color: $brand-blue;
+$dialog-background: $slate-grey;
+$dialog-top: 30px;
+
+$subchart-backdrop: $darker-grey;
+
+$share-background: $slate-grey;
+$share-foreground: $darker-grey;
 
 // Buttons
 $button-bg-color: #f9f9f9;
