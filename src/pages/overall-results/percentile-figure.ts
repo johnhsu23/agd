@@ -15,6 +15,7 @@ import series from 'legends/series';
 import {yearsForGrade} from 'data/assessment-years';
 import formatList from 'util/format-list';
 import nth from 'util/nth';
+import context from 'models/context';
 
 export default class PercentileScores extends Figure {
   collection: Collection<Legend> = new Collection<Legend>();
@@ -54,7 +55,7 @@ export default class PercentileScores extends Figure {
   protected makeTitle(): string {
     const years = formatList(yearsForGrade(8));
 
-    return `Percentile scores for ${nth(8)}-grade students assessed in NAEP music: ${years}`;
+    return `Percentile scores for ${nth(8)}-grade students assessed in NAEP ${context.subject}: ${years}`;
   }
 
   onBeforeShow(): void {
@@ -65,6 +66,8 @@ export default class PercentileScores extends Figure {
     this.showLegend(new LegendView({
       collection: this.collection,
     }));
+
+    this.showInstructions();
 
     this.showContents(new Chart);
   }

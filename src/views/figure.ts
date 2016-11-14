@@ -11,6 +11,8 @@ import * as share from 'models/share';
 import render from 'render/figure';
 import save from 'export/save';
 
+import * as figureInstructions from 'text!templates/figure-instructions.html';
+
 interface FigureOptions extends LayoutViewOptions<any> {
   share: share.ShareOptions;
 }
@@ -80,5 +82,11 @@ export default class FigureView extends LayoutView<any> {
         model: this.shareModel,
       }));
     }
+  }
+
+  showInstructions(): void {
+    this.$('.figure__contents').before(
+      figureInstructions
+    );
   }
 }

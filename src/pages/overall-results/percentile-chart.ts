@@ -19,6 +19,8 @@ import {formatValue} from 'codes';
 
 import {load, Grouped, Data} from 'pages/overall-results/percentile-data';
 
+import context from 'models/context';
+
 type Point<T> = T & {
   x: number;
   y: number;
@@ -77,7 +79,7 @@ export default class PercentileChart extends Chart<Data> {
     const years = ['2008R3', '2016R3'];
 
     this.promise = this.promise
-      .then(() => load('music', years))
+      .then(() => load(context.subject, years))
       .then(data => this.loaded(data));
 
     this.promise.done();
@@ -99,7 +101,7 @@ export default class PercentileChart extends Chart<Data> {
       this.firstRender = false;
     }
 
-    load('music', ['2008R3', '2016R3'])
+    load(context.subject, ['2008R3', '2016R3'])
       .then(data => this.loaded(data))
       .done();
 
