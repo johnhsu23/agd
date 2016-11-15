@@ -60,7 +60,7 @@ export default class RootView extends LayoutView<Model> {
 
         case 'music':
           subjectTitle = ' Music -';
-          // fallthrough
+          /* falls through */
 
         case undefined:
           // TS doesn't seem to like narrowing here
