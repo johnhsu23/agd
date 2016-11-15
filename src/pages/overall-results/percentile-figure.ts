@@ -17,6 +17,8 @@ import formatList from 'util/format-list';
 import nth from 'util/nth';
 import context from 'models/context';
 
+import * as percentileInstructions from 'text!templates/percentile-instructions.html';
+
 export default class PercentileScores extends Figure {
   collection: Collection<Legend> = new Collection<Legend>();
 
@@ -67,7 +69,7 @@ export default class PercentileScores extends Figure {
       collection: this.collection,
     }));
 
-    this.showInstructions();
+    this.showInstructions(percentileInstructions);
 
     this.showContents(new Chart);
   }
