@@ -1,4 +1,4 @@
-import * as Promise from 'bluebird';
+import * as Bluebird from 'bluebird';
 import {Selection} from 'd3-selection';
 
 import 'd3-transition';
@@ -45,7 +45,6 @@ export default class GapsChart extends Chart<api.GapData> {
   protected extent: [number, number] = [Infinity, -Infinity];
 
   protected firstRender = true;
-  protected promise = Promise.resolve(void 0);
 
   delegateEvents(): this {
     super.delegateEvents();
@@ -66,7 +65,7 @@ export default class GapsChart extends Chart<api.GapData> {
       this.firstRender = false;
     }
 
-    this.renderData();
+    this.renderData().done();
 
     return this;
   }
@@ -76,26 +75,16 @@ export default class GapsChart extends Chart<api.GapData> {
     this.focal = focal;
     this.target = target;
 
-    this.renderData();
+    this.renderData().done();
   }
 
-  protected renderData(): void {
+  protected async renderData(): Bluebird<void> {
     const id = this.variable.id;
 
-    this.promise = this.promise
-      .then(() => api.loadGaps('science', id, this.focal, this.target))
-      .then(data => {
-        const trends = api.loadTrends(id, this.focal, this.target);
+    const gaps = await api.loadGaps('science', id, this.focal, this.target),
+          trends = await api.loadTrends(id, this.focal, this.target);
 
-        return trends.then(trends => [
-          data,
-          trends,
-        ] as [api.GapData[], api.TrendData[]]);
-      })
-      .then(([data, trends]) => this.loaded(data, trends));
-
-    this.promise
-      .done();
+    return this.loaded(gaps, trends);
   }
 
   protected resizeExtent(data: api.GapData[]): void {
