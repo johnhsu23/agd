@@ -1,8 +1,9 @@
-import {ItemView} from 'backbone.marionette';
-import {Model} from 'backbone';
+import Page from 'views/page';
 
 import * as template from 'text!templates/homepage.html';
 
-export default class HomepageView extends ItemView<Model> {
+export default class HomepageView extends Page {
   template = () => template;
+
+  pageTitle = 'Home';
 }
