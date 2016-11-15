@@ -15,33 +15,18 @@ export type PointInfo<T> = T & {
   /**
    * The position of this record. When omitted, uses the `value` property.
    */
-  position?: number;
+  y?: number;
 };
 
 export interface GapSeries<T> extends series.SeriesOutput<T> {
   type: 'focal' | 'target';
 }
 
-export type GapPoint<T, Data> = T & {
+export type GapPoint<T, Data> = PointInfo<T> & {
   /**
-   * The numerical value of this record.
+   * The x-position of this record. This is shared by both the focal and target data points.
    */
-  value: number;
-
-  /**
-   * The position of this record. This corresponds to the scaled output of `value`.
-   */
-  position: number;
-
-  /**
-   * The location of this record. The location is shared by both the focal and target data points.
-   */
-  location: number;
-
-  /**
-   * Is this record defined?
-   */
-  defined: boolean;
+  x: number;
 
   /**
    * Is this value the larger of the two?
@@ -87,21 +72,13 @@ export interface Gap<Point, Data> {
   target(focal: (row: Data, index: number) => PointInfo<Point>): this;
 
   /**
-   * Returns the position of the data point.
-   *
-   * This is almost always the opposite axis as used in the `focal` and `target` accessors. In the specific case of
-   * NAEP, this means that `position` computes the x-position (assessment year) and `focal` and `target` compute the
-   * y-position (scale score).
+   * Returns the x-position of the data point.
    */
-  location(): (row: Data, index: number) => number;
+  x(): (row: Data, index: number) => number;
   /**
-   * Compute the position of the data point.
-   *
-   * This is almost always the opposite axis as used in the `focal` and `target` accessors. In the specific case of
-   * NAEP, this means that `position` computes the x-position (assessment year) and `focal` and `target` compute the
-   * y-position (scale score).
+   * Compute the x-position of the data point. This defaults to reading the `x` property on the point.
    */
-  location(location: (row: Data, index: number) => number): this;
+  x(location: (row: Data, index: number) => number): this;
 
   defined(): (row: Data, index: number) => boolean;
   defined(defined: boolean): this;
@@ -122,8 +99,8 @@ export function gap<Point, Data>(): Gap<Point, Data> {
   };
 
   const line = series.series<GapPoint<Point, Data>>()
-    .x(d => d.location)
-    .y(d => d.position)
+    .x(d => d.x)
+    .y(d => d.y)
     .defined(d => d.defined);
 
   const area = shape.area<Area>()
@@ -134,7 +111,7 @@ export function gap<Point, Data>(): Gap<Point, Data> {
 
   let focal: Project<PointInfo<Point>> = d => ({ value: (d as any).value } as PointInfo<Point>),
       target: typeof focal = d => ({ value: (d as any).value } as PointInfo<Point>),
-      location: Project<number> = d => (d as any).position,
+      x: Project<number> = d => (d as any).x,
       defined: Project<boolean> = () => true;
 
   const gap = ((rows: Data[]): GapOutput<Point, Data> => {
@@ -150,13 +127,13 @@ export function gap<Point, Data>(): Gap<Point, Data> {
       const row = rows[i],
             focalInfo = focal(row, i) as GapPoint<Point, Data>,
             targetInfo = target(row, i) as GapPoint<Point, Data>,
-            pointLocation = location(row, i),
+            pointX = x(row, i),
             focalAbove = focalInfo.value > targetInfo.value;
 
       focalInfo.focal = true;
       focalInfo.above = focalAbove;
-      if (focalInfo.position == null) {
-        focalInfo.position = focalInfo.value;
+      if (focalInfo.y == null) {
+        focalInfo.y = focalInfo.value;
       }
       if (focalInfo.defined == null) {
         focalInfo.defined = true;
@@ -164,14 +141,14 @@ export function gap<Point, Data>(): Gap<Point, Data> {
 
       targetInfo.focal = false;
       targetInfo.above = !focalInfo.above;
-      if (targetInfo.position == null) {
-        targetInfo.position = targetInfo.value;
+      if (targetInfo.y == null) {
+        targetInfo.y = targetInfo.value;
       }
       if (targetInfo.defined == null) {
         targetInfo.defined = true;
       }
 
-      focalInfo.location = targetInfo.location = pointLocation;
+      focalInfo.x = targetInfo.x = pointX;
       focalInfo.data = targetInfo.data = row;
 
       const gapDefined = defined(row, i) && focalInfo.defined && targetInfo.defined;
@@ -179,9 +156,9 @@ export function gap<Point, Data>(): Gap<Point, Data> {
       focals[i] = focalInfo;
       targets[i] = targetInfo;
       areas[i] = {
-        x: pointLocation,
-        y0: focalInfo.position,
-        y1: targetInfo.position,
+        x: pointX,
+        y0: focalInfo.y,
+        y1: targetInfo.y,
         defined: gapDefined,
       };
 
@@ -208,7 +185,7 @@ export function gap<Point, Data>(): Gap<Point, Data> {
 
   gap.focal = gapFocal;
   gap.target = gapTarget;
-  gap.location = gapLocation;
+  gap.x = gapLocation;
   gap.defined = gapDefined;
 
   return gap;
@@ -235,15 +212,15 @@ export function gap<Point, Data>(): Gap<Point, Data> {
     return target;
   }
 
-  function gapLocation(): typeof location;
+  function gapLocation(): typeof x;
   function gapLocation(location: Project<number>): typeof gap;
-  function gapLocation(val?: Project<number>): typeof location | typeof gap {
+  function gapLocation(val?: Project<number>): typeof x | typeof gap {
     if (arguments.length) {
-      location = val;
+      x = val;
       return gap;
     }
 
-    return location;
+    return x;
   }
 
   function gapDefined(): typeof defined;

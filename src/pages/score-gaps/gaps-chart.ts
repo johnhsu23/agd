@@ -170,7 +170,7 @@ export default class GapsChart extends Chart<api.GapData> {
         category: row.categoryindex,
         errorFlag: row.focalErrorFlag,
         value: row.focalValue,
-        position: score(row.focalValue),
+        y: score(row.focalValue),
         defined: row.isFocalStatDisplayable !== 0,
       };
     }
@@ -180,13 +180,13 @@ export default class GapsChart extends Chart<api.GapData> {
         category: row.categorybindex,
         errorFlag: row.targetErrorFlag,
         value: row.targetValue,
-        position: score(row.targetValue),
+        y: score(row.targetValue),
         defined: row.isTargetStatDisplayable !== 0,
       };
     }
 
     const gapData = makeGap<Point, api.GapData>()
-      .location(d => year(d.year))
+      .x(d => year(d.year))
       .focal(focalData)
       .target(targetData)
       (data);
