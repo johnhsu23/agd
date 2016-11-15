@@ -6,8 +6,7 @@ import 'd3-transition';
 import configure from 'util/configure';
 import {Variable, SDRACE} from 'data/variables';
 import Chart from 'views/chart';
-import load from 'pages/score-gaps/gaps-data';
-import {Data} from 'api/tuda-gap';
+import * as api from 'pages/score-gaps/gaps-data';
 import interpolate from 'util/path-interpolate';
 import {formatValue} from 'codes';
 
@@ -21,14 +20,14 @@ type Point = {
   category: number;
 };
 
-const symbol = makeSymbol<GapPoint<Point, Data>>()
+const symbol = makeSymbol<GapPoint<Point, api.GapData>>()
   .size(194)
   .type(d => symbolTypes[d.category - 1]);
 
 @configure({
   className: 'chart chart--gaps',
 })
-export default class GapsChart extends Chart<any> {
+export default class GapsChart extends Chart<api.GapData> {
   protected marginLeft = 40;
   protected marginRight = 40;
   protected marginBottom = 30;
@@ -83,14 +82,14 @@ export default class GapsChart extends Chart<any> {
     const id = this.variable.id;
 
     this.promise = this.promise
-      .then(() => load('science', id, this.focal, this.target))
+      .then(() => api.loadGaps('science', id, this.focal, this.target))
       .then(data => this.loaded(data));
 
     this.promise
       .done();
   }
 
-  protected resizeExtent(data: Data[]): void {
+  protected resizeExtent(data: api.GapData[]): void {
     let lo = Infinity,
         hi = -Infinity;
 
@@ -133,7 +132,7 @@ export default class GapsChart extends Chart<any> {
     ];
   }
 
-  protected loaded(data: Data[]): void {
+  protected loaded(data: api.GapData[]): void {
     this.resizeExtent(data);
 
     const year = scales.year()
@@ -166,7 +165,7 @@ export default class GapsChart extends Chart<any> {
       .attr('transform', `translate(${this.marginLeft}, ${this.marginTop})`)
       .call(scoreAxis);
 
-    function focalData(row: Data): PointInfo<Point> {
+    function focalData(row: api.GapData): PointInfo<Point> {
       return {
         category: row.categoryindex,
         errorFlag: row.focalErrorFlag,
@@ -176,7 +175,7 @@ export default class GapsChart extends Chart<any> {
       };
     }
 
-    function targetData(row: Data): PointInfo<Point> {
+    function targetData(row: api.GapData): PointInfo<Point> {
       return {
         category: row.categorybindex,
         errorFlag: row.targetErrorFlag,
@@ -186,7 +185,7 @@ export default class GapsChart extends Chart<any> {
       };
     }
 
-    const gapData = makeGap<Point, Data>()
+    const gapData = makeGap<Point, api.GapData>()
       .location(d => year(d.year))
       .focal(focalData)
       .target(targetData)
@@ -239,7 +238,7 @@ export default class GapsChart extends Chart<any> {
     seriesMerged.select('.series__line')
       .attr('d', d => d.line);
 
-    const pointUpdate = seriesMerged.selectAll<SVGGElement, GapPoint<Point, Data>>('.series__point')
+    const pointUpdate = seriesMerged.selectAll<SVGGElement, GapPoint<Point, api.GapData>>('.series__point')
       .data(d => d.points.filter(d => d.defined), d => '' + d.data.year);
 
     pointUpdate.exit()
