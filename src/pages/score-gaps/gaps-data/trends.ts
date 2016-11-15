@@ -14,8 +14,11 @@ export function load(variable: string, focal: number, target: number): Promise<D
     subscale: context.subject === 'visual arts' ? 'VISRP' : 'MUSRP',
     grade: 8,
 
+    // Since there are only two assessment years, we can load just the 2008R3 record and use it.
+    // This isn't always ideal, but since we're only using this data point for its significance test, this simplifies
+    // a few things.
     focalyear: '2016R3',
-    targetyears: ['2008R3', '2016R3'],
+    targetyears: ['2008R3'],
 
     variable,
     categoryindex: [focal, target],

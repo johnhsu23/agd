@@ -18,6 +18,7 @@ import {gap as makeGap, GapPoint, PointInfo} from 'components/gap';
 type Point = {
   errorFlag: number;
   category: number;
+  sig: string;
 };
 
 const symbol = makeSymbol<GapPoint<Point, api.GapData>>()
@@ -83,7 +84,15 @@ export default class GapsChart extends Chart<api.GapData> {
 
     this.promise = this.promise
       .then(() => api.loadGaps('science', id, this.focal, this.target))
-      .then(data => this.loaded(data));
+      .then(data => {
+        const trends = api.loadTrends(id, this.focal, this.target);
+
+        return trends.then(trends => [
+          data,
+          trends,
+        ] as [api.GapData[], api.TrendData[]]);
+      })
+      .then(([data, trends]) => this.loaded(data, trends));
 
     this.promise
       .done();
@@ -132,7 +141,7 @@ export default class GapsChart extends Chart<api.GapData> {
     ];
   }
 
-  protected loaded(data: api.GapData[]): void {
+  protected loaded(data: api.GapData[], trends: api.TrendData[]): void {
     this.resizeExtent(data);
 
     const year = scales.year()
@@ -166,7 +175,12 @@ export default class GapsChart extends Chart<api.GapData> {
       .call(scoreAxis);
 
     function focalData(row: api.GapData): PointInfo<Point> {
+      // We're only loading two data points for trend sigs: the focal category's data and the target category's.
+      // As a result, we can just directly index the loaded trend data without using d3.nest.
+      const sig = row.year === 2016 ? '' : trends[0].sig;
+
       return {
+        sig,
         category: row.categoryindex,
         errorFlag: row.focalErrorFlag,
         value: row.focalValue,
@@ -176,7 +190,12 @@ export default class GapsChart extends Chart<api.GapData> {
     }
 
     function targetData(row: api.GapData): PointInfo<Point> {
+      // We're only loading two data points for trend sigs: the focal category's data and the target category's.
+      // As a result, we can just directly index the loaded trend data without using d3.nest.
+      const sig = row.year === 2016 ? '' : trends[1].sig;
+
       return {
+        sig,
         category: row.categorybindex,
         errorFlag: row.targetErrorFlag,
         value: row.targetValue,
@@ -260,7 +279,7 @@ export default class GapsChart extends Chart<api.GapData> {
       .classed('series__point__text', true)
       .merge(pointUpdate.select('.series__point__text'))
       .attr('y', d => d.above ? '-15px' : '28px')
-      .text(d => formatValue(d.value, '', d.errorFlag));
+      .text(d => formatValue(d.value, d.sig, d.errorFlag));
 
     pointEnter.append('path')
       .classed('series__point__symbol', true)
