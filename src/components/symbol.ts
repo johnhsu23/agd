@@ -23,3 +23,4 @@ export const hexagon: SymbolType = {
 };
 
 export const types = Object.freeze(symbols.concat(hexagon));
+export {symbol};

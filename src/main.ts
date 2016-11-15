@@ -43,6 +43,7 @@ require.config({
     'backbone.wreqr': '../vendor/backbone.wreqr/backbone.wreqr',
     'backbone.babysitter': '../vendor/backbone.babysitter/backbone.babysitter',
     'backbone.marionette': '../vendor/backbone.marionette/backbone.marionette',
+    'jquery.selectability': '../vendor/jquery-selectability/jquery.selectability',
   },
   shim: {
     'jquery-accessibleMegaMenu': {
@@ -53,4 +54,4 @@ require.config({
 });
 
 // tslint:disable-next-line:no-require-imports
-require(['jquery-accessibleMegaMenu', 'app']);
+require(['jquery.selectability', 'jquery-accessibleMegaMenu', 'app']);

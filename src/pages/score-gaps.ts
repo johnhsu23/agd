@@ -6,15 +6,25 @@ import DefaultSection from 'views/default-section';
 
 import context from 'models/context';
 
+import ScoreGapsFigure from 'pages/score-gaps/gaps-figure';
+
 import * as respondingCommentary from 'json!commentary/score-gaps/responding.json';
 import * as creatingTaskCommentary from 'json!commentary/score-gaps/creating-task.json';
 
 export default class ScoreGaps extends Page {
   pageTitle = 'Group Score Gaps';
 
-  onBeforeShow(): void {
+  onRender(): void {
+    if (super.onRender) {
+      super.onRender();
+    }
+
     this.pushSection(new DefaultSection({
-      inner: new (class extends ItemView<Model> { template = () => '' }),
+      inner: new ScoreGapsFigure({
+        share: {
+          download: true,
+        },
+      }),
       commentary: respondingCommentary[context.subject],
     }));
 

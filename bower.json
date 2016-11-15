@@ -21,6 +21,7 @@
     "jquery": "~2",
     "bluebird": "^3.4.1",
     "requirejs-plugins": "^1.0.3",
+    "jquery-selectability": "^1.0.2",
     "Accessible-Mega-Menu": "adobe-accessibility/Accessible-Mega-Menu#726ea8eaf716757ab778d5d8fce73cbc8e889de3"
   },
   "devDependencies": {

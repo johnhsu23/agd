@@ -77,4 +77,8 @@
       fill: white;
     }
   }
+
+  &--target .series__point__text {
+    font-style: italic;
+  }
 }
