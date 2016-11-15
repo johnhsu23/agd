@@ -14,6 +14,8 @@ import * as creatingTasksCommentary from 'json!commentary/overall-results/creati
 import * as respondingTaskCommentary from 'json!commentary/overall-results/responding-task.json';
 
 export default class AverageScores extends Page {
+  pageTitle = 'Overall Results';
+
   onBeforeShow(): void {
     this.pushSection(new DefaultSection({
       inner: new (class extends ItemView<Model> { template = () => '' }),

@@ -6,9 +6,10 @@ import * as template from 'text!templates/page.html';
 
 import context from 'models/context';
 
-export default class PageView extends LayoutView<any> {
+abstract class PageView extends LayoutView<any> {
   template = () => template;
 
+  abstract pageTitle: string;
   protected count = 1;
 
   regions(): { [key: string]: string } {
@@ -52,3 +53,5 @@ export default class PageView extends LayoutView<any> {
     }
   }
 }
+
+export default PageView;

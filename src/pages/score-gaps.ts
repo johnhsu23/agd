@@ -12,6 +12,8 @@ import * as respondingCommentary from 'json!commentary/score-gaps/responding.jso
 import * as creatingTaskCommentary from 'json!commentary/score-gaps/creating-task.json';
 
 export default class ScoreGaps extends Page {
+  pageTitle = 'Group Score Gaps';
+
   onRender(): void {
     if (super.onRender) {
       super.onRender();

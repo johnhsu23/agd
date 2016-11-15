@@ -10,6 +10,8 @@ import * as scoreTrendsCommentary from 'json!commentary/student-groups/score-tre
 import * as percentagesCommentary from 'json!commentary/student-groups/percentages.json';
 
 export default class StudentGroups extends Page {
+  pageTitle = 'Scores by Student Group';
+
   onBeforeShow(): void {
     this.pushSection(new DefaultSection({
       inner: new (class extends ItemView<Model> { template = () => '' }),
