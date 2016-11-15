@@ -9,7 +9,6 @@ import Chart from 'pages/overall-results/percentile-chart';
 import LegendView from 'pages/overall-results/percentile-legend';
 
 import Legend from 'legends/model';
-import significant from 'legends/sig-diff';
 import series from 'legends/series';
 
 import {yearsForGrade} from 'data/assessment-years';
@@ -50,7 +49,6 @@ export default class PercentileScores extends Figure {
       models.push(legend);
     }
 
-    models.push(significant());
     this.collection.reset(models);
   }
 
