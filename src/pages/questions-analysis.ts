@@ -11,6 +11,8 @@ import * as knowledgeSkillsCommentary from 'json!commentary/questions-analysis/k
 import * as performanceCommentary from 'json!commentary/questions-analysis/performance.json';
 
 export default class QuestionsAnalysis extends Page {
+  pageTitle = 'Sample Questions Analysis';
+
   onBeforeShow(): void {
     this.pushSection(new DefaultSection({
       inner: new (class extends ItemView<Model> { template = () => '' }),
@@ -26,7 +28,5 @@ export default class QuestionsAnalysis extends Page {
       inner: new (class extends ItemView<Model> { template = () => '' }),
       commentary: performanceCommentary[context.subject],
     }));
-
-    this.pageTitle = 'Sample Questions Analysis';
   }
 }

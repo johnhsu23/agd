@@ -50,8 +50,8 @@ export default class RootView extends LayoutView<Model> {
     // Using dynamic require here to avoid front-loading every page and its supporting modules
     // (we'll have r.js include them, of course)
     // tslint:disable-next-line:no-require-imports
-    require([path], (mod: { default: typeof Page}) => {
-      let subjectTitle: string = '';
+    require([path], (mod: { default: { new(): Page} }) => {
+      let subjectTitle = '';
       switch (subject) {
         case 'visual-arts':
           subjectTitle = ' Visual Arts -';
@@ -60,6 +60,8 @@ export default class RootView extends LayoutView<Model> {
 
         case 'music':
           subjectTitle = ' Music -';
+          // fallthrough
+
         case undefined:
           // TS doesn't seem to like narrowing here
           context.subject = subject as 'music';
