@@ -25,12 +25,6 @@ module.exports = function (grunt) {
         tasks: ['html-data'],
       },
 
-      // Convert SVG to PNG
-      assets: {
-        files: 'public/img/bg/*.svg',
-        tasks: ['svg2png:default'],
-      },
-
       // Monitor add/delete events to update *.d.ts files
       'ambient-commentary': {
         options: {
