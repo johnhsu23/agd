@@ -10,7 +10,7 @@ module.exports = function (grunt) {
       // Monitor updates to SASS or the glob config
       stylesheets: {
         files: ['sass/**/*.scss', 'sass/sass-globbing.json'],
-        tasks: ['sass_globbing:default', 'newer:sass:default', 'newer:postcss:default'],
+        tasks: ['sass_globbing:default', 'sass:default', 'newer:postcss:default'],
       },
 
       // Re-run bower if dependencies added/removed
