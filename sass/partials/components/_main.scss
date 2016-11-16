@@ -1,0 +1,6 @@
+.main {
+	.main__header,
+	.main__inner {
+		@extend .l-constrain;
+	}
+}

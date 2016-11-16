@@ -26,9 +26,9 @@
   &__contents {
     width: 768px;
 
-    @include desktop {
-      float: left;
-    }
+    //@include desktop {
+    //  float: left;
+    //}
 
     & > .chart {
       display: block;
@@ -37,12 +37,12 @@
   }
 
   &__legend {
-    @include desktop {
-      float: right;
-    }
+    //@include desktop {
+    //  float: right;
+    //}
 
-    @include tablet {
-      margin: 0 auto;
-    }
+    //@include tablet {
+    //  margin: 0 auto;
+    //}
   }
 }
