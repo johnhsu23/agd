@@ -1,5 +1,5 @@
 {
-  "name": "charts-tng",
+  "name": "naep-arts-2016",
   "description": "",
   "main": "",
   "authors": [
@@ -21,6 +21,8 @@
     "jquery": "~2",
     "bluebird": "^3.4.1",
     "requirejs-plugins": "^1.0.3",
+    "breakpoint-sass": "^2.7.0",
+    "singularity": "^1.7.0",
     "jquery-selectability": "^1.0.2",
     "Accessible-Mega-Menu": "adobe-accessibility/Accessible-Mega-Menu#726ea8eaf716757ab778d5d8fce73cbc8e889de3"
   },
@@ -30,6 +32,12 @@
   "exportsOverride": {
     "requirejs-plugins": {
       "": "src/json.js"
+    },
+    "breakpoint-sass": {
+      "stylesheets": "**/*.scss"
+    },
+    "singularity": {
+      "stylesheets": "**/*.scss"
     },
     "Accessible-Mega-Menu": {
       "": "js/jquery-accessibleMegaMenu.js"

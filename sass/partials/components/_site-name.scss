@@ -1,0 +1,27 @@
+.site-name {
+  display: inline-block;
+}
+
+.site-name a {
+  color: #fff;
+  display: inline-block;
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 300;
+  text-decoration: none;
+    
+  @include breakpoint($desktop-width) {
+    font-size: 2rem;
+  }
+
+  .site-name__year {
+    font-weight: 400;
+  }
+
+  .site-name__divider {
+    color: $brand-green-pale;
+    font-size: .85em;
+    font-weight: 300;
+    vertical-align: top;
+  }
+}

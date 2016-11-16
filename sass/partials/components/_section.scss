@@ -15,7 +15,7 @@
   padding: 1em 0;
 
   &__inner {
-    @include enforce-width;
+    //@include enforce-width;
   }
 
   &__title {
@@ -34,8 +34,8 @@
   &__controls {
     padding: 1em 0;
 
-    @include tablet {
-      padding: 1em;
-    }
+    //@include tablet {
+    //  padding: 1em;
+    //}
   }
 }

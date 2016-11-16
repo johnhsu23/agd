@@ -18,7 +18,7 @@ module.exports = function (grunt) {
     'copy-deps',
 
     // Last but not least -- get our style on
-    'sass:default',
+    'build-styles',
   ];
 
   grunt.registerTask('build', tasks);
