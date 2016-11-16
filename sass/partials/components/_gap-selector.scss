@@ -1,11 +1,29 @@
 .gap-selector {
-  display: table;
+  color: $black-70;
+	display: table;
+  font-size: .875em;
+  font-weight: 700;
+  margin: 0 rem(10px) 0 0;
+  position: relative;
+  text-transform: uppercase;
 
   &__row {
     display: table-row;
+
+    &:nth-child(2) {
+    	.gap-selector__cell:nth-child(2) {
+    		font-size: 2em;
+    	}
+    }
   }
 
   &__cell {
     display: table-cell;
+
+    &:nth-child(2) {
+    	padding: 0 2em;
+    	text-align: center;
+    	vertical-align: top;
+    }
   }
 }
