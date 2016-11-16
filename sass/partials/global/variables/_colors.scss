@@ -18,12 +18,52 @@ $border-color: #ccc;
 $gradient-light: rgba(255, 255, 255, 0.2);
 $gradient-dark: rgba(0, 0, 0, 0.2);
 
+/* Original ETS Colors ---------------------- */
+
+$taupe-100: #a19788;
+$taupe-70: #beb7ac;
+$taupe-50: #d0cbc3;
+$taupe-30: #e2dfdb;
+$taupe-25: #e7e5e1;
+$taupe-20: #eceae7;
+$taupe-15: #f1efed;
+$taupe-10: #f5f4f3;
+$taupe-5: #faf9f8;
+$taupe-130: #6e695e;
+
+$blue-100: #001871;
+$blue-65: #41639e;
+$blue-35: #889bc0;
+$blue-25: #bdc9db;
+$blue-15: #dde2eb;
+
+$orange-100: #c69214;
+$orange-75: #d6ad4a;
+$orange-45: #e4c989;
+$orange-sm: #b78300;
+$orange-135: #8f6a19;
+
+$green-100: #00a795;
+$green-80: #6ab4ac;
+$green-65: #8ec5be;
+$green-50: #b1d6d1;
+$green-35: #d3e7e4;
+$green-15: #e9f3f0;
+$green-sm: #008d83;
+$green-130: #00715f;
+
+$black-90: #191919;
+$black-80: #323232;
+$black-70: #4c4c4c;
+$black-60: #656565;
+$black-40: #989898;
+
 // ETS Brand colors
-$brand-blue: #001871;
-$brand-gold: #c69214;
-$brand-green: #00a795;
-$brand-green-pale: #b1d6d1;
-$brand-orange: #c69214;
+$brand-blue: $blue-100;
+$brand-gold: $orange-100;
+$brand-green: $green-100;
+$brand-green-pale: $green-50;
+$brand-orange: $orange-100;
 
 $slate-grey: #d0cbc3;
 $darker-grey: #a19788;

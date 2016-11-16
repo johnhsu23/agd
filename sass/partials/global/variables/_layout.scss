@@ -14,6 +14,11 @@ $tablet-width: 768px;
 // Desktop Width
 $desktop-width: 1024px;
 
+// Breakpoint shortcuts
+@desktop:   ~"only screen and (min-width: 1024px)";
+@tablet:    ~"only screen and (max-width: 1023px)";
+@desktop-share-icons:   ~"only screen and (min-width: 1190px)";
+
 // Polyfill for box-sizing in IE7 and below. The url must be root relative to
 // the location of the htc script.
 $box-sizing-polyfill-path: '/sites/all/themes/gesso/polyfills/boxsizing.htc';
