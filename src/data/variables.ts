@@ -12,8 +12,6 @@ export const SDRACE: Variable = {
     'Black',
     'Hispanic',
     'Asian/Pacific Islander',
-    'Asian',
-    'Native Hawaiian/Other Pacific Islander',
     'American Indian/Alaska Native',
     'Two or More Races',
   ],
@@ -25,5 +23,14 @@ export const GENDER: Variable = {
   categories: [
     'Male',
     'Female',
+  ],
+};
+
+export const SLUNCH3: Variable = {
+  id: 'SLUNCH3',
+  name: 'NSLP Eligibility',
+  categories: [
+    'Eligible for National School Lunch Program (NSLP)',
+    'Not eligible for National School Lunch Program (NSLP)',
   ],
 };

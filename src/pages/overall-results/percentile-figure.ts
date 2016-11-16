@@ -9,12 +9,14 @@ import Chart from 'pages/overall-results/percentile-chart';
 import LegendView from 'pages/overall-results/percentile-legend';
 
 import Legend from 'legends/model';
-import significant from 'legends/sig-diff';
 import series from 'legends/series';
 
 import {yearsForGrade} from 'data/assessment-years';
 import formatList from 'util/format-list';
 import nth from 'util/nth';
+import context from 'models/context';
+
+import * as percentileInstructions from 'text!templates/percentile-instructions.html';
 
 export default class PercentileScores extends Figure {
   collection: Collection<Legend> = new Collection<Legend>();
@@ -47,14 +49,13 @@ export default class PercentileScores extends Figure {
       models.push(legend);
     }
 
-    models.push(significant());
     this.collection.reset(models);
   }
 
   protected makeTitle(): string {
-    const years = formatList(yearsForGrade(12));
+    const years = formatList(yearsForGrade(8));
 
-    return `Percentile scores for ${nth(12)}-grade students assessed in NAEP science: ${years}`;
+    return `Percentile scores for ${nth(8)}-grade students assessed in NAEP ${context.subject}: ${years}`;
   }
 
   onBeforeShow(): void {
@@ -65,6 +66,8 @@ export default class PercentileScores extends Figure {
     this.showLegend(new LegendView({
       collection: this.collection,
     }));
+
+    this.showInstructions(percentileInstructions);
 
     this.showContents(new Chart);
   }

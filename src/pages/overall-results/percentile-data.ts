@@ -24,13 +24,13 @@ function makeParams(subject: string, years: string[]): Params {
     type: 'tuda-acrossyear',
 
     subject,
-    grade: 12,
-
+    grade: 8,
+    subscale: (subject === 'music') ? 'MUSRP' : 'VISRP',
     variable: 'TOTAL',
     categoryindex: 0,
 
     targetyears: years,
-    focalyear: '2015R3',
+    focalyear: '2016R3',
 
     stattype: ['P1', 'P2', 'P3', 'P5', 'P7', 'P9'],
     jurisdiction: 'NT',

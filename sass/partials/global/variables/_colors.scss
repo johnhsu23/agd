@@ -40,6 +40,9 @@ $series-2: $brand-blue;
 $series-3: darken($brand-blue, 12.5%);
 $series-4: darken($brand-blue, 25%);
 
+// Chart gap colors
+$gap: lightgrey;
+
 // Chart percentile colors
 $percentile-colors: (
   p1: $series-0,

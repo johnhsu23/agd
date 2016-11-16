@@ -10,9 +10,6 @@ import 'd3-transition';
 const app = new Application;
 
 app.on('start', () => {
-  // The root view listens for radio messages, so we don't
-  // need to do anything with the root layout beyond instantiating it.
-  // tslint:disable-next-line:no-unused-variable
   const root = new RootView;
   root.render();
 

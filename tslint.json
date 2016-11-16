@@ -37,6 +37,7 @@
         "singleline": "never"
       }
     ],
+    "no-switch-case-fall-through": true,
     "no-trailing-whitespace": true,
     "no-require-imports": true,
     "no-var-keyword": true,

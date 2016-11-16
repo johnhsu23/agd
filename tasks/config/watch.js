@@ -16,7 +16,7 @@ module.exports = function (grunt) {
       // Re-run bower if dependencies added/removed
       bower: {
         files: 'bower.json',
-        tasks: ['bower:default'],
+        tasks: ['bower:default', 'copy-deps'],
       },
 
       // Rebuild commentary files
