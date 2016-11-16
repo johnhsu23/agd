@@ -10,8 +10,116 @@
       background: lightgrey;
     }
   }
+
+  &[aria-expanded=false] {
+    [role=listbox] {
+      border: none;
+      display: none;
+    }
+  }
+
+  display: inline-block;
+  margin: 0 0 1em;
+  min-width: 275px;
+  position: relative;
+  width: auto;
+  z-index: 100;
+
+  .chart__legend & {
+    margin: 0 0 10px 10px;
+    min-width: 240px;
+  }
+
+  div[role="textbox"] {
+    background: $orange-100 url(../img/arrow-pulldown--small.png) no-repeat center right;
+    border-top: 1px solid $orange-75;
+    border-bottom: 2px solid $orange-135;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 400;
+    padding: .35em 2.25em .35em .75em;
+    text-transform: none;
+  }
+  div[role="listbox"] {
+    background: #fff;
+    border-right: 1px solid $orange-75;
+    border-bottom: 1px solid $orange-75;
+    border-left: 1px solid $orange-75;
+    font-weight: 400;
+    padding: 0;
+    position: absolute;
+          
+    div[role="option"] {
+      color: $black-70;
+      padding: .35em .75em;
+      min-width: 252px;
+      text-transform: none;
+
+      .chart__legend & {
+        min-width: 214px;
+      }
+
+      &:hover,
+      &:focus {
+        background: $orange-100;
+        color: #fff;
+        cursor: pointer;
+        text-decoration: none;
+      }
+    }
+    div[role="group"] {
+      div[role="heading"] {
+        background: $orange-75;
+        color: $black-70;
+        font-size: .8125em;
+        font-weight: 400;
+        padding: 6px 0 6px .9231em;
+        text-transform: uppercase;
+      }
+      div[role="option"] {
+        color: $black-70;
+        cursor: pointer;
+        text-transform: none;
+        
+        &:hover,
+        &:focus {
+          background: $orange-100;
+          color: #fff;
+        }
+
+        &:last-child {
+          border: none;
+        }
+
+        &[aria-selected="true"] {
+          background: $orange-100;
+          color: #fff;
+        }
+      }
+    }
+
+    div[aria-disabled="true"] {
+      color: $slate-grey;
+      cursor: default;
+    }
+
+    .page-state-comparisons & {
+      max-height: 295px;
+      overflow-y: scroll;
+
+      div[role="option"] {
+        min-width: 237px;
+      }
+    }
+  }
+
+  .page-state-gaps & {
+    min-width: 300px;
+  }
 }
 
 .selectability-offscreen {
   display: none;
 }
+  
