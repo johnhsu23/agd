@@ -1,3 +1,20 @@
 .chart--gaps__gap {
   fill: $gap;
 }
+
+.gap-marker {
+  @include fade-in-out;
+
+  &--significant &__marker {
+    fill: $brand-blue;
+  }
+
+  &--not-significant &__marker {
+    fill: grey;
+  }
+
+  &__text {
+    text-anchor: middle;
+    fill: white;
+  }
+}

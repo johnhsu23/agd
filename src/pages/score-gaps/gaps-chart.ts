@@ -1,5 +1,6 @@
 import * as Bluebird from 'bluebird';
 import {Selection} from 'd3-selection';
+import {symbolCircle as gapCircle} from 'd3-shape';
 
 import 'd3-transition';
 
@@ -12,7 +13,7 @@ import {formatValue} from 'codes';
 
 import * as scales from 'components/scales';
 import * as axis from 'components/axis';
-import {symbol as makeSymbol, types as symbolTypes} from 'components/symbol';
+import {symbol as makeSymbol, types as symbolTypes, gapDiamond} from 'components/symbol';
 import {gap as makeGap, GapPoint, PointInfo} from 'components/gap';
 
 type Point = {
@@ -24,6 +25,16 @@ type Point = {
 const symbol = makeSymbol<GapPoint<Point, api.GapData>>()
   .size(194)
   .type(d => symbolTypes[d.category - 1]);
+
+const gapSymbol = makeSymbol<api.GapData>()
+  .size(1000)
+  .type(d => {
+    if (d.sig === '<' || d.sig === '>') {
+      return gapCircle;
+    } else {
+      return gapDiamond;
+    }
+  });
 
 @configure({
   className: 'chart chart--gaps',
@@ -37,6 +48,7 @@ export default class GapsChart extends Chart<api.GapData> {
   protected scoreAxis: Selection<SVGGElement, {}, null, void>;
   protected yearAxis: Selection<SVGGElement, {}, null, void>;
   protected gap: Selection<SVGGElement, {}, null, void>;
+  protected markers: Selection<SVGGElement, {}, null, void>;
 
   protected variable: Variable = SDRACE;
   protected focal: number = 0;
@@ -61,6 +73,7 @@ export default class GapsChart extends Chart<api.GapData> {
       this.scoreAxis = this.d3el.append<SVGGElement>('g');
       this.yearAxis = this.d3el.append<SVGGElement>('g');
       this.gap = this.inner.append<SVGGElement>('g');
+      this.markers = this.inner.append<SVGGElement>('g');
 
       this.firstRender = false;
     }
@@ -197,6 +210,7 @@ export default class GapsChart extends Chart<api.GapData> {
       .x(d => year(d.year))
       .focal(focalData)
       .target(targetData)
+      .defined(row => row.isSigDisplayable !== 0)
       (data);
 
     // Gap surface
@@ -274,5 +288,36 @@ export default class GapsChart extends Chart<api.GapData> {
       .classed('series__point__symbol', true)
       .merge(pointUpdate.select('.series__point__symbol'))
       .attr('d', symbol);
+
+    const markerUpdate = this.markers.selectAll<SVGGElement, api.GapData>('.gap-marker')
+      .data(gapData.markers, d => '' + d.year);
+
+    markerUpdate.exit()
+      .classed('is-exiting', true)
+      .transition()
+      .delay(250)
+      .remove();
+
+    const markerEnter = markerUpdate.enter()
+      .append('g')
+      .classed('gap-marker', true);
+
+    markerEnter.merge(markerUpdate)
+      .classed('gap-marker--significant', d => d.sig === '<' || d.sig === '>')
+      .classed('gap-marker--not-significant', d => d.sig !== '<' && d.sig !== '>')
+      .attr('transform', d => `translate(${year(d.year)}, ${this.innerHeight - 25})`);
+
+    markerEnter.append('path')
+      .classed('gap-marker__marker', true)
+      .merge(markerUpdate.select('.gap-marker__marker'))
+      .attr('d', gapSymbol);
+
+    markerEnter.append('text')
+      .classed('gap-marker__text', true)
+      .attr('y', '6px')
+      .merge(markerUpdate.select('.gap-marker__text'))
+      .text(d => Math.round(d.gap));
+
+    console.log(gapData.markers);
   }
 }

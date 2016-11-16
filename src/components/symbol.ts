@@ -22,5 +22,18 @@ export const hexagon: SymbolType = {
   },
 };
 
+export const gapDiamond: SymbolType = {
+  draw(context, size) {
+    const a = Math.sqrt(size),
+          d = (SQRT2 * a) / 2;
+
+    context.moveTo(0, -d);
+    context.lineTo(d, 0);
+    context.lineTo(0, d);
+    context.lineTo(-d, 0);
+    context.closePath();
+  },
+};
+
 export const types = Object.freeze(symbols.concat(hexagon));
 export {symbol};
