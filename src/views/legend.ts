@@ -1,12 +1,15 @@
 import {CollectionView} from 'backbone.marionette';
 import Legend from 'legends/model';
-import LegendItemView from 'views/legend-item';
+import LegendItemView from 'views/legend/item';
+
+import TextView from 'views/legend/text';
+import PathView from 'views/legend/path';
+import NoteView from 'views/legend/note';
 
 import configure from 'util/configure';
 
 @configure({
   className: 'legend',
-  childView: LegendItemView as { new(...args: any[]): LegendItemView },
 })
 export default class LegendView extends CollectionView<Legend, LegendItemView> {
   render(): this {
@@ -15,5 +18,18 @@ export default class LegendView extends CollectionView<Legend, LegendItemView> {
     this.$el.toggleClass('is-empty', this.collection.isEmpty());
 
     return this;
+  }
+
+  getChildView(item: Legend): { new(...args: any[]): LegendItemView } {
+    switch (item.type) {
+      case 'text':
+        return TextView;
+
+      case 'path':
+        return PathView;
+
+      case 'note':
+        return NoteView;
+    }
   }
 }
