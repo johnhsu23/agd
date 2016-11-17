@@ -1,7 +1,6 @@
-import * as Bluebird from 'bluebird';
 import {Selection} from 'd3-selection';
-import * as Scale from 'd3-scale';
-import * as D3Axis from 'd3-axis';
+import {scaleBand} from 'd3-scale';
+import {axisLeft} from 'd3-axis';
 import {symbolCircle as gapCircle} from 'd3-shape';
 
 import 'd3-transition';
@@ -69,7 +68,7 @@ export default class BarChart extends Chart<api.Data> {
       this.firstRender = false;
     }
 
-    this.renderData().done();
+    this.renderData();
 
     return this;
   }
@@ -79,15 +78,13 @@ export default class BarChart extends Chart<api.Data> {
     this.focal = focal;
     this.target = target;
 
-    this.renderData().done();
+    this.renderData();
   }
 
-  protected async renderData(): Bluebird<void> {
-    const id = this.variable.id;
-
-    const data = await api.load(context.subject, id, this.focal, this.target);
-
-    return this.loaded(data);
+  protected renderData(): void {
+    api.load(context.subject, this.variable.id, this.focal, this.target)
+      .then(data => this.loaded(data))
+      .done();
   }
 
   protected loaded(data: api.Data[]): void {
@@ -108,12 +105,12 @@ export default class BarChart extends Chart<api.Data> {
       .call(xAxis);
 
     // setup and add the y axis
-    const y = Scale.scaleBand()
+    const y = scaleBand()
       .domain([data[0].category, data[0].categoryb])
       .range([0, chartHeight])
       .padding(0.5);
 
-    const yAxis = D3Axis.axisLeft(y);
+    const yAxis = axisLeft(y);
 
     this.yAxis
       .attr('transform', `translate(${this.marginLeft}, ${this.marginTop})`)
@@ -137,67 +134,38 @@ export default class BarChart extends Chart<api.Data> {
     const barData = [catA, catB];
 
     // set the bars
-    const barUpdate = this.inner.selectAll('rect')
+    const barUpdate = this.inner.selectAll('.gap-bar')
       .data(barData);
-
-    barUpdate.exit()
-      .classed('is-exiting', true)
-      .transition()
-      .delay(250)
-      .remove();
 
     barUpdate.interrupt()
       .transition()
-      .attr('y', d => y(d.category))
-      .attr('x', 0)
+      .attr('transform', d => `translate(0, ${y(d.category)})`);
+
+    const barEnter = barUpdate.enter()
+      .append('g')
+      .classed('gap-bar', true)
+      .attr('transform', d => `translate(0, ${y(d.category)})`);
+
+    barEnter.merge(barUpdate);
+
+    // add bar rect svg
+    barEnter.append('rect')
+      .classed('gap-bar__bar', true)
+      .merge(barUpdate.select('.gap-bar__bar'))
       .attr('height', y.bandwidth())
       .attr('width', d => x(d.value));
 
-    barUpdate.enter()
-      .append('rect')
-      .attr('class', 'bar')
-      .attr('y', d => y(d.category))
-      .attr('x', 0)
-      .attr('height', y.bandwidth())
-      .attr('width', d => x(d.value));
-
-    // Add percentage text next to bar
-    const barText = this.inner.selectAll('.bar__text')
-      .data(barData);
-
-    barText.exit()
-      .classed('is-exiting', true)
-      .transition()
-      .remove();
-
-    barText.interrupt()
-      .transition()
-      .attr('y', d => y(d.category) + (y.bandwidth() / 2))
-      .attr('x', d => x(d.value) + 5)
-      .text(d => Math.round(d.value) + ((d.index === this.focal + 1) ? '% of maximum score' : ''));
-
-    barText.enter()
-      .append('text')
-      .classed('bar__text', true)
-      .attr('y', d => y(d.category) + (y.bandwidth() / 2))
+    // add bar percentage text
+    barEnter.append('text')
+      .classed('gap-bar__text', true)
+      .merge(barUpdate.select('.gap-bar__text'))
+      .attr('y', d => (y.bandwidth() / 2))
       .attr('x', d => x(d.value) + 5)
       .text(d => Math.round(d.value) + ((d.index === this.focal + 1) ? '% of maximum score' : ''));
 
     // Add gap point and text
-    const gapData = {
-      value: data[0].gap,
-      sig: data[0].sig,
-      displayable: data[0].isSigDisplayable !== 0,
-    };
-
     const markerUpdate = this.inner.selectAll('.gap-marker')
-      .data([gapData]);
-
-    markerUpdate.exit()
-      .classed('is-exiting', true)
-      .transition()
-      .delay(250)
-      .remove();
+      .data([data[0]]);
 
     markerUpdate.interrupt()
       .transition()
@@ -205,12 +173,12 @@ export default class BarChart extends Chart<api.Data> {
 
     const markerEnter = markerUpdate.enter()
       .append('g')
-      .classed('gap-marker', true);
+      .classed('gap-marker', true)
+      .attr('transform', d => `translate(${x(Math.max(catA.value, catB.value)) + 15}, ${this.innerHeight / 2})`);
 
     markerEnter.merge(markerUpdate)
       .classed('gap-marker--significant', d => d.sig === '<' || d.sig === '>')
-      .classed('gap-marker--not-significant', d => d.sig !== '<' && d.sig !== '>')
-      .attr('transform', d => `translate(${x(Math.max(catA.value, catB.value)) + 15}, ${this.innerHeight / 2})`);
+      .classed('gap-marker--not-significant', d => d.sig !== '<' && d.sig !== '>');
 
     // add gap symbol
     markerEnter.append('path')
@@ -223,7 +191,7 @@ export default class BarChart extends Chart<api.Data> {
       .classed('gap-marker__text', true)
       .attr('y', '6px')
       .merge(markerUpdate.select('.gap-marker__text'))
-      .text(d => formatGap(d.value, ''));
+      .text(d => formatGap(d.gap, ''));
 
     // add outer gap text
     markerEnter.append('text')
