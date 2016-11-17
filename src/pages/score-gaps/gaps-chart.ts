@@ -318,7 +318,5 @@ export default class GapsChart extends Chart<api.GapData> {
       .attr('y', '6px')
       .merge(markerUpdate.select('.gap-marker__text'))
       .text(d => formatGap(d.gap, d.year === 2016 ? '' : trendSig.sig));
-
-    console.log(gapData.markers);
   }
 }
