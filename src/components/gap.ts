@@ -117,7 +117,7 @@ export function gap<Point, Data>(): Gap<Point, Data> {
   const gap = ((rows: Data[]): GapOutput<Point, Data> => {
     const focals: GapPoint<Point, Data>[] = [],
           targets: GapPoint<Point, Data>[] = [],
-          markers: /* GapMarker<Data> */ Data[] = [],
+          markers: Data[] = [],
           areas: Area[] = [],
           count = rows.length;
 

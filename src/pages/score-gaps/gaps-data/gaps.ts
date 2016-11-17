@@ -20,6 +20,7 @@ function swapCategories(rows: Data[]): Data[] {
   for (const row of rows as (Data & {[key: string]: number | string})[]) {
     swap(row, 'category', 'categoryb');
     swap(row, 'categoryindex', 'categorybindex');
+    row.gap = -row.gap;
   }
 
   return rows;
@@ -33,7 +34,6 @@ function swapValues(rows: Data[]): Data[] {
     swap(row, 'focalValue', 'targetValue');
     swap(row, 'focalErrorFlag', 'targetErrorFlag');
     swap(row, 'isFocalStatDisplayable', 'isTargetStatDisplayable');
-    row.gap = -row.gap;
   }
 
   return rows;
