@@ -19,14 +19,14 @@
 // rather than one created implicitly.
 
 .figure {
-  width: 100%;
   margin: 0;
   padding: 0;
+  width: 100%;
 
   &__contents {
     width: 768px;
 
-    @include desktop {
+    @include breakpoint($desktop-width) {
       float: left;
     }
 
@@ -37,12 +37,45 @@
   }
 
   &__legend {
-    @include desktop {
-      float: right;
-    }
+    margin: 0 auto;
 
-    @include tablet {
-      margin: 0 auto;
+    @include breakpoint($desktop-width) {
+      float: right;
+      margin: 0;
+    }
+  }
+
+  &__title {
+    @extend %u-clearfix;
+    color: $black-60;
+    font-size: 1.125em;
+    font-weight: 400;
+    margin: 1em 0 .75em;
+    max-width: rem(760px);
+    position: relative;
+    text-align: left; 
+  }
+
+  &__instructions {
+    background: $taupe-30;
+    color: $taupe-130;
+    display: block;
+    font-size: .875em;
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 2em 0 3em;
+    min-height: 28px;
+    padding: 6px 1em 6px 120px;
+    position: relative;
+
+    &:before {
+      background: url(../img/click-data-point.png) no-repeat top left;
+      content: '';
+      height: 53px;
+      left: 40px;
+      position: absolute;
+      top: -9px;
+      width: 70px;
     }
   }
 }

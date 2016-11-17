@@ -3,6 +3,7 @@ module.exports = function (grunt) {
     clean: {
       default: [
         'public/lib',
+        'public/sass', // Clean up symbolic link
         'public/commentary',
         'public/style.css',
         'public/style.css.map',

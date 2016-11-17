@@ -1,0 +1,33 @@
+// @file
+// Layout variables
+// http://sass-lang.com/docs/yardoc/file.SASS_REFERENCE.html#variables_
+
+@include breakpoint-set('to ems', true);
+$max-page-width: 1200px;
+
+// Legend dimensions
+$legend-width: 220px;
+$legend-height: 30px;
+$legend-item-width: 30px;
+$legend-item-height: 30px;
+
+// Mobile Menu
+$mobile-menu-bp: 700px;
+
+// when sidebar, main column max width
+$max-contents-width: 750px;
+
+// Tablet Width
+$tablet-width: 768px;
+
+// Desktop Width
+$desktop-width: 1024px;
+
+// Breakpoint shortcuts
+@desktop:   ~"only screen and (min-width: 1024px)";
+@tablet:    ~"only screen and (max-width: 1023px)";
+@desktop-share-icons:   ~"only screen and (min-width: 1190px)";
+
+// Polyfill for box-sizing in IE7 and below. The url must be root relative to
+// the location of the htc script.
+$box-sizing-polyfill-path: '/sites/all/themes/gesso/polyfills/boxsizing.htc';

@@ -1,0 +1,148 @@
+// @file
+// Color variables
+// http://sass-lang.com/docs/yardoc/file.SASS_REFERENCE.html#variables_
+
+// Default colors
+$primary-text-color: #333;
+$secondary-text-color: #555;
+$heading-text-color: #333;
+$body-color: #fff;
+$link-color: blue;
+$link-hover-color: green;
+$selection-background: blue;
+$selection-foreground: #fff;
+$status-color: #4d8e4d;
+$warning-color: #fcce00;
+$error-color: #900;
+$border-color: #ccc;
+$gradient-light: rgba(255, 255, 255, 0.2);
+$gradient-dark: rgba(0, 0, 0, 0.2);
+
+/* Original ETS Colors ---------------------- */
+
+$taupe-100: #a19788;
+$taupe-70: #beb7ac;
+$taupe-50: #d0cbc3;
+$taupe-30: #e2dfdb;
+$taupe-25: #e7e5e1;
+$taupe-20: #eceae7;
+$taupe-15: #f1efed;
+$taupe-10: #f5f4f3;
+$taupe-5: #faf9f8;
+$taupe-130: #6e695e;
+
+$blue-100: #001871;
+$blue-65: #41639e;
+$blue-35: #889bc0;
+$blue-25: #bdc9db;
+$blue-15: #dde2eb;
+
+$orange-100: #c69214;
+$orange-75: #d6ad4a;
+$orange-45: #e4c989;
+$orange-sm: #b78300;
+$orange-135: #8f6a19;
+
+$green-100: #00a795;
+$green-80: #6ab4ac;
+$green-65: #8ec5be;
+$green-50: #b1d6d1;
+$green-35: #d3e7e4;
+$green-15: #e9f3f0;
+$green-sm: #008d83;
+$green-130: #00715f;
+
+$black-90: #191919;
+$black-80: #323232;
+$black-70: #4c4c4c;
+$black-60: #656565;
+$black-40: #989898;
+
+// ETS Brand colors
+$brand-blue: $blue-100;
+$brand-gold: $orange-100;
+$brand-green: $green-100;
+$brand-green-pale: $green-50;
+$brand-orange: $orange-100;
+
+$slate-grey: #d0cbc3;
+$darker-grey: #a19788;
+
+// Axis colors
+$axis: grey;
+
+// Chart series colors
+$series-default: $brand-blue;
+
+$series-0: lighten($brand-blue, 25%);
+$series-1: lighten($brand-blue, 12.5%);
+$series-2: $brand-blue;
+$series-3: darken($brand-blue, 12.5%);
+$series-4: darken($brand-blue, 25%);
+
+// Chart gap colors
+$gap: lightgrey;
+
+// Chart percentile colors
+$percentile-colors: (
+  p1: $series-0,
+  p2: $series-1,
+  p5: $series-2,
+  p7: $series-3,
+  p9: $series-4,
+);
+
+// Achievement-level colors
+$acl-bb: #dde2eb;
+$acl-ba: #bdc9db;
+$acl-pr: #889bc0;
+$acl-ad: #41639e;
+
+// Table colors
+$table-header-back: $brand-blue;
+$table-header-fore: white;
+$table-even: white;
+$table-odd: #f5f4f3;
+$table-border: #e2dfdb;
+
+// Cutpoint colors
+$cutpoint-foreground: $slate-grey;
+$cutpoint-background: $darker-grey;
+
+// Radio colors
+$radio-active: $brand-gold;
+$radio-inactive: $brand-green;
+
+// Dialog variables
+$dialog-top-color: $brand-blue;
+$dialog-background: $slate-grey;
+$dialog-top: 30px;
+
+$subchart-backdrop: $darker-grey;
+
+$share-background: $slate-grey;
+$share-foreground: $darker-grey;
+
+// Buttons
+$button-bg-color: #f9f9f9;
+$button-text-color: #333;
+
+// Forms
+$form-bg-color: #eee; // Used for fieldsets and vertical-tabs.
+$form-border-color: #ccc;
+
+// Mobile Menu
+$mobile-menu-fallback-bg-color: #f3f3f3;
+$mobile-menu-bg-color: rgba(243, 243, 243, 0.98);
+$mobile-menu-border-color: #dadada;
+$mobile-menu-text-color: #555559;
+$mobile-menu-hover-color: #000000;
+$mobile-submenu-fallback-bg-color: #fff;
+$mobile-submenu-bg-color: rgba(255, 255, 255, 0.98);
+$mobile-submenu-text-color: #555559;
+$mobile-submenu-hover-color: #000000;
+
+// Nav
+$pillbox-bg-color: #f9f9f9;
+$pillbox-text-color: #333;
+$pipeline-border-color: #ccc;

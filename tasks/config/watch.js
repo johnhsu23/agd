@@ -1,14 +1,16 @@
 module.exports = function (grunt) {
   grunt.config.merge({
     watch: {
-      // Watch sources
-      stylesheets: {
-        files: ['sass/**/*.scss'],
-        tasks: ['sass:default'],
-      },
+      // Watch TypeScript
       typescript: {
         files: ['src/**/*.ts', '!src/.baseDir.ts'],
         tasks: ['newer:tslint:default', 'ts:default'],
+      },
+
+      // Monitor updates to SASS or the glob config
+      stylesheets: {
+        files: ['sass/**/*.scss', 'sass/sass-globbing.json'],
+        tasks: ['sass_globbing:default', 'sass:default', 'newer:postcss:default'],
       },
 
       // Re-run bower if dependencies added/removed
@@ -44,7 +46,7 @@ module.exports = function (grunt) {
         options: {
           livereload: true,
         },
-        files: ['public/**/*.html', 'public/style.css', 'public/lib/main.js']
+        files: ['public/**/*.html', 'public/css/styles.css', 'public/lib/main.js']
       }
     },
   });

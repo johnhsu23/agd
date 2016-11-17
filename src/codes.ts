@@ -89,3 +89,20 @@ export function formatValue(estimate: number, sig: string, errorCode: number): s
 
   return formatted;
 }
+
+/**
+ * Formats a score difference according to NRC/NAEP guidelines.
+ *
+ * @param estimate The estimated difference
+ * @param sig The sig test result
+ */
+export function formatGap(estimate: number, sig: string): string {
+  const rounded = Math.round(estimate),
+        marker = (sig === '<' || sig === '>') ? '*' : '';
+
+  if (rounded === 0) {
+    return '#' + marker;
+  } else {
+    return rounded + marker;
+  }
+}
