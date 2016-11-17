@@ -17,12 +17,6 @@ import * as scales from 'components/scales';
 import * as axis from 'components/axis';
 import {symbol as makeSymbol, gapDiamond} from 'components/symbol';
 
-type Point = {
-  errorFlag: number;
-  category: number;
-  sig: string;
-};
-
 const gapSymbol = makeSymbol()
   .size(1000)
   .type(d => {
