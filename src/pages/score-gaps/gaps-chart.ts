@@ -9,7 +9,7 @@ import {Variable, SDRACE} from 'data/variables';
 import Chart from 'views/chart';
 import * as api from 'pages/score-gaps/gaps-data';
 import interpolate from 'util/path-interpolate';
-import {formatValue} from 'codes';
+import {formatValue, formatGap} from 'codes';
 
 import * as scales from 'components/scales';
 import * as axis from 'components/axis';
@@ -95,9 +95,10 @@ export default class GapsChart extends Chart<api.GapData> {
     const id = this.variable.id;
 
     const gaps = await api.loadGaps('science', id, this.focal, this.target),
-          trends = await api.loadTrends(id, this.focal, this.target);
+          trends = await api.loadTrends(id, this.focal, this.target),
+          trendSig = await api.loadGapTrends(id, this.focal, this.target);
 
-    return this.loaded(gaps, trends);
+    return this.loaded(gaps, trends, trendSig);
   }
 
   protected resizeExtent(data: api.GapData[]): void {
@@ -143,7 +144,7 @@ export default class GapsChart extends Chart<api.GapData> {
     ];
   }
 
-  protected loaded(data: api.GapData[], trends: api.TrendData[]): void {
+  protected loaded(data: api.GapData[], trends: api.TrendData[], trendSig: api.GapTrendData): void {
     this.resizeExtent(data);
 
     const year = scales.year()
@@ -316,7 +317,7 @@ export default class GapsChart extends Chart<api.GapData> {
       .classed('gap-marker__text', true)
       .attr('y', '6px')
       .merge(markerUpdate.select('.gap-marker__text'))
-      .text(d => Math.round(d.gap));
+      .text(d => formatGap(d.gap, d.year === 2016 ? '' : trendSig.sig));
 
     console.log(gapData.markers);
   }
