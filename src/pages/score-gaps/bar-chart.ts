@@ -6,6 +6,7 @@ import {symbolCircle as gapCircle} from 'd3-shape';
 import 'd3-transition';
 
 import configure from 'util/configure';
+import wrap from 'util/wrap';
 import {Variable, SDRACE} from 'data/variables';
 import Chart from 'views/chart';
 import * as api from 'pages/score-gaps/bar-data';
@@ -41,8 +42,8 @@ export default class BarChart extends Chart<api.Data> {
   protected marginBottom = 40;
   protected marginTop = 0;
 
-  protected xAxis: Selection<SVGGElement, {}, null, void>;
-  protected yAxis: Selection<SVGGElement, {}, null, void>;
+  protected percentAxis: Selection<SVGGElement, {}, null, void>;
+  protected categoryAxis: Selection<SVGGElement, {}, null, void>;
 
   protected variable: Variable = SDRACE;
   protected focal: number = 0;
@@ -62,8 +63,8 @@ export default class BarChart extends Chart<api.Data> {
     super.render();
 
     if (this.firstRender) {
-      this.xAxis = this.d3el.append<SVGGElement>('g');
-      this.yAxis = this.d3el.append<SVGGElement>('g');
+      this.percentAxis = this.d3el.append<SVGGElement>('g');
+      this.categoryAxis = this.d3el.append<SVGGElement>('g');
 
       this.firstRender = false;
     }
@@ -83,68 +84,73 @@ export default class BarChart extends Chart<api.Data> {
 
   protected renderData(): void {
     api.load(context.subject, this.variable.id, this.focal, this.target)
-      .then(data => this.loaded(data))
+      .then(data => this.loaded(data[0]))
       .done();
   }
 
-  protected loaded(data: api.Data[]): void {
+  protected loaded(data: api.Data): void {
     const chartHeight = 300,
           chartWidth = 400;
     this.height(chartHeight).width(chartWidth);
 
     // setup and add the x axis
-    const x = scales.percent()
+    const percent = scales.percent()
       .bounds([0, 100])
       .domain([0, 100]);
 
-    const xAxis = axis.horizontalBottom()
-      .scale(x);
+    const percentAxis = axis.horizontalBottom()
+      .scale(percent);
 
-    this.xAxis
+    this.percentAxis
       .attr('transform', `translate(${this.marginLeft}, ${this.marginTop + this.innerHeight})`)
-      .call(xAxis);
+      .call(percentAxis);
 
     // setup and add the y axis
-    const y = scaleBand()
-      .domain([data[0].category, data[0].categoryb])
+    const category = scaleBand()
+      .domain([data.category, data.categoryb])
       .range([0, chartHeight])
       .padding(0.5);
 
-    const yAxis = axisLeft(y);
+    const categoryAxis = axisLeft(category);
 
-    this.yAxis
+    this.categoryAxis
       .attr('transform', `translate(${this.marginLeft}, ${this.marginTop})`)
-      .call(yAxis);
+      .call(categoryAxis);
+
+    // wrap the category names
+    this.categoryAxis.selectAll('text')
+      .call(wrap, this.marginLeft - 5);
 
     // setup the data
     const catA = {
-      category: data[0].category,
-      index: data[0].categoryindex,
-      value: data[0].focalValue,
-      displayable: data[0].isFocalStatDisplayable !== 0,
-      errorFlag: data[0].focalErrorFlag,
+      category: data.category,
+      index: data.categoryindex,
+      value: data.focalValue,
+      displayable: data.isFocalStatDisplayable !== 0,
+      errorFlag: data.focalErrorFlag,
     };
     const catB = {
-      category: data[0].categoryb,
-      index: data[0].categorybindex,
-      value: data[0].targetValue,
-      displayable: data[0].isTargetStatDisplayable !== 0,
-      errorFlag: data[0].targetErrorFlag,
+      category: data.categoryb,
+      index: data.categorybindex,
+      value: data.targetValue,
+      displayable: data.isTargetStatDisplayable !== 0,
+      errorFlag: data.targetErrorFlag,
     };
     const barData = [catA, catB];
 
-    // set the bars
+    // set the bar groups
     const barUpdate = this.inner.selectAll('.gap-bar')
       .data(barData);
 
     barUpdate.interrupt()
       .transition()
-      .attr('transform', d => `translate(0, ${y(d.category)})`);
+      .attr('transform', d => `translate(0, ${category(d.category)})`);
 
+    // add group element
     const barEnter = barUpdate.enter()
       .append('g')
       .classed('gap-bar', true)
-      .attr('transform', d => `translate(0, ${y(d.category)})`);
+      .attr('transform', d => `translate(0, ${category(d.category)})`);
 
     barEnter.merge(barUpdate);
 
@@ -152,29 +158,31 @@ export default class BarChart extends Chart<api.Data> {
     barEnter.append('rect')
       .classed('gap-bar__bar', true)
       .merge(barUpdate.select('.gap-bar__bar'))
-      .attr('height', y.bandwidth())
-      .attr('width', d => x(d.value));
+      .transition()
+      .attr('height', category.bandwidth())
+      .attr('width', d => percent(d.value));
 
     // add bar percentage text
     barEnter.append('text')
       .classed('gap-bar__text', true)
       .merge(barUpdate.select('.gap-bar__text'))
-      .attr('y', d => (y.bandwidth() / 2))
-      .attr('x', d => x(d.value) + 5)
+      .transition()
+      .attr('y', d => (category.bandwidth() / 2))
+      .attr('x', d => percent(d.value) + 5)
       .text(d => Math.round(d.value) + ((d.index === this.focal + 1) ? '% of maximum score' : ''));
 
     // Add gap point and text
     const markerUpdate = this.inner.selectAll('.gap-marker')
-      .data([data[0]]);
+      .data([data]);
 
     markerUpdate.interrupt()
       .transition()
-      .attr('transform', d => `translate(${x(Math.max(catA.value, catB.value)) + 15}, ${this.innerHeight / 2})`);
+      .attr('transform', d => `translate(${percent(Math.max(catA.value, catB.value)) + 15}, ${this.innerHeight / 2})`);
 
     const markerEnter = markerUpdate.enter()
       .append('g')
       .classed('gap-marker', true)
-      .attr('transform', d => `translate(${x(Math.max(catA.value, catB.value)) + 15}, ${this.innerHeight / 2})`);
+      .attr('transform', d => `translate(${percent(Math.max(catA.value, catB.value)) + 15}, ${this.innerHeight / 2})`);
 
     markerEnter.merge(markerUpdate)
       .classed('gap-marker--significant', d => d.sig === '<' || d.sig === '>')
