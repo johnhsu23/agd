@@ -1,5 +1,7 @@
 import {Model, ViewOptions} from 'backbone';
 import {ItemView} from 'backbone.marionette';
+import * as $ from 'jquery';
+
 import noTemplate from 'util/no-template';
 import configure from 'util/configure';
 
