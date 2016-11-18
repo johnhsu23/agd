@@ -9,7 +9,7 @@ export default function significantGap(): Model {
     ();
 
   return new Model({
-    type: 'gap',
+    type: 'path',
     marker,
     description: 'Significant difference',
   });

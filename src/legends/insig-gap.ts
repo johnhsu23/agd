@@ -10,7 +10,7 @@ export default function insignificantGap(): Model {
     ();
 
   return new Model({
-    type: 'gap',
+    type: 'path',
     marker,
     description: 'No significant difference',
   });

@@ -4,6 +4,8 @@ import Figure from 'views/figure';
 import Legend from 'legends/model';
 import LegendView from 'views/legend';
 
+import category from 'legends/category';
+import significant from 'legends/sig-diff';
 import significantGap from 'legends/sig-gap';
 import insignificantGap from 'legends/insig-gap';
 
@@ -57,25 +59,55 @@ export default class ScoreGaps extends Figure {
   }
 
   protected gatherNotes(result: Result): void {
-    const models: Legend[] = [];
+    const {focal, target, trend} = result,
+          models: Legend[] = [];
 
-    const hasSignificantGap = result.gaps.some(gap => {
-      return gap.isSigDisplayable
-          && (gap.sig === '<' || gap.sig === '>');
+    models.push(category(focal.categoryindex, focal.category));
+
+    const targetLegend = category(target.categoryindex, target.category);
+    targetLegend.tag = 'target';
+    models.push(targetLegend);
+
+    const gaps = result.gaps.filter(gap => {
+      return gap.isFocalStatDisplayable
+          && gap.isSigDisplayable
+          && gap.isTargetStatDisplayable;
     });
 
-    if (hasSignificantGap) {
+    if (gaps.some(gap => gap.sig === '<' || gap.sig === '>')) {
       models.push(significantGap());
     }
 
-    const hasInsignificantGap = result.gaps.some(gap => {
-      return gap.isSigDisplayable
-          && gap.sig !== '<'
-          && gap.sig !== '>';
-    });
-
-    if (hasInsignificantGap) {
+    if (gaps.some(gap => gap.sig !== '<' && gap.sig !== '>')) {
       models.push(insignificantGap());
+    }
+
+    const isFocalSignificant = focal.isTargetStatDisplayable
+                            && focal.isSigDisplayable
+                            && (focal.sig === '<' || focal.sig === '>');
+
+    const isTargetSignificant = target.isTargetStatDisplayable
+                             && target.isSigDisplayable
+                             && (target.sig === '<' || target.sig === '>');
+
+    const isTrendSignificant = gaps.length === 2
+                            && (trend.sig === '<' || trend.sig === '>');
+
+    if (isFocalSignificant || isTargetSignificant || isTrendSignificant) {
+      models.push(significant());
+    }
+
+    if (gaps.some(gap => gap.gap < 0)) {
+      const description = [
+        'Negative score differences indicate that the average score of the first student group selected was',
+        'numerically lower than the score of students in the comparison group.',
+      ].join(' ');
+
+      models.push(new Legend({
+        type: 'note',
+        marker: '',
+        description,
+      }));
     }
 
     this.collection.reset(models);

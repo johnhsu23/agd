@@ -25,7 +25,6 @@ export default class LegendView extends CollectionView<Legend, LegendItemView> {
       case 'text':
         return TextView;
 
-      case 'gap':
       case 'path':
         return PathView;
 
