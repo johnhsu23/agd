@@ -1,11 +1,9 @@
-import * as Bluebird from 'bluebird';
 import {Selection} from 'd3-selection';
 import {symbolCircle as gapCircle} from 'd3-shape';
 
 import 'd3-transition';
 
 import configure from 'util/configure';
-import {Variable, SDRACE} from 'data/variables';
 import Chart from 'views/chart';
 import * as api from 'pages/score-gaps/gaps-data';
 import interpolate from 'util/path-interpolate';
@@ -50,21 +48,9 @@ export default class GapsChart extends Chart<api.GapData> {
   protected gap: Selection<SVGGElement, {}, null, void>;
   protected markers: Selection<SVGGElement, {}, null, void>;
 
-  protected variable: Variable = SDRACE;
-  protected focal: number = 0;
-  protected target: number = 1;
-
   protected extent: [number, number] = [Infinity, -Infinity];
 
   protected firstRender = true;
-
-  delegateEvents(): this {
-    super.delegateEvents();
-
-    this.on('gap:select', this.onGapSelect);
-
-    return this;
-  }
 
   render(): this {
     super.render();
@@ -78,27 +64,7 @@ export default class GapsChart extends Chart<api.GapData> {
       this.firstRender = false;
     }
 
-    this.renderData().done();
-
     return this;
-  }
-
-  protected onGapSelect(variable: Variable, focal: number, target: number): void {
-    this.variable = variable;
-    this.focal = focal;
-    this.target = target;
-
-    this.renderData().done();
-  }
-
-  protected async renderData(): Bluebird<void> {
-    const id = this.variable.id;
-
-    const gaps = await api.loadGaps('science', id, this.focal, this.target),
-          trends = await api.loadTrends(id, this.focal, this.target),
-          trendSig = await api.loadGapTrends(id, this.focal, this.target);
-
-    return this.loaded(gaps, trends, trendSig);
   }
 
   protected resizeExtent(data: api.GapData[]): void {
@@ -144,7 +110,12 @@ export default class GapsChart extends Chart<api.GapData> {
     ];
   }
 
-  protected loaded(data: api.GapData[], trends: api.TrendData[], trendSig: api.GapTrendData): void {
+  renderData(result: api.Result): void {
+    const data = result.gaps,
+          trendSig = result.trend,
+          focalTrend = result.focal,
+          targetTrend = result.target;
+
     this.resizeExtent(data);
 
     const year = scales.year()
@@ -180,7 +151,7 @@ export default class GapsChart extends Chart<api.GapData> {
     function focalData(row: api.GapData): PointInfo<Point> {
       // We're only loading two data points for trend sigs: the focal category's data and the target category's.
       // As a result, we can just directly index the loaded trend data without using d3.nest.
-      const sig = row.year === 2016 ? '' : trends[0].sig;
+      const sig = row.year === 2016 ? '' : focalTrend.sig;
 
       return {
         sig,
@@ -195,7 +166,7 @@ export default class GapsChart extends Chart<api.GapData> {
     function targetData(row: api.GapData): PointInfo<Point> {
       // We're only loading two data points for trend sigs: the focal category's data and the target category's.
       // As a result, we can just directly index the loaded trend data without using d3.nest.
-      const sig = row.year === 2016 ? '' : trends[1].sig;
+      const sig = row.year === 2016 ? '' : targetTrend.sig;
 
       return {
         sig,
