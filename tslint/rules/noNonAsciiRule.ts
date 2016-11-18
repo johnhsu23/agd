@@ -66,7 +66,7 @@ class NoAsciiWalker extends Lint.RuleWalker {
     // tslint doesn't seem have a visitFoo() method for nodes like `foo`,
     // So we have to check here.
     if (node.kind === ts.SyntaxKind.NoSubstitutionTemplateLiteral) {
-      this.checkLiteralNode(node as ts.TemplateLiteralFragment);
+      this.checkLiteralNode(node as ts.LiteralLikeNode);
     }
 
     super.visitNode(node);
