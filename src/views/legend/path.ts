@@ -10,7 +10,7 @@ export default class LegendPathView extends LegendItemView {
       .datum(this.model);
 
     el.append('svg')
-      .classed(`legend__marker legend__marker--${this.model.type}`, true)
+      .classed(`legend__marker legend__marker--path`, true)
       .attr('viewBox', '0 0 30 30')
       .append('path')
       .attr('d', legend => legend.marker)
