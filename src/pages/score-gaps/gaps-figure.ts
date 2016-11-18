@@ -4,7 +4,7 @@ import Figure from 'views/figure';
 import Chart from 'pages/score-gaps/gaps-chart';
 import GapSelector from 'pages/score-gaps/gap-selector';
 
-import * as api from 'pages/score-gaps/gaps-data';
+import {load} from 'pages/score-gaps/gaps-data';
 
 import * as vars from 'data/variables';
 
@@ -35,7 +35,7 @@ export default class ScoreGaps extends Figure {
   }
 
   protected updateChart(variable: vars.Variable, focal: number, target: number): void {
-    api.load(vars.SDRACE, 0, 1)
+    load(vars.SDRACE, 0, 1)
       .then(result => this.chart.renderData(result))
       .done();
   }
