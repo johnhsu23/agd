@@ -1,6 +1,7 @@
 import {ItemView} from 'backbone.marionette';
-import {Model, EventsHash, history} from 'backbone';
+import {Model, EventsHash, history, View} from 'backbone';
 import * as $ from 'jquery';
+import {bindAll} from 'underscore';
 
 import configure from 'util/configure';
 
@@ -38,6 +39,12 @@ export default class InPageNav extends ItemView<Model> {
         .append(link)
         .appendTo(list);
     });
+
+    this.onScroll();
+  }
+
+  initialize(): void {
+    bindAll(this, 'onScroll');
   }
 
   protected visitAnchor(event: JQueryEventObject): void {
@@ -47,5 +54,39 @@ export default class InPageNav extends ItemView<Model> {
           position = $('#' + anchor).offset().top;
 
     $(window).scrollTop(position);
+  }
+
+  protected onScroll(): void {
+    const scrolled_top_val = $(document).scrollTop(),
+        header_pos = $('#main').offset().top,
+        top_gt = scrolled_top_val > (header_pos - 20),
+        width = $(window).width();
+
+    let offset: number;
+
+    if (width > 1024) {
+      offset = (width - 1024) / 2;
+    } else {
+      offset = (width - 728) / 2;
+    }
+
+    this.$('.in-page-nav__inner')
+      .toggleClass('nav-fixed', top_gt)
+      .css('right', top_gt ? offset : '');
+  }
+
+  delegateEvents(): void {
+    super.delegateEvents();
+    $(window).on('scroll.in-page-nav', this.onScroll);
+  }
+
+  undelegateEvents(): void {
+    $(window).off('scroll.in-page-nav');
+    super.undelegateEvents();
+  }
+
+  remove(): View<Model> {
+    this.undelegateEvents();
+    return super.remove();
   }
 }
