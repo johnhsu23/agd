@@ -32,7 +32,7 @@ const gapSymbol = makeSymbol()
 })
 export default class BarChart extends Chart<api.Data> {
   protected marginLeft = 100;
-  protected marginRight = 0;
+  protected marginRight = 100;
   protected marginBottom = 40;
   protected marginTop = 0;
 
@@ -83,9 +83,6 @@ export default class BarChart extends Chart<api.Data> {
   }
 
   protected loaded(data: api.Data): void {
-    const chartHeight = 300,
-          chartWidth = 400;
-    this.height(chartHeight).width(chartWidth);
 
     // setup and add the x axis
     const percent = scales.percent()
@@ -94,6 +91,12 @@ export default class BarChart extends Chart<api.Data> {
 
     const percentAxis = axis.horizontalBottom()
       .scale(percent);
+
+    const chartHeight = 300,
+        chartWidth = percent.range()[1];
+
+    this.height(chartHeight)
+      .width(chartWidth);
 
     this.percentAxis
       .attr('transform', `translate(${this.marginLeft}, ${this.marginTop + this.innerHeight})`)
@@ -146,37 +149,49 @@ export default class BarChart extends Chart<api.Data> {
       .classed('gap-bar', true)
       .attr('transform', d => `translate(0, ${category(d.category)})`);
 
-    barEnter.merge(barUpdate);
-
     // add bar rect svg
     barEnter.append('rect')
       .classed('gap-bar__bar', true)
+      .attr('height', category.bandwidth())
+      .attr('width', 0)
       .merge(barUpdate.select('.gap-bar__bar'))
       .transition()
-      .attr('height', category.bandwidth())
       .attr('width', d => percent(d.value));
 
     // add bar percentage text
-    barEnter.append('text')
+    const barText = barEnter.append('text')
       .classed('gap-bar__text', true)
-      .merge(barUpdate.select('.gap-bar__text'))
+      .attr('y', d => (category.bandwidth() / 2));
+
+    barText.merge(barUpdate.select('.gap-bar__text'))
       .transition()
-      .attr('y', d => (category.bandwidth() / 2))
-      .attr('x', d => percent(d.value) + 5)
-      .text(d => Math.round(d.value) + ((d.index === this.focal + 1) ? '% of maximum score' : ''));
+      .attr('x', d => percent(d.value) + 5);
+
+    barText.append('tspan')
+      .classed('gap-bar__text__value', true)
+      .merge(barUpdate.select('.gap-bar__text__value'))
+      .text(d => Math.round(d.value));
+
+    // add maximum score text to focal category
+    barText.data([catA])
+      .append('tspan')
+      .classed('gap-bar__text__outer', true)
+      .text('% of maximum score');
 
     // Add gap point and text
     const markerUpdate = this.inner.selectAll('.gap-marker')
       .data([data]);
 
+    const transform = `translate(${percent(Math.max(catA.value, catB.value)) + 15}, ${this.innerHeight / 2})`;
+
     markerUpdate.interrupt()
       .transition()
-      .attr('transform', d => `translate(${percent(Math.max(catA.value, catB.value)) + 15}, ${this.innerHeight / 2})`);
+      .attr('transform', transform);
 
     const markerEnter = markerUpdate.enter()
       .append('g')
       .classed('gap-marker', true)
-      .attr('transform', d => `translate(${percent(Math.max(catA.value, catB.value)) + 15}, ${this.innerHeight / 2})`);
+      .attr('transform', transform);
 
     markerEnter.merge(markerUpdate)
       .classed('gap-marker--significant', d => d.sig === '<' || d.sig === '>')
