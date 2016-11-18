@@ -1,4 +1,5 @@
 import {Selection, mouse, event} from 'd3-selection';
+import * as $ from 'jquery';
 import 'd3-transition';
 
 import Dialog from 'views/dialog';

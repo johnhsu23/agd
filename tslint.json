@@ -70,7 +70,8 @@
 
     "promise-chain-should-complete": true,
     "return-type-decl": true,
-    "no-nested-ternary": true
+    "no-nested-ternary": true,
+    "import-jquery": true
   },
   "rulesDirectory": [
     "node_modules/tslint-microsoft-contrib",
