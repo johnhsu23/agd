@@ -1,15 +1,15 @@
 import {Model} from 'backbone';
 
-type LegendType = 'note' | 'text' | 'path';
+export type LegendType = 'note' | 'text' | 'path' | 'gap';
 
-interface LegendAttributes {
+export interface LegendAttributes {
   type: LegendType;
   marker: string;
   description: string;
   tag?: string;
 }
 
-class Legend extends Model implements LegendAttributes {
+export class Legend extends Model implements LegendAttributes {
   get type(): LegendType {
     return this.get('type');
   }
@@ -48,4 +48,3 @@ class Legend extends Model implements LegendAttributes {
 }
 
 export default Legend;
-export {Legend, LegendAttributes};

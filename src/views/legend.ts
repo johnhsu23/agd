@@ -25,11 +25,15 @@ export default class LegendView extends CollectionView<Legend, LegendItemView> {
       case 'text':
         return TextView;
 
+      case 'gap':
       case 'path':
         return PathView;
 
       case 'note':
         return NoteView;
+
+      default:
+        throw new Error(`Unknown model type ${item.type}`);
     }
   }
 }

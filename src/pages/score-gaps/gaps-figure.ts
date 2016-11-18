@@ -1,14 +1,21 @@
-import {EventsHash} from 'backbone';
+import {EventsHash, Collection} from 'backbone';
 
 import Figure from 'views/figure';
-import Chart from 'pages/score-gaps/gaps-chart';
-import GapSelector from 'pages/score-gaps/gap-selector';
+import Legend from 'legends/model';
+import LegendView from 'views/legend';
 
-import {load} from 'pages/score-gaps/gaps-data';
+import significantGap from 'legends/sig-gap';
+import insignificantGap from 'legends/insig-gap';
 
 import * as vars from 'data/variables';
 
+import {load, Result} from 'pages/score-gaps/gaps-data';
+import Chart from 'pages/score-gaps/gaps-chart';
+import GapSelector from 'pages/score-gaps/gap-selector';
+
 export default class ScoreGaps extends Figure {
+  collection = new Collection<Legend>();
+
   protected chart: Chart;
 
   onRender(): void {
@@ -18,8 +25,11 @@ export default class ScoreGaps extends Figure {
 
     this.chart = new Chart;
 
-    this.showContents(this.chart);
     this.showControls(new GapSelector);
+    this.showContents(this.chart);
+    this.showLegend(new LegendView({
+      collection: this.collection,
+    }));
 
     this.updateChart(vars.SDRACE, 0, 1);
   }
@@ -35,8 +45,39 @@ export default class ScoreGaps extends Figure {
   }
 
   protected updateChart(variable: vars.Variable, focal: number, target: number): void {
-    load(vars.SDRACE, 0, 1)
+    const promise = load(variable, focal, target);
+
+    promise
       .then(result => this.chart.renderData(result))
       .done();
+
+    promise
+      .then(result => this.gatherNotes(result))
+      .done();
+  }
+
+  protected gatherNotes(result: Result): void {
+    const models: Legend[] = [];
+
+    const hasSignificantGap = result.gaps.some(gap => {
+      return gap.isSigDisplayable
+          && (gap.sig === '<' || gap.sig === '>');
+    });
+
+    if (hasSignificantGap) {
+      models.push(significantGap());
+    }
+
+    const hasInsignificantGap = result.gaps.some(gap => {
+      return gap.isSigDisplayable
+          && gap.sig !== '<'
+          && gap.sig !== '>';
+    });
+
+    if (hasInsignificantGap) {
+      models.push(insignificantGap());
+    }
+
+    this.collection.reset(models);
   }
 }
