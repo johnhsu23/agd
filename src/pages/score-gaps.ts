@@ -10,6 +10,7 @@ import ScoreGapsFigure from 'pages/score-gaps/gaps-figure';
 
 import * as respondingCommentary from 'json!commentary/score-gaps/responding.json';
 import * as creatingTaskCommentary from 'json!commentary/score-gaps/creating-task.json';
+import * as studentGroupsCommentary from 'json!commentary/score-gaps/student-groups.json';
 
 export default class ScoreGaps extends Page {
   pageTitle = 'Group Score Gaps';
@@ -31,6 +32,11 @@ export default class ScoreGaps extends Page {
     this.pushSection(new DefaultSection({
       inner: new (class extends ItemView<Model> { template = () => '' }),
       commentary: creatingTaskCommentary[context.subject],
+    }));
+
+    this.pushSection(new DefaultSection({
+      inner: new (class extends ItemView<Model> { template = () => '' }),
+      commentary: studentGroupsCommentary[context.subject],
     }));
   }
 }
