@@ -2,36 +2,34 @@
 // The three modifiers are used almost exclusively with the percentiles chart.
 
 %path {
-  transition: stroke-opacity 250ms 0s, stroke-width 250ms 0s;
-
-  stroke: $series-default;
-
-  fill-opacity: 1;
-  opacity: 1;
-  stroke-width: 2px;
+    fill-opacity: 1;
+    opacity: 1;
+    stroke: $series-default;
+    stroke-width: 2px;
+    transition: stroke-opacity 250ms 0s, stroke-width 250ms 0s;
 }
 
 %path--selected {
-  stroke-opacity: 1;
+    stroke-opacity: 1;
 }
 
 %path--unselected {
-  stroke-opacity: .125;
+    stroke-opacity: .125;
 }
 
 %path--hover {
-  stroke-opacity: 1;
-  stroke-width: 4px;
+    stroke-opacity: 1;
+    stroke-width: 4px;
 }
 
 // Percentile colors
 @each $percentile, $color in $percentile-colors {
-  %path--#{$percentile} {
-    stroke: $color;
-  }
+    %path--#{$percentile} {
+        stroke: $color;
+    }
 }
 
 // Single-series colors
 %path--primary {
-  stroke: $series-default;
+    stroke: $series-default;
 }

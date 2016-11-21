@@ -11,41 +11,37 @@
 // are no longer needed at the section level.
 
 .section {
-  @extend %u-clearfix;
-  padding: 1em 0;
+    @extend %u-clearfix;
+    padding: 1em 0;
+}
 
-  &__inner {
-    //@include enforce-width;
-  }
-
-  &__title {
+.section__title {
     color: $green-100;
     font-size: 1em;
     font-weight: 700;
     margin: .25em 0 .25em;
     text-align: left;
     text-transform: uppercase;
-  }
+}
 
-  &__subtitle {
+.section__subtitle {
     color: $blue-100;
     font-size: 1.6875em;
     font-weight: 400;
     margin: 0 0 .5em;
     max-width: $max-contents-width;
-  
+
     span {
       font-weight: 700;
     }
-  }
+}
 
-  &__commentary {
+.section__commentary {
     color: $black-70;
     font-size: .875em;
     line-height: 1.4;
     margin: 0 0 2em;
     max-width: $max-contents-width;
-  }
-
-  &__controls {}
 }
+
+.section__controls {}

@@ -10,25 +10,6 @@
   width: 100%;
 }
 
-@mixin desktop {
-  @media (min-width: 1024px) {
-    @content;
-  }
-}
-
-@mixin enforce-width {
-  @include desktop {
-    width: 1024px;
-    margin: 0 auto;
-  }
-}
-
-@mixin tablet {
-  @media (max-width: 1023px) {
-    @content;
-  }
-}
-
 // This utility class has the penultimate precedence.
 .is-hidden {
   display: none !important;
