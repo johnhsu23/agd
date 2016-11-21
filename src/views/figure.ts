@@ -84,6 +84,7 @@ export default class FigureView extends LayoutView<any> {
 
   showInstructions(instructions: string): void {
     this.$('.figure__instructions')
+      .removeClass('is-hidden')
       .html(instructions);
   }
 }
