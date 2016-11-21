@@ -52,33 +52,27 @@ export default class InPageNav extends ItemView<Model> {
   }
 
   protected onScroll(): void {
-    const scrolledTopVal = $(document).scrollTop(),
-        topOfMainPos = $('#main').offset().top,
-        belowTopOfMain = scrolledTopVal > (topOfMainPos - 20),
-        width = $(window).width();
+    const scrollTop = $(document).scrollTop(),
+          mainTop = $('#main').offset().top,
+          isBelowMain = scrollTop > (mainTop - 20);
 
-    let offset: number;
-
-    if (width >= 1024) {
-      offset = (width - 1024) / 2;
-    } else {
-      offset = (width - 728) / 2;
-    }
+    const width = $(window).width(),
+          breakpoint = width >= 1024 ? 1024 : 768,
+          offset = (width - breakpoint) / 2;
 
     this.$('.in-page-nav__inner')
-      .toggleClass('nav-fixed', belowTopOfMain)
-      .css('right', belowTopOfMain ? offset : '');
+      .toggleClass('nav-fixed', isBelowMain)
+      .css('right', isBelowMain ? offset : '');
   }
 
   delegateEvents(): this {
     super.delegateEvents();
-    $(window).on('scroll.in-page-nav', this.onScroll);
+    $(window).on('scroll.in-page-nav', () => this.onScroll);
     return this;
   }
 
   undelegateEvents(): this {
     $(window).off('scroll.in-page-nav');
-    super.undelegateEvents();
-    return this;
+    return super.undelegateEvents();
   }
 }
