@@ -12,8 +12,9 @@
 // * vertical-left: Axis orientation (see below)
 // * horizontal-bottom: Axis orientation (see below)
 
-.axis {
-  &__label {
+.axis {}
+
+.axis__label {
     font-size: smaller;
 
     .axis--vertical-left & {
@@ -23,22 +24,21 @@
     .axis--horizontal-bottom & {
       text-anchor: middle;
     }
-  }
+}
 
-  &__tick {
+.axis__tick {
     @include fade-in-out;
-  }
+}
 
-  &__line {
+.axis__line {
     stroke: $axis;
-  }
+}
 
-  &__mark {
+.axis__mark {
     stroke: $axis;
-  }
+}
 
-  &__break {
+.axis__break {
     fill: white;
     stroke: $axis;
-  }
 }

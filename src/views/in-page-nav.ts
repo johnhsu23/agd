@@ -38,6 +38,8 @@ export default class InPageNav extends ItemView<Model> {
         .append(link)
         .appendTo(list);
     });
+
+    this.onScroll();
   }
 
   protected visitAnchor(event: JQueryEventObject): void {
@@ -47,5 +49,30 @@ export default class InPageNav extends ItemView<Model> {
           position = $('#' + anchor).offset().top;
 
     $(window).scrollTop(position);
+  }
+
+  protected onScroll(): void {
+    const scrollTop = $(document).scrollTop(),
+          mainTop = $('#main').offset().top,
+          isBelowMain = scrollTop > (mainTop - 20);
+
+    const width = $(window).width(),
+          breakpoint = width >= 1024 ? 1024 : 768,
+          offset = (width - breakpoint) / 2;
+
+    this.$('.in-page-nav__inner')
+      .toggleClass('nav-fixed', isBelowMain)
+      .css('right', isBelowMain ? offset : '');
+  }
+
+  delegateEvents(): this {
+    super.delegateEvents();
+    $(window).on('scroll.in-page-nav', () => this.onScroll);
+    return this;
+  }
+
+  undelegateEvents(): this {
+    $(window).off('scroll.in-page-nav');
+    return super.undelegateEvents();
   }
 }

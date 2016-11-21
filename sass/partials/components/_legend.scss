@@ -49,49 +49,47 @@
   &.is-empty {
     visibility: hidden;
   }
+}
 
-  &__note {
-    padding-top: 0.25em;
+.legend__note {
     font-size: smaller;
+    padding-top: 0.25em;
 
     &:before {
       content: "NOTE: ";
     }
-  }
+}
 
-  &__item {
-    position: relative;
-    min-height: $legend-height;
-
+.legend__item {
     display: table-row;
-  }
-
-  &__marker {
-    display: table-cell;
-    width: $legend-item-width;
-    height: $legend-item-width;
-
-    &--text {
-      text-align: center;
-      font-size: xx-large;
-      font-weight: bold;
-    }
-
-    &--path path {
-      @extend %legend__path;
-      fill: white;
-    }
-  }
-
-  &__description {
-    transition: opacity 250ms 0s;
-
-    font-size: smaller;
-    width: $legend-width - $legend-item-width;
     min-height: $legend-height;
+    position: relative;
+}
 
+.legend__marker {
     display: table-cell;
+    height: $legend-item-width;
+    width: $legend-item-width;
+}
+
+.legend__marker--text {
+    font-size: xx-large;
+    font-weight: bold;
+    text-align: center;
+}
+
+.legend__marker--path path {
+    @extend %legend__path;
+    fill: white;
+}
+
+.legend__description {
+    display: table-cell;
+    font-size: smaller;
+    min-height: $legend-height;
+    transition: opacity 250ms 0s;
     vertical-align: middle;
+    width: $legend-width - $legend-item-width;
 
     var {
       font-style: italic;
@@ -104,5 +102,4 @@
     .is-hover & {
       opacity: 1;
     }
-  }
 }

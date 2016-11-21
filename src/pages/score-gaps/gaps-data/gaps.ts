@@ -1,4 +1,4 @@
-import * as Promise from 'bluebird';
+import * as Bluebird from 'bluebird';
 
 import context from 'models/context';
 import loadData from 'api';
@@ -39,7 +39,7 @@ function swapValues(rows: Data[]): Data[] {
   return rows;
 }
 
-export function load(subject: string, variable: string, focal: number, target: number): Promise<Data[]> {
+export function load(variable: string, focal: number, target: number): Bluebird<Data[]> {
   const shouldSwap = focal > target;
   if (shouldSwap) {
     [focal, target] = [target, focal];

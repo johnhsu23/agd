@@ -7,7 +7,6 @@ import configure from 'util/configure';
   appRoutes: {
     '': 'homepage',
     ':subject/overall-results': 'overallResults',
-    ':subject/student-groups': 'studentGroups',
     ':subject/score-gaps': 'scoreGaps',
     ':subject/questions-analysis': 'questionsAnalysis',
     ':subject/student-experiences': 'studentExperiences',
@@ -43,10 +42,6 @@ class Controller extends Object {
 
   overallResults(subject: string): void {
     this.showPage('overall-results', subject);
-  }
-
-  studentGroups(subject: string): void {
-    this.showPage('student-groups', subject);
   }
 
   scoreGaps(subject: string): void {
