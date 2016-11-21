@@ -8,17 +8,17 @@
 // * cutpoint__link: An SVG anchor holding the (?) icon. May not be present in all cases.
 // * cutpoint__text: The cutpoint's label (i.e., "Basic", "Proficient", or "Advanced").
 
-.cutpoint {
-  &__foreground {
+.cutpoint {}
+
+.cutpoint__foreground {
     fill: $cutpoint-foreground;
-  }
+}
 
-  &__background {
+.cutpoint__background {
     fill: $cutpoint-background;
-  }
+}
 
-  &__text {
+.cutpoint__text {
     font-size: smaller;
     font-style: italic;
-  }
 }
