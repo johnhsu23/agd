@@ -17,6 +17,7 @@ require.config({
 
     // Shiny new d3!
     'd3-array': '../vendor/d3-array/d3-array',
+    'd3-axis': '../vendor/d3-axis/d3-axis',
     'd3-collection': '../vendor/d3-collection/d3-collection',
     'd3-color': '../vendor/d3-color/d3-color',
     'd3-dispatch': '../vendor/d3-dispatch/d3-dispatch',
