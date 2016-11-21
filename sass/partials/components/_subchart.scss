@@ -1,13 +1,11 @@
-.subchart {
-  &__header {
-    &-backdrop {
-      fill: $subchart-backdrop;
-    }
+.subchart {}
 
-    &-title {
-      fill: white;
-      font-size: 14px;
-      text-transform: uppercase;
-    }
-  }
+.subchart-backdrop {
+    fill: $subchart-backdrop;
+}
+
+.subchart-title {
+    fill: white;
+    font-size: 14px;
+    text-transform: uppercase;
 }
