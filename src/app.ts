@@ -13,10 +13,10 @@ app.on('start', () => {
   const root = new RootView;
   root.render();
 
-  // We want to disable linting for the router since we don't really need to
-  // do anything other than instantiate it.
-  // tslint:disable-next-line:no-unused-variable
-  const router = new Router();
+  // Instantiating the router suffices here; it integrates with Backbone's history automatically.
+  // tslint:disable-next-line:no-unused-new
+  new Router();
+
   Backbone.history.start({
     pushState: false,
   });
