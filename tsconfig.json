@@ -2,6 +2,7 @@
   "compilerOptions": {
     "noImplicitAny": true,
     "noEmitOnError": true,
+    "noUnusedLocals": true,
     "target": "ES5",
     "module": "amd",
     "moduleResolution": "classic",
