@@ -131,17 +131,17 @@ export default class BarChart extends Chart<api.Grouped> {
     // add bar percentage text
     const barText = barEnter.append('text')
       .classed('gap-bar__text', true)
-      .attr('y', d => (category.bandwidth() / 2));
+      .attr('y', (category.bandwidth() / 2) + 5);
 
     barText.merge(barUpdate.select('.gap-bar__text'))
       .transition()
-      .attr('y', d => (category.bandwidth() / 2))
+      .attr('y', (category.bandwidth() / 2) + 5)
       .attr('x', d => percent(d.value) + 5);
 
     barText.append('tspan')
       .classed('gap-bar__text__value', true)
       .merge(barUpdate.select('.gap-bar__text__value'))
-      .text(d => Math.round(d.value));
+      .text(d => (d.value !== 0) ? Math.round(d.value) : '—');
 
     // add maximum score text to focal category
     barText.data([this.data[this.variable.id][0]])
