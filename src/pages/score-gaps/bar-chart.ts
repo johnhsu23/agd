@@ -141,7 +141,7 @@ export default class BarChart extends Chart<api.Grouped> {
     barText.append('tspan')
       .classed('gap-bar__text__value', true)
       .merge(barUpdate.select('.gap-bar__text__value'))
-      .text(d => (d.value !== 0) ? Math.round(d.value) : '—');
+      .text(d => (d.value !== 0) ? Math.round(d.value) : '\u2014');
 
     // add maximum score text to focal category
     barText.data([this.data[this.variable.id][0]])
