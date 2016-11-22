@@ -7,6 +7,7 @@ import DefaultSection from 'views/default-section';
 import context from 'models/context';
 
 import PercentileFigure from 'pages/overall-results/percentile-figure';
+import AverageFigure from 'pages/overall-results/average-figure';
 
 import * as averageCommentary from 'json!commentary/overall-results/average.json';
 import * as percentilesCommentary from 'json!commentary/overall-results/percentiles.json';
@@ -18,7 +19,7 @@ export default class AverageScores extends Page {
 
   onBeforeShow(): void {
     this.pushSection(new DefaultSection({
-      inner: new (class extends ItemView<Model> { template = () => '' }),
+      inner: new AverageFigure(),
       commentary: averageCommentary[context.subject],
     }));
 
