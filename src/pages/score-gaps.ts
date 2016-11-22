@@ -29,10 +29,13 @@ export default class ScoreGaps extends Page {
       commentary: respondingCommentary[context.subject],
     }));
 
-    this.pushSection(new DefaultSection({
-      inner: new (class extends ItemView<Model> { template = () => '' }),
-      commentary: creatingTaskCommentary[context.subject],
-    }));
+    // Music does not have the "Creating Task" Score Gaps section
+    if (context.subject !== 'music') {
+      this.pushSection(new DefaultSection({
+        inner: new (class extends ItemView<Model> { template = () => '' }),
+        commentary: creatingTaskCommentary[context.subject],
+      }));
+    }
 
     this.pushSection(new DefaultSection({
       inner: new (class extends ItemView<Model> { template = () => '' }),
