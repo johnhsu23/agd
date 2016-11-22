@@ -21,6 +21,12 @@ module.exports = function (grunt) {
           dest: 'src/commentary.d.ts',
         }],
       },
+      files: {
+        files: [{
+          src: 'public/files/*.*',
+          dest: 'src/files.d.ts',
+        }],
+      },
     },
   });
 }

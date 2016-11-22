@@ -2,7 +2,7 @@ import {EventsHash} from 'backbone';
 
 import Figure from 'views/figure';
 import Chart from 'pages/score-gaps/bar-chart';
-import GapSelector from 'pages/score-gaps/gap-selector';
+import VariableSelector from 'pages/score-gaps/variable-selector';
 
 import * as vars from 'data/variables';
 
@@ -13,17 +13,17 @@ export default class TaskBar extends Figure {
     }
 
     this.showContents(new Chart);
-    this.showControls(new GapSelector);
+    this.showControls(new VariableSelector);
   }
 
   childEvents(): EventsHash {
     return {
-      'gap:select': 'onChildGapSelect',
+      'variable:select': 'onChildVariableSelect',
     };
   }
 
-  onChildGapSelect(view: GapSelector, variable: vars.Variable, focal: number, target: number): void {
+  onChildVariableSelect(view: VariableSelector, variable: vars.Variable): void {
     this.getChildView('contents')
-      .trigger('gap:select', variable, focal, target);
+      .trigger('variable:select', variable);
   }
 }

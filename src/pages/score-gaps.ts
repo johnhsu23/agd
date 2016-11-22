@@ -1,3 +1,6 @@
+import {Model} from 'backbone';
+import {ItemView} from 'backbone.marionette';
+
 import Page from 'views/page';
 import DefaultSection from 'views/default-section';
 

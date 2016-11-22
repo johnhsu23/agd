@@ -3,6 +3,7 @@ require.config({
   paths: {
     templates: '../templates',
     commentary: '../commentary',
+    files: '../files',
 
     // NRC scripts and fallbacks
     'nrc-header': [
@@ -21,6 +22,7 @@ require.config({
     'd3-collection': '../vendor/d3-collection/d3-collection',
     'd3-color': '../vendor/d3-color/d3-color',
     'd3-dispatch': '../vendor/d3-dispatch/d3-dispatch',
+    'd3-dsv': '../vendor/d3-dsv/d3-dsv',
     'd3-ease': '../vendor/d3-ease/d3-ease',
     'd3-format': '../vendor/d3-format/d3-format',
     'd3-interpolate': '../vendor/d3-interpolate/d3-interpolate',
