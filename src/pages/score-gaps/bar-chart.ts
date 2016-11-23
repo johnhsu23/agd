@@ -8,7 +8,8 @@ import configure from 'util/configure';
 import wrap from 'util/wrap';
 import * as vars from 'data/variables';
 import Chart from 'views/chart';
-import * as api from 'pages/score-gaps/bar-data';
+import {groupedData, CsvData} from 'pages/score-gaps/bar-data';
+import {formatValue} from 'codes';
 
 import * as scales from 'components/scales';
 import * as axis from 'components/axis';
@@ -16,7 +17,7 @@ import * as axis from 'components/axis';
 @configure({
   className: 'chart chart--bar',
 })
-export default class BarChart extends Chart<api.Grouped> {
+export default class BarChart extends Chart<CsvData[]> {
   protected marginLeft = 100;
   protected marginRight = 100;
   protected marginBottom = 40;
@@ -24,9 +25,6 @@ export default class BarChart extends Chart<api.Grouped> {
 
   protected percentAxis: Selection<SVGGElement, {}, null, void>;
   protected categoryAxis: Selection<SVGGElement, {}, null, void>;
-
-  protected variable: vars.Variable = vars.SDRACE;
-  protected data: api.Grouped;
 
   protected firstRender = true;
 
@@ -48,23 +46,16 @@ export default class BarChart extends Chart<api.Grouped> {
       this.firstRender = false;
     }
 
-    this.renderData();
+    this.renderData(groupedData[vars.SDRACE.id]);
 
     return this;
   }
 
   protected onVariableSelect(variable: vars.Variable): void {
-    this.variable = variable;
-
-    this.loaded();
+    this.renderData(groupedData[variable.id]);
   }
 
-  protected renderData(): void {
-    this.data = api.load();
-    this.loaded();
-  }
-
-  protected loaded(): void {
+  protected renderData(data: CsvData[]): void {
 
     // setup and add the x axis
     const percent = scales.percent()
@@ -86,7 +77,7 @@ export default class BarChart extends Chart<api.Grouped> {
 
     // setup and add the y axis
     const category = scaleBand()
-      .domain(this.data[this.variable.id].map(d => d.name))
+      .domain(data.map(d => d.name))
       .range([0, chartHeight])
       .padding(0.5);
 
@@ -102,7 +93,7 @@ export default class BarChart extends Chart<api.Grouped> {
 
     // set the bar groups
     const barUpdate = this.inner.selectAll('.gap-bar')
-      .data(this.data[this.variable.id]);
+      .data(data);
 
     barUpdate.exit()
       .classed('is-exiting', true)
@@ -118,6 +109,11 @@ export default class BarChart extends Chart<api.Grouped> {
       .classed('gap-bar', true)
       .attr('transform', d => `translate(0, ${category(d.name)})`);
 
+    // helper function to get the proper bar width
+    const barWidth = (value: number): number => {
+      return percent((value === 999) ? 0 : value);
+    };
+
     // add bar rect svg
     barEnter.append('rect')
       .classed('gap-bar__bar', true)
@@ -126,7 +122,7 @@ export default class BarChart extends Chart<api.Grouped> {
       .merge(barUpdate.select('.gap-bar__bar'))
       .transition()
       .attr('height', category.bandwidth())
-      .attr('width', d => percent(d.value));
+      .attr('width', d => barWidth(d.value));
 
     // add bar percentage text
     const barText = barEnter.append('text')
@@ -136,15 +132,15 @@ export default class BarChart extends Chart<api.Grouped> {
     barText.merge(barUpdate.select('.gap-bar__text'))
       .transition()
       .attr('y', (category.bandwidth() / 2) + 5)
-      .attr('x', d => percent(d.value) + 5);
+      .attr('x', d => barWidth(d.value) + 5);
 
     barText.append('tspan')
       .classed('gap-bar__text__value', true)
       .merge(barUpdate.select('.gap-bar__text__value'))
-      .text(d => (d.value !== 0) ? Math.round(d.value) : '\u2014');
+      .text(d => formatValue(d.value, '', d.errorFlag));
 
     // add maximum score text to focal category
-    barText.data([this.data[this.variable.id][0]])
+    barText.data([data[0]])
       .append('tspan')
       .classed('gap-bar__text__outer', true)
       .text('% of maximum score');

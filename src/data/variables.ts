@@ -120,7 +120,7 @@ export const SLUNCH1: Variable = {
   ],
 };
 
-export const VariableList: {[k: string]: Variable} = {
+export const studentGroupsById: {[k: string]: Variable} = {
   SDRACE: SDRACE,
   SRACE10: SRACE10,
   GENDER: GENDER,
@@ -134,7 +134,7 @@ export const VariableList: {[k: string]: Variable} = {
   SLUNCH1: SLUNCH1,
 };
 
-export const VariableArray: Variable[] = [
+export const studentGroups: Variable[] = [
   SDRACE,
   SRACE10,
   GENDER,

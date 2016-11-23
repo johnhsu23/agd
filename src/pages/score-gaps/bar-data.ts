@@ -2,35 +2,31 @@ import {csvParse} from 'd3-dsv';
 import {nest} from 'd3-collection';
 import {ascending} from 'd3-array';
 import * as vars from 'data/variables';
+import * as csv from 'text!files/creating-task.csv';
 
-interface CsvData {
+export interface CsvData {
   variable: string;
   categoryindex: number;
   value: number;
   name: string;
+  errorFlag: number;
 }
 
-export interface Grouped {
+interface Grouped {
   [variable: string]: CsvData[];
 }
 
-import * as CSV from 'text!files/creating-task.csv';
+const csvData = csvParse(csv, function(d): CsvData {
+  return {
+    variable: d['Variable'],
+    categoryindex: +d['CategoryIndex'],
+    value: +d['Value'],
+    name: vars.studentGroupsById[d['Variable']].categories[+d['CategoryIndex']],
+    errorFlag: +d['ErrorFlag'],
+  };
+});
 
-export function load(): Grouped {
-
-  const data = csvParse(CSV, function(d): CsvData {
-    return {
-      variable: d['Variable'],
-      categoryindex: +d['CategoryIndex'],
-      value: +d['Value'],
-      name: vars.VariableList[d['Variable']].categories[+d['CategoryIndex']],
-    };
-  });
-
-  return nest<CsvData>()
+export const groupedData: Grouped = nest<CsvData>()
       .key(d => d.variable)
       .sortValues((a, b) => ascending(a.categoryindex, b.categoryindex))
-      .object(data);
-}
-
-export default load;
+      .object(csvData);
