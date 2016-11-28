@@ -96,10 +96,6 @@ export default class BarChart extends Chart<Model> {
     const barUpdate = this.inner.selectAll('.gap-bar')
       .data(data);
 
-    barUpdate.exit()
-      .classed('is-exiting', true)
-      .remove();
-
     barUpdate.interrupt()
       .transition()
       .attr('transform', d => `translate(0, ${category(d.name)})`);
@@ -145,5 +141,16 @@ export default class BarChart extends Chart<Model> {
       .append('tspan')
       .classed('gap-bar__text__outer', true)
       .text('% of maximum score');
+
+    // handle the exit transitions for the bar and text elements
+    const barExit = barUpdate.exit()
+      .transition()
+      .remove();
+
+    barExit.select('.gap-bar__bar')
+      .attr('width', 0);
+
+    barExit.select('.gap-bar__text')
+      .attr('x', 0);
   }
 }

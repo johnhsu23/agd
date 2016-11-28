@@ -16,7 +16,7 @@ interface Grouped {
   [variable: string]: CsvData[];
 }
 
-const csvData = csvParse(csv, function(d): CsvData {
+const csvData = csvParse(csv, (d): CsvData => {
   return {
     variable: d['Variable'],
     categoryindex: +d['CategoryIndex'],
