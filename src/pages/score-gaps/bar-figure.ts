@@ -22,7 +22,7 @@ export default class TaskBar extends Figure {
     };
   }
 
-  onChildVariableSelect(variable: vars.Variable): void {
+  onChildVariableSelect(_: VariableSelector, variable: vars.Variable): void {
     this.getChildView('contents')
       .trigger('variable:select', variable);
   }
