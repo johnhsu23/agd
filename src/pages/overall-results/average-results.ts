@@ -7,15 +7,11 @@ export default class AverageResults extends ItemView<Model> {
   template = () => template;
 
   protected loaded(data: Data[]) : void {
-    const d = data;
-    const targetvalue = Math.round(d[0].targetvalue);
-    const focalvalue = Math.round(d[0].focalvalue);
-    const sigText = 'No significant change in score between 2008 and 2016'
-      + ' <span class="figure__content_avgSigDiff">p &lt; .05</span>';
+    const targetvalue = Math.round(data[0].targetvalue),
+          focalvalue = Math.round(data[0].focalvalue);
 
     this.$('[data-score=2008]').text(targetvalue);
     this.$('[data-score=2016]').text(focalvalue);
-    this.$('.figure__content_sigText').html(sigText);
   }
 
   onRender(): void {
