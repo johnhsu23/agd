@@ -1,3 +1,4 @@
+import {Model} from 'backbone';
 import {Selection} from 'd3-selection';
 import {scaleBand} from 'd3-scale';
 import {axisLeft} from 'd3-axis';
@@ -17,7 +18,7 @@ import * as axis from 'components/axis';
 @configure({
   className: 'chart chart--bar',
 })
-export default class BarChart extends Chart<CsvData[]> {
+export default class BarChart extends Chart<Model> {
   protected marginLeft = 100;
   protected marginRight = 100;
   protected marginBottom = 40;
