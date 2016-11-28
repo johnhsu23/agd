@@ -1,4 +1,4 @@
-import * as Promise from 'bluebird';
+import {Model} from 'backbone';
 import {Selection} from 'd3-selection';
 import {scaleBand} from 'd3-scale';
 import {axisLeft} from 'd3-axis';
@@ -7,8 +7,7 @@ import 'd3-transition';
 
 import configure from 'util/configure';
 import Chart from 'views/chart';
-import {load, Data} from 'pages/overall-results/year-bar-data';
-import context from 'models/context';
+import {load, Data} from 'pages/overall-results/creating-tasks-data';
 
 import * as scales from 'components/scales';
 import * as axis from 'components/axis';
@@ -16,7 +15,7 @@ import * as axis from 'components/axis';
 @configure({
   className: 'chart chart--bar',
 })
-export default class BarChart extends Chart<Data[]> {
+export default class BarChart extends Chart<Model> {
   protected marginLeft = 100;
   protected marginRight = 100;
   protected marginBottom = 40;
@@ -26,7 +25,6 @@ export default class BarChart extends Chart<Data[]> {
   protected yearAxis: Selection<SVGGElement, {}, null, void>;
 
   protected firstRender = true;
-  protected promise = Promise.resolve(void 0);
 
   render(): this {
     super.render();
@@ -38,7 +36,7 @@ export default class BarChart extends Chart<Data[]> {
       this.firstRender = false;
     }
 
-    load(context.subject, ['2008R3', '2016R3'])
+    load()
       .then(data => this.loaded(data))
       .done();
 
@@ -66,8 +64,8 @@ export default class BarChart extends Chart<Data[]> {
       .call(percentAxis);
 
     // setup and add the y axis
-    const year = scaleBand()
-      .domain(data.map(d => d.targetyear.toString()))
+    const year = scaleBand<number>()
+      .domain(data.map(d => d.targetyear))
       .range([0, chartHeight])
       .padding(0.5);
 
@@ -83,13 +81,13 @@ export default class BarChart extends Chart<Data[]> {
 
     barUpdate.interrupt()
       .transition()
-      .attr('transform', d => `translate(0, ${year(d.targetyear.toString())})`);
+      .attr('transform', d => `translate(0, ${year(d.targetyear)})`);
 
     // add group element
     const barEnter = barUpdate.enter()
       .append('g')
       .classed('bar', true)
-      .attr('transform', d => `translate(0, ${year(d.targetyear.toString())})`);
+      .attr('transform', d => `translate(0, ${year(d.targetyear)})`);
 
     // add bar rect svg
     barEnter.append('rect')
@@ -103,7 +101,7 @@ export default class BarChart extends Chart<Data[]> {
     // add bar percentage text
     const barText = barEnter.append('text')
       .classed('bar__text', true)
-      .attr('y', d => (year.bandwidth() / 2));
+      .attr('y', year.bandwidth() / 2);
 
     barText.merge(barUpdate.select('.bar__text'))
       .transition()

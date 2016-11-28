@@ -1,7 +1,7 @@
 import Figure from 'views/figure';
-import Chart from 'pages/overall-results/year-bar-chart';
+import Chart from 'pages/overall-results/creating-tasks-chart';
 
-export default class TaskYearBar extends Figure {
+export default class CreatingTasksBar extends Figure {
   onRender(): void {
     if (super.onRender) {
       super.onRender();
