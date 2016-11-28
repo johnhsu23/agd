@@ -7,6 +7,7 @@ import DefaultSection from 'views/default-section';
 import context from 'models/context';
 
 import ScoreGapsFigure from 'pages/score-gaps/gaps-figure';
+import TaskBarFigure from 'pages/score-gaps/bar-figure';
 
 import * as respondingCommentary from 'json!commentary/score-gaps/responding.json';
 import * as creatingTaskCommentary from 'json!commentary/score-gaps/creating-task.json';
@@ -29,10 +30,13 @@ export default class ScoreGaps extends Page {
       commentary: respondingCommentary[context.subject],
     }));
 
-    // Music does not have the "Creating Task" Score Gaps section
     if (context.subject !== 'music') {
       this.pushSection(new DefaultSection({
-        inner: new (class extends ItemView<Model> { template = () => '' }),
+        inner: new TaskBarFigure({
+          share: {
+            download: true,
+          },
+        }),
         commentary: creatingTaskCommentary[context.subject],
       }));
     }
