@@ -30,14 +30,16 @@ export default class ScoreGaps extends Page {
       commentary: respondingCommentary[context.subject],
     }));
 
-    this.pushSection(new DefaultSection({
-      inner: new TaskBarFigure({
-        share: {
-          download: true,
-        },
-      }),
-      commentary: creatingTaskCommentary[context.subject],
-    }));
+    if (context.subject !== 'music') {
+      this.pushSection(new DefaultSection({
+        inner: new TaskBarFigure({
+          share: {
+            download: true,
+          },
+        }),
+        commentary: creatingTaskCommentary[context.subject],
+      }));
+    }
 
     this.pushSection(new DefaultSection({
       inner: new (class extends ItemView<Model> { template = () => '' }),

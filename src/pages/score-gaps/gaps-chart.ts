@@ -1,3 +1,4 @@
+import {Model} from 'backbone';
 import {Selection} from 'd3-selection';
 import {symbolCircle as gapCircle} from 'd3-shape';
 
@@ -37,7 +38,7 @@ const gapSymbol = makeSymbol<api.GapData>()
 @configure({
   className: 'chart chart--gaps',
 })
-export default class GapsChart extends Chart<api.GapData> {
+export default class GapsChart extends Chart<Model> {
   protected marginLeft = 40;
   protected marginRight = 40;
   protected marginBottom = 30;

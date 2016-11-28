@@ -110,7 +110,7 @@ function renderDescription<T1, T2, U1, U2>(description: Sel<T1, T2>, row: Sel<U1
   parent.removeChild(textNode);
   svg.appendChild(textNode);
 
-  ensureAttached(svg, svg => {
+  ensureAttached(svg, () => {
     wrap(text, metrics.width);
   });
 
