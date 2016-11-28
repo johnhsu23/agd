@@ -7,6 +7,7 @@ import DefaultSection from 'views/default-section';
 import context from 'models/context';
 
 import PercentileFigure from 'pages/overall-results/percentile-figure';
+import CreatingTasksFigure from 'pages/overall-results/creating-tasks-figure';
 import AverageFigure from 'pages/overall-results/average-figure';
 
 import * as averageCommentary from 'json!commentary/overall-results/average.json';
@@ -33,7 +34,11 @@ export default class AverageScores extends Page {
     }));
 
     this.pushSection(new DefaultSection({
-      inner: new (class extends ItemView<Model> { template = () => '' }),
+      inner: new CreatingTasksFigure({
+        share: {
+          download: true,
+        },
+      }),
       commentary: creatingTasksCommentary[context.subject],
     }));
 
