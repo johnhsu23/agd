@@ -1,4 +1,5 @@
 import * as Promise from 'bluebird';
+import {Model} from 'backbone';
 import {symbol as makeSymbol, symbols as symbolTypes} from 'd3-shape';
 import {Selection} from 'd3-selection';
 
@@ -62,7 +63,7 @@ const symbol = makeSymbol<Point<Data>>()
     },
   },
 })
-export default class PercentileChart extends Chart<Data> {
+export default class PercentileChart extends Chart<Model> {
   protected marginLeft = 40;
   protected marginRight = 150;
   protected marginBottom = 30;
