@@ -9,27 +9,13 @@ export default class AverageResults extends ItemView<Model> {
   protected loaded(data: Data[]) : void {
     const d = data;
     const targetvalue = Math.round(d[0].targetvalue);
-    const targetyear = d[0].targetyear;
     const focalvalue = Math.round(d[0].focalvalue);
-    const focalyear = d[0].focalyear;
-    const sig = d[0].sig;
-    let sigText = '';
-
-    this.$('.figure__content_avgScore1Year').text(targetyear);
-    this.$('.figure__content_avgScore2Year').text(focalyear);
-    this.$('.figure__content_avgScore1Value').text(targetvalue);
-    this.$('.figure__content_avgScore2Value').text(focalvalue);
-
-    if (sig === '=') {
-      sigText = `No significant change in score between ${targetyear} and ${focalyear}`
+    const sigText = 'No significant change in score between 2008 and 2016'
       + ' <span class="figure__content_avgSigDiff">p &lt; .05</span>';
-    } else {
-      sigText = `Scores changed significantly between ${targetyear} and ${focalyear}`
-      + ' <span class="figure__content_avgSigDiff">p &gt; .05</span>';
-    }
 
+    this.$('[data-score=2008]').text(targetvalue);
+    this.$('[data-score=2016]').text(focalvalue);
     this.$('.figure__content_sigText').html(sigText);
-
   }
 
   onRender(): void {

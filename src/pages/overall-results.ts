@@ -19,7 +19,7 @@ export default class AverageScores extends Page {
 
   onBeforeShow(): void {
     this.pushSection(new DefaultSection({
-      inner: new AverageFigure(),
+      inner: new AverageFigure,
       commentary: averageCommentary[context.subject],
     }));
 
