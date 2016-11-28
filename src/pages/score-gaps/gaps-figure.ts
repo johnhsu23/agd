@@ -42,7 +42,7 @@ export default class ScoreGaps extends Figure {
     };
   }
 
-  onChildGapSelect(view: GapSelector, variable: vars.Variable, focal: number, target: number): void {
+  onChildGapSelect(_: GapSelector, variable: vars.Variable, focal: number, target: number): void {
     this.updateChart(variable, focal, target);
   }
 

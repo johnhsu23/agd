@@ -67,7 +67,7 @@ export default class InPageNav extends ItemView<Model> {
 
   delegateEvents(): this {
     super.delegateEvents();
-    $(window).on('scroll.in-page-nav', () => this.onScroll);
+    $(window).on('scroll.in-page-nav', () => this.onScroll());
     return this;
   }
 

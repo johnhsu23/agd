@@ -30,7 +30,7 @@ export interface Break {
 export function vertical<T>(): Break {
   let values: number[] = [];
 
-  const breakFn = function <T>(parent: Selection<SVGElement, T, null, {}>): void {
+  const breakFn = function (parent: Selection<SVGElement, T, null, {}>): void {
     const selection = parent.selectAll('.axis__break')
       .data(values);
 

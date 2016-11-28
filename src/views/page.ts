@@ -25,7 +25,7 @@ abstract class PageView extends LayoutView<any> {
     }
   }
 
-  pushSection<TModel extends Model>(view?: View<Model>): Region {
+  pushSection<TModel extends Model>(view?: View<TModel>): Region {
     const name = 'section-' + this.count;
     this.count++;
 

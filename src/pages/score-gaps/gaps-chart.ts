@@ -1,3 +1,4 @@
+import {Model} from 'backbone';
 import {Selection} from 'd3-selection';
 import {symbolCircle as gapCircle} from 'd3-shape';
 
@@ -37,7 +38,7 @@ const gapSymbol = makeSymbol<api.GapData>()
 @configure({
   className: 'chart chart--gaps',
 })
-export default class GapsChart extends Chart<api.GapData> {
+export default class GapsChart extends Chart<Model> {
   protected marginLeft = 40;
   protected marginRight = 40;
   protected marginBottom = 30;
@@ -187,7 +188,7 @@ export default class GapsChart extends Chart<api.GapData> {
 
     // Gap surface
 
-    const gapUpdate = this.gap.selectAll('path.chart--gaps__gap')
+    const gapUpdate = this.gap.selectAll('path.gap')
       .data([gapData.area]);
 
     gapUpdate.interrupt()
@@ -196,7 +197,7 @@ export default class GapsChart extends Chart<api.GapData> {
 
     gapUpdate.enter()
       .append('path')
-      .classed('chart--gaps__gap', true)
+      .classed('gap', true)
       .attr('d', d => d);
 
     // Draw focal & target series

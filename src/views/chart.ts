@@ -1,3 +1,4 @@
+import {Model} from 'backbone';
 import {Selection} from 'd3-selection';
 import View from 'views/d3';
 
@@ -16,7 +17,7 @@ interface Margins {
   tagName: 'svg',
   className: 'chart',
 })
-export default class Chart<T> extends View<SVGSVGElement, any> {
+export default class Chart<TModel extends Model> extends View<SVGSVGElement, TModel> {
   protected marginLeft = 0;
   protected marginRight = 0;
   protected marginTop = 0;

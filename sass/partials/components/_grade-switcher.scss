@@ -1,15 +1,14 @@
 .grade-switcher {
-  [role=radio] {
-    display: inline-block;
-    width: 10em;
-    padding: 0.5em;
-    text-align: center;
+    [role=radio] {
+        background-color: $radio-inactive;
+        color: #fff;
+        display: inline-block;
+        padding: 0.5em;
+        text-align: center;
+        width: 10em;
 
-    background-color: $radio-inactive;
-    color: white;
-
-    &[aria-checked=true] {
-      background-color: $radio-active;
+        &[aria-checked=true] {
+          background-color: $radio-active;
+        }
     }
-  }
 }
