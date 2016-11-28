@@ -47,7 +47,7 @@ export default class HoverBehavior extends Behavior {
       });
   }
 
-  protected clearActive(tag: string): void {
+  protected clearActive(): void {
     this.$('[data-tag]')
       .removeClass('is-active is-inactive');
   }

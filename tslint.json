@@ -42,9 +42,7 @@
     "no-require-imports": true,
     "no-var-keyword": true,
     "no-unused-expression": true,
-    "no-unused-variable": [
-      true
-    ],
+    "no-unused-new": true,
     "eofline": true,
     "linebreak-style": [
       true,
