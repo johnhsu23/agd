@@ -1,35 +1,40 @@
 import {Model} from 'backbone';
 import {LayoutView} from 'backbone.marionette';
-import QuestionsAccordion from 'pages/student-experiences/questions-accordion';
+import QuestionsResponse from 'pages/student-experiences/questions-response';
 import * as vars from 'data/variables';
 import * as template from 'text!templates/questions-list.html';
 
 // NOTE: Using Variable data as dummy info
-const variables = [
+const studentVariables = [
   vars.SDRACE,
   vars.GENDER,
   vars.SCHTYP1,
 ];
 
+const schoolVariables = [
+  vars.SLUNCH1,
+  vars.PARED,
+  vars.IEP,
+];
+
 export default class QuestionsListView extends LayoutView<Model> {
   template = () => template;
 
-  protected count = 0;
+  regions(): {[key: string]: string} {
+    return {
+      'student-responses': '#student-responses',
+      'school-responses': '#school-responses',
+    };
+  }
 
   onRender(): void {
-    // TODO: separate out accordion creation by Student/School response sections
-    for (const variable of variables) {
-      const div = document.createElement('div');
-      div.setAttribute('data-index', '' + this.count);
-      this.el.append(div);
-
-      this.addRegion(variable.id, `> [data-index=${this.count}]`);
-
-      this.showChildView(variable.id, new QuestionsAccordion({
-        variable: variable,
-      }));
-
-      this.count++;
-    }
+    this.showChildView('student-responses', new QuestionsResponse({
+      variables: studentVariables,
+      headerText: 'Selected student questionnaire responses:',
+    }));
+    this.showChildView('school-responses', new QuestionsResponse({
+      variables: schoolVariables,
+      headerText: 'Selected school questionnaire responses:',
+    }));
   }
 }
