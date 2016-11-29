@@ -25,25 +25,19 @@
 }
 
 .figure__contents {
+    display: inline-block;
     width: 768px;
 
-    @include breakpoint($desktop-width) {
-      float: left;
-    }
-
-    & > .chart {
+    & > svg {
       display: block;
       margin: 0 auto;
     }
 }
 
 .figure__legend {
-    margin: 0 auto;
-
-    @include breakpoint($desktop-width) {
-      float: right;
-      margin: 0;
-    }
+    display: inline-block;
+    margin: 0;
+    vertical-align: top;
 }
 
 .figure__title {

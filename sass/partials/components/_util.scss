@@ -10,6 +10,31 @@
   width: 100%;
 }
 
+.u-semibold {
+	font-weight: 600;
+}
+
+.u-color-blue {
+	color: $blue-100;
+}
+
+.u-color-green {
+	color: $green-100;
+}
+
+.u-font-small {
+	font-size: rem($font-size-sm);
+}
+
+.u-font-large {
+	font-size: rem($font-size-lg);
+}
+
+.u-font-huge {
+	font-size: rem(72px);
+	line-height: 1;
+}
+
 // This utility class has the penultimate precedence.
 .is-hidden {
   display: none !important;
