@@ -1,17 +1,22 @@
 import {Variable} from 'data/variables';
 import context from 'models/context';
 
-export {Variable};
+export interface ContextualVariable extends Variable {
+  /**
+   * The highlighted category of this contextual variable.
+   */
+  readonly selected: number;
+}
 
 /*
  * Visual Arts variables
  */
 
-// In-school student actvities and interests
-
-export const BV00003: Variable = {
+export const BV00003: ContextualVariable = {
   id: 'BV00003',
-  name: 'I have a talent for art',
+  name: 'How much do you agree that you think you have talent for art',
+  title: 'the extent to which they agreed that they think they have talent for art',
+  selected: 0,
   categories: [
     'Agree',
     'Not sure',
@@ -19,18 +24,22 @@ export const BV00003: Variable = {
   ],
 };
 
-export const BV00007: Variable = {
+export const BV00007: ContextualVariable = {
   id: 'BV00007',
-  name: 'Are you taking art (now or this year)',
+  name: 'Are you taking an art course now, or have you taken an art course this year',
+  title: 'whether they took an art course in the school year',
+  selected: 0,
   categories: [
     'Yes',
     'No',
   ],
 };
 
-export const BV00008: Variable = {
+export const BV00008: ContextualVariable = {
   id: 'BV00008',
-  name: 'Paint or draw in art',
+  name: 'When you have art in school, how often does your teacher have you paint or draw',
+  title: 'the frequency with which their teachers asked them to paint or draw in art class',
+  selected: 1, // Once a week
   categories: [
     'Every day',
     'Once a week',
@@ -39,276 +48,265 @@ export const BV00008: Variable = {
   ],
 };
 
-export const BV00019: Variable = {
-  id: 'BV00019',
-  name: 'Keep a portfolio in art',
+export const BV80019: ContextualVariable = {
+  id: 'BV80019',
+  name: 'Do either you or your teacher save your artwork in a portfolio',
+  title: 'whether they or their teacher saved their artwork in a portfolio',
+  selected: 0,
   categories: [
     'Yes',
     'No',
   ],
 };
 
-// In-school opportunity
-
-export const SQ00901: Variable = {
-  id: 'SQ00901',
-  name: 'Full-time specialist in visual arts',
-  categories: [
-    'Yes',
-    'No',
-  ],
-};
-
-export const SQ00204: Variable = {
-  id: 'SQ00204',
-  name: 'State or district curriculum',
-  categories: [
-    'Yes',
-    'No',
-  ],
-};
-
-export const SQ00072: Variable = {
-  id: 'SQ00072',
-  name: 'Visual arts space',
-  categories: [
-    'Not Taught',
-    'Studio with equipment',
-    'Room with no equipment',
-    'Art On A Cart/None',
-    'Classroom only',
-    'Other',
-  ],
-};
-
-// Out of school
-
-export const BV80022: Variable = {
+export const BV80022: ContextualVariable = {
   id: 'BV80022',
-  name: 'Go to a museum',
+  name: 'When you are not in school, do you ever go to an art museum or exhibit on your own',
+  title: 'whether they went to an art museum or exhibit on their own',
+  selected: 0,
   categories: [
     'Yes',
     'No',
   ],
 };
 
-export const BV80023: Variable = {
+export const BV80023: ContextualVariable = {
   id: 'BV80023',
-  name: 'Take art class',
+  name: 'When you are not in school, do you ever take art classes',
+  title: 'whether they took art classes not for schoolwork',
+  selected: 0,
   categories: [
     'Yes',
     'No',
   ],
 };
 
-export const BV80024: Variable = {
+export const BV80024: ContextualVariable = {
   id: 'BV80024',
-  name: 'Make art work',
+  name: 'When you are not in school, do you ever make artwork on your own',
+  title: 'whether they made artwork on their own not for schoolwork',
+  selected: 0,
   categories: [
     'Yes',
     'No',
   ],
 };
 
-export const BV00018: Variable = {
-  id: 'BV00018',
-  name: 'Keep a sketchbook',
+export const BV80032: ContextualVariable = {
+  id: 'BV80032',
+  name: 'When you are not in school, do you ever keep an art journal or sketchbook on your own',
+  title: 'whether they kept an art journal or sketchbook on their own',
+  selected: 0,
   categories: [
     'Yes',
     'No',
   ],
 };
 
-export const BV80030: Variable = {
-  id: 'BV80030',
-  name: 'Discuss art with family and friends',
+export const SQ00901: ContextualVariable = {
+  id: 'SQ00901',
+  name: 'Is there a full-time specialist on your school staff available to teach visual arts to eighth graders',
+  title: [
+    'whether there was a full-time specialist was on their school staff',
+    'available to teach visual arts to eighth graders',
+  ].join(' '),
+  selected: 0,
   categories: [
     'Yes',
     'No',
+  ],
+};
+
+export const SQ00204: ContextualVariable = {
+  id: 'SQ00204',
+  name: 'Does your district or state have a curriculum in visual arts that your school is expected to follow',
+  title: 'whether the district or state had a visual arts curriculum that their school was expected to follow',
+  selected: 0,
+  categories: [
+    'Yes',
+    'No',
+  ],
+};
+
+export const SQ00072: ContextualVariable = {
+  id: 'SQ00070',
+  name: 'Which best describes the space for the teaching of visual arts in your school',
+  title: 'types of space for the teaching of visual arts in their school',
+  selected: 1, // Art studio with special equipment
+  categories: [
+    'Visual arts are not taught',
+    'Art studio with special equipment',
+    'Room(s) dedicated to art but with no special equipment',
+    'Art-on-a-cart/no dedicated space',
+    'Classrooms only',
+    'Other',
   ],
 };
 
 /*
- * Music contextual variables
+ * Music variables
  */
 
-// In-school student activities
-
-export const BM00003: Variable = {
+export const BM00003: ContextualVariable = {
   id: 'BM00003',
-  name: 'I have a talent in music',
+  name: 'How much do you agree that you think you have talent for music',
+  title: 'the extent to which they agreed that they think they have talent for music',
+  selected: 0,
   categories: [
     'Agree',
-    'Not Sure',
+    'Not sure',
     'Disagree',
   ],
 };
 
-// (This space reserved for whatever variable covers "Writing music down")
+export const BM00010: ContextualVariable = {
+  id: 'BM00010',
+  name: 'When you take music class in school, how often does your teacher ask you to write down music',
+  title: 'the frequency with which their teachers asked them to write down music in music class',
+  selected: 2, // At least once or twice a month
+  categories: [
+    'Almost every day',
+    'Once or twice a week',
+    'Once or twice a month',
+    'Never or hardly ever',
+    "I don't have music",
+  ],
+};
 
-export const BM80013: Variable = {
+export const BM80013: ContextualVariable = {
   id: 'BM80013',
-  name: 'Play in a band',
+  name: 'Do you play in a band in school',
+  title: 'whether they played in a band in school',
+  selected: 0,
   categories: [
     'Yes',
     'No',
   ],
 };
 
-export const BM80015: Variable = {
+export const BM80015: ContextualVariable = {
   id: 'BM80015',
-  name: 'Sing in a choir or chorus',
+  name: 'Do you sing in a chorus or choir in school',
+  title: 'whether they sang in a chorus or choir in school',
+  selected: 0,
   categories: [
     'Yes',
     'No',
   ],
 };
 
-// In-school opportunity
-
-export const SQ00202: Variable = {
-  id: 'SQ00202',
-  name: 'District/state curriculum on music',
+export const BM80023: ContextualVariable = {
+  id: 'BM80023',
+  name: 'When you are not in school, do you ever play a musical instrument on your own',
+  title: 'whether they played a musical instrument on their own not for schoolwork',
+  selected: 0,
   categories: [
     'Yes',
     'No',
   ],
 };
 
-export const SQ00701: Variable = {
+export const BM80024: ContextualVariable = {
+  id: 'BM80024',
+  name: 'When you are not in school, do you ever take private lessons on a musical instrument or in singing',
+  title: 'whether they took private lessons on a musical instrument or in singing not for schoolwork',
+  selected: 0,
+  categories: [
+    'Yes',
+    'No',
+  ],
+};
+
+export const BM80030: ContextualVariable = {
+  id: 'BM80030',
+  name: 'When you are not in school, do you ever talk with your family or friends about music',
+  title: 'whether they talked with their family or friends about music not for schoolwork',
+  selected: 0,
+  categories: [
+    'Yes',
+    'No',
+  ],
+};
+
+export const BM80034: ContextualVariable = {
+  id: 'BM80034',
+  name: 'Have you ever listened to a musical performance in a theater',
+  title: 'whether they listened to a musical performance in a theater',
+  selected: 0,
+  categories: [
+    'Yes',
+    'No',
+  ],
+};
+
+export const SQ00701: ContextualVariable = {
   id: 'SQ00701',
-  name: 'Full-time specialist in music',
+  name: 'Is there a full-time specialist on your school staff available to teach music to eighth graders',
+  title: 'whether there was a full-time specialist on their school staff available to teach music to eighth graders',
+  selected: 0,
   categories: [
     'Yes',
     'No',
   ],
 };
 
-export const SQ00070: Variable = {
-  id: 'SQ00070',
-  name: 'Dedicated space for music',
+export const SQ00202: ContextualVariable = {
+  id: 'SQ00202',
+  name: 'Does your district or state have a curriculum in music that your school is expected to follow',
+  title: 'whether the district or state had a music curriculum that their school was expected to follow',
+  selected: 0,
   categories: [
-    'Music Not Taught',
-    'Room and Stage',
-    'Room with no stage',
-    'Stage with no room',
-    'Classroom only',
+    'Yes',
+    'No',
+  ],
+};
+
+export const SQ00070: ContextualVariable = {
+  id: 'SQ00070',
+  name: 'Which best describes the space for the teaching and performing of music in your school',
+  title: 'ypes of space for the teaching and performing of music in their school',
+  selected: 1, // dedicated rooms and stage for teaching music
+  categories: [
+    'Music is not taught',
+    'Room(s) dedicated to music teaching, and stage',
+    'Room(s) dedicated to music teaching, no stage',
+    'Stage but no room dedicated to music teaching',
+    'Classrooms only',
     'Other',
   ],
 };
 
-// Out of school
-
-export const BM80023: Variable = {
-  id: 'BM80023',
-  name: 'Play instrument on your own',
-  categories: [
-    'Yes',
-    'No',
-  ],
-};
-
-export const BM80030: Variable = {
-  id: 'BM80030',
-  name: 'Talk about music',
-  categories: [
-    'Yes',
-    'No',
-  ],
-};
-
-export const BM80034: Variable = {
-  id: 'BM80034',
-  name: 'Heard music in a theater',
-  categories: [
-    'Yes',
-    'No',
-  ],
-};
-
-export const BM80024: Variable = {
-  id: 'BM80024',
-  name: 'Take private lessons',
-  categories: [
-    'Yes',
-    'No',
-  ],
-};
-
-/**
- * Looks up contextual variables given their ID.
- */
-export const contextualVariablesById: { [id: string]: Variable } = Object.freeze({
-  // Visual Arts variables
-  // In-school student activities and interests
-  BV00003,
-  BV00007,
-  BV00008,
-  BV00019,
-  // In-school opportunity
-  SQ00901,
-  SQ00204,
-  SQ00072,
-  // Out of school
-  BV80022,
-  BV80023,
-  BV80024,
-  BV00018,
-  BV80030,
-
-  // Music variables
-  // In-school student activities
-  BM00003,
-  BM80013,
-  BM80015,
-  // In-school opportunity
-  SQ00202,
-  SQ00701,
-  SQ00070,
-  // Out of school
-  BM80023,
-  BM80030,
-  BM80034,
-  BM80024,
-});
-
 /**
  * Retrieves all contextual variables for a given subject.
  */
-export function contextualVariablesForSubject(subject: 'visual arts' | 'music'): Variable[] {
+export function contextualVariablesForSubject(subject: 'visual arts' | 'music'): ContextualVariable[] {
   if (subject === 'visual arts') {
     return [
-      // In-school student activities and interests
       BV00003,
       BV00007,
       BV00008,
-      BV00019,
-      // In-school opportunity
-      SQ00901,
-      SQ00204,
-      SQ00072,
-      // Out of school
+      BV80019,
       BV80022,
       BV80023,
       BV80024,
-      BV00018,
-      BV80030,
+      BV80032,
+      SQ00901,
+      SQ00204,
+      SQ00070,
     ];
   } else {
     return [
-      // In-school student activities
       BM00003,
+      BM00010,
       BM80013,
       BM80015,
-      // In-school opportunity
-      SQ00202,
-      SQ00701,
-      SQ00070,
-      // Out of school
       BM80023,
+      BM80024,
       BM80030,
       BM80034,
-      BM80024,
+      SQ00701,
+      SQ00202,
+      SQ00072,
     ];
   }
 }
@@ -319,3 +317,17 @@ export function contextualVariablesForSubject(subject: 'visual arts' | 'music'):
 export function contextualVariables(): Variable[] {
   return contextualVariablesForSubject(context.subject);
 }
+
+/**
+ * Looks up a contextual variable given its ID.
+ */
+export const contextualVariablesById: { [id: string]: ContextualVariable } = Object.create(null);
+
+// Add variables dynamically so we only have to maintain one list
+for (const subject of ['visual arts', 'music'] as ('visual arts' | 'music')[]) {
+  for (const variable of contextualVariablesForSubject(subject)) {
+    contextualVariablesById[variable.id] = variable;
+  }
+}
+
+Object.freeze(contextualVariablesById);
