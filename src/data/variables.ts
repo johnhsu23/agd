@@ -2,11 +2,13 @@ export interface Variable {
   id: string;
   name: string;
   categories: string[];
+  inline: string;
 }
 
 export const SDRACE: Variable = {
   id: 'SDRACE',
   name: 'Race/ethnicity',
+  inline: 'race/ethnicity',
   categories: [
     'White',
     'Black',
@@ -20,6 +22,7 @@ export const SDRACE: Variable = {
 export const SRACE10: Variable = {
   id: 'SRACE10',
   name: 'Race/ethnicity (SRACE10)',
+  inline: 'race/ethnicity',
   categories: [
     'White',
     'Black',
@@ -34,6 +37,7 @@ export const SRACE10: Variable = {
 export const GENDER: Variable = {
   id: 'GENDER',
   name: 'Gender',
+  inline: 'gender',
   categories: [
     'Male',
     'Female',
@@ -43,6 +47,7 @@ export const GENDER: Variable = {
 export const SLUNCH3: Variable = {
   id: 'SLUNCH3',
   name: 'NSLP Eligibility',
+  inline: 'eligibility for the National School Lunch Program (NSLP)',
   categories: [
     'Eligible for National School Lunch Program (NSLP)',
     'Not eligible for National School Lunch Program (NSLP)',
@@ -52,6 +57,7 @@ export const SLUNCH3: Variable = {
 export const PARED: Variable = {
   id: 'PARED',
   name: 'Parental education level',
+  inline: 'highest level of parental education',
   categories: [
     'Did not finish high school',
     'Graduated from high school',
@@ -64,6 +70,7 @@ export const PARED: Variable = {
 export const SCHTYP1: Variable = {
   id: 'SCHTYP1',
   name: 'Type of school',
+  inline: 'type of school',
   categories: [
     'Public',
     'Private',
@@ -73,6 +80,7 @@ export const SCHTYP1: Variable = {
 export const CENSREG: Variable = {
   id: 'CENSREG',
   name: 'Region of the country',
+  inline: 'region of the country',
   categories: [
     'Northeast',
     'Midwest',
@@ -84,6 +92,7 @@ export const CENSREG: Variable = {
 export const UTOL4: Variable = {
   id: 'UTOL4',
   name: 'School location',
+  inline: 'school location',
   categories: [
     'City',
     'Suburban',
@@ -95,6 +104,7 @@ export const UTOL4: Variable = {
 export const IEP: Variable = {
   id: 'IEP',
   name: 'Status as students with disabilities',
+  inline: 'status as students with disabilities',
   categories: [
     'Students with disabilities',
     'Not students with disabilities',
@@ -104,6 +114,7 @@ export const IEP: Variable = {
 export const LEP: Variable = {
   id: 'LEP',
   name: 'Status as English language learners',
+  inline: 'status as English language learners',
   categories: [
     'English language learners',
     'Not English language learners',
@@ -113,6 +124,7 @@ export const LEP: Variable = {
 export const SLUNCH1: Variable = {
   id: 'SLUNCH1',
   name: 'NSLP eligibility',
+  inline: 'eligibility for the National School Lunch Program (NSLP)',
   categories: [
     'Eligible for National School Lunch Program (NSLP)',
     'Not eligible for National School Lunch Program (NSLP)',

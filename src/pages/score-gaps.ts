@@ -1,12 +1,10 @@
-import {Model} from 'backbone';
-import {ItemView} from 'backbone.marionette';
-
 import Page from 'views/page';
 import DefaultSection from 'views/default-section';
 
 import context from 'models/context';
 
 import ScoreGapsFigure from 'pages/score-gaps/gaps-figure';
+import GroupTrendsFigure from 'pages/score-gaps/group-trends-figure';
 import TaskBarFigure from 'pages/score-gaps/bar-figure';
 
 import * as respondingCommentary from 'json!commentary/score-gaps/responding.json';
@@ -31,7 +29,11 @@ export default class ScoreGaps extends Page {
     }));
 
     this.pushSection(new DefaultSection({
-      inner: new (class extends ItemView<Model> { template = () => '' }),
+      inner: new GroupTrendsFigure({
+        share: {
+          download: true,
+        },
+      }),
       commentary: studentGroupsCommentary[context.subject],
     }));
 
