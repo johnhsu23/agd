@@ -30,6 +30,11 @@ export default class ScoreGaps extends Page {
       commentary: respondingCommentary[context.subject],
     }));
 
+    this.pushSection(new DefaultSection({
+      inner: new (class extends ItemView<Model> { template = () => '' }),
+      commentary: studentGroupsCommentary[context.subject],
+    }));
+
     if (context.subject !== 'music') {
       this.pushSection(new DefaultSection({
         inner: new TaskBarFigure({
@@ -40,10 +45,5 @@ export default class ScoreGaps extends Page {
         commentary: creatingTaskCommentary[context.subject],
       }));
     }
-
-    this.pushSection(new DefaultSection({
-      inner: new (class extends ItemView<Model> { template = () => '' }),
-      commentary: studentGroupsCommentary[context.subject],
-    }));
   }
 }
