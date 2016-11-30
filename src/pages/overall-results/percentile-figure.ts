@@ -11,9 +11,6 @@ import LegendView from 'pages/overall-results/percentile-legend';
 import Legend from 'legends/model';
 import series from 'legends/series';
 
-import {yearsForGrade} from 'data/assessment-years';
-import formatList from 'util/format-list';
-import nth from 'util/nth';
 import context from 'models/context';
 
 import * as percentileInstructions from 'text!templates/percentile-instructions.html';
@@ -53,9 +50,7 @@ export default class PercentileScores extends Figure {
   }
 
   protected makeTitle(): string {
-    const years = formatList(yearsForGrade(8));
-
-    return `Percentile scores for ${nth(8)}-grade students assessed in NAEP ${context.subject}: ${years}`;
+    return `Percentile scores for eighth-grade students assessed in NAEP ${context.subject}: 2008 and 2016`;
   }
 
   onBeforeShow(): void {
