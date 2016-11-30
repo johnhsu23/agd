@@ -11,7 +11,7 @@ import * as knowledgeSkillsCommentary from 'json!commentary/questions-analysis/k
 import * as performanceCommentary from 'json!commentary/questions-analysis/performance.json';
 
 export default class QuestionsAnalysis extends Page {
-  pageTitle = 'Sample Questions Analysis';
+  pageTitle = 'Sample Questions';
 
   onBeforeShow(): void {
     this.pushSection(new DefaultSection({
