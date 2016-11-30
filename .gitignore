@@ -17,6 +17,7 @@ bower_components
 src/commentary.d.ts
 src/templates.d.ts
 src/files.d.ts
+src/notes.d.ts
 
 # Auto-generated sass-globbing files
 sass/partials/sass-globbing
@@ -32,3 +33,4 @@ public/*
 # Keep HTML we create by hand
 !public/index.html
 !public/templates
+!public/notes
