@@ -2,6 +2,9 @@ module.exports = function (grunt) {
   var tasks = [
     // Order matters!
 
+    // Audit files in public/
+    'audit',
+
     // Remove build artifacts
     'clean:default',
 
