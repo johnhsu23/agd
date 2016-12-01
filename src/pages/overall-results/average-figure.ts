@@ -4,7 +4,8 @@ import AverageResults from 'pages/overall-results/average-results';
 
 export default class AverageFigure extends Figure {
   protected makeTitle(): string {
-    return `Eighth-grade NAEP ${context.subject} average scores`;
+    return `Average responding scale scores for eighth-grade students assessed in NAEP ` +
+     `${context.subject}: 2008 and 2016`;
   }
 
   onBeforeShow(): void {
