@@ -16,7 +16,7 @@ module.exports = function (grunt) {
       // Enforce IES web standards compliance
       audit: {
         options: {
-          events: ['added'],
+          event: ['added'],
         },
         files: ['public/**/*', '!public/vendor/**/*'],
         tasks: ['audit-filenames'],
