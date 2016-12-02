@@ -29,7 +29,7 @@ module.exports = function (grunt) {
       },
       notes: {
         files: [{
-          src: 'public/notes/*.*',
+          src: 'public/notes/*.html',
           dest: 'src/notes.d.ts',
         }],
       },

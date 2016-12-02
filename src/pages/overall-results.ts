@@ -15,7 +15,7 @@ import * as averageCommentary from 'json!commentary/overall-results/average.json
 import * as percentilesCommentary from 'json!commentary/overall-results/percentiles.json';
 import * as creatingTasksCommentary from 'json!commentary/overall-results/creating-tasks.json';
 import * as respondingTaskCommentary from 'json!commentary/overall-results/responding-task.json';
-import * as overallNotes from 'text!notes/overall-notes.html';
+import * as overallNotes from 'text!notes/overall-results.html';
 
 export default class AverageScores extends Page {
   pageTitle = 'Overall Results';
