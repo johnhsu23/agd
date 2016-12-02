@@ -6,11 +6,14 @@ import nth from 'util/nth';
 import Table from 'pages/student-groups/groups-table';
 import GroupsSelector from 'pages/student-groups/groups-selector';
 
+import * as template from 'text!templates/groups-figure.html';
+
 import * as vars from 'data/variables';
 
 export default class GroupsFigure extends Figure {
   protected variable: vars.Variable = vars.SDRACE;
   protected table: Table;
+  template = () => template;
 
   render(): any {
     if (super.onRender) {
