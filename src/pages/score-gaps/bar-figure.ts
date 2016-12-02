@@ -34,6 +34,6 @@ export default class TaskBar extends Figure {
 
   protected makeTitle(): string {
     return 'Average creating task scores for eighth-grade students assessed in NAEP ' +
-      `visual arts, by ${this.variable.inline}: 2016`;
+      `visual arts, by ${this.variable.title}: 2016`;
   }
 }

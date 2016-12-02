@@ -16,6 +16,6 @@ export default class GroupTrendsFigure extends Figure {
 
   protected makeTitle(): string {
     return 'Percentage distribution and average responding scale scores of eighth-grade students ' +
-      `assessed in NAEP ${context.subject}, by ${this.variable.inline}: 2008 and 2016`;
+      `assessed in NAEP ${context.subject}, by ${this.variable.title}: 2008 and 2016`;
   }
 }

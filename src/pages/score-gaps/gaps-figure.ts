@@ -65,7 +65,7 @@ export default class ScoreGaps extends Figure {
 
   protected makeTitle(): string {
     return 'Average responding scale scores and score gaps for eighth-grade students assessed in NAEP ' +
-      `${context.subject}, by ${this.variable.inline}: 2008 and 2016`;
+      `${context.subject}, by ${this.variable.title}: 2008 and 2016`;
   }
 
   protected gatherNotes(result: Result): void {
