@@ -1,5 +1,6 @@
 import {default as Figure, FigureOptions} from 'views/figure';
 
+import Legend from 'legends/model';
 import context from 'models/context';
 import {Variable} from 'data/variables';
 import LegendView from 'views/legend';
@@ -30,6 +31,11 @@ export default class BubbleFigure extends Figure {
     }));
 
     const collection = new Collection([
+      new Legend({
+        type: 'bubble',
+        marker: '',
+        description: 'The size of each bubble represents the percentage of students in that response category.',
+      }),
     ]);
 
     this.showLegend(new LegendView({ collection }));

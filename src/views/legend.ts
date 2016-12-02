@@ -5,6 +5,7 @@ import LegendItemView from 'views/legend/item';
 import TextView from 'views/legend/text';
 import PathView from 'views/legend/path';
 import NoteView from 'views/legend/note';
+import BubbleView from 'views/legend/bubble';
 
 import configure from 'util/configure';
 
@@ -30,6 +31,9 @@ export default class LegendView extends CollectionView<Legend, LegendItemView> {
 
       case 'note':
         return NoteView;
+
+      case 'bubble':
+        return BubbleView;
 
       default:
         throw new Error(`Unknown model type ${item.type}`);

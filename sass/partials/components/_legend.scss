@@ -66,6 +66,15 @@
     position: relative;
 }
 
+.legend__item--bubble {
+    display: unset;
+}
+
+.legend__bubble-line {
+    stroke: $axis;
+    fill: $axis;
+}
+
 .legend__marker {
     display: table-cell;
     height: $legend-item-height;
