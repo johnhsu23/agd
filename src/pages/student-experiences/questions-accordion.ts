@@ -1,7 +1,7 @@
 import {ViewOptions, Model} from 'backbone';
 import {LayoutView} from 'backbone.marionette';
 
-import {Variable} from 'data/variables';
+import {ContextualVariable} from 'data/contextual-variables';
 
 import Accordion from 'behaviors/accordion';
 import configure from 'util/configure';
@@ -9,7 +9,7 @@ import configure from 'util/configure';
 import * as template from 'text!templates/questions-accordion.html';
 
 export interface QuestionsAccordionOptions extends ViewOptions<Model> {
-  variable: Variable;
+  variable: ContextualVariable;
 }
 
 @configure({
@@ -23,12 +23,11 @@ export interface QuestionsAccordionOptions extends ViewOptions<Model> {
 export default class QuestionsAccordion extends LayoutView<Model> {
   template = () => template;
 
-  protected variable: Variable;
+  protected variable: ContextualVariable;
 
   constructor(options: QuestionsAccordionOptions) {
     super(options);
 
-    // NOTE: Using Variable data as dummy info
     this.variable = options.variable;
   }
 

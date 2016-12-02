@@ -1,13 +1,15 @@
 import {ViewOptions, Model} from 'backbone';
 import {LayoutView} from 'backbone.marionette';
-import {Variable} from 'data/variables';
+
+import {ContextualVariable} from 'data/contextual-variables';
+
 import QuestionsAccordion from 'pages/student-experiences/questions-accordion';
 import configure from 'util/configure';
 
 import * as template from 'text!templates/questions-response.html';
 
 export interface QuestionsResponseOptions extends ViewOptions<Model> {
-  variables: Variable[];
+  variables: ContextualVariable[];
   headerText: string;
 }
 
@@ -17,7 +19,7 @@ export interface QuestionsResponseOptions extends ViewOptions<Model> {
 export default class QuestionsResponse extends LayoutView<Model> {
   template = () => template;
 
-  protected variables: Variable[];
+  protected variables: ContextualVariable[];
   protected headerText: string;
 
   protected count = 0;
