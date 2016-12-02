@@ -1,14 +1,39 @@
 export interface Variable {
-  id: string;
-  name: string;
-  categories: string[];
-  inline: string;
+  /**
+   * The ID of this variable. Used for lookup in the NDE.
+   */
+  readonly id: string;
+
+  /**
+   * The display name of this variable.
+   *
+   * This is used when presenting a variable to the user, such as in a Selectability dropdown or as the heading in an
+   * accordion.
+   */
+  readonly name: string;
+
+  /**
+   * The name of this variable when used in a figure title.
+   *
+   * Whereas the `name` property stands alone by itself, the title is meant to flow in line with other text, such as
+   * in this example:
+   *
+   * ```
+   * return `Percentage of eighth-grade students, by ${variable.title}`;
+   * ```
+   */
+  readonly title: string;
+
+  /**
+   * A list of this variable's categories.
+   */
+  readonly categories: string[];
 }
 
 export const SDRACE: Variable = {
   id: 'SDRACE',
   name: 'Race/ethnicity',
-  inline: 'race/ethnicity',
+  title: 'race/ethnicity',
   categories: [
     'White',
     'Black',
@@ -22,7 +47,7 @@ export const SDRACE: Variable = {
 export const SRACE10: Variable = {
   id: 'SRACE10',
   name: 'Race/ethnicity (SRACE10)',
-  inline: 'race/ethnicity',
+  title: 'race/ethnicity',
   categories: [
     'White',
     'Black',
@@ -37,7 +62,7 @@ export const SRACE10: Variable = {
 export const GENDER: Variable = {
   id: 'GENDER',
   name: 'Gender',
-  inline: 'gender',
+  title: 'gender',
   categories: [
     'Male',
     'Female',
@@ -47,7 +72,7 @@ export const GENDER: Variable = {
 export const SLUNCH3: Variable = {
   id: 'SLUNCH3',
   name: 'NSLP Eligibility',
-  inline: 'eligibility for the National School Lunch Program (NSLP)',
+  title: 'eligibility for the National School Lunch Program (NSLP)',
   categories: [
     'Eligible for National School Lunch Program (NSLP)',
     'Not eligible for National School Lunch Program (NSLP)',
@@ -57,7 +82,7 @@ export const SLUNCH3: Variable = {
 export const PARED: Variable = {
   id: 'PARED',
   name: 'Parental education level',
-  inline: 'highest level of parental education',
+  title: 'highest level of parental education',
   categories: [
     'Did not finish high school',
     'Graduated from high school',
@@ -70,7 +95,7 @@ export const PARED: Variable = {
 export const SCHTYP1: Variable = {
   id: 'SCHTYP1',
   name: 'Type of school',
-  inline: 'type of school',
+  title: 'type of school',
   categories: [
     'Public',
     'Private',
@@ -80,7 +105,7 @@ export const SCHTYP1: Variable = {
 export const CENSREG: Variable = {
   id: 'CENSREG',
   name: 'Region of the country',
-  inline: 'region of the country',
+  title: 'region of the country',
   categories: [
     'Northeast',
     'Midwest',
@@ -92,7 +117,7 @@ export const CENSREG: Variable = {
 export const UTOL4: Variable = {
   id: 'UTOL4',
   name: 'School location',
-  inline: 'school location',
+  title: 'school location',
   categories: [
     'City',
     'Suburban',
@@ -104,7 +129,7 @@ export const UTOL4: Variable = {
 export const IEP: Variable = {
   id: 'IEP',
   name: 'Status as students with disabilities',
-  inline: 'status as students with disabilities',
+  title: 'status as students with disabilities',
   categories: [
     'Students with disabilities',
     'Not students with disabilities',
@@ -114,7 +139,7 @@ export const IEP: Variable = {
 export const LEP: Variable = {
   id: 'LEP',
   name: 'Status as English language learners',
-  inline: 'status as English language learners',
+  title: 'status as English language learners',
   categories: [
     'English language learners',
     'Not English language learners',
@@ -124,7 +149,7 @@ export const LEP: Variable = {
 export const SLUNCH1: Variable = {
   id: 'SLUNCH1',
   name: 'NSLP eligibility',
-  inline: 'eligibility for the National School Lunch Program (NSLP)',
+  title: 'eligibility for the National School Lunch Program (NSLP)',
   categories: [
     'Eligible for National School Lunch Program (NSLP)',
     'Not eligible for National School Lunch Program (NSLP)',

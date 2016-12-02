@@ -13,6 +13,15 @@ module.exports = function (grunt) {
         tasks: ['sass_globbing:default', 'sass:default', 'newer:postcss:default'],
       },
 
+      // Enforce IES web standards compliance
+      audit: {
+        options: {
+          events: ['added'],
+        },
+        files: ['public/**/*', '!public/vendor/**/*'],
+        tasks: ['audit-filenames'],
+      },
+
       // Re-run bower if dependencies added/removed
       bower: {
         files: 'bower.json',
