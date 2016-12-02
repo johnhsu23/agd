@@ -1,8 +1,6 @@
-import {Model} from 'backbone';
-import {ItemView} from 'backbone.marionette';
-
 import Page from 'views/page';
 import DefaultSection from 'views/default-section';
+import QuestionsListView from 'pages/student-experiences/questions-list';
 import NotesSourcesView from 'views/notes-sources';
 
 import context from 'models/context';
@@ -15,7 +13,7 @@ export default class StudentExperiences extends Page {
 
   onBeforeShow(): void {
     this.pushSection(new DefaultSection({
-      inner: new (class extends ItemView<Model> { template = () => ''}),
+      inner: new QuestionsListView,
       commentary: studentExperiencesCommentary[context.subject],
     }));
 
