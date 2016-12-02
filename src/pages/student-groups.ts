@@ -5,7 +5,7 @@ import Page from 'views/page';
 import DefaultSection from 'views/default-section';
 import context from 'models/context';
 
-import GroupsTableList from 'pages/student-groups/table-list';
+import GroupsFigure from 'pages/student-groups/groups-figure';
 
 import * as scoreTrendsCommentary from 'json!commentary/student-groups/score-trends.json';
 import * as percentagesCommentary from 'json!commentary/student-groups/percentages.json';
@@ -15,7 +15,7 @@ export default class StudentGroups extends Page {
 
   onBeforeShow(): void {
     this.pushSection(new DefaultSection({
-      inner: new GroupsTableList,
+      inner: new GroupsFigure,
       commentary: scoreTrendsCommentary[context.subject],
     }));
 
