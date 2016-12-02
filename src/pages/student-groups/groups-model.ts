@@ -15,11 +15,11 @@ export default class GroupsModel extends Model {
   @modelProperty('2008-MN')
   MN_2008: Data;
 
-  @modelProperty('2008-RP')
-  RP_2008: Data;
-
   @modelProperty('2016-MN')
   MN_2016: Data;
+
+  @modelProperty('2008-RP')
+  RP_2008: Data;
 
   @modelProperty('2016-RP')
   RP_2016: Data;

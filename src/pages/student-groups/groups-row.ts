@@ -10,8 +10,8 @@ import {Data} from 'pages/student-groups/groups-data';
 
 const keys = [
   '2008-MN',
-  '2008-RP',
   '2016-MN',
+  '2008-RP',
   '2016-RP',
 ];
 
