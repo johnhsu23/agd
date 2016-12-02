@@ -2,25 +2,21 @@ import {Collection} from 'backbone';
 import {defaults} from 'underscore';
 
 import {TableView, TableViewOptions} from 'views/table';
-import {Variable} from 'data/variables';
 
 import configure from 'util/configure';
 
 import GroupsModel from 'pages/student-groups/groups-model';
 import GroupsHeader from 'pages/student-groups/groups-header';
 import RowView from 'pages/student-groups/groups-row';
-import {load} from 'pages/student-groups/groups-data';
 
-interface GroupsTableOptions extends TableViewOptions<GroupsModel> {
-  variable: Variable;
-}
+interface GroupsTableOptions extends TableViewOptions<GroupsModel> {}
 
 @configure({
   className: 'table table--groups',
   childView: RowView as { new(...args: any[]): RowView },
 })
+
 export default class GroupsTable extends TableView<GroupsModel, RowView> {
-  protected variable: Variable;
 
   constructor(options: GroupsTableOptions) {
     options = defaults(options, { headerClass: GroupsHeader });
@@ -28,47 +24,5 @@ export default class GroupsTable extends TableView<GroupsModel, RowView> {
     super(options);
 
     this.collection = new Collection<GroupsModel>();
-
-    this.setVariable(options.variable);
-  }
-
-  onRender(): void {
-    if (super.onRender) {
-      super.onRender();
-    }
-
-    this.updateRows();
-  }
-
-  updateRows(): void {
-    const variable = this.variable;
-
-    load(variable)
-      .then(rows => {
-        const models: GroupsModel[] = [];
-        models.length = variable.categories.length;
-
-        for (const row of rows) {
-          let model = models[row.categoryindex];
-          if (!model) {
-            model = models[row.categoryindex] = new GroupsModel;
-          }
-
-          model.variable = variable;
-          model.category = row.categoryindex;
-
-          model.set(row.targetyear + '-' + row.stattype, row);
-        }
-
-        return models;
-      })
-      .then(models => {
-        this.collection.reset(models);
-      })
-      .done();
-  }
-
-  setVariable(variable: Variable): void {
-    this.variable = variable;
   }
 }
