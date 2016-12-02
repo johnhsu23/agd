@@ -1,0 +1,44 @@
+import {default as Figure, FigureOptions} from 'views/figure';
+
+import context from 'models/context';
+import {Variable} from 'data/variables';
+import LegendView from 'views/legend';
+import Collection from 'collections/legend';
+
+import BubbleChart from 'pages/student-experiences/bubble-chart';
+
+export interface BubbleFigureOptions extends FigureOptions {
+  variable: Variable;
+}
+
+export default class BubbleFigure extends Figure {
+  protected variable: Variable;
+
+  constructor(options: BubbleFigureOptions) {
+    super(options);
+
+    this.variable = options.variable;
+  }
+
+  onRender(): void {
+    if (super.onRender) {
+      super.onRender();
+    }
+
+    this.showContents(new BubbleChart({
+      variable: this.variable,
+    }));
+
+    const collection = new Collection([
+    ]);
+
+    this.showLegend(new LegendView({ collection }));
+
+    this.setTitle(this.makeTitle());
+  }
+
+  protected makeTitle(): string {
+    return `Average responding scale scores and percentage of eighth-grade students assessed in NAEP ${context.subject}`
+      + `, by ${this.variable.title}: 2016`;
+  }
+}

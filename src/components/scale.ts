@@ -113,6 +113,11 @@ export interface Scale {
    * positions that may not correspond with what the scale would otherwise compute.
    */
   ticks(): Tick[];
+
+  /**
+   * Returns the difference between the smallest and largest values in the range of this scale.
+   */
+  size(): number;
 }
 
 export function scale(): Scale {
@@ -180,7 +185,7 @@ export function scale(): Scale {
       return recompute();
     }
 
-    return interval;
+    return intervalSize;
   } as Setter<number>;
 
   scale.offset = function (value?: number): Scale | number {
@@ -271,6 +276,16 @@ export function scale(): Scale {
 
     return scale;
   }
+
+  scale.size = function () {
+    const [lo, hi] = range;
+
+    if (reversed) {
+      return lo - hi;
+    }
+
+    return hi - lo;
+  };
 
   return recompute();
 }
