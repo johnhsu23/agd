@@ -8,10 +8,12 @@ import context from 'models/context';
 
 import ScoreGapsFigure from 'pages/score-gaps/gaps-figure';
 import TaskBarFigure from 'pages/score-gaps/bar-figure';
+import NotesSourcesView from 'views/notes-sources';
 
 import * as respondingCommentary from 'json!commentary/score-gaps/responding.json';
 import * as creatingTaskCommentary from 'json!commentary/score-gaps/creating-task.json';
 import * as studentGroupsCommentary from 'json!commentary/score-gaps/student-groups.json';
+import * as gapsNotes from 'text!notes/score-gaps.html';
 
 export default class ScoreGaps extends Page {
   pageTitle = 'Group Score Gaps';
@@ -45,5 +47,9 @@ export default class ScoreGaps extends Page {
         commentary: creatingTaskCommentary[context.subject],
       }));
     }
+
+    this.showChildView('footer', new NotesSourcesView({
+      contents: gapsNotes,
+    }));
   }
 }
