@@ -1,4 +1,5 @@
 import Figure from 'views/figure';
+import {EventsHash} from 'backbone';
 
 import nth from 'util/nth';
 
@@ -22,6 +23,21 @@ export default class GroupsFigure extends Figure {
     this.table = new Table({ variable });
     this.showContents(this.table);
     this.setTitle(this.makeTitle());
+  }
+
+  childEvents(): EventsHash {
+    return {
+      'scoreTrends:select': 'onChildScoreTrendsSelect',
+    };
+  }
+
+  onChildScoreTrendsSelect(view: GroupsSelector, variable: vars.Variable): void {
+    if (this.variable !== variable) {
+      this.variable = variable;
+      this.table.setVariable(this.variable);
+      this.table.updateRows();
+      this.setTitle(this.makeTitle());
+    }
   }
 
   protected makeTitle(): string {

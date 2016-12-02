@@ -25,12 +25,11 @@ export default class GroupsTable extends TableView<GroupsModel, RowView> {
   constructor(options: GroupsTableOptions) {
     options = defaults(options, { headerClass: GroupsHeader });
 
-    console.log(options);
-
     super(options);
 
     this.collection = new Collection<GroupsModel>();
-    this.variable = options.variable;
+
+    this.setVariable(options.variable);
   }
 
   onRender(): void {
@@ -38,6 +37,10 @@ export default class GroupsTable extends TableView<GroupsModel, RowView> {
       super.onRender();
     }
 
+    this.updateRows();
+  }
+
+  updateRows(): void {
     const variable = this.variable;
 
     load(variable)
@@ -65,16 +68,7 @@ export default class GroupsTable extends TableView<GroupsModel, RowView> {
       .done();
   }
 
-  render(): this {
-    super.render();
-
-    let caption = this.$('caption');
-    if (!caption.length) {
-      caption = $('<caption>').appendTo(this.$el);
-    }
-
-    caption.text(this.variable.name);
-
-    return this;
+  setVariable(variable: Variable): void {
+    this.variable = variable;
   }
 }
