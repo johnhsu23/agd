@@ -10,6 +10,7 @@ import significantGap from 'legends/sig-gap';
 import insignificantGap from 'legends/insig-gap';
 
 import * as vars from 'data/variables';
+import context from 'models/context';
 
 import {load, Result} from 'pages/score-gaps/gaps-data';
 import Chart from 'pages/score-gaps/gaps-chart';
@@ -19,6 +20,7 @@ export default class ScoreGaps extends Figure {
   collection = new Collection<Legend>();
 
   protected chart: Chart;
+  protected variable: vars.Variable = vars.SDRACE;
 
   onRender(): void {
     if (super.onRender) {
@@ -33,7 +35,8 @@ export default class ScoreGaps extends Figure {
       collection: this.collection,
     }));
 
-    this.updateChart(vars.SDRACE, 0, 1);
+    this.setTitle(this.makeTitle());
+    this.updateChart(this.variable, 0, 1);
   }
 
   childEvents(): EventsHash {
@@ -43,7 +46,9 @@ export default class ScoreGaps extends Figure {
   }
 
   onChildGapSelect(_: GapSelector, variable: vars.Variable, focal: number, target: number): void {
-    this.updateChart(variable, focal, target);
+    this.variable = variable;
+    this.setTitle(this.makeTitle());
+    this.updateChart(this.variable, focal, target);
   }
 
   protected updateChart(variable: vars.Variable, focal: number, target: number): void {
@@ -56,6 +61,11 @@ export default class ScoreGaps extends Figure {
     promise
       .then(result => this.gatherNotes(result))
       .done();
+  }
+
+  protected makeTitle(): string {
+    return 'Average responding scale scores and score gaps for eighth-grade students assessed in NAEP ' +
+      `${context.subject}, by ${this.variable.title}: 2008 and 2016`;
   }
 
   protected gatherNotes(result: Result): void {

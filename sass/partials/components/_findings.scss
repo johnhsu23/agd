@@ -1,0 +1,13 @@
+.findings {
+    align-items: center;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    margin-top: .5em;
+}
+
+.finding--one-third {
+    flex-basis: 33%;
+    padding: 0 1.5em;
+    text-align: center;
+}
