@@ -51,8 +51,6 @@ export class TableView<Row extends Model, RowView extends View<Row>> extends Com
       this.header.render();
     }
 
-    console.log(header, headerClass, this.header);
-
     const footer = this.getOption('footer') as View<Model>,
           footerClass = this.getOption('footerClass') as typeof View,
           tfoot = this.$('> tfoot');
