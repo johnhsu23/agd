@@ -19,7 +19,7 @@ export default class NotesSourcesView extends ItemView<Model> {
 
   events(): EventsHash {
     return {
-      'click a': 'toggleNoteDisplay',
+      'click a.note__header__link': 'toggleNoteDisplay',
     };
   }
 
