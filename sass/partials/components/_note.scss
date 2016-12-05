@@ -25,14 +25,13 @@
 }
 
 .note__show-hide {
-	background-image: url("../img/arrow-orange-down.png");
-	background-position: right center;
-    background-repeat: no-repeat;
+
     color: $orange-100;
-    display: inline-block;
+    display: block;
     font-size: .875em;
     font-weight: 700;
-    padding: rem(7px) rem(40px) rem(7px) rem(20px);
+    padding: rem(7px) 0;
+    text-decoration: none;
 
     &:hover,
     &:focus {
@@ -40,9 +39,19 @@
     	text-decoration: none;
     }
 
+    span {
+        background-image: url("../img/arrow-orange-down.png");
+        background-position: right center;
+        background-repeat: no-repeat;
+        padding: 0 rem(40px) 0 rem(20px);
+    }
+
     .is-expanded & {
-        background-image: url("../img/arrow-orange-up.png");
         color: $orange-100;
+
+        span {
+            background-image: url("../img/arrow-orange-up.png");
+        }
     }
 }
 

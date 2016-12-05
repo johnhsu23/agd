@@ -36,7 +36,7 @@ export default class NotesSourcesView extends ItemView<Model> {
     this.$el.toggleClass('is-expanded');
 
     this.$('.note__show-hide')
-      .text(this.$el.hasClass('is-expanded') ? 'Hide Notes and Sources' : 'Show Notes and Sources');
+      .html(this.$el.hasClass('is-expanded') ? '<span>Hide Notes and Sources</span>' : '<span>Show Notes and Sources</span>');
   }
 
   onRender(): void {
