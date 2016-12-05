@@ -1,0 +1,39 @@
+.print {
+ 	float: right;
+}
+
+.print__link {
+	background: none;
+	color: #fff;
+	display: block;
+	font-size: .5625em;
+	padding-top: 37px;
+	position: relative;
+	text-decoration: none;
+	text-transform: uppercase;
+
+	&:hover,
+	&:focus  {
+		color: #fff;
+
+		&:before {
+			background-color: $green-100;
+		}
+	}
+
+	&:before {
+		background-color: $orange-100;
+		background-position: 50%;
+		background-repeat: no-repeat;
+		background-size: 16px;
+		border-radius: 50%;
+		content: '';
+		display: inline-block;
+		height: 32px;
+		left: 50%;
+		margin-left: -16px;
+		position: absolute;
+		top: 0;
+		width: 32px;
+	}
+}
