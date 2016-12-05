@@ -1,4 +1,3 @@
-import {Collection} from 'backbone';
 import {defaults} from 'underscore';
 
 import {TableView, TableViewOptions} from 'views/table';
@@ -20,7 +19,5 @@ export default class GroupsTable extends TableView<GroupsModel, RowView> {
     options = defaults(options, { headerClass: GroupsHeader });
 
     super(options);
-
-    this.collection = new Collection<GroupsModel>();
   }
 }
