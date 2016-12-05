@@ -1,18 +1,17 @@
-import {EventsHash} from 'backbone';
-import {ItemView} from 'backbone.marionette';
-import * as template from 'text!templates/groups-selector.html';
-import configure from 'util/configure';
-import {select} from 'd3-selection';
-import * as vars from 'data/variables';
 import * as $ from 'jquery';
+import {Model, EventsHash} from 'backbone';
+import {ItemView} from 'backbone.marionette';
+import {select} from 'd3-selection';
 
-export type Option = { [key: string]: string };
-export type Options = Option[];
+import configure from 'util/configure';
+import * as vars from 'data/variables';
+
+import * as template from 'text!templates/groups-selector.html';
 
 @configure({
   className: 'controls__inner',
 })
-export default class GroupsSelector extends ItemView<any> {
+export default class GroupsSelector extends ItemView<Model> {
   template = () => template;
   protected variable = vars.SDRACE;
 
@@ -22,13 +21,7 @@ export default class GroupsSelector extends ItemView<any> {
     };
   }
 
-  regions(): {[key: string]: string} {
-    return {
-      contents: '.controls__contents',
-    };
-  }
-
-  setSelection(): void {
+  onRender(): void {
     const data: vars.Variable[] = $.map(vars, function(value, index) {
       return value;
     });
@@ -46,10 +39,6 @@ export default class GroupsSelector extends ItemView<any> {
     selector.val(data[0].id).trigger('change');
   }
 
-  onRender(): void {
-    this.setSelection();
-  }
-
   protected onChange(event: SelectabilityEvent): void {
     if (!event.selectability) {
       return;
@@ -64,6 +53,6 @@ export default class GroupsSelector extends ItemView<any> {
   }
 
   protected changed(): void {
-    this.triggerMethod('scoreTrends:select', this.variable);
+    this.triggerMethod('group:select', this.variable);
   }
 }

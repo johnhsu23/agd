@@ -1,41 +1,34 @@
 import Figure from 'views/figure';
 import {Collection, EventsHash} from 'backbone';
 
-import nth from 'util/nth';
+import LegendView from 'views/legend';
+import * as vars from 'data/variables';
 
-import Table from 'pages/student-groups/groups-table';
-import GroupsSelector from 'pages/student-groups/groups-selector';
-import GroupsModel from 'pages/student-groups/groups-model';
-import {Data} from 'pages/student-groups/groups-data';
-import {load} from 'pages/student-groups/groups-data';
-
-import Model from 'legends/model';
+import Legend from 'legends/model';
 import sigDiff from 'legends/sig-diff';
 import {all as gatherNotes} from 'legends/gather';
-import LegendView from 'views/legend';
 
-import * as template from 'text!templates/groups-figure.html';
-
-import * as vars from 'data/variables';
+import GroupsTable from 'pages/student-groups/groups-table';
+import GroupsSelector from 'pages/student-groups/groups-selector';
+import GroupsModel from 'pages/student-groups/groups-model';
+import {Data, load} from 'pages/student-groups/groups-data';
 
 export default class GroupsFigure extends Figure {
   protected variable: vars.Variable = vars.SDRACE;
-  protected table: Table;
-  legendCollection = new Collection([]);
+  protected tableData: Collection<GroupsModel> = new Collection([]);
+  legendCollection: Collection<Legend> = new Collection([]);
 
-  template = () => template;
-
-  render(): any {
+  onRender(): void {
     if (super.onRender) {
-      super.render();
+      super.onRender();
     }
 
     this.showControls(new GroupsSelector);
 
-    this.table = new Table({});
-    this.showContents(this.table);
+    this.showContents(new GroupsTable({}));
+    this.tableData = this.getChildView('contents').collection;
 
-    this.updateTable();
+    this.updateData();
 
     this.showLegend(new LegendView({
       collection: this.legendCollection,
@@ -44,18 +37,18 @@ export default class GroupsFigure extends Figure {
 
   childEvents(): EventsHash {
     return {
-      'scoreTrends:select': 'onChildScoreTrendsSelect',
+      'group:select': 'onChildScoreTrendsSelect',
     };
   }
 
   onChildScoreTrendsSelect(view: GroupsSelector, variable: vars.Variable): void {
     if (this.variable !== variable) {
       this.variable = variable;
-      this.updateTable();
+      this.updateData();
     }
   }
 
-  protected updateTable(): void {
+  protected updateData(): void {
     const variable = this.variable;
 
     load(variable)
@@ -76,22 +69,20 @@ export default class GroupsFigure extends Figure {
         }
 
         this.resetNotes(rows);
-        this.table.collection.reset(models);
-        this.setTitle(this.resetTitle());
+        this.tableData.reset(models);
+        this.setTitle(this.makeTitle());
 
         return models;
       })
       .done();
   }
 
-  protected resetTitle(): string {
-    const grade = 8;
-
-    return `Percentage distribution of students assessed in ${nth(grade)}-grade NAEP arts, by ${this.variable.name}`;
+  protected makeTitle(): string {
+    return `Percentage distribution of students assessed in eighth-grade NAEP arts, by ${this.variable.name}`;
   }
 
   protected resetNotes(data: Data[]): void {
-    let notes: Model[] = [];
+    let notes: Legend[] = [];
     if (data.some(row => row.sig === '<' || row.sig === '>')) {
       notes.push(sigDiff());
     }

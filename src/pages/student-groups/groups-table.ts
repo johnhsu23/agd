@@ -15,9 +15,7 @@ interface GroupsTableOptions extends TableViewOptions<GroupsModel> {}
   className: 'table table--groups',
   childView: RowView as { new(...args: any[]): RowView },
 })
-
 export default class GroupsTable extends TableView<GroupsModel, RowView> {
-
   constructor(options: GroupsTableOptions) {
     options = defaults(options, { headerClass: GroupsHeader });
 
