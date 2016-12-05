@@ -25,8 +25,7 @@ export default class GroupsFigure extends Figure {
 
     this.showControls(new GroupsSelector);
 
-    this.showContents(new GroupsTable({}));
-    this.tableData = this.getChildView('contents').collection;
+    this.showContents(new GroupsTable({ collection: this.tableData }));
 
     this.updateData();
 
