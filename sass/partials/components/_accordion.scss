@@ -74,3 +74,17 @@
 	background-color: $green-35;
 	padding: 2em 1.5em;
 }
+
+.accordion__header-bar {
+    display: inline-block;
+
+    rect.bg-bar {
+        fill: #f1efed;
+        stroke-width: 1px;
+        stroke: #beb7ac;
+    }
+
+    rect.percent-bar {
+        fill: #001871;
+    }
+}
