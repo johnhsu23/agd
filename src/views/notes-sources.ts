@@ -19,7 +19,7 @@ export default class NotesSourcesView extends ItemView<Model> {
 
   events(): EventsHash {
     return {
-      'click a.note__header__link': 'toggleNoteDisplay',
+      'click a.note__show-hide': 'toggleNoteDisplay',
     };
   }
 
@@ -35,7 +35,7 @@ export default class NotesSourcesView extends ItemView<Model> {
     this.$('.note__content').slideToggle();
     this.$el.toggleClass('is-expanded');
 
-    this.$('.note__header__link')
+    this.$('.note__show-hide')
       .text(this.$el.hasClass('is-expanded') ? 'Hide Notes and Sources' : 'Show Notes and Sources');
   }
 

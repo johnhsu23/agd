@@ -1,0 +1,64 @@
+.note {
+    padding: 1em 0 2em;
+}
+
+.note--gray {
+    background: $taupe-15;
+
+    .note__header {
+        background-color: $taupe-5;
+        background-image: url("../img/note-fold--gray.png");
+    }
+
+    .note__content {
+        background: #fff;
+    }
+}
+
+.note__header {
+    background-color: $taupe-10;
+    background-image: url("../img/note-fold--white.png");
+    background-position: right top;
+    background-repeat: no-repeat;
+    border-bottom: 1px solid $taupe-70;
+    padding-right: 2em;
+}
+
+.note__show-hide {
+	background-image: url("../img/arrow-orange-down.png");
+	background-position: right center;
+    background-repeat: no-repeat;
+    color: $orange-100;
+    display: inline-block;
+    font-size: .875em;
+    font-weight: 700;
+    padding: rem(7px) rem(40px) rem(7px) rem(20px);
+
+    &:hover,
+    &:focus {
+    	color: $orange-100;
+    	text-decoration: none;
+    }
+
+    .is-expanded & {
+        background-image: url("../img/arrow-orange-up.png");
+        color: $orange-100;
+    }
+}
+
+.note__content {
+    background-color: #ebebeb;
+    color: #000;
+    font-size: .75em;
+    font-weight: 400;
+    padding: rem(15px) rem(20px);
+    z-index: 50;
+
+    div {
+        margin-bottom: 0.75em;
+
+        &:last-child {
+        	margin-bottom: 0;
+        }
+    }
+}
