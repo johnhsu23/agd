@@ -37,17 +37,17 @@ export default class QuestionsAccordion extends LayoutView<Model> {
     }
 
     // set the accordion header content (name + bar chart)
-    this.$('.accordion__header__text')
+    this.$('.accordion__header-text')
       .text(this.variable.name);
 
     // set chart contents
-    this.$('.accordion__contents__bubble')
+    this.$('.accordion__chart--bubble')
       .text('Bubble chart section. Nonummy do erat eveniet magnis molestias quia repellat felis duis non. Quisque');
 
-    this.$('.accordion__contents__group')
+    this.$('.accordion__chart--group')
       .text('Group bar chart section. Fugiat quisque molestiae proident, cupiditate facere! Inceptos consequatur');
 
-    this.$('.accordion__contents__trends')
+    this.$('.accordion__chart--trends')
       .text('Trends bar chart section. Diam semper cumque saepe voluptas corporis arcu, fringilla nemo aliquam?');
   }
 }

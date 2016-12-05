@@ -1,0 +1,76 @@
+// @file
+// Styles for accordions
+
+.accordion {
+	margin-left: 1em;
+}
+
+.accordion__header {
+	border-bottom: 1px solid $orange-100;
+	display: block;
+	position: relative;
+	text-decoration: none;
+	width: 100%;
+
+	.is-expanded & {
+		border-color: $green-100;
+	}
+}
+
+.accordion__header-text {
+	color: $orange-100;
+	display: inline-block;
+	font-size: .875em;
+	font-weight: 700;
+	line-height: 1.2rem;
+	min-height: rem(70px);
+	padding: 1.5em 0 .5em;
+	width: 450px;
+
+	.is-expanded & {
+		color: $green-100;
+	}
+}
+
+.accordion__show-hide {
+	bottom: 8px;
+	color: $orange-100;
+	font-size: .875em;
+	font-weight: 700;
+	height: 16px;
+	position: absolute;
+	right: 0;
+	text-align: center;
+	text-transform: lowercase;
+	width: 40px;
+
+	&:after {
+		border-color: $orange-100 transparent transparent transparent;
+		border-style: solid;
+		border-width: 13px 12.5px 0 12.5px;
+		bottom: -22.5px;
+		content: '';
+		height: 0;
+		position: absolute;
+		right: 8px;
+		top: auto;
+		width: 0;
+	}
+
+	.is-expanded & {
+		bottom: -20px;
+		color: $green-100;
+
+		&:after {
+			border-color: transparent transparent $green-100 transparent;
+			border-width: 0 12.5px 13px 12.5px;
+			bottom: auto;
+			top: -16.5px;
+		}
+	}
+}
+
+.accordion__contents {
+	background-color: $green-35;
+	padding: 2em 1.5em;
+}

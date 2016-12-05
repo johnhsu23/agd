@@ -12,7 +12,7 @@ export default class AccordionBehavior extends Behavior {
     this.$('> [data-accordion-contents]').slideToggle();
     this.$el.toggleClass('is-expanded');
 
-    this.$('.accordion__header__button')
+    this.$('.accordion__show-hide')
         .text(this.$el.hasClass('is-expanded') ? 'Hide' : 'Show');
 
     event.preventDefault();
