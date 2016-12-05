@@ -7,23 +7,27 @@
 // to ensure load order. Sub-directories will need to be manually imported
 // from a partial in the 'components' directory. See _nav.scss for an example.
 
+@import 'components/accordion';
 @import 'components/acl-row';
 @import 'components/axis';
 @import 'components/button';
 @import 'components/cutpoint';
 @import 'components/dialog';
 @import 'components/figure';
+@import 'components/findings';
+@import 'components/footer';
 @import 'components/form-item';
 @import 'components/gap-selector';
-@import 'components/gaps';
+@import 'components/gap';
 @import 'components/grade-switcher';
 @import 'components/header';
 @import 'components/in-page-nav';
 @import 'components/legend';
-@import 'components/main';
 @import 'components/nav';
+@import 'components/note';
 @import 'components/path';
 @import 'components/region-nav';
+@import 'components/response';
 @import 'components/section';
 @import 'components/selectability';
 @import 'components/series';

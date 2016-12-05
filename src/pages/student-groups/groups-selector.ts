@@ -44,8 +44,8 @@ export default class GroupsSelector extends ItemView<Model> {
       return;
     }
 
-    const options = (event.target as HTMLSelectElement).selectedOptions;
-    const variable = select<Element, vars.Variable>(options[0]).datum();
+    const variable = vars.studentGroupsById[event.val];
+
     if (variable !== this.variable) {
       this.variable = variable;
       this.changed();

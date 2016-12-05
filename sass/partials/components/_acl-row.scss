@@ -1,5 +1,6 @@
-.acl-row {
-  &__bar {
+.acl-row {}
+
+.acl-row__bar {
     &--bb {
       fill: $acl-bb;
     }
@@ -15,18 +16,18 @@
     &--ad {
       fill: $acl-ad;
     }
-  }
+}
 
-  &__label {
+.acl-row__label {
     text-anchor: end;
     @include fade-in-out(500ms);
-  }
+}
 
-  &__text {
+.acl-row__text {
     text-anchor: middle;
 
     &.is-shifted-right {
       text-anchor: start;
     }
-  }
 }
+

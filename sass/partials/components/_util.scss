@@ -10,23 +10,29 @@
   width: 100%;
 }
 
-@mixin desktop {
-  @media (min-width: 1024px) {
-    @content;
-  }
+.u-semibold {
+	font-weight: 600;
 }
 
-@mixin enforce-width {
-  @include desktop {
-    width: 1024px;
-    margin: 0 auto;
-  }
+.u-color-blue {
+	color: $blue-100;
 }
 
-@mixin tablet {
-  @media (max-width: 1023px) {
-    @content;
-  }
+.u-color-green {
+	color: $green-100;
+}
+
+.u-font-small {
+	font-size: rem($font-size-sm);
+}
+
+.u-font-large {
+	font-size: rem($font-size-lg);
+}
+
+.u-font-huge {
+	font-size: rem(72px);
+	line-height: 1;
 }
 
 // This utility class has the penultimate precedence.

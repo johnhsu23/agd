@@ -42,9 +42,7 @@
     "no-require-imports": true,
     "no-var-keyword": true,
     "no-unused-expression": true,
-    "no-unused-variable": [
-      true
-    ],
+    "no-unused-new": true,
     "eofline": true,
     "linebreak-style": [
       true,
@@ -70,7 +68,8 @@
 
     "promise-chain-should-complete": true,
     "return-type-decl": true,
-    "no-nested-ternary": true
+    "no-nested-ternary": true,
+    "import-jquery": true
   },
   "rulesDirectory": [
     "node_modules/tslint-microsoft-contrib",

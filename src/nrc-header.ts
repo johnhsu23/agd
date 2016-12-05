@@ -35,7 +35,7 @@ class NrcHeader extends ItemView<Model> {
     item.addClass('hover');
   }
 
-  protected navHoverOut(event: JQueryEventObject): void {
+  protected navHoverOut(): void {
     this.$('.nav-item')
       .removeClass('hover')
       .find('.sub-nav')

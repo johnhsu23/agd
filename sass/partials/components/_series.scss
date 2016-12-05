@@ -45,40 +45,40 @@
 
 .series {
   @include fade-in-out;
+}
 
-  &__line {
+.series__line {
     @extend %series__path;
     fill: none;
-  }
+}
 
-  &__point {
+.series__point {
     @include fade-in-out;
+}
 
-    &__text {
-      text-anchor: middle;
-      transition: visibility 250ms, opacity 250ms;
+.series__point__text {
+    text-anchor: middle;
+    transition: visibility 250ms, opacity 250ms;
 
-      // We are now always outputting text elements, even if they aren't initially visible.
-      // As a result, we have to change the visibility when the chart is a "multi-series" (i.e., percentile) chart.
-      // This modifier name is... not great, probably.
-      .chart--multi-series & {
-        visibility: hidden;
+    // We are now always outputting text elements, even if they aren't initially visible.
+    // As a result, we have to change the visibility when the chart is a "multi-series" (i.e., percentile) chart.
+    // This modifier name is... not great, probably.
+    .chart--multi-series & {
         opacity: 0;
-      }
+        visibility: hidden;
+    }
 
-      .series.is-active & {
-        visibility: initial;
+    .series.is-active & {
         opacity: 1;
-      }
+        visibility: initial;
     }
+}
 
-    &__symbol {
-      @extend %series__path;
-      fill: white;
-    }
-  }
+.series__point__symbol {
+    @extend %series__path;
+    fill: white;
+}
 
-  &--target .series__point__text {
+.series__point--target .series__point__text {
     font-style: italic;
-  }
 }

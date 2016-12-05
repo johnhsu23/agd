@@ -1,41 +1,39 @@
 .share {
-  width: 32px;
-  padding: 2px;
-  overflow: visible;
-
-  &__header {
-    font-size: smaller;
-    font-weight: bold;
-    display: block;
-    text-transform: uppercase;
-    color: $darker-grey;
-
-    position: relative;
-    left: -0.5em;
-  }
-
-  a {
-    display: inline-block;
-    text-indent: -999em;
-    height: 32px;
+    overflow: visible;
+    padding: 2px;
     width: 32px;
 
-    background-color: $brand-gold;
-    background-position: center;
-    background-repeat: no-repeat;
+    a {
+        background-color: $brand-gold;
+        background-position: center;
+        background-repeat: no-repeat;
+        display: inline-block;
+        height: 32px;
+        text-indent: -999em;
+        width: 32px;
 
-    &[data-download] {
-      background-image: url(img/icon-download.png);
+        &[data-download] {
+            background-image: url(img/icon-download.png);
+        }
     }
-  }
+}
+
+.share__header {
+    color: $darker-grey;
+    display: block;
+    font-size: smaller;
+    font-weight: bold;
+    left: -0.5em;
+    position: relative;
+    text-transform: uppercase;
 }
 
 .figure__share {
-  position: relative;
+    position: relative;
 
-  & > .share {
-    position: absolute;
-    top: 0;
-    left: -45px;
-  }
+    & > .share {
+        left: -45px;
+        position: absolute;
+        top: 0;
+    }
 }

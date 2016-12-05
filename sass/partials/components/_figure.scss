@@ -22,30 +22,25 @@
   margin: 0;
   padding: 0;
   width: 100%;
+}
 
-  &__contents {
+.figure__contents {
+    display: inline-block;
     width: 768px;
 
-    @include breakpoint($desktop-width) {
-      float: left;
-    }
-
-    & > .chart {
+    & > svg {
       display: block;
       margin: 0 auto;
     }
-  }
+}
 
-  &__legend {
-    margin: 0 auto;
+.figure__legend {
+    display: inline-block;
+    margin: 0;
+    vertical-align: top;
+}
 
-    @include breakpoint($desktop-width) {
-      float: right;
-      margin: 0;
-    }
-  }
-
-  &__title {
+.figure__title {
     @extend %u-clearfix;
     color: $black-60;
     font-size: 1.125em;
@@ -53,10 +48,10 @@
     margin: 1em 0 .75em;
     max-width: rem(760px);
     position: relative;
-    text-align: left; 
-  }
+    text-align: left;
+}
 
-  &__instructions {
+.figure__instructions {
     background: $taupe-30;
     color: $taupe-130;
     display: block;
@@ -77,5 +72,4 @@
       top: -9px;
       width: 70px;
     }
-  }
 }
