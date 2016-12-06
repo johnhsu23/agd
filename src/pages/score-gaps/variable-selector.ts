@@ -1,6 +1,5 @@
 import {Model, EventsHash} from 'backbone';
 import {select} from 'd3-selection';
-import {defaults} from 'underscore';
 
 import D3View from 'views/d3';
 import * as vars from 'data/variables';
@@ -25,8 +24,6 @@ export default class VariableSelector extends D3View<HTMLDivElement, Model> {
     if (options.variables) {
       this.variables = options.variables;
     }
-
-    options = defaults(options);
   }
 
   events(): EventsHash {
