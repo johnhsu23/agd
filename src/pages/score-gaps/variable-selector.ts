@@ -1,5 +1,6 @@
 import {Model, EventsHash} from 'backbone';
 import {select} from 'd3-selection';
+import {defaults} from 'underscore';
 
 import D3View from 'views/d3';
 import * as vars from 'data/variables';
@@ -7,11 +8,26 @@ import configure from 'util/configure';
 
 import * as template from 'text!templates/variable-selector.html';
 
+interface VariableSelectorOptions {
+  selectorOptions?: vars.Variable[];
+}
+
 @configure({
   className: 'variable-selector',
 })
 export default class VariableSelector extends D3View<HTMLDivElement, Model> {
   template = () => template;
+  variables = vars.studentGroups;
+
+  constructor(options: VariableSelectorOptions) {
+    super(options);
+
+    if (options.selectorOptions) {
+      this.variables = options.selectorOptions;
+    }
+
+    options = defaults(options);
+  }
 
   events(): EventsHash {
     return {
@@ -26,7 +42,7 @@ export default class VariableSelector extends D3View<HTMLDivElement, Model> {
 
     select(selector[0])
       .selectAll('option')
-      .data(vars.studentGroups)
+      .data(this.variables)
       .enter()
       .append<HTMLOptionElement>('option')
       .property('checked', d => d === vars.SDRACE)

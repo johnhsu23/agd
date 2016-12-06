@@ -9,7 +9,7 @@ import sigDiff from 'legends/sig-diff';
 import {all as gatherNotes} from 'legends/gather';
 
 import GroupsTable from 'pages/score-gaps/groups-table';
-import GroupsSelector from 'pages/score-gaps/groups-selector';
+import VariableSelector from 'pages/score-gaps/variable-selector';
 import GroupsModel from 'pages/score-gaps/groups-model';
 import {Data, load} from 'pages/score-gaps/groups-data';
 
@@ -23,7 +23,7 @@ export default class GroupsFigure extends Figure {
       super.onRender();
     }
 
-    this.showControls(new GroupsSelector);
+    this.showControls(new VariableSelector({}));
 
     this.showContents(new GroupsTable({ collection: this.tableData }));
 
@@ -36,11 +36,11 @@ export default class GroupsFigure extends Figure {
 
   childEvents(): EventsHash {
     return {
-      'group:select': 'onChildScoreTrendsSelect',
+      'variable:select': 'onChildScoreTrendsSelect',
     };
   }
 
-  onChildScoreTrendsSelect(_view: GroupsSelector, variable: vars.Variable): void {
+  onChildScoreTrendsSelect(_view: VariableSelector, variable: vars.Variable): void {
     if (this.variable !== variable) {
       this.variable = variable;
       this.updateData();

@@ -16,7 +16,18 @@ export default class TaskBar extends Figure {
 
     this.setTitle(this.makeTitle());
     this.showContents(new Chart);
-    this.showControls(new VariableSelector);
+
+    const studentGroups: vars.Variable[] = [];
+    vars.studentGroups.forEach((group) => {
+      if (group.id === 'SLUNCH3') {
+        studentGroups.push(vars.SLUNCH1);
+      } else if (group.id === 'SCHTYPE') {
+        studentGroups.push(vars.SCHTYP1);
+      } else {
+        studentGroups.push(group);
+      }
+    });
+    this.showControls(new VariableSelector({ selectorOptions: studentGroups }));
   }
 
   childEvents(): EventsHash {

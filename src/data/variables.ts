@@ -102,6 +102,16 @@ export const SCHTYP1: Variable = {
   ],
 };
 
+export const SCHTYPE: Variable = {
+  id: 'SCHTYPE',
+  name: 'Type of school',
+  title: 'type of school',
+  categories: [
+    'Public',
+    'Private',
+  ],
+};
+
 export const CENSREG: Variable = {
   id: 'CENSREG',
   name: 'Region of the country',
@@ -161,14 +171,15 @@ export const studentGroupsById: {[k: string]: Variable} = {
   SDRACE: SDRACE,
   SRACE10: SRACE10,
   GENDER: GENDER,
-  SLUNCH3: SLUNCH3,
   PARED: PARED,
+  SCHTYPE: SCHTYPE,
   SCHTYP1: SCHTYP1,
   CENSREG: CENSREG,
   UTOL4: UTOL4,
   IEP: IEP,
   LEP: LEP,
   SLUNCH1: SLUNCH1,
+  SLUNCH3: SLUNCH3,
 };
 
 export const studentGroups: Variable[] = [
@@ -176,10 +187,10 @@ export const studentGroups: Variable[] = [
   SRACE10,
   GENDER,
   PARED,
-  SCHTYP1,
+  SCHTYPE,
   CENSREG,
   UTOL4,
   IEP,
   LEP,
-  SLUNCH1,
+  SLUNCH3,
 ];

@@ -27,8 +27,6 @@ export default class RowView extends ItemView<GroupsModel> {
           variable = model.variable,
           category = model.category;
 
-    console.log(model);
-
     $('<th>', { scope: 'row' })
       .text(variable.categories[category])
       .appendTo(this.$el);
