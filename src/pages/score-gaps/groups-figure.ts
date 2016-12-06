@@ -8,10 +8,10 @@ import Legend from 'legends/model';
 import sigDiff from 'legends/sig-diff';
 import {all as gatherNotes} from 'legends/gather';
 
-import GroupsTable from 'pages/student-groups/groups-table';
-import GroupsSelector from 'pages/student-groups/groups-selector';
-import GroupsModel from 'pages/student-groups/groups-model';
-import {Data, load} from 'pages/student-groups/groups-data';
+import GroupsTable from 'pages/score-gaps/groups-table';
+import GroupsSelector from 'pages/score-gaps/groups-selector';
+import GroupsModel from 'pages/score-gaps/groups-model';
+import {Data, load} from 'pages/score-gaps/groups-data';
 
 export default class GroupsFigure extends Figure {
   protected variable: vars.Variable = vars.SDRACE;
@@ -40,7 +40,7 @@ export default class GroupsFigure extends Figure {
     };
   }
 
-  onChildScoreTrendsSelect(view: GroupsSelector, variable: vars.Variable): void {
+  onChildScoreTrendsSelect(_view: GroupsSelector, variable: vars.Variable): void {
     if (this.variable !== variable) {
       this.variable = variable;
       this.updateData();

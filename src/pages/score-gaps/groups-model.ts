@@ -3,7 +3,7 @@ import {Model} from 'backbone';
 import {Variable} from 'data/variables';
 import modelProperty from 'util/model-property';
 
-import {Data} from 'pages/student-groups/groups-data';
+import {Data} from 'pages/score-gaps/groups-data';
 
 export default class GroupsModel extends Model {
   @modelProperty()

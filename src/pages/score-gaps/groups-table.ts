@@ -4,9 +4,9 @@ import {TableView, TableViewOptions} from 'views/table';
 
 import configure from 'util/configure';
 
-import GroupsModel from 'pages/student-groups/groups-model';
-import GroupsHeader from 'pages/student-groups/groups-header';
-import RowView from 'pages/student-groups/groups-row';
+import GroupsModel from 'pages/score-gaps/groups-model';
+import GroupsHeader from 'pages/score-gaps/groups-header';
+import RowView from 'pages/score-gaps/groups-row';
 
 interface GroupsTableOptions extends TableViewOptions<GroupsModel> {}
 

@@ -5,8 +5,8 @@ import configure from 'util/configure';
 import noTemplate from 'util/no-template';
 import {formatValue} from 'codes';
 
-import GroupsModel from 'pages/student-groups/groups-model';
-import {Data} from 'pages/student-groups/groups-data';
+import GroupsModel from 'pages/score-gaps/groups-model';
+import {Data} from 'pages/score-gaps/groups-data';
 
 const keys = [
   '2008-MN',
@@ -26,6 +26,8 @@ export default class RowView extends ItemView<GroupsModel> {
     const model = this.model,
           variable = model.variable,
           category = model.category;
+
+    console.log(model);
 
     $('<th>', { scope: 'row' })
       .text(variable.categories[category])

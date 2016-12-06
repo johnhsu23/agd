@@ -22,7 +22,7 @@ export default class GroupsSelector extends ItemView<Model> {
   }
 
   onRender(): void {
-    const data: vars.Variable[] = $.map(vars, function(value, index) {
+    const data: vars.Variable[] = $.map(vars.studentGroups, function(value) {
       return value;
     });
 
@@ -33,7 +33,7 @@ export default class GroupsSelector extends ItemView<Model> {
       .enter()
       .append<HTMLOptionElement>('option')
       .property('value', d => d.id)
-      .property('checked', (d, i) => i === 0)
+      .property('checked', (_d, i) => i === 0)
       .text(d => d.name);
 
     selector.val(data[0].id).trigger('change');
@@ -44,8 +44,8 @@ export default class GroupsSelector extends ItemView<Model> {
       return;
     }
 
-    const variable = vars.studentGroupsById[event.val];
-
+    const options = (event.target as HTMLSelectElement).selectedOptions;
+    const variable = select<Element, vars.Variable>(options[0]).datum();
     if (variable !== this.variable) {
       this.variable = variable;
       this.changed();
