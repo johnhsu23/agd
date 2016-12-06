@@ -1,4 +1,4 @@
-  import {Model, EventsHash} from 'backbone';
+import {Model, EventsHash} from 'backbone';
 import {select} from 'd3-selection';
 
 import D3View from 'views/d3';
