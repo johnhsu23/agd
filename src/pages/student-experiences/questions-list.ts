@@ -21,7 +21,7 @@ const studentVariables: {[k: string]: contextualVars.ContextualVariable[]} = {
     contextualVars.BV00003,
     contextualVars.BV00007,
     contextualVars.BV00008,
-    contextualVars.BV80019,
+    contextualVars.BV00019,
     contextualVars.BV80022,
     contextualVars.BV80023,
     contextualVars.BV80024,
@@ -38,7 +38,7 @@ const schoolVariables: {[k: string]: contextualVars.ContextualVariable[]} = {
   'visual arts': [
     contextualVars.SQ00901,
     contextualVars.SQ00204,
-    contextualVars.SQ00070,
+    contextualVars.SQ00072,
   ],
 };
 

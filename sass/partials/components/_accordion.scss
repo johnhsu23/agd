@@ -74,3 +74,23 @@
 	background-color: $green-35;
 	padding: 2em 1.5em;
 }
+
+.accordion__header-bar {
+    display: inline-block;
+
+    line.y-axis {
+        stroke: black;
+    }
+
+    rect.bar {
+        &--background {
+            fill: $taupe-15;
+            stroke-width: 1px;
+            stroke: $taupe-70;
+        }
+
+        &--percent {
+            fill: $blue-100;
+        }
+    }
+}
