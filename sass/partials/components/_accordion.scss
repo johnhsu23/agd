@@ -6,8 +6,9 @@
 }
 
 .accordion__header {
+	align-items: center;
 	border-bottom: 1px solid $orange-100;
-	display: block;
+	display: flex;
 	position: relative;
 	text-decoration: none;
 	width: 100%;
@@ -23,6 +24,7 @@
 	font-size: .875em;
 	font-weight: 700;
 	line-height: 1.2rem;
+	margin-right: rem(50px);
 	min-height: rem(70px);
 	padding: 1.5em 0 .5em;
 	width: 450px;
@@ -77,20 +79,44 @@
 
 .accordion__header-bar {
     display: inline-block;
+}
 
-    line.y-axis {
-        stroke: black;
+.accordion__header-bar .header-bar {
+	display: flex;
+	align-items: center;
+}
+.accordion__header-bar .header-bar line.y-axis {
+    stroke: grey;
+    stroke-width: 3px;
+}
+
+.accordion__header-bar .header-bar rect.bar {
+    &__background {
+        fill: #fff;
+        stroke-width: 1px;
+        stroke: $taupe-70;
     }
 
-    rect.bar {
-        &--background {
-            fill: $taupe-15;
-            stroke-width: 1px;
-            stroke: $taupe-70;
-        }
-
-        &--percent {
-            fill: $blue-100;
-        }
+    &__percent {
+        fill: $blue-100;
     }
+}
+
+.accordion__header-bar .header-bar-label {
+	color: $blue-100;
+	margin-left: 5px;
+}
+
+.accordion__header-bar .header-bar-label .header-bar-label__value {
+	font-size: 1.5em;
+	font-weight: 700;
+}
+
+.accordion__header-bar .header-bar-label .header-bar-label__percent {
+	font-size: .75em;
+	font-weight: 700;
+}
+
+.accordion__header-bar .header-bar-label .header-bar-label__category {
+	font-size: .75em;
 }
