@@ -7,11 +7,24 @@ import configure from 'util/configure';
 
 import * as template from 'text!templates/variable-selector.html';
 
+interface VariableSelectorOptions {
+  variables?: vars.Variable[];
+}
+
 @configure({
   className: 'variable-selector',
 })
 export default class VariableSelector extends D3View<HTMLDivElement, Model> {
   template = () => template;
+  protected variables = vars.studentGroups;
+
+  constructor(options?: VariableSelectorOptions) {
+    super(options);
+
+    if (options && options.variables) {
+      this.variables = options.variables;
+    }
+  }
 
   events(): EventsHash {
     return {
@@ -26,7 +39,7 @@ export default class VariableSelector extends D3View<HTMLDivElement, Model> {
 
     select(selector[0])
       .selectAll('option')
-      .data(vars.studentGroups)
+      .data(this.variables)
       .enter()
       .append<HTMLOptionElement>('option')
       .property('checked', d => d === vars.SDRACE)
