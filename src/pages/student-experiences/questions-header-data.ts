@@ -7,14 +7,14 @@ import {Params, Data} from 'api/tuda-acrossyear';
 
 export {Data};
 
-function makeParams(subject: string, variable: ContextualVariable, categoryindex: number): Params {
+function makeParams(subject: string, variable: ContextualVariable): Params {
   return {
     type: 'tuda-acrossyear',
     subject,
     subscale: (subject === 'music') ? 'MUSRP' : 'VISRP',
     grade: 8,
     variable: variable.id,
-    categoryindex: categoryindex,
+    categoryindex: variable.selected,
     targetyears: ['2016R3'],
     focalyear: '2016R3',
     stattype: 'RP',
@@ -22,8 +22,8 @@ function makeParams(subject: string, variable: ContextualVariable, categoryindex
   };
 }
 
-export function load(subject: string, variable: ContextualVariable, categoryindex: number): Promise<Data[]> {
-  const params = makeParams(subject, variable, categoryindex);
+export function load(subject: string, variable: ContextualVariable): Promise<Data[]> {
+  const params = makeParams(subject, variable);
 
   return loadData<Params, Data>(params);
 }

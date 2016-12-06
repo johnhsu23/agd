@@ -15,20 +15,6 @@ export interface QuestionsHeaderBarOptions extends ViewOptions<Model> {
   variable: ContextualVariable;
 }
 
-// helper function to get the specific category index that we need
-const getCategoryIndex = (variable: string): number => {
-  switch (variable) {
-    case 'BM00010':
-      return 2;
-    case 'SQ00070':
-    case 'BV00008':
-    case 'SQ00070':
-      return 1;
-    default:
-      return 0;
-  }
-};
-
 @configure({
   className: 'chart chart--bar',
 })
@@ -48,7 +34,7 @@ export default class HeaderBar extends Chart<Model> {
 
     this.yAxis = this.d3el.append<SVGGElement>('g');
 
-    load(context.subject, this.variable, getCategoryIndex(this.variable.id))
+    load(context.subject, this.variable)
       .then(data => this.loaded(data[0]))
       .done();
 
@@ -84,12 +70,13 @@ export default class HeaderBar extends Chart<Model> {
       .attr('height', barHeight);
 
     // place y axis manually
-    const yAxis = this.inner.selectAll('path')
+    const yAxis = this.inner.selectAll('line')
       .data([0]);
 
     yAxis.enter()
-      .append('path')
-      .attr('d', `M0 0 H 1 V ${chartHeight} H 0 Z`);
+      .append('line')
+      .attr('y2', chartHeight)
+      .attr('stroke', 'black');
 
     // place text at end of bar
     const text = this.inner.selectAll('text')

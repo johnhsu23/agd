@@ -48,8 +48,8 @@ export const BV00008: ContextualVariable = {
   ],
 };
 
-export const BV80019: ContextualVariable = {
-  id: 'BV80019',
+export const BV00019: ContextualVariable = {
+  id: 'BV00019',
   name: 'Do either you or your teacher save your artwork in a portfolio',
   title: 'whether they or their teacher saved their artwork in a portfolio',
   selected: 0,
@@ -130,7 +130,7 @@ export const SQ00204: ContextualVariable = {
 };
 
 export const SQ00072: ContextualVariable = {
-  id: 'SQ00070',
+  id: 'SQ00072',
   name: 'Which best describes the space for the teaching of visual arts in your school',
   title: 'types of space for the teaching of visual arts in their school',
   selected: 1, // Art studio with special equipment
@@ -286,14 +286,14 @@ export function contextualVariablesForSubject(subject: 'visual arts' | 'music'):
       BV00003,
       BV00007,
       BV00008,
-      BV80019,
+      BV00019,
       BV80022,
       BV80023,
       BV80024,
       BV80032,
       SQ00901,
       SQ00204,
-      SQ00070,
+      SQ00072,
     ];
   } else {
     return [
@@ -307,7 +307,7 @@ export function contextualVariablesForSubject(subject: 'visual arts' | 'music'):
       BM80034,
       SQ00701,
       SQ00202,
-      SQ00072,
+      SQ00070,
     ];
   }
 }
