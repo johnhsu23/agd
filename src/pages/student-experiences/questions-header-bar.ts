@@ -78,7 +78,10 @@ export default class HeaderBar extends D3View<HTMLDivElement, Model> {
       .attr('y2', chartHeight);
 
     // set text elements
-    this.d3el.select('.text__value').text(Math.round(data.targetvalue));
-    this.d3el.select('.text__category-label').text(this.variable.categories[data.categoryindex]);
+    this.select('.text__value')
+      .text(Math.round(data.targetvalue));
+
+    this.select('.text__category-label')
+      .text(this.variable.categories[data.categoryindex]);
   }
 }
