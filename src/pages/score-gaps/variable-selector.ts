@@ -9,7 +9,7 @@ import configure from 'util/configure';
 import * as template from 'text!templates/variable-selector.html';
 
 interface VariableSelectorOptions {
-  selectorOptions?: vars.Variable[];
+  variables?: vars.Variable[];
 }
 
 @configure({
@@ -22,8 +22,8 @@ export default class VariableSelector extends D3View<HTMLDivElement, Model> {
   constructor(options: VariableSelectorOptions) {
     super(options);
 
-    if (options.selectorOptions) {
-      this.variables = options.selectorOptions;
+    if (options.variables) {
+      this.variables = options.variables;
     }
 
     options = defaults(options);

@@ -27,7 +27,7 @@ export default class TaskBar extends Figure {
           return group;
       }
     });
-    this.showControls(new VariableSelector({ selectorOptions: studentGroups }));
+    this.showControls(new VariableSelector({ variables: studentGroups }));
   }
 
   childEvents(): EventsHash {
