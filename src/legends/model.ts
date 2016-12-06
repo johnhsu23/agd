@@ -2,7 +2,7 @@ import {Model} from 'backbone';
 
 import modelProperty from 'util/model-property';
 
-export type LegendType = 'note' | 'text' | 'path';
+export type LegendType = 'note' | 'text' | 'path' | 'bubble';
 
 export interface LegendAttributes {
   type: LegendType;

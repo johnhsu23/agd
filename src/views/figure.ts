@@ -11,7 +11,7 @@ import * as share from 'models/share';
 import render from 'render/figure';
 import save from 'export/save';
 
-interface FigureOptions extends LayoutViewOptions<any> {
+export interface FigureOptions extends LayoutViewOptions<any> {
   share: share.ShareOptions;
 }
 
