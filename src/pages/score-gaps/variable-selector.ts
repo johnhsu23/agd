@@ -1,4 +1,4 @@
-import {Model, EventsHash} from 'backbone';
+  import {Model, EventsHash} from 'backbone';
 import {select} from 'd3-selection';
 
 import D3View from 'views/d3';
@@ -16,12 +16,12 @@ interface VariableSelectorOptions {
 })
 export default class VariableSelector extends D3View<HTMLDivElement, Model> {
   template = () => template;
-  variables = vars.studentGroups;
+  protected variables = vars.studentGroups;
 
-  constructor(options: VariableSelectorOptions) {
+  constructor(options?: VariableSelectorOptions) {
     super(options);
 
-    if (options.variables) {
+    if (options && options.variables) {
       this.variables = options.variables;
     }
   }
