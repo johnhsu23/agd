@@ -78,13 +78,19 @@
 .accordion__header-bar {
     display: inline-block;
 
-    rect.bg-bar {
-        fill: #f1efed;
-        stroke-width: 1px;
-        stroke: #beb7ac;
+    line.y-axis {
+        stroke: black;
     }
 
-    rect.percent-bar {
-        fill: #001871;
+    rect.bar {
+        &--background {
+            fill: $taupe-15;
+            stroke-width: 1px;
+            stroke: $taupe-70;
+        }
+
+        &--percent {
+            fill: $blue-100;
+        }
     }
 }

@@ -2,16 +2,17 @@ import * as Promise from 'bluebird';
 
 import loadData from 'api';
 import {ContextualVariable} from 'data/contextual-variables';
+import context from 'models/context';
 
 import {Params, Data} from 'api/tuda-acrossyear';
 
 export {Data};
 
-function makeParams(subject: string, variable: ContextualVariable): Params {
+function makeParams(variable: ContextualVariable): Params {
   return {
     type: 'tuda-acrossyear',
-    subject,
-    subscale: (subject === 'music') ? 'MUSRP' : 'VISRP',
+    subject: context.subject,
+    subscale: (context.subject === 'music') ? 'MUSRP' : 'VISRP',
     grade: 8,
     variable: variable.id,
     categoryindex: variable.selected,
@@ -22,8 +23,8 @@ function makeParams(subject: string, variable: ContextualVariable): Params {
   };
 }
 
-export function load(subject: string, variable: ContextualVariable): Promise<Data[]> {
-  const params = makeParams(subject, variable);
+export function load(variable: ContextualVariable): Promise<Data[]> {
+  const params = makeParams(variable);
 
   return loadData<Params, Data>(params);
 }

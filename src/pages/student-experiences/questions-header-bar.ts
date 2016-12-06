@@ -1,25 +1,23 @@
 import {ViewOptions, Model} from 'backbone';
-import {Selection} from 'd3-selection';
 
 import configure from 'util/configure';
-import Chart from 'views/chart';
+import D3View from 'views/d3';
+import {scaleLinear} from 'd3-scale';
 
-import context from 'models/context';
 import {ContextualVariable} from 'data/contextual-variables';
 
 import {load, Data} from 'pages/student-experiences/questions-header-data';
-
-//import * as scales from 'components/scales';
+import * as template from 'text!templates/questions-header-bar.html';
 
 export interface QuestionsHeaderBarOptions extends ViewOptions<Model> {
   variable: ContextualVariable;
 }
 
 @configure({
-  className: 'chart chart--bar',
+  className: 'header-bar',
 })
-export default class HeaderBar extends Chart<Model> {
-  protected yAxis: Selection<SVGGElement, {}, null, void>;
+export default class HeaderBar extends D3View<HTMLDivElement, Model> {
+  template = () => template;
 
   protected variable: ContextualVariable;
 
@@ -32,9 +30,7 @@ export default class HeaderBar extends Chart<Model> {
   render(): this {
     super.render();
 
-    this.yAxis = this.d3el.append<SVGGElement>('g');
-
-    load(context.subject, this.variable)
+    load(this.variable)
       .then(data => this.loaded(data[0]))
       .done();
 
@@ -42,58 +38,47 @@ export default class HeaderBar extends Chart<Model> {
   }
 
   protected loaded(data: Data): void {
-
-    // set height and width for chart and bar
+    // height and width variables for chart and bar use
     const chartHeight = 42,
-      chartWidth = 465,
+      chartWidth = 133,
       barHeight = 32,
-      barWidth = 132;
+      barWidth = chartWidth - 1; // accommodates for stroke-width
 
-    this.height(chartHeight)
-      .width(chartWidth);
+    // set SVG height and width
+    const svg = this.d3el.select('svg')
+      .attr('height', chartHeight)
+      .attr('width', chartWidth);
 
-    // NOTE: temporary catch until all data is available in the database
-    if (!data) {
-      return;
-    }
+    // set our scale for percentages
+    const scale = scaleLinear()
+      .domain([0, 100])
+      .range([0, barWidth]);
 
-    // place background bar and percent bar
-    const bar = this.inner.selectAll('rect')
-      .data([barWidth, Math.round((data.targetvalue * barWidth) / 100)]);
+    // place background and percentage bar
+    const bar = svg.selectAll('rect')
+      .data([scale(100), scale(data.targetvalue)]);
 
     bar.enter()
       .append('rect')
-      .attr('x', 0)
-      .attr('y', (chartHeight - barHeight) / 2)
-      .attr('class', (_, i) => (i === 0) ? 'bg-bar' : 'percent-bar')
-      .attr('width', d => d)
-      .attr('height', barHeight);
+        .attr('x', 0)
+        .attr('y', (chartHeight - barHeight) / 2)
+        .attr('class', (_, i) => (i === 0) ? 'bar--background' : 'bar--percent')
+        .attr('width', (d, i) => (i === 0) ? d : 0)
+        .attr('height', barHeight)
+      .transition()
+        .attr('width', d => d);
 
     // place y axis manually
-    const yAxis = this.inner.selectAll('line')
+    const yAxis = svg.selectAll('line')
       .data([0]);
 
     yAxis.enter()
       .append('line')
-      .attr('y2', chartHeight)
-      .attr('stroke', 'black');
+      .classed('y-axis', true)
+      .attr('y2', chartHeight);
 
-    // place text at end of bar
-    const text = this.inner.selectAll('text')
-      .data([data]);
-
-    const textEnter = text.enter()
-      .append('text')
-      .attr('x', barWidth + 10)
-      .attr('y', (chartHeight / 2) + 5);
-
-    textEnter.append('tspan')
-      .classed('bar__text__value', true)
-      .text(d => Math.round(d.targetvalue));
-
-    textEnter.append('tspan')
-      .classed('bar__text__outer', true)
-      // TODO: use actual variable language. not sure where to get currently
-      .text(d => '% ' + this.variable.categories[d.categoryindex]);
+    // set text elements
+    this.d3el.select('.text__value').text(Math.round(data.targetvalue));
+    this.d3el.select('.text__category-label').text(this.variable.categories[data.categoryindex]);
   }
 }
