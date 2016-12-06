@@ -14,9 +14,9 @@ import GroupsModel from 'pages/score-gaps/groups-model';
 import {Data, load} from 'pages/score-gaps/groups-data';
 
 export default class GroupsFigure extends Figure {
-  protected variable: vars.Variable = vars.SDRACE;
-  protected tableData: Collection<GroupsModel> = new Collection([]);
-  legendCollection: Collection<Legend> = new Collection([]);
+  protected variable = vars.SDRACE;
+  protected tableData = new Collection;
+  protected legendCollection = new Collection;
 
   onRender(): void {
     if (super.onRender) {
@@ -70,8 +70,6 @@ export default class GroupsFigure extends Figure {
         this.resetNotes(rows);
         this.tableData.reset(models);
         this.setTitle(this.makeTitle());
-
-        return models;
       })
       .done();
   }
