@@ -17,14 +17,14 @@ export default class TaskBar extends Figure {
     this.setTitle(this.makeTitle());
     this.showContents(new Chart);
 
-    const studentGroups: vars.Variable[] = [];
-    vars.studentGroups.forEach((group) => {
-      if (group.id === 'SLUNCH3') {
-        studentGroups.push(vars.SLUNCH1);
-      } else if (group.id === 'SCHTYPE') {
-        studentGroups.push(vars.SCHTYP1);
-      } else {
-        studentGroups.push(group);
+    const studentGroups = vars.studentGroups.map(group => {
+      switch (group.id) {
+        case 'SLUNCH3':
+          return vars.SLUNCH1;
+        case 'SCHTYPE':
+          return vars.SCHTYP1;
+        default:
+          return group;
       }
     });
     this.showControls(new VariableSelector({ selectorOptions: studentGroups }));
