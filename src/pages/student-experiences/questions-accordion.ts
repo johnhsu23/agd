@@ -8,6 +8,7 @@ import Accordion from 'behaviors/accordion';
 import configure from 'util/configure';
 
 import QuestionsHeaderBar from 'pages/student-experiences/questions-header-bar';
+import TrendsChart from 'pages/student-experiences/trends-chart';
 import * as template from 'text!templates/questions-accordion.html';
 
 export interface QuestionsAccordionOptions extends ViewOptions<Model> {
@@ -36,6 +37,7 @@ export default class QuestionsAccordion extends LayoutView<Model> {
   regions(): {[key: string]: string} {
     return {
       'header-bar': '.accordion__header-bar',
+      trends: '.accordion__chart--trends',
     };
   }
 
@@ -65,8 +67,9 @@ export default class QuestionsAccordion extends LayoutView<Model> {
     this.$('.accordion__chart--group')
       .text('Group bar chart section. Fugiat quisque molestiae proident, cupiditate facere! Inceptos consequatur');
 
-    this.$('.accordion__chart--trends')
-      .text('Trends bar chart section. Diam semper cumque saepe voluptas corporis arcu, fringilla nemo aliquam?');
+    this.showChildView('trends', new TrendsChart({
+      variable: this.variable,
+    }));
   }
 
   protected chartDisplayToggle(event: JQueryMouseEventObject): void {
