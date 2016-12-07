@@ -70,8 +70,8 @@ export default class InPageNav extends D3View<HTMLDivElement, Model> {
 
     this.listHeight = list.style('height');
 
-    list.style('max-height', '0px')
-      .style('overflow', 'hidden');
+    // The in-page nav is initially in a closed state, but we have to do that after the height computation.
+    list.style('max-height', '0px');
   }
 
   protected visitAnchor(event: JQueryEventObject): void {
