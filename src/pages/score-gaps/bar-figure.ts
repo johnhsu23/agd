@@ -2,7 +2,7 @@ import {EventsHash} from 'backbone';
 
 import Figure from 'views/figure';
 import Chart from 'pages/score-gaps/bar-chart';
-import VariableSelector from 'pages/score-gaps/variable-selector';
+import VariableSelector from 'views/variable-selector';
 
 import * as vars from 'data/variables';
 
