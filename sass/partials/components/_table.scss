@@ -8,33 +8,35 @@
 }
 
 .table {
-  td {
-    @extend %table__cell;
-  }
+    width: 95%;
 
-  th {
+    &--full-width {
+        @extend %u-full-width;
+    }
+}
+
+.table td {
+    @extend %table__cell;
+}
+
+.table th {
     @extend %table__cell;
     font-weight: bold;
-  }
+}
 
-  thead {
+.table thead {
     color: $table-header-fore;
     background-color: $table-header-back;
-  }
-
-  tbody {
-    tr {
-      &:nth-child(odd) {
-        background-color: $table-odd;
-      }
-
-      &:nth-child(even) {
-        background-color: $table-even;
-      }
-    }
-  }
-
-  &--full-width {
-    @extend %u-full-width;
-  }
 }
+
+.table tbody tr {
+    &:nth-child(odd) {
+        background-color: $table-odd;
+    }
+
+    &:nth-child(even) {
+        background-color: $table-even;
+    }
+}
+
+
