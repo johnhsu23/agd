@@ -97,6 +97,7 @@
     display: table-cell;
     font-size: smaller;
     min-height: $legend-height;
+    padding: 1em 1em 1em 0;
     transition: opacity 250ms 0s;
     vertical-align: middle;
     width: $legend-width - $legend-item-width;
