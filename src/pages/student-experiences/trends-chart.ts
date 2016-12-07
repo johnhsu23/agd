@@ -2,7 +2,7 @@ import {ViewOptions, Model} from 'backbone';
 import {Selection} from 'd3-selection';
 import {scaleBand, scaleOrdinal} from 'd3-scale';
 import {axisLeft} from 'd3-axis';
-import {stack} from 'd3-shape';
+import {stack, SeriesPoint} from 'd3-shape';
 //import {range} from 'underscore';
 
 import configure from 'util/configure';
@@ -12,7 +12,7 @@ import {ContextualVariable} from 'data/contextual-variables';
 import * as scales from 'components/scales';
 import * as axis from 'components/axis';
 
-import {load, Grouped} from 'pages/student-experiences/trends-data';
+import {load, Grouped, StackedDatum} from 'pages/student-experiences/trends-data';
 
 export interface TrendsChartOptions extends ViewOptions<Model> {
   variable: ContextualVariable;
@@ -107,7 +107,8 @@ export default class TrendsChart extends Chart<Model> {
         .attr('class', 'series')
         .attr('fill', d => '' + colors(d.key))
       .selectAll('rect')
-      .data(d => d)
+      // NB. Workaround for https://github.com/Microsoft/TypeScript/issues/12713
+      .data(d => d as SeriesPoint<StackedDatum>[])
       .enter().append('rect')
         .attr('y', d => year(d.data['year']))
         .attr('x', d => percent(d[0]))
