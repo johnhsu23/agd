@@ -1,39 +1,117 @@
 .share {
-    overflow: visible;
-    padding: 2px;
+  background: $taupe-15;
+  display: inline-block;
+  left: 0;
+  margin: 5px 0 5px 55px;
+  padding-left: 5px;
+  position: relative;
+  top: 0;
+  z-index: 200;
+
+  @include breakpoint($desktop-width) {
+    margin: 24px 0 0;
+    padding: 5px 0 0;
+    position: absolute;
+    left: -67px;
+    top: 5px;
+    width: 42px;
+  }
+
+  &:before {
+    color: $taupe-100;
+    content: 'SHARE';
+    font-size: 14px;
+    font-weight: 700;
+    left: -57px;
+    padding: 0 5px;
+    position: absolute;
+    top: 11px;
+
+    @include breakpoint($desktop-width) {
+      left: 0;
+      padding: 0;
+      top: -24px;
+    }
+  }
+}
+
+.share > a {
+    background-image: url(../img/bg/icon-share.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    display: inline-block;
+    height: 32px;
+    margin: 5px 5px 5px 0;
+    text-indent: -999em;
     width: 32px;
 
-    a {
-        background-color: $brand-gold;
-        background-position: center;
-        background-repeat: no-repeat;
-        display: inline-block;
-        height: 32px;
-        text-indent: -999em;
-        width: 32px;
+    &:hover,
+    &:focus {
+      opacity: .8;
+    }
 
-        &[data-download] {
-            background-image: url(img/icon-download.png);
-        }
+    @include breakpoint($desktop-width) {
+        margin: 0 5px 5px;
     }
 }
 
-.share__header {
-    color: $darker-grey;
-    display: block;
-    font-size: smaller;
-    font-weight: bold;
-    left: -0.5em;
-    position: relative;
-    text-transform: uppercase;
+.share__drawer {
+    display: none;
+    float: right;
+
+    @include breakpoint($desktop-width) {
+      float: none;
+    }
 }
 
-.figure__share {
-    position: relative;
+.share__drawer > a {
+    background-position: center;
+    background-repeat: no-repeat;
+    display: inline-block;
+    height: 32px;
+    margin: 5px 5px 5px 0;
+    text-indent: -999em;
+    width: 32px;
 
-    & > .share {
-        left: -45px;
-        position: absolute;
-        top: 0;
+    @include breakpoint($desktop-width) {
+      display: block;
+      margin: 0 auto 5px;
+    }
+
+    &:hover,
+    &:focus {
+      opacity: .8;
+    }
+
+    &[data-facebook] {
+      background-color: #166290;
+      background-image: url(../img/bg/icon-facebook.png);
+      background-position: 70% 108%;
+    }
+    &[data-twitter] {
+      background-color: #00b7ec;
+      background-image: url(../img/bg/icon-twitter.png);
+    }
+    &[data-email] {
+      background-color: $orange-100;
+      background-image: url(../img/bg/icon-envelope.png);
+    }
+    &[data-link] {
+      background-color: $orange-100;
+      background-image: url(../img/bg/icon-link.png);
+    }
+    &[data-download] {
+      background-color: $orange-100;
+      background-image: url(../img/bg/icon-link.png);
+    }
+}
+
+.share__permalink-popup {
+    display: none;
+
+    input {
+      font-size: 14px;
+      min-width: 500px;
+      padding: 5px;
     }
 }
