@@ -8,6 +8,7 @@ import Accordion from 'behaviors/accordion';
 import configure from 'util/configure';
 
 import QuestionsHeaderBar from 'pages/student-experiences/questions-header-bar';
+import BubbleFigure from 'pages/student-experiences/bubble-figure';
 import * as template from 'text!templates/questions-accordion.html';
 
 export interface QuestionsAccordionOptions extends ViewOptions<Model> {
@@ -59,8 +60,11 @@ export default class QuestionsAccordion extends LayoutView<Model> {
     }));
 
     // set chart contents
-    this.$('.accordion__chart--bubble')
-      .text('Bubble chart section. Nonummy do erat eveniet magnis molestias quia repellat felis duis non. Quisque');
+    this.addRegion(`${this.variable.id}-bubble`, '.accordion__chart--bubble');
+    this.showChildView(`${this.variable.id}-bubble`, new BubbleFigure({
+      variable: this.variable,
+      share: true,
+    }));
 
     this.$('.accordion__chart--group')
       .text('Group bar chart section. Fugiat quisque molestiae proident, cupiditate facere! Inceptos consequatur');
