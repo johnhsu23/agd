@@ -9,7 +9,7 @@ import sigDiff from 'legends/sig-diff';
 import {all as gatherNotes} from 'legends/gather';
 
 import GroupsTable from 'pages/score-gaps/groups-table';
-import VariableSelector from 'pages/score-gaps/variable-selector';
+import VariableSelector from 'views/variable-selector';
 import GroupsModel from 'pages/score-gaps/groups-model';
 import {Data, load} from 'pages/score-gaps/groups-data';
 
