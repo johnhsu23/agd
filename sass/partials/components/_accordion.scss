@@ -73,6 +73,43 @@
 .accordion__contents {
 	background-color: $green-35;
 	padding: 2em 1.5em;
+
+    .chart--bar--stacked {
+        .series {
+            &--0 {
+                rect { fill: $acl-bb; }
+            }
+
+            &--1 {
+                rect { fill: $acl-ba; }
+            }
+
+            &--2 {
+                rect { fill: $acl-pr; }
+            }
+
+            &--3 {
+                rect { fill: $acl-ad; }
+            }
+
+            &--4 {
+                rect { fill: $blue-100; }
+                .value { fill: #ffffff; }
+            }
+
+            &--5 {
+                rect { fill: $blue-15; }
+            }
+
+            &--6 {
+                rect { fill: $blue-25; }
+            }
+
+            line {
+                stroke: $black-40;
+            }
+        }
+    }
 }
 
 .accordion__header-bar {
