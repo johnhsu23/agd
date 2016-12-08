@@ -1,6 +1,8 @@
 import context from 'models/context';
 
 export type Classification = 'Responding' | 'Creating';
+
+// NB. MC = multiple choice, SCR and ECR are both considered constructed-response.
 export type Type = 'MC' | 'SCR' | 'ECR';
 
 export interface SampleQuestion {
