@@ -1,5 +1,6 @@
 import {default as Figure, FigureOptions} from 'views/figure';
 
+import forwardEvents from 'util/forward-events';
 import Legend from 'legends/model';
 import context from 'models/context';
 import {Variable} from 'data/variables';
@@ -19,6 +20,15 @@ export default class BubbleFigure extends Figure {
     super(options);
 
     this.variable = options.variable;
+  }
+
+  delegateEvents(): this {
+    super.delegateEvents();
+
+    // Events triggered via triggerMethod() do not propagate downwards by default.
+    forwardEvents(this, 'visibility:visible', 'visibility:hidden');
+
+    return this;
   }
 
   onRender(): void {
