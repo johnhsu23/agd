@@ -2,7 +2,7 @@ import {LayoutView} from 'backbone.marionette';
 import * as template from 'text!templates/section.html';
 import configure from 'util/configure';
 
-type Dict = { [key: string]: string };
+export type Dict = { [key: string]: string };
 
 @configure({
   className: 'section__inner',
