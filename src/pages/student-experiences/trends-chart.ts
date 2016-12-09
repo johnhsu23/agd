@@ -138,11 +138,14 @@ export default class TrendsChart extends Chart<Model> {
       .attr('y2', 26);
 
     legend.append('text')
+      .classed('legend__label', true)
       .attr('text-anchor', 'middle')
       .text(d => d.key);
+  }
 
-    // wrap text to fit within the bar
-    legend.selectAll('text')
-      .call(wrap, 20);
+  protected onVisibilityVisible(): void {
+    // wrap the legend labels
+    this.selectAll('.legend__label')
+      .call(wrap, 15);
   }
 }

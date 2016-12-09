@@ -81,7 +81,7 @@ export default class HeaderBar extends D3View<HTMLDivElement, Model> {
     this.select('.header-bar-label__value')
       .text(Math.round(data.targetvalue));
 
-    this.select('.header-bar-label__label')
+    this.select('.header-bar-label__category')
       .text(this.variable.categories[data.categoryindex]);
   }
 }
