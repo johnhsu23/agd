@@ -3,12 +3,13 @@ import {LayoutView} from 'backbone.marionette';
 import {EventsHash} from 'backbone';
 
 import {ContextualVariable} from 'data/contextual-variables';
-
 import Accordion from 'behaviors/accordion';
 import configure from 'util/configure';
+import {eachView} from 'util/each-region';
 
 import QuestionsHeaderBar from 'pages/student-experiences/questions-header-bar';
 import TrendsChart from 'pages/student-experiences/trends-chart';
+import BubbleFigure from 'pages/student-experiences/bubble-figure';
 import * as template from 'text!templates/questions-accordion.html';
 
 export interface QuestionsAccordionOptions extends ViewOptions<Model> {
@@ -38,6 +39,7 @@ export default class QuestionsAccordion extends LayoutView<Model> {
     return {
       'header-bar': '.accordion__header-bar',
       trends: '.accordion__chart--trends',
+      'bubble-chart': '.accordion__chart--bubble',
     };
   }
 
@@ -61,8 +63,10 @@ export default class QuestionsAccordion extends LayoutView<Model> {
     }));
 
     // set chart contents
-    this.$('.accordion__chart--bubble')
-      .text('Bubble chart section. Nonummy do erat eveniet magnis molestias quia repellat felis duis non. Quisque');
+    this.showChildView('bubble-chart', new BubbleFigure({
+      variable: this.variable,
+      share: { download: true },
+    }));
 
     this.$('.accordion__chart--group')
       .text('Group bar chart section. Fugiat quisque molestiae proident, cupiditate facere! Inceptos consequatur');
@@ -76,5 +80,24 @@ export default class QuestionsAccordion extends LayoutView<Model> {
     this.$('.accordion__header-bar').toggleClass('is-hidden');
 
     event.preventDefault();
+  }
+
+  /**
+   * Triggers an event for every child view managed by our region manager.
+   */
+  protected triggerAll(event: string): void {
+    eachView(this, view => {
+      view.triggerMethod(event);
+    });
+  }
+
+  protected onAccordionOpen(): void {
+    // Notify all children that the interior contents are visible.
+    this.triggerAll('visibility:visible');
+  }
+
+  protected onAccordionClose(): void {
+    // Notify all children that the interior contents will soon be invisible.
+    this.triggerAll('visibility:visible');
   }
 }

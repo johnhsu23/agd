@@ -62,7 +62,7 @@ export default class HeaderBar extends D3View<HTMLDivElement, Model> {
       .append('rect')
         .attr('x', 0)
         .attr('y', (chartHeight - barHeight) / 2)
-        .attr('class', (_, i) => (i === 0) ? 'bar--background' : 'bar--percent')
+        .attr('class', (_, i) => (i === 0) ? 'bar__background' : 'bar__percent')
         .attr('width', (d, i) => (i === 0) ? d : 0)
         .attr('height', barHeight)
       .transition()
@@ -78,10 +78,10 @@ export default class HeaderBar extends D3View<HTMLDivElement, Model> {
       .attr('y2', chartHeight);
 
     // set text elements
-    this.select('.text__value')
+    this.select('.header-bar-label__value')
       .text(Math.round(data.targetvalue));
 
-    this.select('.text__category-label')
+    this.select('.header-bar-label__label')
       .text(this.variable.categories[data.categoryindex]);
   }
 }

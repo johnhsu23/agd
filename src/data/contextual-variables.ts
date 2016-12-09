@@ -265,7 +265,7 @@ export const SQ00202: ContextualVariable = {
 export const SQ00070: ContextualVariable = {
   id: 'SQ00070',
   name: 'Which best describes the space for the teaching and performing of music in your school',
-  title: 'ypes of space for the teaching and performing of music in their school',
+  title: 'types of space for the teaching and performing of music in their school',
   selected: 1, // dedicated rooms and stage for teaching music
   categories: [
     'Music is not taught',
