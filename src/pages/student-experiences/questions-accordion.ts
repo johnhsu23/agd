@@ -37,6 +37,7 @@ export default class QuestionsAccordion extends LayoutView<Model> {
   regions(): {[key: string]: string} {
     return {
       'header-bar': '.accordion__header-bar',
+      'bubble-chart': '.accordion__chart--bubble',
     };
   }
 
@@ -60,10 +61,9 @@ export default class QuestionsAccordion extends LayoutView<Model> {
     }));
 
     // set chart contents
-    this.addRegion(`${this.variable.id}-bubble`, '.accordion__chart--bubble');
-    this.showChildView(`${this.variable.id}-bubble`, new BubbleFigure({
+    this.showChildView('bubble-chart', new BubbleFigure({
       variable: this.variable,
-      share: true,
+      share: { download: true },
     }));
 
     this.$('.accordion__chart--group')
