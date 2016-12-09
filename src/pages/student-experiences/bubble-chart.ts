@@ -132,7 +132,27 @@ export default class BubbleChart extends Chart<Model> {
       .classed('axis__label', true)
       .text(d => d)
       .attr('x', (_, i) => response(i))
-      .attr('y', '1.37em')
+      .attr('y', '1.37em');
+  }
+
+  protected onVisibilityVisible(): void {
+    // This handles the "visibility:visible" event. There are two reasons we have to handle this here and not in a
+    // standard Marionette lifecycle event:
+    // 1. We haven't actually been attached to the DOM yet.
+    // 2. The accordion's children aren't all visible at the time the view is attached.
+    //
+    // A consequence of #2 is that our <text> elements will have *no* computed metrics. So, we have to instead wait for
+    // when we are told we're visible and only then can we use the wrap utility.
+    //
+    // Whee!
+
+    const response = scalePoint<number>()
+      .padding(0.5)
+      .domain(range(this.variable.categories.length))
+      .range([0, 600]);
+
+    this.responseAxis
+      .selectAll('.axis__label')
       // Fudge the wrapping size by a few pixels on each side to avoid well-filled columns bumping up against each other
       .call(wrap, response.step() - 8);
   }
