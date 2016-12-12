@@ -106,11 +106,14 @@ export default class InPageNav extends D3View<HTMLDivElement, Model> {
   protected onClickToggle(event: JQueryMouseEventObject): void {
     event.preventDefault();
 
+    const expand = this.$('.in-page-nav__expand');
+
     if (this.open && !this.sticky) {
       // Special case: if the user hovered over the widget and then clicked the expand link, what we want to have
       // happen is that the widget is forced open. Hence, we set the `sticky' boolean to true and avoid triggering
       // animation.
       this.sticky = true;
+      expand.addClass('is-open');
       return;
     }
 
@@ -121,6 +124,7 @@ export default class InPageNav extends D3View<HTMLDivElement, Model> {
     }
 
     this.sticky = !this.sticky;
+    expand.toggleClass('is-open');
   }
 
   protected onHoverExpand(): void {
