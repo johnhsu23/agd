@@ -88,6 +88,12 @@
 	}
 }
 
+.is-expanded + .in-page-nav__expand {
+	&:before {
+		content: 'Keep open';
+	}
+}
+
 .in-page-nav__expand {
 	background-image: url(../img/arrow-orange-down.png);
 	background-position: 50% 100%;
@@ -96,9 +102,9 @@
 	display: block;
 	height: 27px;
 	left: 50%;
-	margin-left: -20px;
+	margin-left: -40px;
 	position: absolute;
-	width: 40px;
+	width: 80px;
 	z-index: 5;
 
 	&:before {
@@ -111,14 +117,14 @@
 		position: absolute;
 		text-align: center;
 		top: 0;
-		width: 40px;
+		width: 80px;
 	}
-}
 
-.is-expanded + .in-page-nav__expand {
-	background-image: url(../img/arrow-orange-up.png);
+	&.is-open {
+		background-image: url(../img/arrow-orange-up.png);
 
-	&:before {
-		content: 'Close';
+		&:before {
+			content: 'Close';
+		}
 	}
 }
