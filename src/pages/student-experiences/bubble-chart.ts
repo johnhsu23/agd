@@ -2,16 +2,17 @@ import {Selection} from 'd3-selection';
 import {Model, ViewOptions} from 'backbone';
 import {scalePoint, scaleSqrt} from 'd3-scale';
 import {extent, range} from 'd3-array';
+import {partition} from 'underscore';
 
 import wrap from 'util/wrap';
 import configure from 'util/configure';
-
 import {Variable} from 'data/variables';
 import Chart from 'views/chart';
 import * as scales from 'components/scales';
 import * as axes from 'components/axis';
+import {formatValue} from 'codes';
 
-import {load, Grouped} from 'pages/student-experiences/bubble-data';
+import {Grouped} from 'pages/student-experiences/bubble-data';
 
 interface BubbleChartOptions extends ViewOptions<Model> {
   variable: Variable;
@@ -52,23 +53,15 @@ export default class BubbleChart extends Chart<Model> {
     return this;
   }
 
-  onRender(): void {
-    if (super.onRender) {
-      super.onRender();
-    }
-
-    load(this.variable)
-      .then(data => this.loaded(data))
-      .done();
-  }
-
-  protected loaded(data: Grouped[]): void {
+  public renderData(data: Grouped[]): void {
     const {categories} = this.variable,
           chartWidth = 600;
 
-    // Filter here because, unlike line charts, there's no need to carry these points around --
-    // we don't have to know about things like, e.g., line breaks.
-    const filtered = data.filter(({mean, percent}) => {
+    // It's much easier to work with partitioned data here:
+    // The variable `valid' will hold rows for which we are drawing circles,
+    // and `suppressed' will hold the rows for which we have to draw the double-dagger
+    // symbol.
+    const [valid, suppressed] = partition(data, ({mean, percent}) => {
       return mean.isTargetStatDisplayable !== 0
           && percent.isTargetStatDisplayable !== 0;
     });
@@ -82,7 +75,8 @@ export default class BubbleChart extends Chart<Model> {
       .bounds([0, 300])
       .reverse();
 
-    // Calculate bubble size relative to a
+    // Calculate bubble size relative to a scale score interval, mostly because
+    // it makes reasoning about the bubble slightly easier.
     const multiplier = 1.2,
           // Maximum bubble radius, in output units
           radius = score.intervalSize() * multiplier,
@@ -93,7 +87,7 @@ export default class BubbleChart extends Chart<Model> {
       .domain([0, 100]) // Fixed at [0, 100] for consistency reasons
       .range([0, radius]);
 
-    const scores = extent(filtered, ({mean}) => mean.targetvalue);
+    const scores = extent(valid, ({mean}) => mean.targetvalue);
 
     // Adjust score domain so that percentages will fit neatly on the chart
     scores[0] -= offset;
@@ -113,12 +107,29 @@ export default class BubbleChart extends Chart<Model> {
       .call(scoreAxis);
 
     this.inner.selectAll('circle')
-      .data(filtered)
+      .data(valid)
       .enter()
       .append('circle')
       .attr('cx', ({mean}) => response(mean.categoryindex))
       .attr('cy', ({mean}) => score(mean.targetvalue))
       .attr('r', ({percent}) => percentage(percent.targetvalue));
+
+    // Show suppressed rows as dagger footnotes
+    this.inner.selectAll('text')
+      .data(suppressed)
+      .enter()
+      .append('text')
+      .attr('y', this.innerHeight)
+      .attr('x', ({mean}) => response(mean.categoryindex))
+      .attr('text-anchor', 'middle')
+      .text(({mean, percent}) => {
+        // Pick the row that caused us to be suppressed, and show the formatted error symbol for it.
+        if (mean.isTargetStatDisplayable === 0) {
+          return formatValue(mean.targetvalue, '', mean.TargetErrorFlag);
+        } else {
+          return formatValue(percent.targetvalue, '', percent.TargetErrorFlag);
+        }
+      });
 
     // NB. This really needs to be folded into a categorical axis component of some kind
 
