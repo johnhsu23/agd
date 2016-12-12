@@ -2,7 +2,7 @@
 	background-color: #efece9;
 	float: right;
 	margin: 0 0 25px 2em;
-	padding: 0 15px;
+	padding: 0 15px 10px;
 	position: relative;
 	top: -19px;
 	width: 265px;
@@ -55,7 +55,7 @@
 
 .in-page-nav__list {
 	list-style-type: none;
-	margin: 0 0 .5em;
+	margin: 0;
 	padding-left: 0;
 	position: relative;
 	width: 100%;
@@ -85,5 +85,40 @@
 		&:hover {
 			text-decoration: underline;
 		}
+	}
+}
+
+.in-page-nav__expand {
+	background-image: url(../img/arrow-orange-down.png);
+	background-position: 50% 100%;
+	background-repeat: no-repeat;
+	bottom: -20px;
+	display: block;
+	height: 27px;
+	left: 50%;
+	margin-left: -20px;
+	position: absolute;
+	width: 40px;
+	z-index: 5;
+
+	&:before {
+		color: $orange-100;
+		font-size: .75em;
+		font-weight: 700;
+		content: 'Open';
+		height: 13px;
+		left: 0;
+		position: absolute;
+		text-align: center;
+		top: 0;
+		width: 40px;
+	}
+}
+
+.is-expanded + .in-page-nav__expand {
+	background-image: url(../img/arrow-orange-up.png);
+
+	&:before {
+		content: 'Close';
 	}
 }
