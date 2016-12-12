@@ -33,19 +33,21 @@ export default class AverageScores extends Page {
       commentary: percentilesCommentary[context.subject],
     }));
 
-    this.pushSection(new DefaultSection({
-      inner: new CreatingTasksFigure({
-        share: {
-          download: true,
-        },
-      }),
-      commentary: creatingTasksCommentary[context.subject],
-    }));
+    if (context.subject !== 'music') {
+      this.pushSection(new DefaultSection({
+        inner: new CreatingTasksFigure({
+          share: {
+            download: true,
+          },
+        }),
+        commentary: creatingTasksCommentary[context.subject],
+      }));
 
-    this.pushSection(new DefaultSection({
-      inner: new RespondingFigure,
-      commentary: respondingTaskCommentary[context.subject],
-    }));
+      this.pushSection(new DefaultSection({
+        inner: new RespondingFigure,
+        commentary: respondingTaskCommentary[context.subject],
+      }));
+    }
 
     this.showChildView('footer', new NotesSourcesView({
       contents: overallNotes,
