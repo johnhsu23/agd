@@ -36,7 +36,7 @@
 
   .accordion__chart & {
     @include breakpoint($desktop-width) {
-        left: -100px;
+        left: -91px;
     }
   }
 }
