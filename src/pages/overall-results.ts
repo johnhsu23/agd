@@ -43,7 +43,7 @@ export default class AverageScores extends Page {
     }));
 
     this.pushSection(new DefaultSection({
-      inner: new RespondingFigure(),
+      inner: new RespondingFigure,
       commentary: respondingTaskCommentary[context.subject],
     }));
 

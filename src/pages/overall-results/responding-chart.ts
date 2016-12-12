@@ -58,16 +58,14 @@ export default class BarChart extends Chart<Model> {
       .attr('transform', `translate(${this.marginLeft}, ${this.marginTop + this.innerHeight})`)
       .call(percentAxis);
 
-
     // setup and add the y axis
     const scoreLvl = scaleBand<number>()
       .domain(data)
       .range([0, chartHeight])
       .padding(0.5);
 
-    const scoreLvlAxis: any = axisLeft(scoreLvl);
-
-    scoreLvlAxis.tickFormat(((_: any, i: number) => scoreText[i]));
+    const scoreLvlAxis = axisLeft(scoreLvl)
+      .tickFormat(((_: {}, i: number) => scoreText[i]) as any);
 
     this.scoreLvlAxis
       .attr('transform', `translate(${this.marginLeft}, ${this.marginTop})`)
