@@ -6,11 +6,27 @@ import context from 'models/context';
 import {Variable} from 'data/variables';
 import LegendView from 'views/legend';
 import Collection from 'collections/legend';
+import {all as gatherAll} from 'legends/gather';
 
+import {load, Grouped} from 'pages/student-experiences/bubble-data';
 import BubbleChart from 'pages/student-experiences/bubble-chart';
 
 export interface BubbleFigureOptions extends FigureOptions {
   variable: Variable;
+}
+
+function gatherNotes(data: Grouped[]): Legend[] {
+  const models = gatherAll(data, ({mean, percent}) => {
+    // Laziness: just union these together to get the combined error flags for both
+    // the mean and percentage rows
+    return mean.TargetErrorFlag | percent.TargetErrorFlag;
+  });
+
+  return models.concat(new Legend({
+    type: 'bubble',
+    marker: '',
+    description: 'The size of each bubble represents the percentage of students in that response category.',
+  }));
 }
 
 export default class BubbleFigure extends Figure {
@@ -36,19 +52,23 @@ export default class BubbleFigure extends Figure {
       super.onRender();
     }
 
-    this.showContents(new BubbleChart({
-      variable: this.variable,
-    }));
+    const promise = load(this.variable);
 
-    const collection = new Collection([
-      new Legend({
-        type: 'bubble',
-        marker: '',
-        description: 'The size of each bubble represents the percentage of students in that response category.',
-      }),
-    ]);
+    const collection = new Collection();
+    promise.then(gatherNotes)
+      .then(models => collection.reset(models))
+      .done();
 
     this.showLegend(new LegendView({ collection }));
+
+    const chart = new BubbleChart({
+      variable: this.variable,
+    });
+
+    promise.then(data => chart.renderData(data))
+      .done();
+
+    this.showContents(chart);
 
     this.setTitle(this.makeTitle());
   }
