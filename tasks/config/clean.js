@@ -5,12 +5,14 @@ module.exports = function (grunt) {
         'public/lib',
         'public/sass', // Clean up symbolic link
         'public/commentary',
+        'public/questions',
         'public/style.css',
         'public/style.css.map',
 
         // Generated automatically by the 'ambient' task
         'src/templates.d.ts',
         'src/commentary.d.ts',
+        'src/questions.d.ts',
 
         // We don't have to clean bower_components or public/vendor:
         // 'grunt-bower-task' handles that for us

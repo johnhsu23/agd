@@ -34,6 +34,12 @@ module.exports = function (grunt) {
         tasks: ['html-data'],
       },
 
+      // Rebuild questions files
+      questions: {
+        files: ['questions/*', 'questions/**/*.html'],
+        tasks: ['html-data'],
+      },
+
       // Monitor add/delete events to update *.d.ts files
       'ambient-commentary': {
         options: {
@@ -48,6 +54,13 @@ module.exports = function (grunt) {
         },
         files: 'public/templates/*.html',
         tasks: ['ambient:templates']
+      },
+      'ambient-questions': {
+        options: {
+          event: ['added', 'deleted'],
+        },
+        files: 'public/questions/*.json',
+        tasks: ['ambient:questions'],
       },
 
       // Perform livereload only when front-end scripts finish compiling
