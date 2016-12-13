@@ -3,7 +3,7 @@ import * as Promise from 'bluebird';
 import loadData from 'api';
 import {ContextualVariable} from 'data/contextual-variables';
 import {nest} from 'd3-collection';
-import {ascending} from 'd3-array';
+import {ascending, descending} from 'd3-array';
 import context from 'models/context';
 import {range} from 'underscore';
 
@@ -11,13 +11,9 @@ import {Params, Data} from 'api/tuda-acrossyear';
 
 export {Data};
 
-export interface StackedDatum {
-  [k: string]: number;
-}
-
-export interface Grouped {
-  yearData: { [year: string]: Data[]; };
-  stackData: StackedDatum[];
+export interface Result {
+  key: string;
+  values: Data[];
 }
 
 function makeParams(variable: ContextualVariable): Params {
@@ -35,33 +31,15 @@ function makeParams(variable: ContextualVariable): Params {
   };
 }
 
-function groupData(rows: Data[]): Grouped {
-  const yearData = nest<Data>()
+function groupData(rows: Data[]): Result[] {
+  return nest<Data>()
     .key(d => '' + d.targetyear)
     .sortValues((a, b) => ascending(a.categoryindex, b.categoryindex))
-    .object(rows);
-
-  const stackData: StackedDatum[] = [];
-
-  Object.keys(yearData).forEach(year => {
-    const yearDataObject: StackedDatum = {
-      year: +year,
-    };
-
-    yearData[year].forEach((datum: Data) => {
-      yearDataObject[datum.category] = datum.targetvalue;
-    });
-
-    stackData.push(yearDataObject);
-  });
-
-  return {
-    yearData: yearData,
-    stackData: stackData,
-  };
+    .sortKeys(descending)
+    .entries(rows);
 }
 
-export function load(variable: ContextualVariable): Promise<Grouped> {
+export function load(variable: ContextualVariable): Promise<Result[]> {
   const params = makeParams(variable);
 
   return loadData<Params, Data>(params)
