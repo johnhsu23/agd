@@ -50,15 +50,15 @@ export default class SampleQuestionAccordion extends LayoutView<Model> {
     this.$('.accordion__header-text')
       .text(this.question.name);
 
-    this.$('.accordion__contents__left')
+    this.$('.sample-question__question')
       .html(questionData['question']);
 
-    this.$('.question__answer-contents')
+    this.$('.sample-question__answer-detail')
       .html(questionData['answer']);
   }
 
   protected answerToggle(event: JQueryMouseEventObject): void {
-    this.$('.question__answer-contents').toggleClass('is-hidden');
+    this.$('.sample-question__answer-detail').toggleClass('is-hidden');
 
     event.preventDefault();
   }
