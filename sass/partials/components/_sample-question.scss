@@ -1,0 +1,10 @@
+.sample-question {}
+
+.sample-question__question,
+.sample-question__answer {
+    flex-basis: 100%;
+
+    @include breakpoint($desktop-width) {
+        flex-basis: 48%;
+    }
+}

@@ -4,17 +4,17 @@
 #secondary-nav {
   background: $taupe-20;
   border-top: 6px solid $orange-100;
-  
+
   .secondary-nav__inner {
     height: 191px;
     position: relative;
-    
+
       .secondary-nav__title {
         color: $blue-100;
         font-size: .8125em;
         font-weight: 700;
         left: 50%;
-        margin-left: -70px; 
+        margin-left: -70px;
         position: absolute;
         text-transform: uppercase;
         top: 1.5em;
@@ -45,7 +45,7 @@
           &.inactive {
             background-position: 0 0;
             cursor: default;
-          
+
             &:hover {
               background-position: 0 0;
             }
@@ -83,7 +83,7 @@
           margin: 0;
           padding: 44px 0 10px;
           position: relative;
-                    
+
           .secondary-nav__tile {
             box-sizing: border-box;
             display: inline-block; // remove when next/prev buttons in place
@@ -91,13 +91,13 @@
             position: relative;
             vertical-align: top;
             width: 114px;
-            
+
             &.show-half,
             &.show,
             &.show-hidden {
               display: inline-block;
             }
-            
+
             &.show-hidden {
               width: 0;
               height: 0 !important;
@@ -107,7 +107,7 @@
             &.show-half {
               a {
                 &.active {
-                
+
                   &:after {
                     display: none;
                   }
@@ -125,10 +125,10 @@
                 left: 65px;
               }
             }
-          
+
             @include breakpoint($desktop-width) {
               width: 160px;
-            
+
               &.batch0 {
                 left: 194px;
               }
@@ -136,7 +136,7 @@
               &.batch1,
               &.batch2 {
                 left: 30px;
-                
+
               }
             }
 
@@ -152,7 +152,7 @@
               text-align: center;
               text-indent: -999em;
               width: 110px;
-              
+
               @include breakpoint($desktop-width) {
                 background-size: inherit;
                 width: 145px;
@@ -163,7 +163,7 @@
                 border-color: $orange-100;
               }
 
-              &.active {
+              &.is-active {
                 border: 3px solid $green-100;
 
                 &:after {
@@ -177,7 +177,7 @@
                   overflow: visible !important;
                   position: absolute;
                   width: 0;
-          
+
                   @include breakpoint($desktop-width) {
                     left: 53px;
                   }
@@ -185,7 +185,7 @@
               }
             }
 
-            
+
             &.txt-next {
               margin-left: 380px;
 
@@ -258,14 +258,14 @@
             line-height: 1.1;
             text-align: center;
             width: rem(110px);
-          
+
             @include breakpoint($desktop-width) {
               font-size: .875em;
               line-height: 1.2em;
               width: rem(145px);
             }
           }
-          
+
           .secondary-nav__caption {
             left: 0;
             position: absolute;

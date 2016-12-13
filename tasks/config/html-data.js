@@ -18,6 +18,22 @@ module.exports = function (grunt) {
           ext: '.json',
         }],
       },
+      questions: {
+        options: {
+          prefix: 'question',
+          elements: [
+            'question',
+            'answer',
+          ],
+        },
+        files: [{
+          expand: true,
+          src: ['questions/*'],
+          filter: 'isDirectory',
+          dest: 'public',
+          ext: '.json',
+        }],
+      },
     },
   });
 };
