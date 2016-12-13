@@ -49,7 +49,7 @@ const symbol = makeSymbol<Point<Data>>()
         break;
 
       case 'P9':
-        index = 4;
+        index = 7;
         break;
     }
 

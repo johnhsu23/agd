@@ -35,5 +35,6 @@ export const gapDiamond: SymbolType = {
   },
 };
 
-export const types = symbols.concat(hexagon);
+symbols.push(hexagon);
+export const types = symbols;
 export {symbol};
