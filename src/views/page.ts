@@ -14,7 +14,7 @@ abstract class PageView extends LayoutView<any> {
 
   regions(): { [key: string]: string } {
     return {
-      'in-page-nav': '.main__header',
+      'in-page-nav': '.main__header__outer',
       footer: '.main__footer',
     };
   }
@@ -52,6 +52,15 @@ abstract class PageView extends LayoutView<any> {
     if (context.subject) {
       this.showChildView('in-page-nav', new InPageNav);
     }
+  }
+
+  onRender(): void {
+    if (super.onRender) {
+      super.onRender();
+    }
+
+    this.$('.main__header__inner h2')
+      .text(this.pageTitle);
   }
 }
 
