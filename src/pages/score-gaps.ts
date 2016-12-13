@@ -4,7 +4,6 @@ import DefaultSection from 'views/default-section';
 import context from 'models/context';
 
 import ScoreGapsFigure from 'pages/score-gaps/gaps-figure';
-import GroupTrendsFigure from 'pages/score-gaps/group-trends-figure';
 import TaskBarFigure from 'pages/score-gaps/bar-figure';
 import GroupsFigure from 'pages/score-gaps/groups-figure';
 import NotesSourcesView from 'views/notes-sources';
@@ -32,7 +31,7 @@ export default class ScoreGaps extends Page {
     }));
 
     this.pushSection(new DefaultSection({
-      inner: new GroupTrendsFigure({
+      inner: new GroupsFigure({
         share: {
           download: true,
         },
@@ -50,15 +49,6 @@ export default class ScoreGaps extends Page {
         commentary: creatingTaskCommentary[context.subject],
       }));
     }
-
-    this.pushSection(new DefaultSection({
-      inner: new GroupsFigure({
-        share: {
-          download: true,
-        },
-      }),
-      commentary: studentGroupsCommentary[context.subject],
-    }));
 
     this.showChildView('footer', new NotesSourcesView({
       contents: gapsNotes,
