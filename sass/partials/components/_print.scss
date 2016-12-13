@@ -7,7 +7,7 @@
 	color: #fff;
 	display: block;
 	font-size: .5625em;
-	padding-top: 37px;
+	padding-top: 34px;
 	position: relative;
 	text-decoration: none;
 	text-transform: uppercase;
@@ -23,9 +23,10 @@
 
 	&:before {
 		background-color: $orange-100;
+		@include svg-background(icon-print);
 		background-position: 50%;
 		background-repeat: no-repeat;
-		background-size: 16px;
+		background-size: 21px auto;
 		border-radius: 50%;
 		content: '';
 		display: inline-block;
