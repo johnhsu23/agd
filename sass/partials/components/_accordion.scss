@@ -79,8 +79,12 @@
 
 .accordion__contents--sample-questions {
 	display: flex;
-	flex-wrap: nowrap;
+	flex-wrap: wrap;
 	justify-content: space-between;
+
+	@include breakpoint($desktop-width) {
+		flex-wrap: nowrap;
+	}
 }
 
 .accordion__header-bar {
