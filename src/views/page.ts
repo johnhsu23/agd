@@ -59,8 +59,8 @@ abstract class PageView extends LayoutView<any> {
       super.onRender();
     }
 
-    // place page title in appropriate div
-    this.$('.main__header__inner h2')
+    // place page title
+    this.$('.js-page-title')
       .text(this.pageTitle);
   }
 }
