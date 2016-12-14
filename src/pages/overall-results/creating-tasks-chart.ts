@@ -7,7 +7,6 @@ import 'd3-transition';
 
 import configure from 'util/configure';
 import Chart from 'views/chart';
-import {load, Data} from 'pages/overall-results/creating-tasks-data';
 
 import * as scales from 'components/scales';
 import * as axis from 'components/axis';
@@ -36,14 +35,19 @@ export default class BarChart extends Chart<Model> {
       this.firstRender = false;
     }
 
-    load()
-      .then(data => this.loaded(data))
-      .done();
+    this.drawChart();
 
     return this;
   }
 
-  protected loaded(data: Data[]): void {
+  protected drawChart(): void {
+    // 2016 TOTAL data
+    const overallData = [
+      {
+        label: 'Overall',
+        value: 50.93140,
+      },
+    ];
 
     // setup and add the x axis
     const percent = scales.percent()
@@ -53,7 +57,7 @@ export default class BarChart extends Chart<Model> {
     const percentAxis = axis.horizontalBottom()
       .scale(percent);
 
-    const chartHeight = 300,
+    const chartHeight = 100,
         chartWidth = percent.range()[1];
 
     this.height(chartHeight)
@@ -64,8 +68,8 @@ export default class BarChart extends Chart<Model> {
       .call(percentAxis);
 
     // setup and add the y axis
-    const year = scaleBand<number>()
-      .domain(data.map(d => d.targetyear))
+    const year = scaleBand()
+      .domain(overallData.map(d => d.label))
       .range([0, chartHeight])
       .padding(0.5);
 
@@ -77,17 +81,17 @@ export default class BarChart extends Chart<Model> {
 
     // set the bar groups
     const barUpdate = this.inner.selectAll('.bar')
-      .data(data);
+      .data(overallData);
 
     barUpdate.interrupt()
       .transition()
-      .attr('transform', d => `translate(0, ${year(d.targetyear)})`);
+      .attr('transform', d => `translate(0, ${year(d.label)})`);
 
     // add group element
     const barEnter = barUpdate.enter()
       .append('g')
       .classed('bar', true)
-      .attr('transform', d => `translate(0, ${year(d.targetyear)})`);
+      .attr('transform', d => `translate(0, ${year(d.label)})`);
 
     // add bar rect svg
     barEnter.append('rect')
@@ -96,7 +100,7 @@ export default class BarChart extends Chart<Model> {
       .attr('width', 0)
       .merge(barUpdate.select('.bar__bar'))
       .transition()
-      .attr('width', d => percent(d.targetvalue));
+      .attr('width', d => percent(d.value));
 
     // add bar percentage text
     const barText = barEnter.append('text')
@@ -105,15 +109,15 @@ export default class BarChart extends Chart<Model> {
 
     barText.merge(barUpdate.select('.bar__text'))
       .transition()
-      .attr('x', d => percent(d.targetvalue) + 5);
+      .attr('x', d => percent(d.value) + 5);
 
     barText.append('tspan')
       .classed('bar__text__value', true)
       .merge(barUpdate.select('.bar__text__value'))
-      .text(d => Math.round(d.targetvalue));
+      .text(d => Math.round(d.value));
 
     // add maximum score text to focal category
-    barText.data([data[0]])
+    barText.data([overallData[0]])
       .append('tspan')
       .classed('bar__text__outer', true)
       .text('% of maximum score');
