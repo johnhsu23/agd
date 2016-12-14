@@ -71,3 +71,13 @@
         }
     }
 }
+
+.note--sample-question {
+    color: #000;
+    font-size: .75em;
+    font-weight: 400;
+
+    > div {
+        margin-bottom: .5em;
+    }
+}

@@ -23,8 +23,8 @@
 
   &:focus,
   &:hover {
-    background-color: darken($bg-color, 10%);
-    border-color: darken($bg-color, 10%);
+    background-color: $taupe-70;
+    border-color: $taupe-130;
     color: $button-text-color;
     outline: 0;
   }

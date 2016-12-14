@@ -39,4 +39,38 @@
     }
 }
 
+.table--sample-question {
+    border: 1px solid $taupe-70;
+    margin: 1em 0 .5em;
+}
 
+.table--sample-question thead {
+    background-color: #fff;
+    color: inherit;
+    font-size: .875em;
+}
+
+.table--sample-question tbody tr {
+    background-color: #fff !important;
+    color: $blue-100;
+
+    &:last-child {
+        td {
+            border-bottom: none;
+        }
+    }
+}
+
+.table--sample-question td {
+    border: 1px solid $taupe-70;
+    border-width: 0 2px 2px 0;
+
+    &:last-child {
+        border-right: none;
+    }
+}
+
+.table--sample-question td .correct {
+    color: $green-100;
+    font-size: 1.25em;
+}
