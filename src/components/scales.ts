@@ -14,9 +14,22 @@ export function year(): Scale {
     .intervalSize(40);
 }
 
-export function percent(): Scale {
+/**
+ * Returns a percentage scale that encompasses the domain [-100, 100].
+ */
+export function fullPercent(): Scale {
   return scale()
     .bounds([-100, 100])
     .interval(10)
     .intervalSize(25);
+}
+
+/**
+ * Returns a percentage scale only for the domain [0, 100].
+ */
+export function percent(): Scale {
+  return scale()
+    .bounds([0, 100])
+    .interval(10)
+    .intervalSize(60);
 }
