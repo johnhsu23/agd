@@ -6,6 +6,11 @@ export interface ContextualVariable extends Variable {
    * The highlighted category of this contextual variable.
    */
   readonly selected: number;
+
+  /**
+   * The highlighted category label to use on chart. (e.g. XX% at least ...)
+   */
+  readonly selectedLabel: string;
 }
 
 /*
@@ -17,6 +22,7 @@ export const BV00003: ContextualVariable = {
   name: 'How much do you agree that you think you have talent for art',
   title: 'the extent to which they agreed that they think they have talent for art',
   selected: 0,
+  selectedLabel: 'agree',
   categories: [
     'Agree',
     'Not sure',
@@ -29,6 +35,7 @@ export const BV00007: ContextualVariable = {
   name: 'Are you taking an art course now, or have you taken an art course this year',
   title: 'whether they took an art course in the school year',
   selected: 0,
+  selectedLabel: 'yes',
   categories: [
     'Yes',
     'No',
@@ -40,6 +47,7 @@ export const BV00008: ContextualVariable = {
   name: 'When you have art in school, how often does your teacher have you paint or draw',
   title: 'the frequency with which their teachers asked them to paint or draw in art class',
   selected: 1, // Once a week
+  selectedLabel: 'once a week',
   categories: [
     'Every day',
     'Once a week',
@@ -53,6 +61,7 @@ export const BV00019: ContextualVariable = {
   name: 'Do either you or your teacher save your artwork in a portfolio',
   title: 'whether they or their teacher saved their artwork in a portfolio',
   selected: 0,
+  selectedLabel: 'yes',
   categories: [
     'Yes',
     'No',
@@ -64,6 +73,7 @@ export const BV80022: ContextualVariable = {
   name: 'When you are not in school, do you ever go to an art museum or exhibit on your own',
   title: 'whether they went to an art museum or exhibit on their own',
   selected: 0,
+  selectedLabel: 'yes',
   categories: [
     'Yes',
     'No',
@@ -75,6 +85,7 @@ export const BV80023: ContextualVariable = {
   name: 'When you are not in school, do you ever take art classes',
   title: 'whether they took art classes not for schoolwork',
   selected: 0,
+  selectedLabel: 'yes',
   categories: [
     'Yes',
     'No',
@@ -86,6 +97,7 @@ export const BV80024: ContextualVariable = {
   name: 'When you are not in school, do you ever make artwork on your own',
   title: 'whether they made artwork on their own not for schoolwork',
   selected: 0,
+  selectedLabel: 'yes',
   categories: [
     'Yes',
     'No',
@@ -97,6 +109,7 @@ export const BV80032: ContextualVariable = {
   name: 'When you are not in school, do you ever keep an art journal or sketchbook on your own',
   title: 'whether they kept an art journal or sketchbook on their own',
   selected: 0,
+  selectedLabel: 'yes',
   categories: [
     'Yes',
     'No',
@@ -112,6 +125,7 @@ export const SQ00901: ContextualVariable = {
     'available to teach visual arts to eighth graders',
   ].join(' '),
   selected: 0,
+  selectedLabel: 'yes',
   categories: [
     'Yes',
     'No',
@@ -123,6 +137,7 @@ export const SQ00204: ContextualVariable = {
   name: 'Does your district or state have a curriculum in visual arts that your school is expected to follow',
   title: 'whether the district or state had a visual arts curriculum that their school was expected to follow',
   selected: 0,
+  selectedLabel: 'yes',
   categories: [
     'Yes',
     'No',
@@ -134,6 +149,7 @@ export const SQ00072: ContextualVariable = {
   name: 'Which best describes the space for the teaching of visual arts in your school',
   title: 'types of space for the teaching of visual arts in their school',
   selected: 1, // Art studio with special equipment
+  selectedLabel: 'Art studio with special equipment',
   categories: [
     'Visual arts are not taught',
     'Art studio with special equipment',
@@ -153,6 +169,7 @@ export const BM00003: ContextualVariable = {
   name: 'How much do you agree that you think you have talent for music',
   title: 'the extent to which they agreed that they think they have talent for music',
   selected: 0,
+  selectedLabel: 'agree',
   categories: [
     'Agree',
     'Not sure',
@@ -165,6 +182,7 @@ export const BM00010: ContextualVariable = {
   name: 'When you take music class in school, how often does your teacher ask you to write down music',
   title: 'the frequency with which their teachers asked them to write down music in music class',
   selected: 2, // At least once or twice a month
+  selectedLabel: 'at least once or twice a month',
   categories: [
     'Almost every day',
     'Once or twice a week',
@@ -179,6 +197,7 @@ export const BM80013: ContextualVariable = {
   name: 'Do you play in a band in school',
   title: 'whether they played in a band in school',
   selected: 0,
+  selectedLabel: 'yes',
   categories: [
     'Yes',
     'No',
@@ -190,6 +209,7 @@ export const BM80015: ContextualVariable = {
   name: 'Do you sing in a chorus or choir in school',
   title: 'whether they sang in a chorus or choir in school',
   selected: 0,
+  selectedLabel: 'yes',
   categories: [
     'Yes',
     'No',
@@ -201,6 +221,7 @@ export const BM80023: ContextualVariable = {
   name: 'When you are not in school, do you ever play a musical instrument on your own',
   title: 'whether they played a musical instrument on their own not for schoolwork',
   selected: 0,
+  selectedLabel: 'yes',
   categories: [
     'Yes',
     'No',
@@ -212,6 +233,7 @@ export const BM80024: ContextualVariable = {
   name: 'When you are not in school, do you ever take private lessons on a musical instrument or in singing',
   title: 'whether they took private lessons on a musical instrument or in singing not for schoolwork',
   selected: 0,
+  selectedLabel: 'yes',
   categories: [
     'Yes',
     'No',
@@ -223,6 +245,7 @@ export const BM80030: ContextualVariable = {
   name: 'When you are not in school, do you ever talk with your family or friends about music',
   title: 'whether they talked with their family or friends about music not for schoolwork',
   selected: 0,
+  selectedLabel: 'yes',
   categories: [
     'Yes',
     'No',
@@ -234,6 +257,7 @@ export const BM80034: ContextualVariable = {
   name: 'Have you ever listened to a musical performance in a theater',
   title: 'whether they listened to a musical performance in a theater',
   selected: 0,
+  selectedLabel: 'yes',
   categories: [
     'Yes',
     'No',
@@ -245,6 +269,7 @@ export const SQ00701: ContextualVariable = {
   name: 'Is there a full-time specialist on your school staff available to teach music to eighth graders',
   title: 'whether there was a full-time specialist on their school staff available to teach music to eighth graders',
   selected: 0,
+  selectedLabel: 'yes',
   categories: [
     'Yes',
     'No',
@@ -256,6 +281,7 @@ export const SQ00202: ContextualVariable = {
   name: 'Does your district or state have a curriculum in music that your school is expected to follow',
   title: 'whether the district or state had a music curriculum that their school was expected to follow',
   selected: 0,
+  selectedLabel: 'yes',
   categories: [
     'Yes',
     'No',
@@ -267,6 +293,7 @@ export const SQ00070: ContextualVariable = {
   name: 'Which best describes the space for the teaching and performing of music in your school',
   title: 'types of space for the teaching and performing of music in their school',
   selected: 1, // dedicated rooms and stage for teaching music
+  selectedLabel: 'dedicated rooms and stage for teaching music',
   categories: [
     'Music is not taught',
     'Room(s) dedicated to music teaching, and stage',
