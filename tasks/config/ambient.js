@@ -33,6 +33,17 @@ module.exports = function (grunt) {
           dest: 'src/notes.d.ts',
         }],
       },
+      questions: {
+        options: {
+          plugin: 'json',
+          type: 'Dict<Dict<string>>',
+          preamble: 'type Dict<T> = { [key: string]: T };',
+        },
+        files: [{
+          src: 'public/questions/**/*.json',
+          dest: 'src/questions.d.ts',
+        }],
+      },
     },
   });
 }

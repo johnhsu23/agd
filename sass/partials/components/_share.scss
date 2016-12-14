@@ -33,6 +33,12 @@
       top: -24px;
     }
   }
+
+  .accordion__chart & {
+    @include breakpoint($desktop-width) {
+        left: -91px;
+    }
+  }
 }
 
 .share > a {

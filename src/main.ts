@@ -5,6 +5,7 @@ require.config({
     commentary: '../commentary',
     files: '../files',
     notes: '../notes',
+    questions: '../questions',
 
     // NRC scripts and fallbacks
     'nrc-header': [

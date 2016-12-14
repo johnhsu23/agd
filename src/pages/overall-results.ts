@@ -1,14 +1,13 @@
-import {Model} from 'backbone';
-import {ItemView} from 'backbone.marionette';
-
 import Page from 'views/page';
 import DefaultSection from 'views/default-section';
 
 import context from 'models/context';
 
+import MultiSection from 'pages/overall-results/multi-section';
 import PercentileFigure from 'pages/overall-results/percentile-figure';
 import CreatingTasksFigure from 'pages/overall-results/creating-tasks-figure';
 import AverageFigure from 'pages/overall-results/average-figure';
+import RespondingFigure from 'pages/overall-results/responding-figure';
 import NotesSourcesView from 'views/notes-sources';
 
 import * as averageCommentary from 'json!commentary/overall-results/average.json';
@@ -21,33 +20,35 @@ export default class AverageScores extends Page {
   pageTitle = 'Overall Results';
 
   onBeforeShow(): void {
-    this.pushSection(new DefaultSection({
-      inner: new AverageFigure,
-      commentary: averageCommentary[context.subject],
-    }));
+    const section = new MultiSection;
+    this.pushSection(section);
 
-    this.pushSection(new DefaultSection({
-      inner: new PercentileFigure({
-        share: {
-          download: true,
-        },
-      }),
-      commentary: percentilesCommentary[context.subject],
-    }));
+    section.setCommentary(averageCommentary[context.subject]);
+    section.addSection(new AverageFigure, averageCommentary[context.subject]);
 
-    this.pushSection(new DefaultSection({
-      inner: new CreatingTasksFigure({
-        share: {
-          download: true,
-        },
-      }),
-      commentary: creatingTasksCommentary[context.subject],
-    }));
+    const percentileFigure = new PercentileFigure({
+      share: {
+        download: true,
+      },
+    });
 
-    this.pushSection(new DefaultSection({
-      inner: new (class extends ItemView<Model> { template = () => '' }),
-      commentary: respondingTaskCommentary[context.subject],
-    }));
+    section.addSection(percentileFigure, percentilesCommentary[context.subject]);
+
+    if (context.subject !== 'music') {
+      this.pushSection(new DefaultSection({
+        inner: new CreatingTasksFigure({
+          share: {
+            download: true,
+          },
+        }),
+        commentary: creatingTasksCommentary[context.subject],
+      }));
+
+      this.pushSection(new DefaultSection({
+        inner: new RespondingFigure,
+        commentary: respondingTaskCommentary[context.subject],
+      }));
+    }
 
     this.showChildView('footer', new NotesSourcesView({
       contents: overallNotes,

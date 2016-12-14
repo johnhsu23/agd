@@ -47,8 +47,8 @@ export default class QuestionsListView extends LayoutView<Model> {
 
   regions(): {[key: string]: string} {
     return {
-      'student-responses': '.student-responses',
-      'school-responses': '.school-responses',
+      'student-responses': '.js-student-responses',
+      'school-responses': '.js-school-responses',
     };
   }
 

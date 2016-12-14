@@ -11,7 +11,6 @@
 // are no longer needed at the section level.
 
 .section {
-    @extend %u-clearfix;
     padding: 1em 0;
 }
 
@@ -19,7 +18,7 @@
     color: $green-100;
     font-size: 1em;
     font-weight: 700;
-    margin: .25em 0 .25em;
+    margin: .25em 0;
     text-align: left;
     text-transform: uppercase;
 }
@@ -28,7 +27,7 @@
     color: $blue-100;
     font-size: 1.6875em;
     font-weight: 400;
-    margin: 0 0 .5em;
+    margin: .5em 0;
     max-width: $max-contents-width;
 
     span {
@@ -40,8 +39,14 @@
     color: $black-70;
     font-size: .875em;
     line-height: 1.4;
-    margin: 0 0 2em;
+    margin: 2em 0;
     max-width: $max-contents-width;
 }
 
-.section__controls {}
+.section__controls {
+    margin: .25em 0;
+}
+
+.section__contents {
+    margin: 2em 0;
+}
