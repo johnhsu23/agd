@@ -8,3 +8,18 @@
         flex-basis: 48%;
     }
 }
+
+.sample-question__question textarea {
+	margin-left: 5px;
+	width: 95%;
+}
+
+.sample-question__answer h5 {
+	margin-bottom: .25em;
+}
+
+.sample-question__answer p {
+	font-size: .875em;
+	line-height: 1.4;
+	margin: .5em 0 1em;
+}
