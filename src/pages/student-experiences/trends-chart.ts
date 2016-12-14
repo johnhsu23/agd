@@ -48,6 +48,15 @@ export default class TrendsChart extends Chart<Model> {
       this.yearAxis = this.d3el.append<SVGGElement>('g');
       this.chartHeader = this.d3el.append<SVGGElement>('g');
 
+      // apply a white background on first render
+      this.selectAll('.background')
+        .data([0])
+        .enter().insert('rect', '.chart__inner')
+          .classed('background', true)
+          .attr('width', '100%')
+          .attr('height', '100%')
+          .attr('fill', 'white');
+
       this.firstRender = false;
     }
 
@@ -88,14 +97,6 @@ export default class TrendsChart extends Chart<Model> {
     this.yearAxis
       .attr('transform', `translate(${this.marginLeft}, ${this.marginTop})`)
       .call(yearAxis);
-
-    // apply a white background before we do anything else
-    this.selectAll('.background')
-      .data([0])
-      .enter().insert('rect', '.chart__inner')
-        .attr('width', '100%')
-        .attr('height', '100%')
-        .attr('fill', 'white');
 
     const seriesEnter = this.inner.selectAll('.series')
       .data(data)

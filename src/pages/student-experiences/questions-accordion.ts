@@ -8,7 +8,7 @@ import configure from 'util/configure';
 import {eachView} from 'util/each-region';
 
 import QuestionsHeaderBar from 'pages/student-experiences/questions-header-bar';
-import TrendsChart from 'pages/student-experiences/trends-chart';
+import TrendsFigure from 'pages/student-experiences/trends-figure';
 import BubbleFigure from 'pages/student-experiences/bubble-figure';
 import * as template from 'text!templates/questions-accordion.html';
 
@@ -71,8 +71,9 @@ export default class QuestionsAccordion extends LayoutView<Model> {
     this.$('.accordion__chart--group')
       .text('Group bar chart section. Fugiat quisque molestiae proident, cupiditate facere! Inceptos consequatur');
 
-    this.showChildView('trends', new TrendsChart({
+    this.showChildView('trends', new TrendsFigure({
       variable: this.variable,
+      share: { download: true },
     }));
   }
 
