@@ -17,7 +17,7 @@ export default class SeriesLegend extends Legend implements SeriesLegendAttribut
   @modelProperty()
   description: string;
 
-  getView(): new(...args: any[]) => SeriesLegendView {
+  getView(): new(...args: any[]) => SeriesLegendView<SeriesLegend> {
     return SeriesLegendView;
   }
 

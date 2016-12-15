@@ -1,18 +1,12 @@
-import {CollectionView} from 'backbone.marionette';
-import Legend from 'legends/model';
-import LegendItemView from 'views/legend/item';
-
-import TextView from 'views/legend/text';
-import PathView from 'views/legend/path';
-import NoteView from 'views/legend/note';
-import BubbleView from 'views/legend/bubble';
+import {CollectionView, ItemView} from 'backbone.marionette';
+import Legend from 'legends/models/base';
 
 import configure from 'util/configure';
 
 @configure({
   className: 'legend',
 })
-export default class LegendView extends CollectionView<Legend, LegendItemView> {
+export default class LegendCollectionView extends CollectionView<Legend, ItemView<Legend>> {
   render(): this {
     super.render();
 
@@ -21,22 +15,7 @@ export default class LegendView extends CollectionView<Legend, LegendItemView> {
     return this;
   }
 
-  getChildView(item: Legend): { new(...args: any[]): LegendItemView } {
-    switch (item.type) {
-      case 'text':
-        return TextView;
-
-      case 'path':
-        return PathView;
-
-      case 'note':
-        return NoteView;
-
-      case 'bubble':
-        return BubbleView;
-
-      default:
-        throw new Error(`Unknown model type ${item.type}`);
-    }
+  getChildView(legend: Legend): new(...args: any[]) => ItemView<Legend> {
+    return legend.getView();
   }
 }

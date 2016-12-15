@@ -1,13 +1,14 @@
 import {EventsHash, Collection} from 'backbone';
 
 import Figure from 'views/figure';
-import Legend from 'legends/model';
 import LegendView from 'views/legend';
 
-import category from 'legends/category';
+import {types} from 'components/symbol';
+import Legend from 'legends/models/base';
+import NoteLegend from 'legends/models/note';
 import significant from 'legends/sig-diff';
-import significantGap from 'legends/sig-gap';
-import insignificantGap from 'legends/insig-gap';
+import * as comparison from 'legends/comparison';
+import * as gapNotes from 'legends/gaps';
 
 import * as vars from 'data/variables';
 import context from 'models/context';
@@ -72,11 +73,8 @@ export default class ScoreGaps extends Figure {
     const {focal, target, trend} = result,
           models: Legend[] = [];
 
-    models.push(category(focal.categoryindex, focal.category));
-
-    const targetLegend = category(target.categoryindex, target.category);
-    targetLegend.tag = 'target';
-    models.push(targetLegend);
+    models.push(comparison.focal(types[focal.categoryindex], focal.category));
+    models.push(comparison.target(types[target.categoryindex], target.category));
 
     const gaps = result.gaps.filter(gap => {
       return gap.isFocalStatDisplayable
@@ -85,11 +83,11 @@ export default class ScoreGaps extends Figure {
     });
 
     if (gaps.some(gap => gap.sig === '<' || gap.sig === '>')) {
-      models.push(significantGap());
+      models.push(gapNotes.significant());
     }
 
     if (gaps.some(gap => gap.sig !== '<' && gap.sig !== '>')) {
-      models.push(insignificantGap());
+      models.push(gapNotes.notSignificant());
     }
 
     const isFocalSignificant = focal.isTargetStatDisplayable
@@ -113,11 +111,7 @@ export default class ScoreGaps extends Figure {
         'numerically lower than the score of students in the comparison group.',
       ].join(' ');
 
-      models.push(new Legend({
-        type: 'note',
-        marker: '',
-        description,
-      }));
+      models.push(new NoteLegend({ description }));
     }
 
     this.collection.reset(models);

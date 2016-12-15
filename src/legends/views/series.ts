@@ -11,7 +11,7 @@ const symbol = makeSymbol().size(194);
 @configure({
   className: 'legend__item',
 })
-export default class SeriesLegendView extends D3View<HTMLDivElement, SeriesLegend> {
+export default class SeriesLegendView<Legend extends SeriesLegend> extends D3View<HTMLDivElement, Legend> {
   render(): this {
     super.render();
 

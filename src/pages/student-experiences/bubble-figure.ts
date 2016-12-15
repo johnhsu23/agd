@@ -1,11 +1,13 @@
+import {Collection} from 'backbone';
+
 import {default as Figure, FigureOptions} from 'views/figure';
 
 import forwardEvents from 'util/forward-events';
-import Legend from 'legends/model';
+import Legend from 'legends/models/base';
+import BubbleLegend from 'legends/models/bubble';
 import context from 'models/context';
 import {Variable} from 'data/variables';
 import LegendView from 'views/legend';
-import Collection from 'collections/legend';
 import {all as gatherAll} from 'legends/gather';
 
 import {load, Grouped} from 'pages/student-experiences/bubble-data';
@@ -22,11 +24,7 @@ function gatherNotes(data: Grouped[]): Legend[] {
     return mean.TargetErrorFlag | percent.TargetErrorFlag;
   });
 
-  return models.concat(new Legend({
-    type: 'bubble',
-    marker: '',
-    description: 'The size of each bubble represents the percentage of students in that response category.',
-  }));
+  return models.concat(new BubbleLegend({}));
 }
 
 export default class BubbleFigure extends Figure {
@@ -54,7 +52,7 @@ export default class BubbleFigure extends Figure {
 
     const promise = load(this.variable);
 
-    const collection = new Collection();
+    const collection = new Collection<Legend>();
     promise.then(gatherNotes)
       .then(models => collection.reset(models))
       .done();
