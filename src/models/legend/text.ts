@@ -14,7 +14,7 @@ export default class TextLegend extends Legend implements TextLegendAttributes {
   @modelProperty()
   description: string;
 
-  getView(): new(...args: any[]) => TextLegendView {
+  getView(): new(...args: any[]) => TextLegendView<TextLegend> {
     return TextLegendView;
   }
 

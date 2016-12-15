@@ -13,7 +13,7 @@ const symbol = makeSymbol()
 @configure({
   className: 'legend__item',
 })
-export default class GapLegendView extends D3View<HTMLDivElement, GapLegend> {
+export default class GapLegendView<Legend extends GapLegend> extends D3View<HTMLDivElement, Legend> {
   render(): this {
     const significant = this.model.significant,
           type = significant ? symbolCircle : gapDiamond,

@@ -8,7 +8,7 @@ import NoteLegend from 'models/legend/note';
 @configure({
   className: 'legend__note',
 })
-export default class NoteLegendView extends ItemView<NoteLegend> {
+export default class NoteLegendView<Legend extends NoteLegend> extends ItemView<Legend> {
   render(): this {
     super.render();
 

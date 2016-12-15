@@ -10,7 +10,7 @@ import BubbleLegend from 'models/legend/bubble';
 @configure({
   className: 'legend__item',
 })
-export default class BubbleLegendView extends D3View<HTMLDivElement, BubbleLegend> {
+export default class BubbleLegendView<Legend extends BubbleLegend> extends D3View<HTMLDivElement, Legend> {
   protected markerStartId = uniqueId('bubble-marker-');
   protected markerEndId = uniqueId('bubble-marker-');
 

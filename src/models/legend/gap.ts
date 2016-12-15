@@ -10,7 +10,7 @@ export default class GapLegend extends Legend implements LegendAttributes {
   @modelProperty()
   significant: boolean;
 
-  getView(): new(...args: any[]) => GapLegendView {
+  getView(): new(...args: any[]) => GapLegendView<GapLegend> {
     return GapLegendView;
   }
 
