@@ -1,10 +1,12 @@
 import {scaleSqrt} from 'd3-scale';
 import {uniqueId} from 'underscore';
 
+import noTemplate from 'util/no-template';
 import configure from 'util/configure';
 import D3View from 'views/d3';
 import BubbleLegend from 'legends/models/bubble';
 
+@noTemplate
 @configure({
   className: 'legend__item',
 })

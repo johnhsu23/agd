@@ -6,13 +6,13 @@ import SeriesLegendView from 'legends/views/series';
 import modelProperty from 'util/model-property';
 
 export interface SeriesLegendAttributes extends LegendAttributes {
-  type: SymbolType;
+  marker: SymbolType;
   description: string;
 }
 
 export default class SeriesLegend extends Legend implements SeriesLegendAttributes {
   @modelProperty()
-  type: SymbolType;
+  marker: SymbolType;
 
   @modelProperty()
   description: string;

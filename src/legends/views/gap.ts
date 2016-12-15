@@ -1,5 +1,6 @@
 import {symbol as makeSymbol, symbolCircle} from 'd3-shape';
 
+import noTemplate from 'util/no-template';
 import configure from 'util/configure';
 import {gapDiamond} from 'components/symbol';
 import D3View from 'views/d3';
@@ -8,6 +9,7 @@ import GapLegend from 'legends/models/gap';
 const symbol = makeSymbol()
   .size(700);
 
+@noTemplate
 @configure({
   className: 'legend__item',
 })
