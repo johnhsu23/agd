@@ -29,6 +29,7 @@ export default class AverageScores extends Page {
     const percentileFigure = new PercentileFigure({
       share: {
         download: true,
+        section: 'section-1',
       },
     });
 
@@ -39,6 +40,7 @@ export default class AverageScores extends Page {
         inner: new CreatingTasksFigure({
           share: {
             download: true,
+            section: 'section-2',
           },
         }),
         commentary: creatingTasksCommentary[context.subject],
