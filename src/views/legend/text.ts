@@ -1,7 +1,7 @@
 import {ItemView} from 'backbone.marionette';
 
 import configure from 'util/configure';
-import TextLegend from 'legends/models/text';
+import TextLegend from 'models/legend/text';
 
 @configure({
   className: 'legend__item',

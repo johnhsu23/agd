@@ -8,7 +8,7 @@ import Figure from 'views/figure';
 import Chart from 'pages/overall-results/percentile-chart';
 import LegendView from 'pages/overall-results/percentile-legend';
 
-import Legend from 'legends/models/base';
+import Legend from 'models/legend';
 import series from 'legends/series';
 
 import context from 'models/context';

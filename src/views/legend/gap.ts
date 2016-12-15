@@ -4,7 +4,7 @@ import noTemplate from 'util/no-template';
 import configure from 'util/configure';
 import {gapDiamond} from 'components/symbol';
 import D3View from 'views/d3';
-import GapLegend from 'legends/models/gap';
+import GapLegend from 'models/legend/gap';
 
 const symbol = makeSymbol()
   .size(700);

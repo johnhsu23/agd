@@ -1,4 +1,4 @@
-import GapLegend from 'legends/models/gap';
+import GapLegend from 'models/legend/gap';
 
 export function significant(): GapLegend {
   return new GapLegend({

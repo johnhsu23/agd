@@ -1,5 +1,5 @@
-import SeriesLegendView from 'legends/views/series';
-import ComparisonLegend from 'legends/models/comparison';
+import SeriesLegendView from 'views/legend/series';
+import ComparisonLegend from 'models/legend/comparison';
 
 export default class ComparisonLegendView<Legend extends ComparisonLegend> extends SeriesLegendView<Legend> {
   render(): this {

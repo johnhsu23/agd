@@ -1,7 +1,7 @@
 import {SymbolType} from 'd3-shape';
 
-import {default as Legend, LegendAttributes} from 'legends/models/base';
-import SeriesLegendView from 'legends/views/series';
+import {default as Legend, LegendAttributes} from 'models/legend';
+import SeriesLegendView from 'views/legend/series';
 
 import modelProperty from 'util/model-property';
 

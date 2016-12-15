@@ -4,7 +4,7 @@ import {uniqueId} from 'underscore';
 import noTemplate from 'util/no-template';
 import configure from 'util/configure';
 import D3View from 'views/d3';
-import BubbleLegend from 'legends/models/bubble';
+import BubbleLegend from 'models/legend/bubble';
 
 @noTemplate
 @configure({

@@ -1,4 +1,4 @@
-import TextLegend from 'legends/models/text';
+import TextLegend from 'models/legend/text';
 
 export default function legend(): TextLegend {
   return new TextLegend({

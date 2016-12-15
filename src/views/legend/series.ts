@@ -3,7 +3,7 @@ import {symbol as makeSymbol} from 'd3-shape';
 import noTemplate from 'util/no-template';
 import configure from 'util/configure';
 import D3View from 'views/d3';
-import SeriesLegend from 'legends/models/series';
+import SeriesLegend from 'models/legend/series';
 
 const symbol = makeSymbol().size(194);
 

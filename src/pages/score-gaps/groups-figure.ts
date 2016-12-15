@@ -4,7 +4,7 @@ import {Collection, EventsHash} from 'backbone';
 import LegendView from 'views/legend';
 import * as vars from 'data/variables';
 
-import Legend from 'legends/models/base';
+import Legend from 'models/legend';
 import sigDiff from 'legends/sig-diff';
 import {all as gatherNotes} from 'legends/gather';
 

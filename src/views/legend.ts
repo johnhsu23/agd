@@ -1,5 +1,5 @@
 import {CollectionView, ItemView} from 'backbone.marionette';
-import Legend from 'legends/models/base';
+import Legend from 'models/legend';
 
 import configure from 'util/configure';
 

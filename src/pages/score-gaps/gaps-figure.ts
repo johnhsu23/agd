@@ -4,8 +4,8 @@ import Figure from 'views/figure';
 import LegendView from 'views/legend';
 
 import {types} from 'components/symbol';
-import Legend from 'legends/models/base';
-import NoteLegend from 'legends/models/note';
+import Legend from 'models/legend';
+import NoteLegend from 'models/legend/note';
 import significant from 'legends/sig-diff';
 import * as comparison from 'legends/comparison';
 import * as gapNotes from 'legends/gaps';

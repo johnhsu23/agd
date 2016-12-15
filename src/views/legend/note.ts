@@ -2,7 +2,7 @@ import {ItemView} from 'backbone.marionette';
 
 import noTemplate from 'util/no-template';
 import configure from 'util/configure';
-import NoteLegend from 'legends/models/note';
+import NoteLegend from 'models/legend/note';
 
 @noTemplate
 @configure({

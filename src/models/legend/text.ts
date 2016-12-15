@@ -1,5 +1,5 @@
-import {default as Legend, LegendAttributes} from 'legends/models/base';
-import TextLegendView from 'legends/views/text';
+import {default as Legend, LegendAttributes} from 'models/legend';
+import TextLegendView from 'views/legend/text';
 import modelProperty from 'util/model-property';
 
 export interface TextLegendAttributes extends LegendAttributes {

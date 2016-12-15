@@ -1,4 +1,4 @@
-import Legend from 'legends/models/base';
+import Legend from 'models/legend';
 import * as codes from 'codes';
 
 import sigDiff from 'legends/sig-diff';

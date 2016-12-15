@@ -1,5 +1,5 @@
-import {default as SeriesLegend, SeriesLegendAttributes} from 'legends/models/series';
-import ComparisonLegendView from 'legends/views/comparison';
+import {default as SeriesLegend, SeriesLegendAttributes} from 'models/legend/series';
+import ComparisonLegendView from 'views/legend/comparison';
 import modelProperty from 'util/model-property';
 
 export type FocalTarget = 'focal' | 'target';

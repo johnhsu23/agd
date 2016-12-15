@@ -1,4 +1,4 @@
-import {default as Legend, LegendAttributes} from 'legends/models/base';
+import {default as Legend, LegendAttributes} from 'models/legend';
 
 import modelProperty from 'util/model-property';
 

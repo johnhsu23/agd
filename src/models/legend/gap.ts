@@ -1,5 +1,5 @@
-import {default as Legend, LegendAttributes} from 'legends/models/base';
-import GapLegendView from 'legends/views/gap';
+import {default as Legend, LegendAttributes} from 'models/legend';
+import GapLegendView from 'views/legend/gap';
 import modelProperty from 'util/model-property';
 
 export interface GapLegendAttributes extends LegendAttributes {

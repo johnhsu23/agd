@@ -3,8 +3,8 @@ import {Collection} from 'backbone';
 import {default as Figure, FigureOptions} from 'views/figure';
 
 import forwardEvents from 'util/forward-events';
-import Legend from 'legends/models/base';
-import BubbleLegend from 'legends/models/bubble';
+import Legend from 'models/legend';
+import BubbleLegend from 'models/legend/bubble';
 import context from 'models/context';
 import {Variable} from 'data/variables';
 import LegendView from 'views/legend';

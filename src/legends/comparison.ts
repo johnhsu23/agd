@@ -1,6 +1,6 @@
 import {SymbolType} from 'd3-shape';
 
-import ComparisonLegend from 'legends/models/comparison';
+import ComparisonLegend from 'models/legend/comparison';
 
 export function focal(marker: SymbolType, description: string): ComparisonLegend {
   return new ComparisonLegend({
