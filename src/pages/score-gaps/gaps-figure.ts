@@ -2,16 +2,14 @@ import {EventsHash, Collection} from 'backbone';
 
 import Figure from 'views/figure';
 import LegendView from 'views/legend';
-
 import {types} from 'components/symbol';
+import context from 'models/context';
 import Legend from 'models/legend';
 import NoteLegend from 'models/legend/note';
 import significant from 'legends/sig-diff';
 import * as comparison from 'legends/comparison';
 import * as gapNotes from 'legends/gaps';
-
 import * as vars from 'data/variables';
-import context from 'models/context';
 
 import {load, Result} from 'pages/score-gaps/gaps-data';
 import Chart from 'pages/score-gaps/gaps-chart';
