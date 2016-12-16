@@ -71,6 +71,10 @@
     display: unset;
 }
 
+.bubble__label {
+    text-anchor: middle;
+}
+
 .legend__bubble-line {
     stroke: $axis;
     fill: $axis;
@@ -127,3 +131,4 @@
         font-style: italic;
     }
 }
+
