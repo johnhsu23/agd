@@ -37,9 +37,8 @@ export default class PercentileScores extends Figure {
       'p9',
     ];
 
-    symbolTypes[4] = symbolTypes[7];
-
     const list = zip<string | SymbolType>(tags, names, symbolTypes) as [string, string, SymbolType][];
+
     for (const [tag, description, type] of list.reverse()) {
       const legend = series(type, description);
 

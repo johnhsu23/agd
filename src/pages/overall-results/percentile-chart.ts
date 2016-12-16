@@ -1,6 +1,7 @@
 import * as Promise from 'bluebird';
 import {Model} from 'backbone';
-import {symbol as makeSymbol, symbols as symbolTypes} from 'd3-shape';
+import {symbol as makeSymbol} from 'd3-shape';
+import {types as type} from 'components/symbol';
 import {Selection} from 'd3-selection';
 
 import 'd3-transition';
@@ -49,11 +50,11 @@ const symbol = makeSymbol<Point<Data>>()
         break;
 
       case 'P9':
-        index = 7;
+        index = 4;
         break;
     }
 
-    return symbolTypes[index];
+    return type[index];
   });
 
 @configure({
