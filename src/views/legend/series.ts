@@ -1,34 +1,30 @@
 import {symbol as makeSymbol} from 'd3-shape';
 
-import noTemplate from 'util/no-template';
 import configure from 'util/configure';
 import D3View from 'views/d3';
 import SeriesLegend from 'models/legend/series';
 
+import * as template from 'text!templates/legend-series.html';
+
 const symbol = makeSymbol().size(194);
 
-@noTemplate
 @configure({
   className: 'legend__item',
 })
 export default class SeriesLegendView<Legend extends SeriesLegend> extends D3View<HTMLDivElement, Legend> {
+  template = () => template;
+
   render(): this {
     super.render();
 
-    const el = this.d3el,
-          model = this.model;
+    const model = this.model;
 
-    el.attr('data-tag', model.tag || null);
+    this.d3el.attr('data-tag', model.tag || null);
 
-    el.append('svg')
-      .classed('legend__marker legend__marker--path', true)
-      .attr('viewBox', '0 0 30 30')
-      .append('path')
-      .attr('d', symbol.type(model.marker)())
-      .attr('transform', 'translate(15, 15)');
+    this.select('.legend__marker path')
+      .attr('d', symbol.type(model.marker)());
 
-    el.append('p')
-      .classed('legend__description', true)
+    this.select('.legend__description')
       .html(model.description);
 
     return this;
