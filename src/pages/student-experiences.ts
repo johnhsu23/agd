@@ -6,7 +6,8 @@ import NotesSourcesView from 'views/notes-sources';
 import context from 'models/context';
 
 import * as studentExperiencesCommentary from 'json!commentary/student-experiences/student-experiences.json';
-import * as studentExperiencesNotes from 'text!notes/student-experiences.html';
+import * as studentExperiencesMusicNotes from 'text!notes/student-experiences/music.html';
+import * as studentExperiencesVisualArtsNotes from 'text!notes/student-experiences/visual-arts.html';
 
 export default class StudentExperiences extends Page {
   pageTitle = 'Opportunities and Access';
@@ -18,7 +19,7 @@ export default class StudentExperiences extends Page {
     }));
 
     this.showChildView('footer', new NotesSourcesView({
-      contents: studentExperiencesNotes,
+      contents: (context.subject === 'music') ? studentExperiencesMusicNotes : studentExperiencesVisualArtsNotes,
     }));
   }
 }

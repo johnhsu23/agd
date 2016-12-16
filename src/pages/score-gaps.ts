@@ -11,7 +11,8 @@ import NotesSourcesView from 'views/notes-sources';
 import * as respondingCommentary from 'json!commentary/score-gaps/responding.json';
 import * as creatingTaskCommentary from 'json!commentary/score-gaps/creating-task.json';
 import * as studentGroupsCommentary from 'json!commentary/score-gaps/student-groups.json';
-import * as gapsNotes from 'text!notes/score-gaps.html';
+import * as gapsMusicNotes from 'text!notes/score-gaps/music.html';
+import * as gapsVisualArtsNotes from 'text!notes/score-gaps/visual-arts.html';
 
 export default class ScoreGaps extends Page {
   pageTitle = 'Group Score Gaps';
@@ -51,7 +52,7 @@ export default class ScoreGaps extends Page {
     }
 
     this.showChildView('footer', new NotesSourcesView({
-      contents: gapsNotes,
+      contents: (context.subject === 'music') ? gapsMusicNotes : gapsVisualArtsNotes,
     }));
   }
 }
