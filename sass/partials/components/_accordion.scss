@@ -9,7 +9,7 @@
 	align-items: center;
 	border-bottom: 1px solid $orange-100;
 	display: flex;
-	margin: 1.5em 0 0;
+	margin: 1em 0 0;
 	position: relative;
 	text-decoration: none;
 	width: 100%;
@@ -26,8 +26,8 @@
 	font-weight: 700;
 	line-height: 1.2rem;
 	margin-right: rem(35px);
-	min-height: rem(46px);
-	padding: 0 0 .5em;
+	min-height: rem(54px);
+	padding: .5em 0;
 	width: 225px;
 
 	@include breakpoint($desktop-width) {
