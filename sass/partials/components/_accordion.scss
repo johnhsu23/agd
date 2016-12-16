@@ -119,11 +119,12 @@
 
 .accordion__header-bar .header-bar-label {
 	color: $blue-100;
+	line-height: 1;
 	margin-left: 5px;
-	max-width: 200px;
+	max-width: 270px;
 
 	@include breakpoint($desktop-width) {
-		max-width: 300px;
+		max-width: 320px;
 	}
 }
 
