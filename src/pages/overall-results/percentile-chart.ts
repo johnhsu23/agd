@@ -18,9 +18,7 @@ import makeSeries from 'components/series';
 import {verticalLeft, horizontalBottom} from 'components/axis';
 import {formatValue} from 'codes';
 
-import {load, Grouped, Data} from 'pages/overall-results/percentile-data';
-
-import context from 'models/context';
+import {Grouped, Data} from 'pages/overall-results/percentile-data';
 
 type Point<T> = T & {
   x: number;
@@ -76,16 +74,6 @@ export default class PercentileChart extends Chart<Model> {
   protected firstRender = true;
   protected promise = Promise.resolve(void 0);
 
-  protected renderData(): void {
-    const years = ['2008R3', '2016R3'];
-
-    this.promise = this.promise
-      .then(() => load(context.subject, years))
-      .then(data => this.loaded(data));
-
-    this.promise.done();
-  }
-
   protected addAxes(): void {
     this.scoreAxis = this.d3el.append<SVGGElement>('g');
     this.yearAxis = this.d3el.append<SVGGElement>('g');
@@ -101,10 +89,6 @@ export default class PercentileChart extends Chart<Model> {
       this.addAxes();
       this.firstRender = false;
     }
-
-    load(context.subject, ['2008R3', '2016R3'])
-      .then(data => this.loaded(data))
-      .done();
 
     return this;
   }
@@ -142,7 +126,7 @@ export default class PercentileChart extends Chart<Model> {
       .call(axis);
   }
 
-  protected loaded(data: Grouped): void {
+  renderData(data: Grouped): void {
     const score = scales.score()
       .bounds([0, 300])
       .domain(data.extent)
