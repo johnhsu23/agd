@@ -23,7 +23,7 @@ function makeParams(variable: Variable, contextualVariable: ContextualVariable):
     subject: context.subject,
     subscale: (context.subject === 'music') ? 'MUSRP' : 'VISRP',
     grade: 8,
-    variable: contextualVariable.id + '+' + variable.id,
+    variable: variable.id + '+' + contextualVariable.id,
     categoryindex: range(variable.categories.length * contextualVariable.categories.length),
     year: '2016',
     stattype: 'RP',
@@ -31,9 +31,9 @@ function makeParams(variable: Variable, contextualVariable: ContextualVariable):
   };
 }
 
-function groupData(rows: Data[], variable: Variable): Result[] {
+function groupData(rows: Data[], variable: Variable, contextualVariable: ContextualVariable): Result[] {
   return nest<Data>()
-    .key(d => '' + variable.categories[d.categoryindex % variable.categories.length])
+    .key(d => '' + variable.categories[Math.floor(d.categoryindex / contextualVariable.categories.length)])
     .sortValues((a, b) => ascending(a.categoryindex, b.categoryindex))
     .entries(rows);
 }
@@ -42,5 +42,5 @@ export function load(variable: Variable, contextualVariable: ContextualVariable)
   const params = makeParams(variable, contextualVariable);
 
   return loadData<Params, Data>(params)
-    .then(data => groupData(data, variable));
+    .then(data => groupData(data, variable, contextualVariable));
 }
