@@ -11,6 +11,7 @@ import QuestionHeaderBar from 'views/question-header-bar';
 import {load} from 'pages/student-experiences/questions-header-data';
 import TrendsFigure from 'pages/student-experiences/trends-figure';
 import BubbleFigure from 'pages/student-experiences/bubble-figure';
+import GroupFigure from 'pages/student-experiences/group-figure';
 import * as template from 'text!templates/questions-accordion.html';
 
 export interface QuestionsAccordionOptions extends ViewOptions<Model> {
@@ -40,8 +41,9 @@ export default class QuestionsAccordion extends LayoutView<Model> {
   regions(): {[key: string]: string} {
     return {
       'header-bar': '.accordion__header-bar',
-      trends: '.accordion__chart--trends',
       'bubble-chart': '.accordion__chart--bubble',
+      'group-chart': '.accordion__chart--group',
+      trends: '.accordion__chart--trends',
     };
   }
 
@@ -69,8 +71,10 @@ export default class QuestionsAccordion extends LayoutView<Model> {
       share: { download: true },
     }));
 
-    this.$('.accordion__chart--group')
-      .text('Group bar chart section. Fugiat quisque molestiae proident, cupiditate facere! Inceptos consequatur');
+    this.showChildView('group-chart', new GroupFigure({
+      contextualVariable: this.variable,
+      share: { download: true },
+    }));
 
     this.showChildView('trends', new TrendsFigure({
       variable: this.variable,
