@@ -1,13 +1,12 @@
 import {Collection} from 'backbone';
 
 import {default as Figure, FigureOptions} from 'views/figure';
-
+import LegendView from 'views/legend';
 import forwardEvents from 'util/forward-events';
 import Legend from 'models/legend';
 import BubbleLegend from 'models/legend/bubble';
 import context from 'models/context';
 import {Variable} from 'data/variables';
-import LegendView from 'views/legend';
 import {all as gatherAll} from 'legends/gather';
 
 import {load, Grouped} from 'pages/student-experiences/bubble-data';
