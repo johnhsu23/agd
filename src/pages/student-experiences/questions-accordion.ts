@@ -7,7 +7,8 @@ import Accordion from 'behaviors/accordion';
 import configure from 'util/configure';
 import {eachView} from 'util/each-region';
 
-import QuestionsHeaderBar from 'pages/student-experiences/questions-header-bar';
+import QuestionHeaderBar from 'views/question-header-bar';
+import {load} from 'pages/student-experiences/questions-header-data';
 import TrendsFigure from 'pages/student-experiences/trends-figure';
 import BubbleFigure from 'pages/student-experiences/bubble-figure';
 import * as template from 'text!templates/questions-accordion.html';
@@ -28,6 +29,7 @@ export default class QuestionsAccordion extends LayoutView<Model> {
   template = () => template;
 
   protected variable: ContextualVariable;
+  protected headerChart = new QuestionHeaderBar();
 
   constructor(options: QuestionsAccordionOptions) {
     super(options);
@@ -54,13 +56,12 @@ export default class QuestionsAccordion extends LayoutView<Model> {
       super.onRender();
     }
 
-    // set the accordion header content (name + bar chart)
+    // set header bar chart
+    this.showChildView('header-bar', this.headerChart);
+
+    // set the accordion header text
     this.$('.accordion__header-text')
       .text(this.variable.name);
-
-    this.showChildView('header-bar', new QuestionsHeaderBar({
-      variable: this.variable,
-    }));
 
     // set chart contents
     this.showChildView('bubble-chart', new BubbleFigure({
@@ -75,6 +76,11 @@ export default class QuestionsAccordion extends LayoutView<Model> {
       variable: this.variable,
       share: { download: true },
     }));
+
+    // get the question data and update the chart contents
+    load(this.variable)
+      .then(data => this.headerChart.updateChart(data[0].targetvalue, this.variable.selectedLabel))
+      .done();
   }
 
   protected chartDisplayToggle(event: JQueryMouseEventObject): void {
