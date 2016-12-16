@@ -47,7 +47,7 @@ export const semicircle: SymbolType = {
 
 export const types = [
   symbols[0], // circle
-  symbols[5], // cross
+  symbols[1], // cross
   symbols[2], // diamond
   symbols[3], // square
   hexagon,
