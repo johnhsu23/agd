@@ -112,5 +112,37 @@
     }
 }
 
+.footer-content__social-media li{
+    display:inline-block;
+    vertical-align:middle;   
+    color:white; 
+}
+.footer-content__social-media li a{
+    color:green;
+    text-decoration:none;
+    background-repeat:no-repeat;
+    background-position: center;
+    display:block;
+    width:30px;
+    height:30px;
+    margin: 0 0 0 10px;
+}
 
+.footer-content__social-media li a.icon_facebook {
+    background-color: white;
+    background-image: url(/img/icon-facebook-inv.png);
+    background-position: 70% 108%;
+}
 
+.footer-content__social-media li a.icon_twitter {
+    background-color: #00b7ec;
+    background-image: url(/img/icon-twitter.png);
+}
+
+ ul.footer-content__social-media {  
+    color:red;
+    disply:block;
+    list-style-type: none;
+    padding-left:0px;
+    padding-top:17px;
+}
