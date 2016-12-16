@@ -13,7 +13,8 @@ import SampleQuestionAccordion from 'pages/questions-analysis/question-accordion
 
 import * as sampleQuestionsCommentary from 'json!commentary/questions-analysis/sample-questions.json';
 import * as knowledgeSkillsCommentary from 'json!commentary/questions-analysis/knowledge-skills.json';
-import * as questionsNotes from 'text!notes/questions-analysis.html';
+import * as questionsMusicNotes from 'text!notes/questions-analysis/music.html';
+import * as questionsVisualArtsNotes from 'text!notes/questions-analysis/visual-arts.html';
 
 export default class QuestionsAnalysis extends Page {
   pageTitle = 'Sample Questions';
@@ -36,7 +37,7 @@ export default class QuestionsAnalysis extends Page {
     }));
 
     this.showChildView('footer', new NotesSourcesView({
-      contents: questionsNotes,
+      contents: (context.subject === 'music') ? questionsMusicNotes : questionsVisualArtsNotes,
     }));
   }
 }
