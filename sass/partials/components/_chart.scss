@@ -1,0 +1,14 @@
+.chart {}
+
+.chart--bubble {
+    circle {
+        fill: $blue-100;
+    }
+
+    .axis--horizontal-bottom {
+        .axis__label {
+            fill: $blue-100;
+            font-weight: 700;
+        }
+    }
+}
