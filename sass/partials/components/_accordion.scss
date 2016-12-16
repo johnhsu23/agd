@@ -25,10 +25,14 @@
 	font-size: .875em;
 	font-weight: 700;
 	line-height: 1.2rem;
-	margin-right: rem(50px);
+	margin-right: rem(35px);
 	min-height: rem(46px);
 	padding: 0 0 .5em;
-	width: 450px;
+	width: 225px;
+
+	@include breakpoint($desktop-width) {
+		width: 425px;
+	}
 
 	.is-expanded & {
 		color: $green-100;
@@ -116,6 +120,11 @@
 .accordion__header-bar .header-bar-label {
 	color: $blue-100;
 	margin-left: 5px;
+	max-width: 200px;
+
+	@include breakpoint($desktop-width) {
+		max-width: 300px;
+	}
 }
 
 .accordion__header-bar .header-bar-label .header-bar-label__value {
