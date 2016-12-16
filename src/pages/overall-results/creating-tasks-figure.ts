@@ -7,7 +7,8 @@ export default class CreatingTasksBar extends Figure {
       super.onRender();
     }
 
-    this.setTitle('Average creating task score for eighth-grade students assessed in NAEP visual arts: 2016');
+    this.setTitle('Average creating task scores for eighth-grade students assessed in NAEP visual arts'
+      + ', by responding score level: 2016');
     this.showContents(new Chart);
   }
 }
