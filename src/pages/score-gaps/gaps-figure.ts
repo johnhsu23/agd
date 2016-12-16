@@ -120,6 +120,36 @@ export default class ScoreGaps extends Figure {
       }));
     }
 
+    if (this.variable.id === 'SDRACE') {
+      // legend note for American Indian/Alaska Native
+      if (focal.categoryindex === 4 || target.categoryindex === 4) {
+        const description = [
+          'Results are not available for American Indian/Alaska Native students due to insufficient sample',
+          'sizes to permit reliable estimates.',
+        ].join(' ');
+
+        models.push(new Legend({
+          type: 'note',
+          marker: '',
+          description,
+        }));
+      }
+
+      // legend note for Two or More Races
+      if (focal.categoryindex === 5 || target.categoryindex === 5) {
+        const description = [
+          'Results are not available for students with Two or More Races in 2008 due to the insufficient sample',
+          'size to permit a reliable estimate.',
+        ].join(' ');
+
+        models.push(new Legend({
+          type: 'note',
+          marker: '',
+          description,
+        }));
+      }
+    }
+
     this.collection.reset(models);
   }
 }
