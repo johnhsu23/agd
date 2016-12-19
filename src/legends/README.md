@@ -1,1 +1,3 @@
-This directory houses a model pertaining to anything we need to display as a footnote/legend element. The module `legend/model` contains the model itself, and the other modules expose convenience functions for generating well-known legends.
+This directory houses factories for the `Legend` model hierarchy (see `models/legend.ts` and the `models/legend/` directory). These factories are shorthand for commonly-used footnotes, especially for textual symbols like &Dagger; and &mdash;.
+
+See also the `gather` module, which assists in collecting footnotes from an array of data points that have NDE error flags in them.

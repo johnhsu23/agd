@@ -5,7 +5,7 @@ import LegendView from 'views/legend';
 import * as vars from 'data/variables';
 import {shouldCombine, combined} from 'util/sdrace';
 
-import Legend from 'legends/model';
+import Legend from 'models/legend';
 import sigDiff from 'legends/sig-diff';
 import {all as gatherNotes} from 'legends/gather';
 
