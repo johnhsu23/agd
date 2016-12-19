@@ -1,4 +1,4 @@
-import Model from 'legends/model';
+import Legend from 'models/legend';
 import * as codes from 'codes';
 
 import sigDiff from 'legends/sig-diff';
@@ -16,8 +16,8 @@ interface Notes {
 /**
  * Gathers all footnote symbols and returns an array of legend symbols.
  */
-export function all<Row>(rows: Row[], errorFlag: (row: Row, index: number) => number): Model[] {
-  const legends: Model[] = [];
+export function all<Row>(rows: Row[], errorFlag: (row: Row, index: number) => number): Legend[] {
+  const legends: Legend[] = [];
   if (!rows) {
     return legends;
   }

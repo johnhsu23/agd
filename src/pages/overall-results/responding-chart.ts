@@ -104,8 +104,8 @@ export default class BarChart extends Chart<Model> {
       .attr('x', d => percent(d) + 5);
 
     barText.append('tspan')
-      .classed('bar__text__value', true)
-      .merge(barUpdate.select('.bar__text__value'))
+      .classed('bar__text-value', true)
+      .merge(barUpdate.select('.bar__text-value'))
       .text(d => Math.round(d));
   }
 }

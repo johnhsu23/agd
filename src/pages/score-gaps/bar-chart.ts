@@ -132,8 +132,8 @@ export default class BarChart extends Chart<Model> {
       .attr('x', d => barWidth(d.value) + 5);
 
     barText.append('tspan')
-      .classed('gap-bar__text__value', true)
-      .merge(barUpdate.select('.gap-bar__text__value'))
+      .classed('gap-bar__text-value', true)
+      .merge(barUpdate.select('.gap-bar__text-value'))
       .text(d => formatValue(d.value, '', d.errorFlag));
 
     // handle the exit transitions for the bar and text elements

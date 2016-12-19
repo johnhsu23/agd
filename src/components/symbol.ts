@@ -35,5 +35,22 @@ export const gapDiamond: SymbolType = {
   },
 };
 
-export const types = symbols.concat(hexagon);
+export const semicircle: SymbolType = {
+  draw(context, size) {
+    const r = Math.sqrt((size * 2) / Math.PI),
+          y = r / 2;
+
+    context.arc(0, y, r, 0, Math.PI, true);
+    context.closePath();
+  },
+};
+
+export const types = [
+  symbols[0], // circle
+  symbols[1], // cross
+  symbols[2], // diamond
+  symbols[3], // square
+  hexagon,
+  semicircle,
+];
 export {symbol};
