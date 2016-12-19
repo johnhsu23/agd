@@ -30,8 +30,17 @@ export default class GapSelector extends D3View<HTMLDivElement, Model> {
 
     const selects = this.$('select').selectability();
 
-    const varsArray = [vars.SDRACE, vars.GENDER, vars.SLUNCH3, vars.PARED,
-       vars.SCHTYPE, vars.UTOL4, vars.CENSREG, vars.IEP, vars.LEP];
+    const variables = [
+      vars.SDRACE,
+      vars.GENDER,
+      vars.SLUNCH3,
+      vars.PARED,
+      vars.SCHTYPE,
+      vars.UTOL4,
+      vars.CENSREG,
+      vars.IEP,
+      vars.LEP,
+    ];
 
     /*
      * Structure of focal category selector:
@@ -54,7 +63,7 @@ export default class GapSelector extends D3View<HTMLDivElement, Model> {
       //   <optgroup>
       //   ^^^^^^^^^^ - you are here
       .selectAll('optgroup')
-      .data(varsArray)
+      .data(variables)
       .enter()
       .append<HTMLOptGroupElement>('optgroup')
       .property('label', v => v.name)
