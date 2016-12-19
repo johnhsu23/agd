@@ -187,11 +187,11 @@ export const studentGroups: Variable[] = [
   SDRACE,
   SRACE10,
   GENDER,
+  SLUNCH3,
   PARED,
   SCHTYPE,
   CENSREG,
   UTOL4,
   IEP,
   LEP,
-  SLUNCH3,
 ];
