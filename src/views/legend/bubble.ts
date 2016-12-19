@@ -1,20 +1,23 @@
 import {scaleSqrt} from 'd3-scale';
 import {uniqueId} from 'underscore';
 
-import LegendItemView from 'views/legend/item';
-import noTemplate from 'util/no-template';
+import configure from 'util/configure';
+import D3View from 'views/d3';
+import BubbleLegend from 'models/legend/bubble';
 
-@noTemplate
-export default class LegendBubbleView extends LegendItemView {
+import * as template from 'text!templates/legend-bubble.html';
+
+@configure({
+  className: 'legend__item legend__item--bubble',
+})
+export default class BubbleLegendView<Legend extends BubbleLegend> extends D3View<HTMLDivElement, Legend> {
+  template = () => template;
+
   protected markerStartId = uniqueId('bubble-marker-');
   protected markerEndId = uniqueId('bubble-marker-');
 
   render(): this {
     super.render();
-
-    const el = this.d3el
-      .style('display', 'unset')
-      .datum(this.model);
 
     const width = 180,
           bubbleHeight = 50;
@@ -25,7 +28,7 @@ export default class LegendBubbleView extends LegendItemView {
       .domain([0, 100])
       .range([0, 36]);
 
-    const svg = el.append('svg')
+    const svg = this.select('svg')
       .attr('viewBox', `0 0 ${width} 80`);
 
     // The orientation of an SVG <marker> element is dependent on the element to which it is attached, which means that
@@ -35,39 +38,20 @@ export default class LegendBubbleView extends LegendItemView {
       [this.markerEndId, 0],
     ];
 
-    svg.append('defs')
-      .selectAll('marker')
+    svg.selectAll('marker')
       .data(markerData)
-      .enter()
-      .append('marker')
       .attr('id', d => d[0])
-      .attr('viewBox', '0 0 10 10')
-      .attr('refX', 9)
-      .attr('refY', 5)
-      .attr('markerWidth', 6)
-      .attr('markerHeight', 6)
-      .attr('orient', d => d[1])
-      .append('path')
-      .classed('legend__bubble-line', true)
-      // Draws a small triangle
-      .attr('d', 'M0 0 L10 5 L0 10z');
+      .attr('orient', d => d[1]);
 
-    const bubbles = svg.selectAll('.legend__bubble')
+    const bubbles = svg.selectAll<SVGElement, {}>('.legend__bubble')
       .data(points)
-      .enter()
-      .append('g')
-      .classed('legend__bubble', true)
       .attr('transform', (_, i) => `translate(${i * width / 2}, 0)`);
 
-    bubbles.append('text')
-      .classed('bubble__label', true)
-      .style('text-anchor', 'middle')
+    bubbles.select('.bubble__label')
       .attr('x', width / 4)
-      .attr('y', '1em')
       .text(d => d + '%');
 
-    bubbles.append('circle')
-      .classed('bubble__bubble', true)
+    bubbles.select('.bubble__bubble')
       .attr('cx', width / 4)
       .attr('cy', bubbleHeight)
       .attr('r', radius);
@@ -77,18 +61,13 @@ export default class LegendBubbleView extends LegendItemView {
           // How much space to put between an arrow and a bubble.
           fudge = 7;
 
-    svg.append('line')
-      .classed('legend__bubble-line', true)
+    svg.select('line.legend__bubble-line')
       .attr('x1', markerStart + fudge)
       .attr('y1', bubbleHeight)
       .attr('x2', markerEnd - fudge)
       .attr('y2', bubbleHeight)
       .attr('marker-start', `url(#${this.markerStartId})`)
       .attr('marker-end', `url(#${this.markerEndId})`);
-
-    el.append('div')
-      .classed('legend__description', true)
-      .text('Bubble size represents percentage of students.');
 
     return this;
   }
