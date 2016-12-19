@@ -4,6 +4,7 @@ import {Collection, EventsHash} from 'backbone';
 import LegendView from 'views/legend';
 import * as vars from 'data/variables';
 
+import context from 'models/context';
 import Legend from 'legends/model';
 import sigDiff from 'legends/sig-diff';
 import {all as gatherNotes} from 'legends/gather';
@@ -75,7 +76,8 @@ export default class GroupsFigure extends Figure {
   }
 
   protected makeTitle(): string {
-    return `Percentage distribution of students assessed in eighth-grade NAEP arts, by ${this.variable.name}`;
+    return 'Percentage distribution and average responding scale scores of eighth-grade students assessed in NAEP ' +
+     `${context.subject}, by ${this.variable.title}`;
   }
 
   protected resetNotes(data: Data[]): void {
