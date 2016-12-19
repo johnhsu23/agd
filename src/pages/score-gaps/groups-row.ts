@@ -9,10 +9,10 @@ import GroupsModel from 'pages/score-gaps/groups-model';
 import {Data} from 'pages/score-gaps/groups-data';
 
 const keys = [
-  '2008-MN',
-  '2016-MN',
   '2008-RP',
   '2016-RP',
+  '2008-MN',
+  '2016-MN',
 ];
 
 @noTemplate
