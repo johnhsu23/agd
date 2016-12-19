@@ -12,3 +12,16 @@
         }
     }
 }
+
+.chart--bar .tick text {
+	fill: $black-80;
+	font-size: rem(14px);
+}
+
+.chart--bar .tick line {
+	fill: $axis;
+}
+
+.chart--bar .domain {
+	stroke: $axis;
+}

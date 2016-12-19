@@ -15,7 +15,8 @@
 .axis {}
 
 .axis__label {
-    font-size: smaller;
+    fill: $black-80;
+    font-size: .875rem;
 
     .axis--vertical-left & {
       text-anchor: end;
