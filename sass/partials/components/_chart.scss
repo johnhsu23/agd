@@ -1,0 +1,27 @@
+.chart {}
+
+.chart--bubble {
+    circle {
+        fill: $blue-100;
+    }
+
+    .axis--horizontal-bottom {
+        .axis__label {
+            fill: $blue-100;
+            font-weight: 700;
+        }
+    }
+}
+
+.chart--bar .tick text {
+	fill: $black-80;
+	font-size: rem(14px);
+}
+
+.chart--bar .tick line {
+	fill: $axis;
+}
+
+.chart--bar .domain {
+	stroke: $axis;
+}
