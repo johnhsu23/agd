@@ -76,6 +76,7 @@ export const SLUNCH3: Variable = {
   categories: [
     'Eligible for National School Lunch Program (NSLP)',
     'Not eligible for National School Lunch Program (NSLP)',
+    'Information not available',
   ],
 };
 
@@ -163,7 +164,7 @@ export const SLUNCH1: Variable = {
   categories: [
     'Eligible for National School Lunch Program (NSLP)',
     'Not eligible for National School Lunch Program (NSLP)',
-    'No information',
+    'Information not available',
   ],
 };
 
