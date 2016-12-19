@@ -67,9 +67,10 @@ $brand-orange: $orange-100;
 
 $slate-grey: #d0cbc3;
 $darker-grey: #a19788;
+$axis-grey: #808184;
 
 // Axis colors
-$axis: grey;
+$axis: $axis-grey;
 
 // Chart series colors
 $series-default: $brand-blue;

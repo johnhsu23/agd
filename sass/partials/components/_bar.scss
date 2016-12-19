@@ -1,0 +1,15 @@
+.bar {}
+
+.bar__bar {
+	fill: $blue-100;
+}
+
+.bar__text {
+	fill: $blue-100;
+	font-size: .875em;
+	font-weight: 700;
+}
+
+.bar__text-value {
+	font-size: 1.375rem;
+}
