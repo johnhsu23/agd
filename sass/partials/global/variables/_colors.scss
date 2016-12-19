@@ -85,11 +85,16 @@ $gap: lightgrey;
 
 // Chart percentile colors
 $percentile-colors: (
-  p1: $series-0,
-  p2: $series-1,
+  // p1: $series-0,
+  // p2: $series-1,
+  // p5: $series-2,
+  // p7: $series-3,
+  // p9: $series-4,
+  p1: $series-2,
+  p2: $series-2,
   p5: $series-2,
-  p7: $series-3,
-  p9: $series-4,
+  p7: $series-2,
+  p9: $series-2,
 );
 
 // Achievement-level colors
