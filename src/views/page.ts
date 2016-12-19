@@ -1,16 +1,18 @@
 import {Model} from 'backbone';
 import {View, LayoutView, Region} from 'backbone.marionette';
+import * as $ from 'jquery';
+
 import InPageNav from 'views/in-page-nav';
+import context from 'models/context';
 
 import * as template from 'text!templates/page.html';
-
-import context from 'models/context';
 
 abstract class PageView extends LayoutView<any> {
   template = () => template;
 
   abstract pageTitle: string;
   protected count = 1;
+  anchor?: string;
 
   regions(): { [key: string]: string } {
     return {
@@ -51,6 +53,10 @@ abstract class PageView extends LayoutView<any> {
   onAttach(): void {
     if (context.subject) {
       this.showChildView('in-page-nav', new InPageNav);
+
+      if (this.anchor) {
+        this.scrollToAnchor();
+      }
     }
   }
 
@@ -62,6 +68,21 @@ abstract class PageView extends LayoutView<any> {
     // place page title
     this.$('.js-page-title')
       .text(this.pageTitle);
+  }
+
+  /**
+   *  Scroll down to the anchor link (for use after
+   *  dynamic loading of elements which can push the
+   *  anchor back off the page).
+   */
+  scrollToAnchor(): void {
+    const view = this;
+
+    if (view.anchor.charAt(0) !== '#') {
+      view.anchor = '#' + this.anchor;
+    }
+    const targetPos = $(view.anchor).offset().top;
+    $(window).scrollTop(targetPos);
   }
 }
 

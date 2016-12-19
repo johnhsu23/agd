@@ -1,15 +1,13 @@
 import {radio} from 'backbone.wreqr';
 import {LayoutView} from 'backbone.marionette';
 import {Model} from 'backbone';
+
 import noTemplate from 'util/no-template';
-
 import Page from 'views/page';
-
 import SiteHeader from 'views/site-header';
 import SiteFooter from 'views/site-footer';
 import SecondaryNav from 'views/secondary-nav';
 import configure from 'util/configure';
-
 import context from 'models/context';
 
 @noTemplate
@@ -46,7 +44,7 @@ export default class RootView extends LayoutView<Model> {
     this.showChildView('secondary-nav', new SecondaryNav());
   }
 
-  protected changePage(path: string, subject?: string): void {
+  protected changePage(path: string, subject?: string, anchor?: string): void {
     // Using dynamic require here to avoid front-loading every page and its supporting modules
     // (we'll have r.js include them, of course)
     // tslint:disable-next-line:no-require-imports
@@ -72,6 +70,7 @@ export default class RootView extends LayoutView<Model> {
           throw new Error(`Invalid subject name "${subject}"`);
       }
       const pageView = new mod.default;
+      pageView.anchor = anchor;
       this.showChildView('main', pageView);
       document.title = `NAEP - 2016 Arts Assessment -${subjectTitle} ${pageView.pageTitle}`;
     });

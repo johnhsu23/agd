@@ -6,10 +6,10 @@ import configure from 'util/configure';
 @configure({
   appRoutes: {
     '': 'homepage',
-    ':subject/overall-results': 'overallResults',
-    ':subject/score-gaps': 'scoreGaps',
-    ':subject/questions-analysis': 'questionsAnalysis',
-    ':subject/student-experiences': 'studentExperiences',
+    ':subject/overall-results(?anchor=:anchor)': 'overallResults',
+    ':subject/score-gaps(?anchor=:anchor)': 'scoreGaps',
+    ':subject/questions-analysis(?anchor=:anchor)': 'questionsAnalysis',
+    ':subject/student-experiences(?anchor=:anchor)': 'studentExperiences',
     'about': 'about',
   } as {[key: string]: string},
 })
@@ -26,11 +26,15 @@ class Controller extends Object {
   protected page = radio.channel('page').vent;
   protected nav = radio.channel('secondary-nav').vent;
 
-  protected showPage(page: string, subject?: string): void {
-    this.page.trigger('page', 'pages/' + page, subject);
+  protected showPage(page: string, subject?: string, anchor?: string): void {
+    this.page.trigger('page', 'pages/' + page, subject, anchor);
 
     if (subject) {
-      this.nav.trigger('show', page, subject);
+      if (anchor) {
+        this.nav.trigger('show', page, subject, anchor);
+      } else {
+        this.nav.trigger('show', page, subject);
+      }
     } else {
       this.nav.trigger('hide');
     }
@@ -40,20 +44,20 @@ class Controller extends Object {
     this.showPage('homepage');
   }
 
-  overallResults(subject: string): void {
-    this.showPage('overall-results', subject);
+  overallResults(subject: string, anchor: string): void {
+    this.showPage('overall-results', subject, anchor);
   }
 
-  scoreGaps(subject: string): void {
-    this.showPage('score-gaps', subject);
+  scoreGaps(subject: string, anchor: string): void {
+    this.showPage('score-gaps', subject, anchor);
   }
 
-  questionsAnalysis(subject: string): void {
-    this.showPage('questions-analysis', subject);
+  questionsAnalysis(subject: string, anchor: string): void {
+    this.showPage('questions-analysis', subject, anchor);
   }
 
-  studentExperiences(subject: string): void {
-    this.showPage('student-experiences', subject);
+  studentExperiences(subject: string, anchor: string): void {
+    this.showPage('student-experiences', subject, anchor);
   }
 
   about(): void {
