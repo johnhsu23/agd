@@ -2,18 +2,15 @@ import {zip} from 'd3-array';
 import {SymbolType} from 'd3-shape';
 import {Collection} from 'backbone';
 
-import {types as symbolTypes} from 'components/symbol';
-
 import Figure from 'views/figure';
-import Chart from 'pages/overall-results/percentile-chart';
-import LegendView from 'pages/overall-results/percentile-legend';
-
-import Legend from 'legends/model';
+import context from 'models/context';
+import Legend from 'models/legend';
 import series from 'legends/series';
 import sigDiff from 'legends/sig-diff';
+import {types as symbolTypes} from 'components/symbol';
 
-import context from 'models/context';
-
+import Chart from 'pages/overall-results/percentile-chart';
+import LegendView from 'pages/overall-results/percentile-legend';
 import {load, Data, group} from 'pages/overall-results/percentile-data';
 
 import * as percentileInstructions from 'text!templates/percentile-instructions.html';

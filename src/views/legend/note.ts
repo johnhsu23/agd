@@ -1,12 +1,14 @@
-import LegendItemView from 'views/legend/item';
+import {ItemView} from 'backbone.marionette';
+
 import noTemplate from 'util/no-template';
 import configure from 'util/configure';
+import NoteLegend from 'models/legend/note';
 
 @noTemplate
 @configure({
   className: 'legend__note',
 })
-export default class LegendNoteView extends LegendItemView {
+export default class NoteLegendView<Legend extends NoteLegend> extends ItemView<Legend> {
   render(): this {
     super.render();
 
