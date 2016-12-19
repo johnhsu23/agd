@@ -36,7 +36,7 @@ export default class RowView extends ItemView<GroupsModel> {
             row = $('<td>');
 
       if (data) {
-        row.text(formatValue(data.focalvalue, data.sig, data.FocalErrorFlag));
+        row.text(formatValue(data.targetvalue, data.sig, data.TargetErrorFlag));
       }
 
       row.appendTo(this.$el);
