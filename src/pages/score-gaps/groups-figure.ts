@@ -3,9 +3,10 @@ import {Collection, EventsHash} from 'backbone';
 
 import LegendView from 'views/legend';
 import * as vars from 'data/variables';
+import {shouldCombine, combined} from 'util/sdrace';
 
 import context from 'models/context';
-import Legend from 'legends/model';
+import Legend from 'models/legend';
 import sigDiff from 'legends/sig-diff';
 import {all as gatherNotes} from 'legends/gather';
 
@@ -24,7 +25,10 @@ export default class GroupsFigure extends Figure {
       super.onRender();
     }
 
-    this.showControls(new VariableSelector({}));
+    // For discussion: should there be a ready-made `studentGroups' list that omits SRACE10 for cases such as this?
+    this.showControls(new VariableSelector({
+      variables: vars.studentGroups.filter(variable => variable !== vars.SRACE10),
+    }));
 
     this.showContents(new GroupsTable({ collection: this.tableData }));
 
@@ -49,7 +53,8 @@ export default class GroupsFigure extends Figure {
   }
 
   protected updateData(): void {
-    const variable = this.variable;
+    const variable = this.variable,
+          displayVariable = shouldCombine(variable) ? combined : variable;
 
     load(variable)
       .then(rows => {
@@ -62,7 +67,7 @@ export default class GroupsFigure extends Figure {
             model = models[row.categoryindex] = new GroupsModel;
           }
 
-          model.variable = variable;
+          model.variable = displayVariable;
           model.category = row.categoryindex;
 
           model.set(row.targetyear + '-' + row.stattype, row);
