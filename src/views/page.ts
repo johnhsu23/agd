@@ -15,7 +15,7 @@ abstract class PageView extends LayoutView<any> {
   regions(): { [key: string]: string } {
     return {
       'in-page-nav': '.in-page-nav-wrapper',
-      footer: '.main__footer',
+      footer: '.main__footer .inner',
     };
   }
 
