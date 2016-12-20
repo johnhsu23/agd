@@ -23,6 +23,9 @@ export interface GroupChatOptions extends ViewOptions<Model> {
   className: 'chart chart--bar chart--bar--stacked',
 })
 export default class GroupChat extends Chart<Model> {
+  // Has the 'visibility:visible' event been fired on us?
+  protected visible = false;
+
   protected marginLeft = 140;
   protected marginRight = 25;
   protected marginBottom = 30;
@@ -72,24 +75,23 @@ export default class GroupChat extends Chart<Model> {
       this.firstRender = false;
     }
 
-    load(this.variable, this.contextualVariable)
-      .then(data => this.loaded(data))
-      .done();
-
     return this;
+  }
+
+  onRender(): void {
+    this.updateData();
   }
 
   protected onVariableSelect(variable: Variable): void {
     this.variable = variable;
 
-    load(this.variable, this.contextualVariable)
-      .then(data => {
-        // Update the chart/bar elements
-        this.loaded(data);
+    this.updateData();
+  }
 
-        // Update the header elements of the chart
-        this.updateHeaderCategories();
-      })
+  protected updateData(): void {
+    load(this.variable, this.contextualVariable)
+      .then(data => this.loaded(data))
+      .then(() => this.updateHeader())
       .done();
   }
 
@@ -202,10 +204,20 @@ export default class GroupChat extends Chart<Model> {
   }
 
   protected onVisibilityVisible(): void {
-    this.updateHeaderCategories();
+    this.visible = true;
+    this.updateHeader();
   }
 
-  protected updateHeaderCategories(): void {
+  protected onVisibilityHidden(): void {
+    this.visible = false;
+  }
+
+  protected updateHeader(): void {
+    if (!this.visible) {
+      // Bail if we're not visible.
+      return;
+    }
+
     // Draw the chart's header here: we do a lot of SVG DOM manipulation and need to ensure the chart is actually
     // visible on the screen.
     const categories = this.contextualVariable.categories,
@@ -221,7 +233,7 @@ export default class GroupChat extends Chart<Model> {
       .attr('transform', `translate(${this.marginLeft})`);
 
     // update header
-    const headerUpdate = this.chartHeader.selectAll('.bar-header__header')
+    const headerUpdate = this.chartHeader.selectAll<SVGGElement, Bar<Data>>('.bar-header__header')
       .data(bars);
 
     // enter new headers
@@ -229,7 +241,7 @@ export default class GroupChat extends Chart<Model> {
       .append<SVGGElement>('g')
         .classed('bar-header__header', true);
 
-    const merged = headerUpdate.merge(headerEnter);
+    const merged = headerEnter.merge(headerUpdate);
 
     headerUpdate.exit()
       .transition()
@@ -247,16 +259,12 @@ export default class GroupChat extends Chart<Model> {
       merged.each(function (bar) {
         const header = select(this);
 
-        const textUpdate = header.selectAll('text')
+        const textUpdate = header.selectAll<SVGTextElement, typeof bar>('text')
           .data([bar]);
 
         textUpdate.interrupt()
           .transition()
             .attr('x', d => d.offset + d.size / 2);
-
-        textUpdate.exit()
-          .transition()
-          .remove();
 
         const textEnter = textUpdate.enter()
           .append<SVGTextElement>('text')
@@ -265,21 +273,34 @@ export default class GroupChat extends Chart<Model> {
             .attr('x', d => d.offset + d.size / 2)
             .attr('y', '2em');
 
-        textUpdate.merge(textEnter);
+        const merged = textEnter.merge(textUpdate),
+              textBBox = merged.node().getBBox();
 
-        const textBBox = textEnter.node().getBBox(),
-                x1 = textBBox.x + textBBox.width / 2,
-                y1 = textBBox.y + textBBox.height;
+        const x1 = bar.offset + bar.size / 2,
+              y1 = textBBox.y + textBBox.height;
 
         const x2 = bar.offset + bar.size / 2,
               y2 = headerBottom;
 
-        header.append('line')
+        const lineDatum = { x1, y1, x2, y2 };
+
+        const lineUpdate = header.selectAll('line')
+          .data([lineDatum]);
+
+        lineUpdate.enter()
+          .append('line')
           .classed('bar-header__header-line', true)
-          .attr('x1', x1)
-          .attr('y1', y1)
-          .attr('x2', x2)
-          .attr('y2', y2);
+          .attr('x1', d => d.x1)
+          .attr('y1', d => d.y1)
+          .attr('x2', d => d.x2)
+          .attr('y2', d => d.y2);
+
+        lineUpdate.interrupt()
+          .transition()
+          .attr('x1', d => d.x1)
+          .attr('y1', d => d.y1)
+          .attr('x2', d => d.x2)
+          .attr('y2', d => d.y2);
       });
 
       // All code after this point is related only to the SQ****** contextual variables.
