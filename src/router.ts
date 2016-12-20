@@ -3,7 +3,7 @@ import {radio} from 'backbone.wreqr';
 
 import context from 'models/context';
 import configure from 'util/configure';
-import parseQueryString from 'util/parse-query-string';
+import parse from 'util/query-string';
 
 @configure({
   appRoutes: {
@@ -20,13 +20,9 @@ export default class Router extends AppRouter {
   controller: Controller;
 
   execute(callback: Function, args: string[], name: string): void {
-    const queryString = args[args.length - 1];
-    // Re-initialize anchor.
-    context.anchor = undefined;
-    if (queryString) {
-      const query = parseQueryString(queryString);
-      context.anchor = query['anchor'];
-    }
+    const queryString = args[args.length - 1],
+      query = parse(queryString);
+    context.anchor = query['anchor'];
 
     // Find out the active subject
     switch (name) {

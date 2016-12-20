@@ -51,23 +51,19 @@ export default class RootView extends LayoutView<Model> {
     // tslint:disable-next-line:no-require-imports
     require([path], (mod: { default: { new(): Page} }) => {
       let subjectTitle = '';
-      switch (context.subject) {
-        case 'visual arts':
-          subjectTitle = ' Visual Arts -';
-          break;
 
-        case 'music':
-          subjectTitle = ' Music -';
-          /* falls through */
+      if (context.subject) {
+        switch (context.subject) {
+          case 'visual arts':
+            subjectTitle = ' Visual Arts -';
+            break;
 
-        case undefined:
-          context.subject = 'music';
-          break;
-
-        default:
-          // kaboom
-          throw new Error(`Invalid subject name "${context.subject}"`);
+          case 'music':
+            subjectTitle = ' Music -';
+            break;
+        }
       }
+
       const pageView = new mod.default;
 
       if (context.anchor) {
