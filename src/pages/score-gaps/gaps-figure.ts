@@ -103,13 +103,39 @@ export default class ScoreGaps extends Figure {
       models.push(significant());
     }
 
+    // Add special notes for legend
+    const description: String[] = [];
+
     if (gaps.some(gap => gap.gap < 0)) {
-      const description = [
+      description.push([
         'Negative score differences indicate that the average score of the first student group selected was',
         'numerically lower than the score of students in the comparison group.',
-      ].join(' ');
+      ].join(' '));
+    }
 
-      models.push(new NoteLegend({ description }));
+    if (this.variable.id === 'SDRACE') {
+      // legend note for American Indian/Alaska Native
+      if (focal.categoryindex === 4 || target.categoryindex === 4) {
+        description.push([
+          'Results are not available for American Indian/Alaska Native students due to insufficient sample',
+          'sizes to permit reliable estimates.',
+        ].join(' '));
+      }
+
+      // legend note for Two or More Races
+      if (focal.categoryindex === 5 || target.categoryindex === 5) {
+        description.push([
+          'Results are not available for students with Two or More Races in 2008 due to the insufficient sample',
+          'size to permit a reliable estimate.',
+        ].join(' '));
+      }
+    }
+
+    // add NOTE only if there descriptions to display
+    if (description.length > 0) {
+      models.push(new NoteLegend({
+        description: description.join(' '),
+      }));
     }
 
     this.collection.reset(models);
