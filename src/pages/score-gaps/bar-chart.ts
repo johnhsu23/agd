@@ -93,7 +93,7 @@ export default class BarChart extends Chart<Model> {
       .call(wrap, this.marginLeft - 5);
 
     // set the bar groups
-    const barUpdate = this.inner.selectAll('.gap-bar')
+    const barUpdate = this.inner.selectAll('.bar--gap')
       .data(data);
 
     barUpdate.interrupt()
@@ -103,7 +103,7 @@ export default class BarChart extends Chart<Model> {
     // add group element
     const barEnter = barUpdate.enter()
       .append('g')
-      .classed('gap-bar', true)
+      .classed('bar--gap', true)
       .attr('transform', d => `translate(0, ${category(d.name)})`);
 
     // helper function to get the proper bar width
@@ -113,44 +113,38 @@ export default class BarChart extends Chart<Model> {
 
     // add bar rect svg
     barEnter.append('rect')
-      .classed('gap-bar__bar', true)
+      .classed('bar--gap__bar', true)
       .attr('height', category.bandwidth())
       .attr('width', 0)
-      .merge(barUpdate.select('.gap-bar__bar'))
+      .merge(barUpdate.select('.bar--gap__bar'))
       .transition()
       .attr('height', category.bandwidth())
       .attr('width', d => barWidth(d.value));
 
     // add bar percentage text
     const barText = barEnter.append('text')
-      .classed('gap-bar__text', true)
+      .classed('bar--gap__text', true)
       .attr('y', (category.bandwidth() / 2) + 5);
 
-    barText.merge(barUpdate.select('.gap-bar__text'))
+    barText.merge(barUpdate.select('.bar--gap__text'))
       .transition()
       .attr('y', (category.bandwidth() / 2) + 5)
       .attr('x', d => barWidth(d.value) + 5);
 
     barText.append('tspan')
-      .classed('gap-bar__text__value', true)
-      .merge(barUpdate.select('.gap-bar__text__value'))
+      .classed('bar--gap__text-value', true)
+      .merge(barUpdate.select('.bar--gap__text-value'))
       .text(d => formatValue(d.value, '', d.errorFlag));
-
-    // add maximum score text to focal category
-    barText.data([data[0]])
-      .append('tspan')
-      .classed('gap-bar__text__outer', true)
-      .text('% of maximum score');
 
     // handle the exit transitions for the bar and text elements
     const barExit = barUpdate.exit()
       .transition()
       .remove();
 
-    barExit.select('.gap-bar__bar')
+    barExit.select('.bar--gap__bar')
       .attr('width', 0);
 
-    barExit.select('.gap-bar__text')
+    barExit.select('.bar--gap__text')
       .attr('x', 0);
   }
 }
