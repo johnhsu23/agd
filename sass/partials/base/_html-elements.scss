@@ -20,6 +20,7 @@ a {
   color: $link-color;
   // Improves readability when focused.
   outline-offset: em(2px);
+  text-decoration: underline;
 
   &:active,
   &:hover {
@@ -29,6 +30,7 @@ a {
   &:hover,
   &:focus {
     color: $link-hover-color;
+    text-decoration: none;
   }
 }
 

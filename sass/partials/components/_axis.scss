@@ -42,4 +42,8 @@
 .axis__break {
     fill: white;
     stroke: $axis;
+
+    .accordion & {
+        fill: $green-35;
+    }
 }
