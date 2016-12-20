@@ -1,21 +1,49 @@
 import {AppRouter, Object} from 'backbone.marionette';
 import {radio} from 'backbone.wreqr';
 
+import context from 'models/context';
 import configure from 'util/configure';
+import parseQueryString from 'util/parse-query-string';
 
 @configure({
   appRoutes: {
     '': 'homepage',
-    ':subject/overall-results(?anchor=:anchor)': 'overallResults',
-    ':subject/score-gaps(?anchor=:anchor)': 'scoreGaps',
-    ':subject/questions-analysis(?anchor=:anchor)': 'questionsAnalysis',
-    ':subject/student-experiences(?anchor=:anchor)': 'studentExperiences',
+    ':subject/overall-results': 'overallResults',
+    ':subject/score-gaps': 'scoreGaps',
+    ':subject/questions-analysis': 'questionsAnalysis',
+    ':subject/student-experiences': 'studentExperiences',
     'about': 'about',
   } as {[key: string]: string},
 })
 export default class Router extends AppRouter {
   appRoutes: {[key: string]: string};
   controller: Controller;
+
+  execute(callback: Function, args: string[], name: string): void {
+    const queryString = args[args.length - 1];
+    // Re-initialize anchor.
+    context.anchor = undefined;
+    if (queryString) {
+      const query = parseQueryString(queryString);
+      context.anchor = query['anchor'];
+    }
+
+    // Find out the active subject
+    switch (name) {
+      // Explicitly set the subject to `undefined' for these pages
+      case 'homepage':
+      case 'about':
+        context.subject = undefined;
+        break;
+
+      // Assume that /:subject/ is the first URL parameter
+      default:
+        context.subject = args[0] === 'visual-arts' ? 'visual arts' : 'music';
+    }
+
+    // Execute route callbacks
+    super.execute(callback, args, name);
+  };
 
   initialize(): void {
     this.controller = new Controller();
@@ -26,15 +54,11 @@ class Controller extends Object {
   protected page = radio.channel('page').vent;
   protected nav = radio.channel('secondary-nav').vent;
 
-  protected showPage(page: string, subject?: string, anchor?: string): void {
-    this.page.trigger('page', 'pages/' + page, subject, anchor);
+  protected showPage(page: string): void {
+    this.page.trigger('page', 'pages/' + page);
 
-    if (subject) {
-      if (anchor) {
-        this.nav.trigger('show', page, subject, anchor);
-      } else {
-        this.nav.trigger('show', page, subject);
-      }
+    if (context.subject) {
+      this.nav.trigger('show', page);
     } else {
       this.nav.trigger('hide');
     }
@@ -44,20 +68,20 @@ class Controller extends Object {
     this.showPage('homepage');
   }
 
-  overallResults(subject: string, anchor: string): void {
-    this.showPage('overall-results', subject, anchor);
+  overallResults(): void {
+    this.showPage('overall-results');
   }
 
-  scoreGaps(subject: string, anchor: string): void {
-    this.showPage('score-gaps', subject, anchor);
+  scoreGaps(): void {
+    this.showPage('score-gaps');
   }
 
-  questionsAnalysis(subject: string, anchor: string): void {
-    this.showPage('questions-analysis', subject, anchor);
+  questionsAnalysis(): void {
+    this.showPage('questions-analysis');
   }
 
-  studentExperiences(subject: string, anchor: string): void {
-    this.showPage('student-experiences', subject, anchor);
+  studentExperiences(): void {
+    this.showPage('student-experiences');
   }
 
   about(): void {

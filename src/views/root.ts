@@ -1,6 +1,7 @@
 import {radio} from 'backbone.wreqr';
 import {LayoutView} from 'backbone.marionette';
 import {Model} from 'backbone';
+import * as $ from 'jquery';
 
 import noTemplate from 'util/no-template';
 import Page from 'views/page';
@@ -44,16 +45,15 @@ export default class RootView extends LayoutView<Model> {
     this.showChildView('secondary-nav', new SecondaryNav());
   }
 
-  protected changePage(path: string, subject?: string, anchor?: string): void {
+  protected changePage(path: string): void {
     // Using dynamic require here to avoid front-loading every page and its supporting modules
     // (we'll have r.js include them, of course)
     // tslint:disable-next-line:no-require-imports
     require([path], (mod: { default: { new(): Page} }) => {
       let subjectTitle = '';
-      switch (subject) {
-        case 'visual-arts':
+      switch (context.subject) {
+        case 'visual arts':
           subjectTitle = ' Visual Arts -';
-          context.subject = 'visual arts';
           break;
 
         case 'music':
@@ -61,16 +61,24 @@ export default class RootView extends LayoutView<Model> {
           /* falls through */
 
         case undefined:
-          // TS doesn't seem to like narrowing here
-          context.subject = subject as 'music';
+          context.subject = 'music';
           break;
 
         default:
           // kaboom
-          throw new Error(`Invalid subject name "${subject}"`);
+          throw new Error(`Invalid subject name "${context.subject}"`);
       }
       const pageView = new mod.default;
-      pageView.anchor = anchor;
+
+      if (context.anchor) {
+        pageView.once('attach', () => {
+          const section = $('#' + context.anchor),
+              position = section.position().top;
+
+          $(window).scrollTop(position);
+        });
+      }
+
       this.showChildView('main', pageView);
       document.title = `NAEP - 2016 Arts Assessment -${subjectTitle} ${pageView.pageTitle}`;
     });
