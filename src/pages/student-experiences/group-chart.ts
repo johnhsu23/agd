@@ -248,6 +248,7 @@ export default class GroupChat extends Chart<Model> {
       .remove();
 
     const id = this.contextualVariable.id,
+          isWriteDownMusic = id === 'BM00010', // This variable wraps funny for, e.g., GENDER
           isMusicClassroom = id === 'SQ00070',
           isClassromSpace = isMusicClassroom || id === 'SQ00072';
 
@@ -264,17 +265,26 @@ export default class GroupChat extends Chart<Model> {
 
         textUpdate.interrupt()
           .transition()
-            .attr('x', d => d.offset + d.size / 2);
+          .attr('transform', d => `translate(${d.offset + d.size / 2})`);
 
         const textEnter = textUpdate.enter()
           .append<SVGTextElement>('text')
             .classed('bar-header__header-text', true)
             .text(categories[bar.categoryindex])
-            .attr('x', d => d.offset + d.size / 2)
-            .attr('y', '2em');
+            .attr('transform', d => `translate(${d.offset + d.size / 2})`)
+            .attr('y', isWriteDownMusic ? '1em' : '2em'); // Extra breathing room for this variable
 
-        const merged = textEnter.merge(textUpdate),
-              textBBox = merged.node().getBBox();
+        const merged = textEnter.merge(textUpdate);
+
+        // Re-wrap based on the bar size
+        merged.text(categories[bar.categoryindex])
+          .call(wrap, bar.size);
+
+        // Compute start and end points of line:
+        // The x-coordinate is the middle of the bar (since we're using a middle text-anchor)
+        // The starting y-coordinate is based on the <text> node's bounding box
+        // The ending y-coordinate is the `headerBottom' variable (a few pixels south of the top margin)
+        const textBBox = merged.node().getBBox();
 
         const x1 = bar.offset + bar.size / 2,
               y1 = textBBox.y + textBBox.height;
