@@ -1,0 +1,19 @@
+.callout {
+    background: $taupe-15;
+    color: $blue-100;
+    margin: 1em 0 1.5em;
+    padding: 1em .75em;
+
+    h4 {
+        color: $blue-100;
+        font-size: 1rem;
+        font-weight: 700;
+        margin: 0 0 .25em;
+    }
+
+    ul {
+        font-size: .875em;
+        margin: 0;
+        padding-left: 20px;
+    }
+}
