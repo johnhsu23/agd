@@ -115,11 +115,5 @@ export default class BarChart extends Chart<Model> {
       .classed('bar__text-value', true)
       .merge(barUpdate.select('.bar__text-value'))
       .text(d => Math.round(d.value));
-
-    // add maximum score text to focal category
-    barText.data([overallData[0]])
-      .append('tspan')
-      .classed('bar__text-outer', true)
-      .text('% of maximum score');
   }
 }
