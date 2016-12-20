@@ -43,9 +43,10 @@
 }
 
 .legend {
-  border: 1px solid $black-40;
-  margin-bottom: 1em;
-  width: $legend-width;
+    background: #fff;
+    border: 1px solid $black-40;
+    margin-bottom: 1em;
+    width: $legend-width;
 
     .accordion & {
         padding: 1em 0;
