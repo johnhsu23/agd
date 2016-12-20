@@ -8,8 +8,8 @@ import configure from 'util/configure';
     '': 'homepage',
     ':subject/overall-results': 'overallResults',
     ':subject/score-gaps': 'scoreGaps',
-    ':subject/questions-analysis': 'questionsAnalysis',
-    ':subject/student-experiences': 'studentExperiences',
+    ':subject/sample-questions': 'questionsAnalysis',
+    ':subject/opportunities-and-access': 'studentExperiences',
     'about': 'about',
   } as {[key: string]: string},
 })
