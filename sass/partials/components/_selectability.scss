@@ -38,7 +38,7 @@
     cursor: pointer;
     font-size: 1em;
     font-weight: 400;
-    padding: .35em 2.25em .35em .75em;
+    padding: .35em 2.75em .35em .75em;
     text-transform: none;
   }
   div[role="listbox"] {
@@ -47,11 +47,14 @@
     border-bottom: 1px solid $orange-75;
     border-left: 1px solid $orange-75;
     font-weight: 400;
-    max-height: 300px;
-    overflow-x: hidden;
-    overflow-y: scroll;
     padding: 0;
     position: absolute;
+
+    .is-scrollable & {
+        max-height: 300px;
+        overflow-x: hidden;
+        overflow-y: scroll;
+    }
 
     div[role="option"] {
       color: $black-70;
