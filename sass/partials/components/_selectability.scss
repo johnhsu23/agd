@@ -47,9 +47,12 @@
     border-bottom: 1px solid $orange-75;
     border-left: 1px solid $orange-75;
     font-weight: 400;
+    max-height: 300px;
+    overflow-x: hidden;
+    overflow-y: scroll;
     padding: 0;
     position: absolute;
-          
+
     div[role="option"] {
       color: $black-70;
       padding: .35em .75em;
@@ -81,7 +84,7 @@
         color: $black-70;
         cursor: pointer;
         text-transform: none;
-        
+
         &:hover,
         &:focus {
           background: $orange-100;
@@ -122,4 +125,4 @@
 .selectability-offscreen {
   display: none;
 }
-  
+
