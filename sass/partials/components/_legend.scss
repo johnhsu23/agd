@@ -148,3 +148,31 @@
         fill: $blue-100;
     }
 }
+
+.legend__marker--bar-0 {
+    rect { fill: $acl-bb; }
+}
+
+.legend__marker--bar-1 {
+    rect { fill: $acl-ba; }
+}
+
+.legend__marker--bar-2 {
+    rect { fill: $acl-pr; }
+}
+
+.legend__marker--bar-3 {
+    rect { fill: $acl-ad; }
+}
+
+.legend__marker--bar-4 {
+    rect { fill: $blue-100; }
+}
+
+.legend__marker--bar-5 {
+    rect { fill: $blue-15; }
+}
+
+.legend__marker--bar-6 {
+    rect { fill: $blue-25; }
+}

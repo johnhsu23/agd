@@ -1,11 +1,14 @@
 import {default as Figure, FigureOptions} from 'views/figure';
-import {EventsHash} from 'backbone';
+import {EventsHash, Collection} from 'backbone';
 
 import forwardEvents from 'util/forward-events';
 import context from 'models/context';
+import Legend from 'models/legend';
+import BarLegend from 'models/legend/bar';
 import * as vars from 'data/variables';
 import {ContextualVariable} from 'data/contextual-variables';
 import VariableSelector from 'views/variable-selector';
+import LegendView from 'views/legend';
 
 import GroupChart from 'pages/student-experiences/group-chart';
 
@@ -54,6 +57,17 @@ export default class GroupFigure extends Figure {
       variable: this.variable,
       contextualVariable: this.contextualVariable,
     }));
+
+    const legends: Legend[] = this.contextualVariable.categories.map((d, i) => {
+      return new BarLegend({
+        category: i,
+        description: d,
+      });
+    });
+
+    const collection = new Collection(legends);
+
+    this.showLegend(new LegendView({ collection }));
 
     this.setTitle(this.makeTitle());
   }
