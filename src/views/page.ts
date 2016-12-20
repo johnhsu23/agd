@@ -1,5 +1,6 @@
 import {Model} from 'backbone';
 import {View, LayoutView, Region} from 'backbone.marionette';
+
 import InPageNav from 'views/in-page-nav';
 
 import * as template from 'text!templates/page.html';
@@ -28,7 +29,6 @@ abstract class PageView extends LayoutView<any> {
 
   pushSection<TModel extends Model>(view?: View<TModel>): Region {
     const name = 'section-' + this.count;
-    this.count++;
 
     const elt = document.createElement('div');
     elt.id = name;
@@ -45,6 +45,11 @@ abstract class PageView extends LayoutView<any> {
       this.showChildView(name, view);
     }
 
+    // Indicate styling continuity based on even- or oddness of the number of sections
+    this.$('.main__footer')
+      .toggleClass('main__footer--gray', (this.count % 2) === 0);
+
+    this.count++;
     return region;
   }
 
