@@ -43,6 +43,8 @@
     fill: white;
     stroke: $axis;
 
+    #section-2 &,
+    #section-4 &,
     .accordion & {
         fill: $green-35;
     }
