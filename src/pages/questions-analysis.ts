@@ -1,6 +1,3 @@
-import {Model} from 'backbone';
-import {ItemView} from 'backbone.marionette';
-
 import Page from 'views/page';
 import DefaultSection from 'views/default-section';
 import NotesSourcesView from 'views/notes-sources';
@@ -10,6 +7,7 @@ import {questions} from 'data/sample-questions';
 
 import QuestionList from 'pages/questions-analysis/question-list';
 import SampleQuestionAccordion from 'pages/questions-analysis/question-accordion';
+import ItemMap from 'pages/questions-analysis/item-map-figure';
 
 import * as sampleQuestionsCommentary from 'json!commentary/questions-analysis/sample-questions.json';
 import * as knowledgeSkillsCommentary from 'json!commentary/questions-analysis/knowledge-skills.json';
@@ -28,11 +26,11 @@ export default class QuestionsAnalysis extends Page {
     }));
 
     for (const question of questions()) {
-      list.pushView(new SampleQuestionAccordion({ question }));
+      list.pushView(new SampleQuestionAccordion({ question }), question.naepid);
     }
 
     this.pushSection(new DefaultSection({
-      inner: new (class extends ItemView<Model> { template = () => '' }),
+      inner: new ItemMap,
       commentary: knowledgeSkillsCommentary[context.subject],
     }));
 
