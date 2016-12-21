@@ -14,6 +14,14 @@ export class Context extends Model {
    */
   @modelProperty()
   public subject: undefined | 'music' | 'visual arts';
+
+  /**
+   * The section of the page to scroll to after rendering.
+   *
+   * When the value is undefined, the page will not scroll.
+   */
+  @modelProperty()
+  public anchor: string;
 }
 
 /**

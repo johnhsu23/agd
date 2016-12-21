@@ -1,15 +1,10 @@
-import Model from 'legends/model';
+import {SymbolType} from 'd3-shape';
 
-import {symbol, SymbolType} from 'd3-shape';
+import SeriesLegend from 'models/legend/series';
 
-export default function series(type: SymbolType, description: string): Model {
-  const marker = symbol()
-    .size(194)
-    .type(type);
-
-  return new Model({
-    type: 'path',
-    marker: marker(),
+export default function series(marker: SymbolType, description: string): SeriesLegend {
+  return new SeriesLegend({
+    marker,
     description,
   });
 }

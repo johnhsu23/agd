@@ -43,9 +43,10 @@
 }
 
 .legend {
-  border: 1px solid $black-40;
-  margin-bottom: 1em;
-  width: $legend-width;
+    background: #fff;
+    border: 1px solid $black-40;
+    margin-bottom: 1em;
+    width: $legend-width;
 
     .accordion & {
         padding: 1em 0;
@@ -58,7 +59,7 @@
 
 .legend__note {
     font-size: smaller;
-    padding-top: 0.25em;
+    padding: 0.25em 1em 1em;
 
     &:before {
       content: "NOTE: ";
@@ -73,6 +74,10 @@
 
 .legend__item--bubble {
     display: unset;
+}
+
+.bubble__label {
+    text-anchor: middle;
 }
 
 .legend__bubble-line {
@@ -96,6 +101,14 @@
 .legend__marker--path path {
     @extend %legend__path;
     fill: white;
+}
+
+.legend__marker--gap-significant path {
+    fill: $brand-blue;
+}
+
+.legend__marker--gap-not-significant path {
+    fill: grey;
 }
 
 .legend__marker + .legend__description {
@@ -123,6 +136,10 @@
 
     .is-hover & {
       opacity: 1;
+    }
+
+    .legend__item.legend__item--target & {
+        font-style: italic;
     }
 }
 

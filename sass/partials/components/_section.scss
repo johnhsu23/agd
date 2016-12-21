@@ -11,7 +11,59 @@
 // are no longer needed at the section level.
 
 .section {
-    padding: 1em 0;
+    padding: 4em 0;
+}
+
+.section:last-of-type {
+    padding-bottom: 1em;
+}
+
+.section__inner {
+    @extend .l-constrain;
+}
+
+#section-1 {
+  padding-top: 2em;
+}
+
+#section-2,
+#section-4 {
+  background: $taupe-15;
+  position: relative;
+
+  &:before {
+    border-color: #fff transparent transparent
+    transparent;
+    border-style: solid;
+    border-width: 39px 219px 0 219px;
+    content: "";
+    height: 0;
+    left: 50%;
+    margin-left: -219px;
+    position: absolute;
+    top: 0;
+    width: 0;
+  }
+}
+
+#section-3,
+#section-5 {
+  background: #fff;
+  position: relative;
+
+  &:before {
+    border-color: $taupe-15 transparent transparent
+    transparent;
+    border-style: solid;
+    border-width: 39px 219px 0 219px;
+    content: "";
+    height: 0;
+    left: 50%;
+    margin-left: -219px;
+    position: absolute;
+    top: 0;
+    width: 0;
+  }
 }
 
 .section__title {
