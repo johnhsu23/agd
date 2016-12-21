@@ -13,7 +13,7 @@ export default class QuestionList extends LayoutView<Model> {
     super.delegateEvents();
 
     const {vent} = radio.channel('naepid');
-    this.listenTo(vent, 'show-queston', this.goToAccordion);
+    this.listenTo(vent, 'show-question', this.goToAccordion);
 
     return this;
   }
