@@ -14,7 +14,7 @@ import wrap from 'util/wrap';
 
 import {load, Result, Data} from 'pages/student-experiences/group-data';
 
-export interface GroupChatOptions extends ViewOptions<Model> {
+export interface GroupChartOptions extends ViewOptions<Model> {
   variable: Variable;
   contextualVariable: ContextualVariable;
 }
@@ -22,7 +22,7 @@ export interface GroupChatOptions extends ViewOptions<Model> {
 @configure({
   className: 'chart chart--bar chart--bar--stacked',
 })
-export default class GroupChat extends Chart<Model> {
+export default class GroupChart extends Chart<Model> {
   // Has the 'visibility:visible' event been fired on us?
   protected visible = false;
 
@@ -40,7 +40,7 @@ export default class GroupChat extends Chart<Model> {
   protected variable: Variable;
   protected contextualVariable: ContextualVariable;
 
-  constructor(options: GroupChatOptions) {
+  constructor(options: GroupChartOptions) {
     super(options);
 
     this.variable = options.variable;
