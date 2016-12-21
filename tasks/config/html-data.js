@@ -8,6 +8,7 @@ module.exports = function (grunt) {
             'title',
             'subtitle',
             'commentary',
+            'footer',
           ],
         },
         files: [{
