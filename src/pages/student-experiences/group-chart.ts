@@ -23,9 +23,6 @@ export interface GroupChartOptions extends ViewOptions<Model> {
   className: 'chart chart--bar chart--bar--stacked',
 })
 export default class GroupChart extends Chart<Model> {
-  // Has the 'visibility:visible' event been fired on us?
-  protected visible = false;
-
   protected marginLeft = 140;
   protected marginRight = 25;
   protected marginBottom = 30;
