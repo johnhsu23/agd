@@ -142,12 +142,45 @@ export default class GapsChart extends Chart<Model> {
       .attr('transform', `translate(${this.marginLeft}, ${this.marginTop + this.innerHeight})`)
       .call(yearAxis);
 
+    const text = ['Assessment Year'],
+      lineHeight = -1.1,
+      textLength = text.length - 1;
+
+    // Select all child <tspan> elements of the axis title's <text> element
+    const tspans = this.yearAxis.append('text')
+      .classed('axis__title', true) // add CSS class
+      .selectAll('tspan')
+      .data(text);
+
+    tspans.enter()
+      .append('tspan')
+      .text(d => d)
+      .attr('x', this.marginLeft * 3)
+      .attr('y', this.marginTop)
+      .attr('dy', (_, index) => (textLength - index) * lineHeight + 'em');
+
     const scoreAxis = axis.verticalLeft()
       .scale(score);
 
     this.scoreAxis
       .attr('transform', `translate(${this.marginLeft}, ${this.marginTop})`)
       .call(scoreAxis);
+
+    const textY = ['Scale', 'Score'],
+      textLengthY = textY.length - 1;
+
+    // Select all child <tspan> elements of the axis title's <text> element
+    const tspansY = this.scoreAxis.append('text')
+      .classed('axis__title', true) // add CSS class
+      .selectAll('tspan')
+      .data(textY);
+
+    tspansY.enter()
+      .append('tspan')
+      .text(d => d)
+      .attr('x', this.marginLeft * -1)
+      .attr('y', this.marginTop / -3)
+      .attr('dy', (_, index) => (textLengthY - index) * lineHeight + 'em');
 
     function focalData(row: api.GapData): PointInfo<Point> {
       // We're only loading two data points for trend sigs: the focal category's data and the target category's.

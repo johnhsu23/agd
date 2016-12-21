@@ -116,6 +116,23 @@ export default class PercentileChart extends Chart<Model> {
     this.scoreAxis
       .attr('transform', `translate(${this.marginLeft}, ${this.marginTop})`)
       .call(axis);
+
+    const text = ['Scale', 'Score'],
+      lineHeight = -1.1,
+      textLength = text.length - 1;
+
+    // Select all child <tspan> elements of the axis title's <text> element
+    const tspans = this.scoreAxis.append('text')
+      .classed('axis__title', true) // add CSS class
+      .selectAll('tspan')
+      .data(text);
+
+    tspans.enter()
+      .append('tspan')
+      .text(d => d)
+      .attr('x', this.marginLeft * -1)
+      .attr('y', this.marginTop / -3)
+      .attr('dy', (_, index) => (textLength - index) * lineHeight + 'em');
   }
 
   protected addYearAxis(scale: scales.Scale): void {
@@ -140,6 +157,23 @@ export default class PercentileChart extends Chart<Model> {
     this.yearAxis
       .attr('transform', `translate(${left}, ${top})`)
       .call(axis);
+
+    const text = ['Assessment Year'],
+      lineHeight = -1.1,
+      textLength = text.length - 1;
+
+    // Select all child <tspan> elements of the axis title's <text> element
+    const tspans = this.yearAxis.append('text')
+      .classed('axis__title', true) // add CSS class
+      .selectAll('tspan')
+      .data(text);
+
+    tspans.enter()
+      .append('tspan')
+      .text(d => d)
+      .attr('x', left * 3)
+      .attr('y', this.marginTop)
+      .attr('dy', (_, index) => (textLength - index) * lineHeight + 'em');
   }
 
   protected loaded(data: Grouped): void {

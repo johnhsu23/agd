@@ -58,6 +58,22 @@ export default class BarChart extends Chart<Model> {
       .attr('transform', `translate(${this.marginLeft}, ${this.marginTop + this.innerHeight})`)
       .call(percentAxis);
 
+    const textX = ['Percent of Maximum Score'],
+      textLengthX = textX.length - 1;
+
+    // Select all child <tspan> elements of the axis title's <text> element
+    const tspansX = this.percentAxis.append('text')
+      .classed('axis__title', true)
+      .selectAll('tspan')
+      .data(textX);
+
+    tspansX.enter()
+      .append('tspan')
+      .text(d => d)
+      .attr('x', this.marginLeft * 2)
+      .attr('y', this.marginTop + 40 )
+      .attr('dy', (_, index) => (textLengthX - index) * lineHeight + 'em');
+
     // setup and add the y axis
     const scoreLvl = scaleBand<number>()
       .domain(data)
@@ -70,6 +86,23 @@ export default class BarChart extends Chart<Model> {
     this.scoreLvlAxis
       .attr('transform', `translate(${this.marginLeft}, ${this.marginTop})`)
       .call(scoreLvlAxis);
+
+    const text = ['Percentiles for Responding Scores'],
+      lineHeight = -1.1,
+      textLength = text.length - 1;
+
+    // Select all child <tspan> elements of the axis title's <text> element
+    const tspans = this.scoreLvlAxis.append('text')
+      .classed('axis__title', true) // add CSS class
+      .selectAll('tspan')
+      .data(text);
+
+    tspans.enter()
+      .append('tspan')
+      .text(d => d)
+      .attr('x', -20)
+      .attr('y', -10)
+      .attr('dy', (_, index) => (textLength - index) * lineHeight + 'em');
 
     // set the bar groups
     const barUpdate = this.inner.selectAll('.bar')
