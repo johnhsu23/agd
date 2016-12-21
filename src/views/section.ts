@@ -23,10 +23,11 @@ export default class SectionView extends LayoutView<any> {
   }
 
   setCommentary(commentary: Dict): void {
-    const {title, subtitle, commentary: narrative} = commentary;
+    const {title, subtitle, commentary: narrative, footer} = commentary;
 
     this.$('.section__title').html(title);
     this.$('.section__subtitle').html(subtitle);
     this.$('.section__commentary').html(narrative);
+    this.$('.section__footer').html(footer);
   }
 }
