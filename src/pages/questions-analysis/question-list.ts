@@ -1,6 +1,7 @@
 import {LayoutView, View} from 'backbone.marionette';
 import {Model} from 'backbone';
 import * as $ from 'jquery';
+import {radio} from 'backbone.wreqr';
 
 import noTemplate from 'util/no-template';
 
@@ -11,7 +12,8 @@ export default class QuestionList extends LayoutView<Model> {
   delegateEvents(): this {
     super.delegateEvents();
 
-    this.on('show:question', this.goToAccordion);
+    const {vent} = radio.channel('naepid');
+    this.listenTo(vent, 'show-queston', this.goToAccordion);
 
     return this;
   }

@@ -1,7 +1,6 @@
 import Page from 'views/page';
 import DefaultSection from 'views/default-section';
 import NotesSourcesView from 'views/notes-sources';
-import {EventsHash} from 'backbone';
 
 import context from 'models/context';
 import {questions} from 'data/sample-questions';
@@ -17,18 +16,6 @@ import * as questionsVisualArtsNotes from 'text!notes/questions-analysis/visual-
 
 export default class QuestionsAnalysis extends Page {
   pageTitle = 'Sample Questions';
-
-  childEvents(): EventsHash {
-    return {
-      'show:question': 'showQuestionAccordion',
-    };
-  }
-
-  showQuestionAccordion(_: ItemMap, naepid: string): void {
-    console.log('triggered from show:question');
-    this.getChildView('section-1')
-      .trigger('show:question', naepid);
-  }
 
   onBeforeShow(): void {
     const list = new QuestionList;
