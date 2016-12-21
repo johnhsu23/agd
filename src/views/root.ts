@@ -52,16 +52,14 @@ export default class RootView extends LayoutView<Model> {
     require([path], (mod: { default: { new(): Page} }) => {
       let subjectTitle = '';
 
-      if (context.subject) {
-        switch (context.subject) {
-          case 'visual arts':
-            subjectTitle = ' Visual Arts -';
-            break;
+      switch (context.subject) {
+        case 'visual arts':
+          subjectTitle = ' Visual Arts -';
+          break;
 
-          case 'music':
-            subjectTitle = ' Music -';
-            break;
-        }
+        case 'music':
+          subjectTitle = ' Music -';
+          break;
       }
 
       const pageView = new mod.default;
