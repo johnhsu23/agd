@@ -11,6 +11,25 @@
             font-weight: 700;
         }
     }
+
+    .bubble__detail {
+        opacity: 0;
+        text-anchor: middle;
+        visibility: hidden;
+    }
+
+    .bubble__detail--strong {
+        font-weight: bold;
+    }
+
+    .is-active .bubble__detail {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .bubble.is-active circle {
+        opacity: 0.125;
+    }
 }
 
 .chart--bar .tick text {
