@@ -2,10 +2,9 @@ import {Model} from 'backbone';
 import {View, LayoutView, Region} from 'backbone.marionette';
 
 import InPageNav from 'views/in-page-nav';
+import context from 'models/context';
 
 import * as template from 'text!templates/page.html';
-
-import context from 'models/context';
 
 abstract class PageView extends LayoutView<any> {
   template = () => template;

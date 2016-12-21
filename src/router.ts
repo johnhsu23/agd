@@ -1,7 +1,9 @@
 import {AppRouter, Object} from 'backbone.marionette';
 import {radio} from 'backbone.wreqr';
 
+import context from 'models/context';
 import configure from 'util/configure';
+import parse from 'util/query-string';
 
 @configure({
   appRoutes: {
@@ -17,6 +19,28 @@ export default class Router extends AppRouter {
   appRoutes: {[key: string]: string};
   controller: Controller;
 
+  execute(callback: Function, args: string[], name: string): void {
+    const queryString = args[args.length - 1],
+      query = parse(queryString);
+    context.anchor = query['anchor'];
+
+    // Find out the active subject
+    switch (name) {
+      // Explicitly set the subject to `undefined' for these pages
+      case 'homepage':
+      case 'about':
+        context.subject = undefined;
+        break;
+
+      // Assume that /:subject/ is the first URL parameter
+      default:
+        context.subject = args[0] === 'visual-arts' ? 'visual arts' : 'music';
+    }
+
+    // Execute route callbacks
+    super.execute(callback, args, name);
+  };
+
   initialize(): void {
     this.controller = new Controller();
   };
@@ -26,11 +50,11 @@ class Controller extends Object {
   protected page = radio.channel('page').vent;
   protected nav = radio.channel('secondary-nav').vent;
 
-  protected showPage(page: string, subject?: string): void {
-    this.page.trigger('page', 'pages/' + page, subject);
+  protected showPage(page: string): void {
+    this.page.trigger('page', 'pages/' + page);
 
-    if (subject) {
-      this.nav.trigger('show', page, subject);
+    if (context.subject) {
+      this.nav.trigger('show', page);
     } else {
       this.nav.trigger('hide');
     }
@@ -40,20 +64,20 @@ class Controller extends Object {
     this.showPage('homepage');
   }
 
-  overallResults(subject: string): void {
-    this.showPage('overall-results', subject);
+  overallResults(): void {
+    this.showPage('overall-results');
   }
 
-  scoreGaps(subject: string): void {
-    this.showPage('score-gaps', subject);
+  scoreGaps(): void {
+    this.showPage('score-gaps');
   }
 
-  questionsAnalysis(subject: string): void {
-    this.showPage('questions-analysis', subject);
+  questionsAnalysis(): void {
+    this.showPage('questions-analysis');
   }
 
-  studentExperiences(subject: string): void {
-    this.showPage('student-experiences', subject);
+  studentExperiences(): void {
+    this.showPage('student-experiences');
   }
 
   about(): void {
