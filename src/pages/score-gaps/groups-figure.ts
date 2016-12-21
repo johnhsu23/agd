@@ -25,10 +25,7 @@ export default class GroupsFigure extends Figure {
       super.onRender();
     }
 
-    // For discussion: should there be a ready-made `studentGroups' list that omits SRACE10 for cases such as this?
-    this.showControls(new VariableSelector({
-      variables: vars.studentGroups.filter(variable => variable !== vars.SRACE10),
-    }));
+    this.showControls(new VariableSelector());
 
     this.showContents(new GroupsTable({ collection: this.tableData }));
 

@@ -185,7 +185,6 @@ export const studentGroupsById: {[k: string]: Variable} = {
 
 export const studentGroups: Variable[] = [
   SDRACE,
-  SRACE10,
   GENDER,
   SLUNCH3,
   PARED,
