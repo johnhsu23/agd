@@ -69,10 +69,12 @@ export default class ScoreGaps extends Figure {
 
   protected gatherNotes(result: Result): void {
     const {focal, target, trend} = result,
-          models: Legend[] = [];
+          models: Legend[] = [],
+          focalLabel = vars.studentGroupsById[focal.variable].categories[focal.categoryindex],
+          targetLabel = vars.studentGroupsById[target.variable].categories[target.categoryindex];
 
-    models.push(comparison.focal(types[focal.categoryindex], focal.category));
-    models.push(comparison.target(types[target.categoryindex], target.category));
+    models.push(comparison.focal(types[focal.categoryindex], focalLabel));
+    models.push(comparison.target(types[target.categoryindex], targetLabel));
 
     const gaps = result.gaps.filter(gap => {
       return gap.isFocalStatDisplayable
