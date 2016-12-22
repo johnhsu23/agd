@@ -12,7 +12,7 @@ import configure from 'util/configure';
 import Chart from 'views/chart';
 import wrap from 'util/wrap';
 
-import {load, Result, Data} from 'pages/student-experiences/group-data';
+import {load, Result, Data} from 'pages/opportunities-and-access/group-data';
 
 export interface GroupChartOptions extends ViewOptions<Model> {
   variable: Variable;

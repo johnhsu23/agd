@@ -8,7 +8,7 @@ import AccordionBehavior from 'behaviors/accordion';
 import {SampleQuestion} from 'data/sample-questions';
 
 import QuestionHeaderBar from 'views/question-header-bar';
-import {questionData, QuestionBarData} from 'pages/questions-analysis/question-header-data';
+import {questionData, QuestionBarData} from 'pages/sample-questions/question-header-data';
 import * as template from 'text!templates/sample-question-accordion.html';
 import * as musicQuestions from 'json!questions/music.json';
 import * as visualArtsQuestions from 'json!questions/visual-arts.json';

@@ -5,16 +5,16 @@ import NotesSourcesView from 'views/notes-sources';
 import context from 'models/context';
 import {questions} from 'data/sample-questions';
 
-import QuestionList from 'pages/questions-analysis/question-list';
-import SampleQuestionAccordion from 'pages/questions-analysis/question-accordion';
-import ItemMap from 'pages/questions-analysis/item-map-figure';
+import QuestionList from 'pages/sample-questions/question-list';
+import SampleQuestionAccordion from 'pages/sample-questions/question-accordion';
+import ItemMap from 'pages/sample-questions/item-map-figure';
 
-import * as sampleQuestionsCommentary from 'json!commentary/questions-analysis/sample-questions.json';
-import * as knowledgeSkillsCommentary from 'json!commentary/questions-analysis/knowledge-skills.json';
-import * as questionsMusicNotes from 'text!notes/questions-analysis/music.html';
-import * as questionsVisualArtsNotes from 'text!notes/questions-analysis/visual-arts.html';
+import * as sampleQuestionsCommentary from 'json!commentary/sample-questions/sample-questions.json';
+import * as knowledgeSkillsCommentary from 'json!commentary/sample-questions/knowledge-skills.json';
+import * as questionsMusicNotes from 'text!notes/sample-questions/music.html';
+import * as questionsVisualArtsNotes from 'text!notes/sample-questions/visual-arts.html';
 
-export default class QuestionsAnalysis extends Page {
+export default class SampleQuestions extends Page {
   pageTitle = 'Sample Questions';
 
   onBeforeShow(): void {

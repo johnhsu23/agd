@@ -3,7 +3,7 @@ import {LayoutView} from 'backbone.marionette';
 
 import {ContextualVariable} from 'data/contextual-variables';
 
-import QuestionsAccordion from 'pages/student-experiences/questions-accordion';
+import QuestionsAccordion from 'pages/opportunities-and-access/questions-accordion';
 import configure from 'util/configure';
 
 import * as template from 'text!templates/questions-response.html';
