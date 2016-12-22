@@ -103,11 +103,9 @@ export default class GapSelector extends D3View<HTMLDivElement, Model> {
       .map((cat, i) => [cat, i])
       .filter(d => {
         // special handling for School Type variables
-        if (this.variable.id === 'SCHTYP1' || this.variable.id === 'SCHTYPE') {
-          // only display Public (0) as a selectable target for non-Public categories
-          if (this.focal !== 0) {
-            return d[1] === 0;
-          }
+        // only display Public (0) as a selectable target for non-Public categories
+        if ((this.variable.id === 'SCHTYP1' || this.variable.id === 'SCHTYPE') && this.focal !== 0) {
+          return d[1] === 0;
         }
 
         return d[1] !== this.focal;
