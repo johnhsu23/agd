@@ -83,7 +83,11 @@ export default class QuestionsAccordion extends LayoutView<Model> {
 
     // get the question data and update the chart contents
     load(this.variable)
-      .then(data => this.headerChart.updateChart(data[0].targetvalue, this.variable.selectedLabel))
+      .then(data => {
+        // for BM00010, use a custom value, 31, for our category (At least once or twice a month)
+        const value = (this.variable.id === 'BM00010') ? 31 : data[0].targetvalue;
+        return this.headerChart.updateChart(value, this.variable.selectedLabel);
+      })
       .done();
   }
 
