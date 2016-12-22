@@ -30,6 +30,27 @@
     .bubble.is-active circle {
         opacity: 0.125;
     }
+
+    .bubble {
+        cursor: pointer;
+
+        circle {
+            transition: stroke-width 250ms 0s;
+
+            stroke: $blue-100;
+            stroke-width: 0px;
+        }
+
+        .bubble__detail {
+            font-size: 14px;
+        }
+
+        &:hover, &:focus {
+            circle {
+                stroke-width: 4px;
+            }
+        }
+    }
 }
 
 .chart--bar .tick text {
