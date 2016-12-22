@@ -92,7 +92,8 @@ export default class TrendsChart extends Chart<Model> {
       .range([0, chartHeight])
       .padding(0.2);
 
-    const yearAxis = axisLeft(year);
+    const yearAxis = axisLeft(year)
+      .tickSize(0);
 
     this.yearAxis
       .attr('transform', `translate(${this.marginLeft}, ${this.marginTop})`)
