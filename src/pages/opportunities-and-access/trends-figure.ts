@@ -4,7 +4,7 @@ import forwardEvents from 'util/forward-events';
 import context from 'models/context';
 import {ContextualVariable} from 'data/contextual-variables';
 
-import TrendsChart from 'pages/student-experiences/trends-chart';
+import TrendsChart from 'pages/opportunities-and-access/trends-chart';
 
 export interface TrendsFigureOptions extends FigureOptions {
   variable: ContextualVariable;

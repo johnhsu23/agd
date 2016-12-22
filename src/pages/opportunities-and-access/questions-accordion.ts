@@ -8,10 +8,10 @@ import configure from 'util/configure';
 import {eachView} from 'util/each-region';
 
 import QuestionHeaderBar from 'views/question-header-bar';
-import {load} from 'pages/student-experiences/questions-header-data';
-import TrendsFigure from 'pages/student-experiences/trends-figure';
-import BubbleFigure from 'pages/student-experiences/bubble-figure';
-import GroupFigure from 'pages/student-experiences/group-figure';
+import {load} from 'pages/opportunities-and-access/questions-header-data';
+import TrendsFigure from 'pages/opportunities-and-access/trends-figure';
+import BubbleFigure from 'pages/opportunities-and-access/bubble-figure';
+import GroupFigure from 'pages/opportunities-and-access/group-figure';
 import * as template from 'text!templates/questions-accordion.html';
 
 export interface QuestionsAccordionOptions extends ViewOptions<Model> {

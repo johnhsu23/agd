@@ -9,8 +9,8 @@ import context from 'models/context';
 import {Variable} from 'data/variables';
 import {all as gatherAll} from 'legends/gather';
 
-import {load, Grouped} from 'pages/student-experiences/bubble-data';
-import BubbleChart from 'pages/student-experiences/bubble-chart';
+import {load, Grouped} from 'pages/opportunities-and-access/bubble-data';
+import BubbleChart from 'pages/opportunities-and-access/bubble-chart';
 
 export interface BubbleFigureOptions extends FigureOptions {
   variable: Variable;
