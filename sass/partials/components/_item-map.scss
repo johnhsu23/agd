@@ -2,7 +2,8 @@ $scale-marker-width: 60px;
 $cutpoint-marker-height: 24px;
 
 .item-map {
-	width: $tablet-width;
+	background: #fff;
+	padding: 2em .5em 2em 0;
 }
 
 .item-map__items {
