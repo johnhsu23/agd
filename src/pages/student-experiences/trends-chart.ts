@@ -10,8 +10,9 @@ import configure from 'util/configure';
 import Chart from 'views/chart';
 import {ContextualVariable} from 'data/contextual-variables';
 import wrap from 'util/wrap';
+import {formatValue} from 'codes';
 
-import {load, Result, Data} from 'pages/student-experiences/trends-data';
+import {Result, Data} from 'pages/student-experiences/trends-data';
 
 export interface TrendsChartOptions extends ViewOptions<Model> {
   variable: ContextualVariable;
@@ -60,14 +61,10 @@ export default class TrendsChart extends Chart<Model> {
       this.firstRender = false;
     }
 
-    load(this.variable)
-      .then(data => this.loaded(data))
-      .done();
-
     return this;
   }
 
-  protected loaded(data: Result[]): void {
+  loaded(data: Result[]): void {
     // setup and add the x axis
     const percent = scales.percent()
       .domain([0, 100]);
@@ -126,7 +123,7 @@ export default class TrendsChart extends Chart<Model> {
       .attr('x', d => d.size / 2)
       .attr('y', year.bandwidth() / 2)
       .attr('dy', '0.37em')
-      .text(d => Math.round(d.targetvalue));
+      .text(d => formatValue(d.targetvalue, d.sig, d.TargetErrorFlag));
   }
 
   protected onVisibilityVisible(): void {
