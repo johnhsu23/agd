@@ -1,7 +1,9 @@
 $scale-marker-width: 60px;
 $cutpoint-marker-height: 24px;
 
-.item-map {}
+.item-map {
+	width: $tablet-width;
+}
 
 .item-map__items {
 	list-style: none;
