@@ -7,6 +7,7 @@ import context from 'models/context';
 import Legend from 'models/legend';
 import NoteLegend from 'models/legend/note';
 import significant from 'legends/sig-diff';
+import roundsZero from 'legends/rounds-zero';
 import * as comparison from 'legends/comparison';
 import * as gapNotes from 'legends/gaps';
 import * as vars from 'data/variables';
@@ -101,6 +102,10 @@ export default class ScoreGaps extends Figure {
 
     if (isFocalSignificant || isTargetSignificant || isTrendSignificant) {
       models.push(significant());
+    }
+
+    if (gaps.some(gap => Math.round(gap.gap) === 0)) {
+      models.push(roundsZero());
     }
 
     // Add special notes for legend
