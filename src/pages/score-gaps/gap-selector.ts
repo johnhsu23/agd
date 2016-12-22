@@ -101,7 +101,15 @@ export default class GapSelector extends D3View<HTMLDivElement, Model> {
       // naive approach
       // So we store it here in a tuple
       .map((cat, i) => [cat, i])
-      .filter(d => d[1] !== this.focal);
+      .filter(d => {
+        // special handling for School Type variables
+        // only display Public (0) as a selectable target for non-Public categories
+        if ((this.variable.id === 'SCHTYP1' || this.variable.id === 'SCHTYPE') && this.focal !== 0) {
+          return d[1] === 0;
+        }
+
+        return d[1] !== this.focal;
+      });
 
     const select = this.select('select[data-category=target]'),
           update = select.selectAll('option')
@@ -132,6 +140,11 @@ export default class GapSelector extends D3View<HTMLDivElement, Model> {
     if (this.variable !== variable) {
       // When switching variables, reset the target category to 0, or 1 if the user picked category 0.
       this.target = +(focal === 0);
+    } else if (this.variable.id === 'SCHTYP1' || this.variable.id === 'SCHTYPE') {
+      // special handling for School Type variables:
+      // if Public selected, set target to Private
+      // else, set to Public (0) since that'll be our only option
+      this.target = (focal === 0) ? 1 : 0;
     } else if (this.target === focal) {
       // If the new focal category is the same as the present target category, then put the old
       // focal category into the target: this effectively swaps the focal and target categories
