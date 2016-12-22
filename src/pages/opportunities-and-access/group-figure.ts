@@ -10,7 +10,7 @@ import {ContextualVariable} from 'data/contextual-variables';
 import VariableSelector from 'views/variable-selector';
 import LegendView from 'views/legend';
 
-import GroupChart from 'pages/student-experiences/group-chart';
+import GroupChart from 'pages/opportunities-and-access/group-chart';
 
 export interface GroupFigureOptions extends FigureOptions {
   contextualVariable: ContextualVariable;

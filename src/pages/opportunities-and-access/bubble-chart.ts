@@ -12,7 +12,7 @@ import * as scales from 'components/scales';
 import * as axes from 'components/axis';
 import {formatValue} from 'codes';
 
-import {Grouped} from 'pages/student-experiences/bubble-data';
+import {Grouped} from 'pages/opportunities-and-access/bubble-data';
 
 interface BubbleChartOptions extends ViewOptions<Model> {
   variable: Variable;

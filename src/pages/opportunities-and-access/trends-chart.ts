@@ -12,7 +12,7 @@ import {ContextualVariable} from 'data/contextual-variables';
 import wrap from 'util/wrap';
 import {formatValue} from 'codes';
 
-import {Result, Data} from 'pages/student-experiences/trends-data';
+import {Result, Data} from 'pages//opportunities-and-access/trends-data';
 
 export interface TrendsChartOptions extends ViewOptions<Model> {
   variable: ContextualVariable;
