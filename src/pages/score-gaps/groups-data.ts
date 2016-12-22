@@ -4,8 +4,9 @@ import loadData from 'api';
 import context from 'models/context';
 import {Params, Data} from 'api/tuda-acrossyear';
 
-import {Variable, SDRACE, SRACE10} from 'data/variables';
+import {Variable, SDRACE, SRACE10, SCHTYPE, SCHTYP2} from 'data/variables';
 import * as sdrace from 'util/sdrace';
+import * as schtype from 'util/schtype';
 
 export {Data};
 
@@ -42,6 +43,14 @@ export async function load(variable: Variable): Bluebird<Data[]> {
     return [
       ...await sdraceData,
       ...await srace10Data,
+    ];
+  } else if (schtype.shouldCombine(variable)) {
+    const schtypeData = loadOne(SCHTYPE, schtype.categories(SCHTYPE)),
+          schtyp2Data = loadOne(SCHTYP2, schtype.categories(SCHTYP2));
+
+    return [
+      ...await schtypeData,
+      ...await schtyp2Data,
     ];
   }
 
