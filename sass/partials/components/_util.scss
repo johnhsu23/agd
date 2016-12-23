@@ -43,6 +43,13 @@
 	margin: 2em 0 0;
 }
 
+.u-pdf {
+	background: url("/img/icon-pdf.png") no-repeat left center;
+    color: $blue-100;
+    font-size: .875em;
+    padding-left: 25px;
+}
+
 // This utility class has the penultimate precedence.
 .is-hidden {
   display: none !important;

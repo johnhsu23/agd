@@ -76,6 +76,10 @@
     text-transform: uppercase;
 }
 
+.section__title--homepage {
+    margin: .5em 0;
+}
+
 .section__subtitle {
     color: $blue-100;
     font-size: 1.6875em;
@@ -101,6 +105,7 @@
 }
 
 .section__commentary--homepage {
+    margin: 0 0 1em;
     max-width: none;
 }
 
@@ -110,4 +115,8 @@
 
 .section__contents {
     margin: 2em 0;
+}
+
+.section__contents--homepage {
+    margin: .5em 0;
 }

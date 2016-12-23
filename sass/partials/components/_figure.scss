@@ -96,3 +96,23 @@
 .figure__share {
     position: relative;
 }
+
+.figure--home-video {
+    float: none;
+    margin: 0 auto 1em;
+
+    @include breakpoint($desktop-width) {
+        float: right;
+        margin: 0 0 0 3em;
+    }
+}
+
+.figure--home-video iframe {
+    border: 5px solid $orange-100;
+    display: block;
+    margin: 0 auto;
+
+    @include breakpoint($desktop-width) {
+        margin: 0;
+    }
+}
