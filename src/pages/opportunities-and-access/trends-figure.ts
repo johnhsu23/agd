@@ -1,7 +1,11 @@
-import {default as Figure, FigureOptions} from 'views/figure';
+import {Collection} from 'backbone';
 
+import {default as Figure, FigureOptions} from 'views/figure';
 import forwardEvents from 'util/forward-events';
 import context from 'models/context';
+import Legend from 'models/legend';
+import BarLegend from 'models/legend/bar';
+import LegendView from 'views/legend';
 import {ContextualVariable} from 'data/contextual-variables';
 
 import TrendsChart from 'pages/opportunities-and-access/trends-chart';
@@ -38,6 +42,17 @@ export default class TrendsFigure extends Figure {
     }));
 
     this.setTitle(this.makeTitle());
+
+    const legends: Legend[] = this.variable.categories.map((d, i) => {
+      return new BarLegend({
+        category: i,
+        description: d,
+      });
+    });
+
+    const collection = new Collection(legends);
+
+    this.showLegend(new LegendView({ collection }));
   }
 
   protected makeTitle(): string {
