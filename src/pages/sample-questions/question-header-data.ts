@@ -39,7 +39,7 @@ export const questionData: {[k: string]: QuestionBarData} = {
   VCCL004: {
     naepid: 'VCCL004',
     value: 49.15,
-    label: acceptableLabel,
+    label: acceptableLabel + ' (part A)',
   },
 
   /**
