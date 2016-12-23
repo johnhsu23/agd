@@ -129,7 +129,7 @@ export const UDCL009: SampleQuestion = {
   naepid: 'UDCL009',
   name: 'Identify region where music comes from and explain why',
   classification: 'Responding',
-  type: 'MC',
+  type: 'SCR',
 };
 
 /*
