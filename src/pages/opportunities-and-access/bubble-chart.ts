@@ -141,7 +141,7 @@ export default class BubbleChart extends Chart<Model> {
     // A consequence of #2 is that our <text> elements will have *no* computed metrics. So, we have to instead wait for
     // when we are told we're visible and only then can we use the wrap utility.
     //
-    // This means that it's easier to put the entire axis code here (because the categorical axis knows will need to
+    // This means that it's easier to put the entire axis code here (because the categorical axis knows it will need to
     // wrap long category names) than to break up the rendering/wrapping.
     //
     // Whee!
