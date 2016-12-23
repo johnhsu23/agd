@@ -9,13 +9,25 @@
     }
 }
 
+.sample-question__question {
+	img + p {
+		margin-top: 1em;
+	}
+}
+
 .sample-question__question textarea {
-	margin-left: 5px;
+	margin: 1em 0 0 5px;
+	min-height: 80px;
 	width: 95%;
+}
+
+.sample-question__question p {
+	margin: 0 0 1em;
 }
 
 .sample-question__question form {
 	font-size: .875em;
+	margin: 1em 0;
 }
 
 .sample-question__answer h5 {

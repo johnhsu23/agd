@@ -43,9 +43,14 @@
 }
 
 .legend {
-  border: 1px solid $black-40;
-  margin-bottom: 1em;
-  width: $legend-width;
+    background: #fff;
+    border: 1px solid $black-40;
+    margin-bottom: 1em;
+    width: $legend-width;
+
+    .accordion & {
+        padding: 1em 0;
+    }
 
   &.is-empty {
     visibility: hidden;
@@ -54,7 +59,7 @@
 
 .legend__note {
     font-size: smaller;
-    padding-top: 0.25em;
+    padding: 0.25em 1em 1em;
 
     &:before {
       content: "NOTE: ";
@@ -69,6 +74,10 @@
 
 .legend__item--bubble {
     display: unset;
+}
+
+.bubble__label {
+    text-anchor: middle;
 }
 
 .legend__bubble-line {
@@ -94,14 +103,28 @@
     fill: white;
 }
 
+.legend__marker--gap-significant path {
+    fill: $brand-blue;
+}
+
+.legend__marker--gap-not-significant path {
+    fill: grey;
+}
+
+.legend__marker + .legend__description {
+    text-align: left;
+    width: $legend-width - $legend-item-width;
+}
+
 .legend__description {
     display: table-cell;
     font-size: smaller;
     min-height: $legend-height;
     padding: 1em;
+    text-align: center;
     transition: opacity 250ms 0s;
     vertical-align: middle;
-    width: $legend-width - $legend-item-width;
+    width: auto;
 
     var {
       font-style: italic;
@@ -114,4 +137,42 @@
     .is-hover & {
       opacity: 1;
     }
+
+    .legend__item.legend__item--target & {
+        font-style: italic;
+    }
+}
+
+.legend__bubble {
+    .bubble__bubble {
+        fill: $blue-100;
+    }
+}
+
+.legend__marker--bar-0 {
+    rect { fill: $acl-bb; }
+}
+
+.legend__marker--bar-1 {
+    rect { fill: $acl-ba; }
+}
+
+.legend__marker--bar-2 {
+    rect { fill: $acl-pr; }
+}
+
+.legend__marker--bar-3 {
+    rect { fill: $acl-ad; }
+}
+
+.legend__marker--bar-4 {
+    rect { fill: $blue-100; }
+}
+
+.legend__marker--bar-5 {
+    rect { fill: $blue-15; }
+}
+
+.legend__marker--bar-6 {
+    rect { fill: $blue-25; }
 }

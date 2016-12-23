@@ -76,6 +76,7 @@ export const SLUNCH3: Variable = {
   categories: [
     'Eligible for National School Lunch Program (NSLP)',
     'Not eligible for National School Lunch Program (NSLP)',
+    'Information not available',
   ],
 };
 
@@ -98,7 +99,8 @@ export const SCHTYP1: Variable = {
   title: 'type of school',
   categories: [
     'Public',
-    'Private',
+    'Private: Overall',
+    'Private: Catholic',
   ],
 };
 
@@ -108,7 +110,19 @@ export const SCHTYPE: Variable = {
   title: 'type of school',
   categories: [
     'Public',
-    'Private',
+    'Private: Overall',
+    'Private: Catholic',
+  ],
+};
+
+export const SCHTYP2: Variable = {
+  id: 'SCHTYP2',
+  name: 'Type of school',
+  title: 'type of school',
+  categories: [
+    'Public',
+    'Private: Overall',
+    'Private: Catholic',
   ],
 };
 
@@ -163,7 +177,7 @@ export const SLUNCH1: Variable = {
   categories: [
     'Eligible for National School Lunch Program (NSLP)',
     'Not eligible for National School Lunch Program (NSLP)',
-    'No information',
+    'Information not available',
   ],
 };
 
@@ -174,6 +188,7 @@ export const studentGroupsById: {[k: string]: Variable} = {
   PARED: PARED,
   SCHTYPE: SCHTYPE,
   SCHTYP1: SCHTYP1,
+  SCHTYP2: SCHTYP2,
   CENSREG: CENSREG,
   UTOL4: UTOL4,
   IEP: IEP,
@@ -184,13 +199,12 @@ export const studentGroupsById: {[k: string]: Variable} = {
 
 export const studentGroups: Variable[] = [
   SDRACE,
-  SRACE10,
   GENDER,
+  SLUNCH3,
   PARED,
   SCHTYPE,
   CENSREG,
   UTOL4,
   IEP,
   LEP,
-  SLUNCH3,
 ];

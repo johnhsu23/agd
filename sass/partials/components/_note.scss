@@ -2,17 +2,17 @@
     padding: 1em 0 2em;
 }
 
-.note--gray {
+.main__footer--gray .note {
     background: $taupe-15;
+}
 
-    .note__header {
-        background-color: $taupe-5;
-        background-image: url("../img/note-fold--gray.png");
-    }
+.main__footer--gray .note .note__header {
+    background-color: $taupe-5;
+    background-image: url("../img/note-fold--gray.png");
+}
 
-    .note__content {
-        background: #fff;
-    }
+.main__footer--gray .note .note__content {
+    background: #fff;
 }
 
 .note__header {

@@ -9,9 +9,9 @@
 }
 
 .bar {
-    &__text {
-        text-anchor: middle;
-    }
+    // &__text {
+    //     text-anchor: middle;
+    // }
 
     &--0 {
         rect { fill: $acl-bb; }

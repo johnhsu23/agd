@@ -9,6 +9,8 @@
 	align-items: center;
 	border-bottom: 1px solid $orange-100;
 	display: flex;
+	margin: 1em 0 0;
+	padding-right: 3em;
 	position: relative;
 	text-decoration: none;
 	width: 100%;
@@ -24,14 +26,28 @@
 	font-size: .875em;
 	font-weight: 700;
 	line-height: 1.2rem;
-	margin-right: rem(50px);
-	min-height: rem(70px);
-	padding: 1.5em 0 .5em;
-	width: 450px;
+	min-height: rem(54px);
+	padding: .5em rem(32px) .5em 0;
+	width: 35%;
 
 	.is-expanded & {
 		color: $green-100;
 	}
+
+	@include breakpoint($desktop-width) {
+		width: 43%;
+	}
+}
+
+.accordion__header-question-labels {
+	color: $primary-text-color;
+	display: inline-block;
+	font-size: .875em;
+	font-weight: 400;
+	line-height: 1.2rem;
+	min-height: rem(54px);
+	padding: .5em rem(16px ) .5em 0;
+	width: 18%;
 }
 
 .accordion__show-hide {
@@ -114,6 +130,7 @@
 
 .accordion__header-bar .header-bar-label {
 	color: $blue-100;
+	line-height: 1;
 	margin-left: 5px;
 }
 

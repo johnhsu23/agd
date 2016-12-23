@@ -15,7 +15,8 @@
 .axis {}
 
 .axis__label {
-    font-size: smaller;
+    fill: $black-80;
+    font-size: .875rem;
 
     .axis--vertical-left & {
       text-anchor: end;
@@ -41,4 +42,13 @@
 .axis__break {
     fill: white;
     stroke: $axis;
+
+    #section-2 &,
+    #section-4 & {
+        fill: $taupe-15;
+    }
+
+    .accordion & {
+        fill: $green-35;
+    }
 }

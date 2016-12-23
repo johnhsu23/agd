@@ -4,6 +4,7 @@ import {Model} from 'backbone';
 import * as $ from 'jquery';
 
 import configure from 'util/configure';
+import context from 'models/context';
 
 import * as template from 'text!templates/secondary-nav.html';
 
@@ -23,14 +24,14 @@ export default class SecondaryNav extends ItemView<Model> {
     return this;
   }
 
-  protected showNav(page: string, subject: string): void {
+  protected showNav(page: string): void {
     this.$el.removeClass('is-hidden');
 
     this.$('.secondary-nav__link a').each(function () {
       const $this = $(this),
             path = $this.data('path');
 
-      $this.attr('href', '#/' + subject + '/' + path)
+      $this.attr('href', '#/' + context.subject.replace(' ', '-') + '/' + path)
         .toggleClass('is-active', page === path);
     });
   }

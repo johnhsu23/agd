@@ -1,0 +1,67 @@
+.chart {}
+
+.chart--bubble {
+    circle {
+        fill: $blue-100;
+    }
+
+    .axis--horizontal-bottom {
+        .axis__label {
+            fill: $blue-100;
+            font-weight: 700;
+        }
+    }
+
+    .bubble__detail {
+        opacity: 0;
+        text-anchor: middle;
+        visibility: hidden;
+    }
+
+    .bubble__detail--strong {
+        font-weight: bold;
+    }
+
+    .is-active .bubble__detail {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .bubble.is-active circle {
+        opacity: 0.125;
+    }
+
+    .bubble {
+        cursor: pointer;
+
+        circle {
+            transition: stroke-width 250ms 0s;
+
+            stroke: $blue-100;
+            stroke-width: 0px;
+        }
+
+        .bubble__detail {
+            font-size: 14px;
+        }
+
+        &:hover, &:focus {
+            circle {
+                stroke-width: 4px;
+            }
+        }
+    }
+}
+
+.chart--bar .tick text {
+	fill: $black-80;
+	font-size: rem(14px);
+}
+
+.chart--bar .tick line {
+	fill: $axis;
+}
+
+.chart--bar .domain {
+	stroke: $axis;
+}
