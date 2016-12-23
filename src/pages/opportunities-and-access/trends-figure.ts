@@ -8,6 +8,7 @@ import sigDiff from 'legends/sig-diff';
 import {all as gatherNotes} from 'legends/gather';
 import forwardEvents from 'util/forward-events';
 import context from 'models/context';
+import BarLegend from 'models/legend/bar';
 import {ContextualVariable} from 'data/contextual-variables';
 
 import {load, Result, Data} from 'pages/opportunities-and-access/trends-data';
@@ -58,7 +59,18 @@ export default class TrendsFigure extends Figure {
       data: data,
     }));
 
-    this.buildLegend(data);
+    this.setTitle(this.makeTitle());
+
+    const legends: Legend[] = this.variable.categories.map((d, i) => {
+      return new BarLegend({
+        category: i,
+        description: d,
+      });
+    });
+
+    const collection = new Collection(legends);
+
+    this.showLegend(new LegendView({ collection }));
   }
 
   protected makeTitle(): string {
