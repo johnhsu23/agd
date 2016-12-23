@@ -1,4 +1,4 @@
-import {Selection} from 'd3-selection';
+import {select, Selection} from 'd3-selection';
 import {Model, ViewOptions} from 'backbone';
 import {scalePoint, scaleSqrt} from 'd3-scale';
 import {extent, range} from 'd3-array';
@@ -12,7 +12,7 @@ import * as scales from 'components/scales';
 import * as axes from 'components/axis';
 import {formatValue} from 'codes';
 
-import {Grouped} from 'pages/student-experiences/bubble-data';
+import {Grouped} from 'pages/opportunities-and-access/bubble-data';
 
 interface BubbleChartOptions extends ViewOptions<Model> {
   variable: Variable;
@@ -106,19 +106,57 @@ export default class BubbleChart extends Chart<Model> {
       .attr('transform', `translate(${this.marginLeft}, ${this.marginTop})`)
       .call(scoreAxis);
 
-    this.inner.selectAll('circle')
-      .data(valid)
-      .enter()
-      .append('circle')
-      .attr('cx', ({mean}) => response(mean.categoryindex))
-      .attr('cy', ({mean}) => score(mean.targetvalue))
+    const bubbleUpdate = this.inner.selectAll('.bubble')
+      .data(valid);
+
+    const bubbleEnter = bubbleUpdate.enter()
+      .append('g')
+      .classed('bubble', true)
+      .attr('transform', ({mean}) => {
+        const x = response(mean.categoryindex),
+              y = score(mean.targetvalue);
+
+        return `translate(${x}, ${y})`;
+      })
+      .on('click', function () {
+        const elt = select(this),
+              isActive = elt.classed('is-active');
+
+        elt.classed('is-active', !isActive);
+      });
+
+    bubbleEnter.append('circle')
       .attr('r', ({percent}) => percentage(percent.targetvalue));
 
+    const bubbleDetail = bubbleEnter.append('text')
+      .classed('bubble__detail', true);
+
+    bubbleDetail.append('tspan')
+      .classed('bubble__detail--strong', true)
+      .attr('x', 0)
+      .attr('y', 0)
+      .text('Score: ');
+
+    bubbleDetail.append('tspan')
+      .text(({mean}) => formatValue(mean.targetvalue, '', mean.TargetErrorFlag));
+
+    bubbleDetail.append('tspan')
+      .classed('bubble__detail--strong', true)
+      .attr('x', 0)
+      .attr('y', '1em')
+      .text('Percentage: ');
+
+    bubbleDetail.append('tspan')
+      .text(({percent}) => formatValue(percent.targetvalue, '', percent.TargetErrorFlag));
+
     // Show suppressed rows as dagger footnotes
-    this.inner.selectAll('text')
+    this.inner.selectAll('.bubble--suppressed')
       .data(suppressed)
       .enter()
+      .append('g')
+      .classed('bubble bubble--suppressed', true)
       .append('text')
+      .classed('bubble__label', true)
       .attr('y', this.innerHeight)
       .attr('x', ({mean}) => response(mean.categoryindex))
       .attr('text-anchor', 'middle')

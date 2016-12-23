@@ -81,7 +81,7 @@ $cutpoint-marker-height: 24px;
 		border-color: $taupe-100 transparent transparent transparent;
 		border-style: solid;
 		border-width: 15px ($scale-marker-width/2) 0 ($scale-marker-width/2);
-		bottom: -16px;
+		bottom: -15px;
 		content: '';
 		height: 0;
 		left: 50%;
@@ -103,7 +103,7 @@ $cutpoint-marker-height: 24px;
 		left: 50%;
 		margin-left: -($scale-marker-width/2);
 		position: absolute;
-		top: -16px;
+		top: -15px;
 		width: 0;
 	}
 }

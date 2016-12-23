@@ -21,7 +21,7 @@ export default class GapLegendView<Legend extends GapLegend> extends D3View<HTML
 
     const significant = this.model.significant,
           type = significant ? symbolCircle : gapDiamond,
-          description = significant ? 'Significant difference' : 'Not significant difference';
+          description = significant ? 'Significant difference' : 'No significant difference';
 
     this.select('.legend__marker')
       .classed('legend__marker--gap-significant', significant)

@@ -1,7 +1,7 @@
 import {Model} from 'backbone';
 import {LayoutView} from 'backbone.marionette';
 
-import QuestionsResponse from 'pages/student-experiences/questions-response';
+import QuestionsResponse from 'pages/opportunities-and-access/questions-response';
 import context from 'models/context';
 import * as contextualVars from 'data/contextual-variables';
 import * as template from 'text!templates/questions-list.html';

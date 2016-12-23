@@ -11,7 +11,7 @@ import Chart from 'views/chart';
 import {ContextualVariable} from 'data/contextual-variables';
 import wrap from 'util/wrap';
 
-import {load, Result, Data} from 'pages/student-experiences/trends-data';
+import {load, Result, Data} from 'pages/opportunities-and-access/trends-data';
 
 export interface TrendsChartOptions extends ViewOptions<Model> {
   variable: ContextualVariable;

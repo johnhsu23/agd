@@ -99,7 +99,8 @@ export const SCHTYP1: Variable = {
   title: 'type of school',
   categories: [
     'Public',
-    'Private',
+    'Private: Overall',
+    'Private: Catholic',
   ],
 };
 
@@ -109,7 +110,19 @@ export const SCHTYPE: Variable = {
   title: 'type of school',
   categories: [
     'Public',
-    'Private',
+    'Private: Overall',
+    'Private: Catholic',
+  ],
+};
+
+export const SCHTYP2: Variable = {
+  id: 'SCHTYP2',
+  name: 'Type of school',
+  title: 'type of school',
+  categories: [
+    'Public',
+    'Private: Overall',
+    'Private: Catholic',
   ],
 };
 
@@ -175,6 +188,7 @@ export const studentGroupsById: {[k: string]: Variable} = {
   PARED: PARED,
   SCHTYPE: SCHTYPE,
   SCHTYP1: SCHTYP1,
+  SCHTYP2: SCHTYP2,
   CENSREG: CENSREG,
   UTOL4: UTOL4,
   IEP: IEP,

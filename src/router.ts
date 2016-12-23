@@ -73,11 +73,11 @@ class Controller extends Object {
   }
 
   questionsAnalysis(): void {
-    this.showPage('questions-analysis');
+    this.showPage('sample-questions');
   }
 
   studentExperiences(): void {
-    this.showPage('student-experiences');
+    this.showPage('opportunities-and-access');
   }
 
   about(): void {
