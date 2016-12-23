@@ -39,8 +39,16 @@
 	margin: 0;
 }
 
+.u-margin-single-top {
+	margin: 1em 0 0;
+}
+
 .u-margin-double-top {
 	margin: 2em 0 0;
+}
+
+.u-margin-triple-top {
+	margin: 3em 0 0;
 }
 
 .u-pdf {
@@ -48,6 +56,12 @@
     color: $blue-100;
     font-size: .875em;
     padding-left: 25px;
+}
+
+.u-centered {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 // This utility class has the penultimate precedence.
