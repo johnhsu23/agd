@@ -66,7 +66,7 @@ export default class SampleQuestionAccordion extends LayoutView<Model> {
       .text(this.question.classification);
 
     this.$('.question-labels__type')
-      .text((this.question.type === 'MC') ? 'Multiple choice' : 'Constructed-response');
+      .text((this.question.type === 'MC') ? 'Multiple choice' : 'Constructed response');
 
     // place our header chart and update the bar
     const questionHeaderBar = new QuestionHeaderBar();

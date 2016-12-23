@@ -9,11 +9,13 @@ import {horizontalBottom} from 'components/axis';
 import configure from 'util/configure';
 import Chart from 'views/chart';
 import {ContextualVariable} from 'data/contextual-variables';
+import {formatValue} from 'codes';
 
-import {load, Result, Data} from 'pages/opportunities-and-access/trends-data';
+import {Result, Data} from 'pages/opportunities-and-access/trends-data';
 
 export interface TrendsChartOptions extends ViewOptions<Model> {
   variable: ContextualVariable;
+  data: Result[];
 }
 
 @configure({
@@ -32,11 +34,13 @@ export default class TrendsChart extends Chart<Model> {
   protected firstRender = true;
 
   protected variable: ContextualVariable;
+  protected data: Result[];
 
   constructor(options: TrendsChartOptions) {
     super(options);
 
     this.variable = options.variable;
+    this.data = options.data;
   }
 
   render(): this {
@@ -59,14 +63,12 @@ export default class TrendsChart extends Chart<Model> {
       this.firstRender = false;
     }
 
-    load(this.variable)
-      .then(data => this.loaded(data))
-      .done();
+    this.drawChart();
 
     return this;
   }
 
-  protected loaded(data: Result[]): void {
+  protected drawChart(): void {
     // setup and add the x axis
     const percent = scales.percent()
       .domain([0, 100]);
@@ -87,18 +89,19 @@ export default class TrendsChart extends Chart<Model> {
 
     // setup and add the y axis
     const year = scaleBand()
-      .domain(data.map(d => d.key))
+      .domain(this.data.map(d => d.key))
       .range([0, chartHeight])
       .padding(0.2);
 
-    const yearAxis = axisLeft(year);
+    const yearAxis = axisLeft(year)
+      .tickSize(0);
 
     this.yearAxis
       .attr('transform', `translate(${this.marginLeft}, ${this.marginTop})`)
       .call(yearAxis);
 
     const seriesEnter = this.inner.selectAll('.series')
-      .data(data)
+      .data(this.data)
       .enter()
       .append('g')
       .attr('class', (_, i) => `series series--${i}`)
@@ -125,6 +128,6 @@ export default class TrendsChart extends Chart<Model> {
       .attr('x', d => d.size / 2)
       .attr('y', year.bandwidth() / 2)
       .attr('dy', '0.37em')
-      .text(d => Math.round(d.targetvalue));
+      .text(d => formatValue(d.targetvalue, d.sig, d.TargetErrorFlag));
   }
 }

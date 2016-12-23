@@ -1,16 +1,15 @@
 import {ViewOptions, Model} from 'backbone';
 import {Selection} from 'd3-selection';
 import {scaleBand} from 'd3-scale';
-import {axisLeft} from 'd3-axis';
 
 import makeStack from 'components/stack';
 import * as scales from 'components/scales';
 import {horizontalBottom} from 'components/axis';
+import {verticalLeft} from 'components/categorical-axis';
 import {Variable} from 'data/variables';
 import {ContextualVariable} from 'data/contextual-variables';
 import configure from 'util/configure';
 import Chart from 'views/chart';
-import wrap from 'util/wrap';
 
 import {load, Result, Data} from 'pages/opportunities-and-access/group-data';
 
@@ -83,6 +82,7 @@ export default class GroupChart extends Chart<Model> {
     this.variable = variable;
 
     this.updateData();
+    this.updateAxis();
   }
 
   protected updateData(): void {
@@ -115,16 +115,6 @@ export default class GroupChart extends Chart<Model> {
       .domain(data.map(d => d.key))
       .range([0, chartHeight])
       .padding(0.2);
-
-    const categoryAxis = axisLeft(category);
-
-    this.categoryAxis
-      .attr('transform', `translate(${this.marginLeft}, ${this.marginTop})`)
-      .call(categoryAxis);
-
-    // wrap the category names
-    this.categoryAxis.selectAll('text')
-      .call(wrap, this.marginLeft - 15);
 
     // set series group
     const seriesUpdate = this.inner.selectAll('.series')
@@ -197,5 +187,28 @@ export default class GroupChart extends Chart<Model> {
 
     seriesExit.selectAll('bar__text')
       .attr('x', 0);
+  }
+
+  protected updateAxis(): void {
+    const {categories} = this.variable;
+
+    const category = scaleBand()
+      .domain(categories)
+      .range([0, 300])
+      .padding(0.2);
+
+    const categoryAxis = verticalLeft()
+      .categories(categories)
+      .scale(category)
+      .wrap(this.marginLeft - 5); // Fudge factor
+
+    this.categoryAxis
+      .attr('transform', `translate(${this.marginLeft}, ${this.marginTop})`)
+      .call(categoryAxis);
+  }
+
+  protected onVisibilityVisible(): void {
+    // Update axis once chart is visible
+    this.updateAxis();
   }
 }

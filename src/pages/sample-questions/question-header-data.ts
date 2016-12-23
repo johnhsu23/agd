@@ -4,12 +4,12 @@ export interface QuestionBarData {
   readonly label: string;
 }
 
-// Labels for the bars (e.g. XX% answered correctly)
-const multipleChoiceLabel = 'answered correctly';
-const acceptableLabel = 'answered acceptably';
-const sufficientLabel = 'answered sufficiently';
-const adequateLabel = 'answered adequately';
-const developedLabel = 'had a developed answer';
+// Labels for the bars (e.g. XX% Correct)
+const multipleChoiceLabel = 'Correct';
+const acceptableLabel = 'Acceptable';
+const sufficientLabel = 'Sufficient';
+const adequateLabel = 'Adequate';
+const developedLabel = 'Developed';
 
 export const questionData: {[k: string]: QuestionBarData} = {
   /**
