@@ -1,6 +1,7 @@
-import {default as Figure, FigureOptions} from 'views/figure';
 import {Collection} from 'backbone';
+import {union} from 'underscore';
 
+import {default as Figure, FigureOptions} from 'views/figure';
 import LegendView from 'views/legend';
 import Legend from 'models/legend';
 import sigDiff from 'legends/sig-diff';
@@ -8,7 +9,6 @@ import {all as gatherNotes} from 'legends/gather';
 import forwardEvents from 'util/forward-events';
 import context from 'models/context';
 import {ContextualVariable} from 'data/contextual-variables';
-import {union} from 'underscore';
 
 import {load, Result, Data} from 'pages/opportunities-and-access/trends-data';
 import TrendsChart from 'pages/opportunities-and-access/trends-chart';
@@ -41,20 +41,8 @@ export default class TrendsFigure extends Figure {
       super.onRender();
     }
 
-    const trendsChart = new TrendsChart({
-      variable: this.variable,
-    });
-
-    this.showContents(trendsChart);
-
-    const promise = load(this.variable);
-
-    promise
-      .then(data => trendsChart.loaded(data))
-      .done();
-
-    promise
-      .then(data => this.buildLegend(data))
+    load(this.variable)
+      .then(data => this.loaded(data))
       .done();
 
     this.setTitle(this.makeTitle());
@@ -62,6 +50,15 @@ export default class TrendsFigure extends Figure {
     this.showLegend(new LegendView({
       collection: this.legendCollection,
     }));
+  }
+
+  protected loaded(data: Result[]): void {
+    this.showContents(new TrendsChart({
+      variable: this.variable,
+      data: data,
+    }));
+
+    this.buildLegend(data);
   }
 
   protected makeTitle(): string {
