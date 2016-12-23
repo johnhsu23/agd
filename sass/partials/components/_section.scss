@@ -22,6 +22,7 @@
     @extend .l-constrain;
 }
 
+.section--first,
 #section-1 {
   padding-top: 2em;
 }
@@ -87,12 +88,20 @@
     }
 }
 
+.section__subtitle--homepage {
+    max-width: none;
+}
+
 .section__commentary {
     color: $black-70;
     font-size: .875em;
     line-height: 1.4;
     margin: 2em 0;
     max-width: $max-contents-width;
+}
+
+.section__commentary--homepage {
+    max-width: none;
 }
 
 .section__controls {
