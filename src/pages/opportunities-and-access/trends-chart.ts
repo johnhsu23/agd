@@ -3,7 +3,7 @@ import {Selection} from 'd3-selection';
 import {scaleBand} from 'd3-scale';
 import {axisLeft} from 'd3-axis';
 
-import {default as makeStack} from 'components/stack';
+import makeStack from 'components/stack';
 import * as scales from 'components/scales';
 import {horizontalBottom} from 'components/axis';
 import configure from 'util/configure';
