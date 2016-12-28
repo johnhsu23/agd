@@ -1,0 +1,38 @@
+.featured-images {
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+	margin: 2em 0;
+}
+
+.featured-image {
+	border-color: $taupe-25;
+	border-style: solid;
+	border-width: 3px 3px 26px 3px;
+	display: flex;
+	flex-basis: 32%;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.featured-image__title {
+	color: $green-100;
+	font-size: $font-size-normal;
+	font-weight: 600;
+	line-height: 1.2;
+	margin: 0;
+	padding: .75em 1em 1em;
+	text-align: center;
+
+	@include breakpoint($desktop-width) {
+		font-size: $font-size-lg;
+	}
+}
+
+.featured-image img {
+	display: block;
+	margin: 0 auto 1em auto;
+	height: auto;
+	vertical-align: bottom;
+	width: 75%;
+}
