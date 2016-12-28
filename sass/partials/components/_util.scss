@@ -35,8 +35,16 @@
 	line-height: 1;
 }
 
+.u-uppercase {
+	text-transform: uppercase;
+}
+
 .u-margin-none {
 	margin: 0;
+}
+
+.u-margin-no-top {
+	margin-top: 0;
 }
 
 .u-margin-single-top {
