@@ -51,7 +51,7 @@ class Controller extends Object {
   protected nav = radio.channel('secondary-nav').vent;
 
   protected showPage(page: string): void {
-    this.page.trigger('page', 'pages/' + page);
+    this.page.trigger('page', 'pages/' + page, context.subject);
 
     if (context.subject) {
       this.nav.trigger('show', page);
