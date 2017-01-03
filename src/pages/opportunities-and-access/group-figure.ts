@@ -1,16 +1,19 @@
 import {default as Figure, FigureOptions} from 'views/figure';
 import {EventsHash, Collection} from 'backbone';
+import {union} from 'underscore';
 
 import forwardEvents from 'util/forward-events';
 import context from 'models/context';
 import Legend from 'models/legend';
 import BarLegend from 'models/legend/bar';
+import {all as gatherNotes} from 'legends/gather';
 import * as vars from 'data/variables';
 import {ContextualVariable} from 'data/contextual-variables';
 import VariableSelector from 'views/variable-selector';
 import LegendView from 'views/legend';
 
 import GroupChart from 'pages/opportunities-and-access/group-chart';
+import {load, Result, Data} from 'pages/opportunities-and-access/group-data';
 
 export interface GroupFigureOptions extends FigureOptions {
   contextualVariable: ContextualVariable;
@@ -19,6 +22,8 @@ export interface GroupFigureOptions extends FigureOptions {
 export default class GroupFigure extends Figure {
   protected variable = vars.SDRACE;
   protected contextualVariable: ContextualVariable;
+  protected legendCollection = new Collection;
+  protected chart: GroupChart;
 
   constructor(options: GroupFigureOptions) {
     super(options);
@@ -40,6 +45,11 @@ export default class GroupFigure extends Figure {
       super.onRender();
     }
 
+    this.chart = new GroupChart({
+      variable: this.variable,
+      contextualVariable: this.contextualVariable,
+    });
+
     const studentGroups = vars.studentGroups.map(group => {
       switch (group.id) {
         case 'SLUNCH3':
@@ -52,24 +62,13 @@ export default class GroupFigure extends Figure {
     });
 
     this.showControls(new VariableSelector({ variables: studentGroups }));
-
-    this.showContents(new GroupChart({
-      variable: this.variable,
-      contextualVariable: this.contextualVariable,
+    this.showContents(this.chart);
+    this.setTitle(this.makeTitle());
+    this.showLegend(new LegendView({
+      collection: this.legendCollection,
     }));
 
-    const legends: Legend[] = this.contextualVariable.categories.map((d, i) => {
-      return new BarLegend({
-        category: i,
-        description: d,
-      });
-    });
-
-    const collection = new Collection(legends);
-
-    this.showLegend(new LegendView({ collection }));
-
-    this.setTitle(this.makeTitle());
+    this.updateChart();
   }
 
   childEvents(): EventsHash {
@@ -84,11 +83,48 @@ export default class GroupFigure extends Figure {
       this.getChildView('contents')
         .trigger('variable:select', variable);
       this.setTitle(this.makeTitle());
+
+      this.updateChart();
     }
+  }
+
+  protected updateChart(): void {
+    load(this.variable, this.contextualVariable)
+      .then(data => {
+        this.chart.updateData(data);
+        this.buildLegend(data);
+      })
+      .done();
   }
 
   protected makeTitle(): string {
     return `Percentage distribution of eighth-grade students assessed in NAEP ${context.subject}`
       + `, by ${this.variable.title} and ${this.contextualVariable.title}: 2016`;
+  }
+
+  protected buildLegend(result: Result[]): void {
+    let legends: Legend[] = this.contextualVariable.categories.map((d, i) => {
+      return new BarLegend({
+        category: i,
+        description: d,
+      });
+    });
+
+    let data: Data[] = [];
+
+    // populate our data array
+    result.forEach(item => {
+      data = union(data, item.values);
+    });
+
+    // add double dagger note if applicable
+    if (data.some(row => row.isStatDisplayable === 0)) {
+      legends.push();
+    }
+
+    // add other notes based on error flags
+    legends = legends.concat(...gatherNotes(data, row => row.errorFlag));
+
+    this.legendCollection.reset(legends);
   }
 }

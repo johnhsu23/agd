@@ -10,6 +10,10 @@
 	fill: $blue-100;
 	font-size: .875em;
 	font-weight: 700;
+
+    .bar--no-data & {
+        fill: $black-80;
+    }
 }
 
 .bar--gap__text-value,
