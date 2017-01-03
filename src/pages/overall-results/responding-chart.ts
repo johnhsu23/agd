@@ -1,7 +1,6 @@
 import {Model} from 'backbone';
 import {Selection} from 'd3-selection';
 import {scaleBand} from 'd3-scale';
-import {axisLeft} from 'd3-axis';
 
 import 'd3-transition';
 
@@ -11,6 +10,7 @@ import {data, scoreText} from 'pages/overall-results/responding-data';
 
 import * as scales from 'components/scales';
 import * as axis from 'components/axis';
+import {verticalLeft} from 'components/categorical-axis';
 
 @configure({
   className: 'chart chart--bar',
@@ -22,7 +22,7 @@ export default class BarChart extends Chart<Model> {
   protected marginTop = 0;
 
   protected percentAxis: Selection<SVGGElement, {}, null, void>;
-  protected scoreLvlAxis: Selection<SVGGElement, {}, null, void>;
+  protected categoryAxis: Selection<SVGGElement, {}, null, void>;
 
   protected firstRender = true;
 
@@ -31,15 +31,23 @@ export default class BarChart extends Chart<Model> {
 
     if (this.firstRender) {
       this.percentAxis = this.d3el.append<SVGGElement>('g');
-      this.scoreLvlAxis = this.d3el.append<SVGGElement>('g');
+      this.categoryAxis = this.d3el.append<SVGGElement>('g');
 
       this.firstRender = false;
     }
-    this.load();
+
     return this;
   }
 
-  protected load(): void {
+  onAttach(): void {
+    if (super.onAttach) {
+      super.onAttach();
+    }
+
+    this.renderData();
+  }
+
+  protected renderData(): void {
     // setup and add the x axis
     const percent = scales.percent()
       .bounds([0, 100])
@@ -59,17 +67,18 @@ export default class BarChart extends Chart<Model> {
       .call(percentAxis);
 
     // setup and add the y axis
-    const scoreLvl = scaleBand<number>()
-      .domain(data)
+    const category = scaleBand()
+      .domain(scoreText)
       .range([0, chartHeight])
-      .padding(0.5);
+      .padding(0.2);
 
-    const scoreLvlAxis = axisLeft(scoreLvl)
-      .tickFormat(((_: {}, i: number) => scoreText[i]) as any);
+    const categoryAxis = verticalLeft()
+      .scale(category)
+      .wrap(this.marginLeft - 5); // Fudge factor
 
-    this.scoreLvlAxis
+    this.categoryAxis
       .attr('transform', `translate(${this.marginLeft}, ${this.marginTop})`)
-      .call(scoreLvlAxis);
+      .call(categoryAxis);
 
     // set the bar groups
     const barUpdate = this.inner.selectAll('.bar')
@@ -77,18 +86,18 @@ export default class BarChart extends Chart<Model> {
 
     barUpdate.interrupt()
       .transition()
-      .attr('transform', d => `translate(0, ${scoreLvl(d)})`);
+      .attr('transform', (_d, i) => `translate(0, ${category(scoreText[i])})`);
 
     // add group element
     const barEnter = barUpdate.enter()
       .append('g')
       .classed('bar', true)
-      .attr('transform', d => `translate(0, ${scoreLvl(d)})`);
+      .attr('transform', (_d, i) => `translate(0, ${category(scoreText[i])})`);
 
     // add bar rect svg
     barEnter.append('rect')
       .classed('bar__bar', true)
-      .attr('height', scoreLvl.bandwidth())
+      .attr('height', category.bandwidth())
       .attr('width', 0)
       .merge(barUpdate.select('.bar__bar'))
       .transition()
@@ -97,7 +106,7 @@ export default class BarChart extends Chart<Model> {
     // add bar percentage text
     const barText = barEnter.append('text')
       .classed('bar__text', true)
-      .attr('y', scoreLvl.bandwidth() / 2);
+      .attr('y', category.bandwidth() / 2);
 
     barText.merge(barUpdate.select('.bar__text'))
       .transition()
