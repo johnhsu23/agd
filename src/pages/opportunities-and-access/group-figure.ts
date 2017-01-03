@@ -117,12 +117,7 @@ export default class GroupFigure extends Figure {
       data = union(data, item.values);
     });
 
-    // add double dagger note if applicable
-    if (data.some(row => row.isStatDisplayable === 0)) {
-      legends.push();
-    }
-
-    // add other notes based on error flags
+    // add notes based on error flags
     legends = legends.concat(...gatherNotes(data, row => row.errorFlag));
 
     this.legendCollection.reset(legends);
