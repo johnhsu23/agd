@@ -1,0 +1,91 @@
+.homepage-about-assessment {
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+	margin-top: 3em;
+	text-align: center;
+}
+
+.homepage-about-assessment__music {
+	display: flex;
+	flex-basis: 56%;
+	flex-direction: column;
+	justify-content: space-between;
+	margin: 0 4% 0 2%;
+	position: relative;
+
+	&:after {
+		border-right: 1px dashed $taupe-50;
+		bottom: 0;
+		content: '';
+		height: 80%;
+		position: absolute;
+		right: -8%;
+		width: 0;
+
+		@include breakpoint($desktop-width) {
+			height: 75%;
+		}
+	}
+}
+
+.homepage-about-assessment__visual-arts {
+	display: flex;
+	flex-basis: 32%;
+	flex-direction: column;
+	justify-content: space-between;
+	margin: 0 2% 0 4%;
+}
+
+.homepage-about-assessment__music-content,
+.homepage-about-assessment__visual-arts-content {
+	border-top: 1px dashed $taupe-50;
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+	margin-top: 1em;
+}
+
+.homepage-about-assessment__music-content div:first-of-type {
+	border-right: 1px dashed $taupe-50;
+	flex-basis: 42%;
+	margin-top: 1em;
+}
+.homepage-about-assessment__music-content div:last-of-type {
+	flex-basis: 58%;
+	margin-top: 1em;
+}
+
+.homepage-about-assessment__visual-arts-content > div {
+	margin-top: 1em;
+}
+
+.homepage-about-assessment-key {
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: space-around;
+
+	> div {
+		width: 360px;
+	}
+}
+
+.homepage-about-assessment-key img {
+	float: left;
+	margin: 0 1.5em 1em 0;
+}
+
+.homepage-about-assessment-key__title {
+	font-size: 14px;
+	font-weight: 600;
+}
+
+.homepage-about-assessment-key p {
+	font-size: 12px;
+	margin: 0;
+}
+
+.homepage-about-assessment-key__measured-by {
+	color: $blue-100;
+	font-size: 14px;
+}

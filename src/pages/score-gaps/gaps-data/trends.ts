@@ -7,6 +7,10 @@ import {Params, Data} from 'api/tuda-acrossyear';
 export {Data};
 
 export function load(variable: string, focal: number, target: number): Promise<Data[]> {
+  // use SCHTYP2 if Private is a category
+  if (variable === 'SCHTYPE' && (focal === 1 || target === 1)) {
+    variable = 'SCHTYP2';
+  }
   return loadData<Params, Data>({
     type: 'tuda-acrossyear',
 

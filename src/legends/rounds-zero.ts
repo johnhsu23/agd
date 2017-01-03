@@ -1,8 +1,7 @@
-import Model from 'legends/model';
+import TextLegend from 'models/legend/text';
 
-export default function legend(): Model {
-  return new Model({
-    type: 'text',
+export default function legend(): TextLegend {
+  return new TextLegend({
     marker: '#',
     description: 'Rounds to zero.',
   });

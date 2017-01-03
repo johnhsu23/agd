@@ -1,14 +1,14 @@
 import {Model} from 'backbone';
 import {Selection} from 'd3-selection';
 import {scaleBand} from 'd3-scale';
-import {axisLeft} from 'd3-axis';
 
 import 'd3-transition';
 
 import configure from 'util/configure';
-import wrap from 'util/wrap';
 import * as vars from 'data/variables';
 import Chart from 'views/chart';
+import {verticalLeft} from 'components/categorical-axis';
+
 import {groupedData, CsvData} from 'pages/score-gaps/bar-data';
 import {formatValue} from 'codes';
 
@@ -19,7 +19,7 @@ import * as axis from 'components/axis';
   className: 'chart chart--bar',
 })
 export default class BarChart extends Chart<Model> {
-  protected marginLeft = 100;
+  protected marginLeft = 120;
   protected marginRight = 100;
   protected marginBottom = 40;
   protected marginTop = 0;
@@ -47,8 +47,6 @@ export default class BarChart extends Chart<Model> {
       this.firstRender = false;
     }
 
-    this.renderData(groupedData[vars.SDRACE.id]);
-
     return this;
   }
 
@@ -56,8 +54,15 @@ export default class BarChart extends Chart<Model> {
     this.renderData(groupedData[variable.id]);
   }
 
-  protected renderData(data: CsvData[]): void {
+  onAttach(): void {
+    if (super.onAttach) {
+      super.onAttach();
+    }
 
+    this.renderData(groupedData[vars.SDRACE.id]);
+  }
+
+  protected renderData(data: CsvData[]): void {
     // setup and add the x axis
     const percent = scales.percent()
       .bounds([0, 100])
@@ -99,18 +104,16 @@ export default class BarChart extends Chart<Model> {
       .range([0, chartHeight])
       .padding(0.5);
 
-    const categoryAxis = axisLeft(category);
+    const categoryAxis = verticalLeft()
+      .scale(category)
+      .wrap(this.marginLeft - 5);
 
     this.categoryAxis
       .attr('transform', `translate(${this.marginLeft}, ${this.marginTop})`)
       .call(categoryAxis);
 
-    // wrap the category names
-    this.categoryAxis.selectAll('text')
-      .call(wrap, this.marginLeft - 5);
-
     // set the bar groups
-    const barUpdate = this.inner.selectAll('.gap-bar')
+    const barUpdate = this.inner.selectAll('.bar--gap')
       .data(data);
 
     barUpdate.interrupt()
@@ -120,7 +123,7 @@ export default class BarChart extends Chart<Model> {
     // add group element
     const barEnter = barUpdate.enter()
       .append('g')
-      .classed('gap-bar', true)
+      .classed('bar--gap', true)
       .attr('transform', d => `translate(0, ${category(d.name)})`);
 
     // helper function to get the proper bar width
@@ -130,44 +133,38 @@ export default class BarChart extends Chart<Model> {
 
     // add bar rect svg
     barEnter.append('rect')
-      .classed('gap-bar__bar', true)
+      .classed('bar--gap__bar', true)
       .attr('height', category.bandwidth())
       .attr('width', 0)
-      .merge(barUpdate.select('.gap-bar__bar'))
+      .merge(barUpdate.select('.bar--gap__bar'))
       .transition()
       .attr('height', category.bandwidth())
       .attr('width', d => barWidth(d.value));
 
     // add bar percentage text
     const barText = barEnter.append('text')
-      .classed('gap-bar__text', true)
+      .classed('bar--gap__text', true)
       .attr('y', (category.bandwidth() / 2) + 5);
 
-    barText.merge(barUpdate.select('.gap-bar__text'))
+    barText.merge(barUpdate.select('.bar--gap__text'))
       .transition()
       .attr('y', (category.bandwidth() / 2) + 5)
       .attr('x', d => barWidth(d.value) + 5);
 
     barText.append('tspan')
-      .classed('gap-bar__text__value', true)
-      .merge(barUpdate.select('.gap-bar__text__value'))
+      .classed('bar--gap__text-value', true)
+      .merge(barUpdate.select('.bar--gap__text-value'))
       .text(d => formatValue(d.value, '', d.errorFlag));
-
-    // add maximum score text to focal category
-    barText.data([data[0]])
-      .append('tspan')
-      .classed('gap-bar__text__outer', true)
-      .text('% of maximum score');
 
     // handle the exit transitions for the bar and text elements
     const barExit = barUpdate.exit()
       .transition()
       .remove();
 
-    barExit.select('.gap-bar__bar')
+    barExit.select('.bar--gap__bar')
       .attr('width', 0);
 
-    barExit.select('.gap-bar__text')
+    barExit.select('.bar--gap__text')
       .attr('x', 0);
   }
 }

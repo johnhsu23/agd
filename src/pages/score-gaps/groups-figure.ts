@@ -3,8 +3,10 @@ import {Collection, EventsHash} from 'backbone';
 
 import LegendView from 'views/legend';
 import * as vars from 'data/variables';
+import {shouldCombine, combined} from 'util/sdrace';
 
-import Legend from 'legends/model';
+import context from 'models/context';
+import Legend from 'models/legend';
 import sigDiff from 'legends/sig-diff';
 import {all as gatherNotes} from 'legends/gather';
 
@@ -23,7 +25,7 @@ export default class GroupsFigure extends Figure {
       super.onRender();
     }
 
-    this.showControls(new VariableSelector({}));
+    this.showControls(new VariableSelector());
 
     this.showContents(new GroupsTable({ collection: this.tableData }));
 
@@ -48,7 +50,8 @@ export default class GroupsFigure extends Figure {
   }
 
   protected updateData(): void {
-    const variable = this.variable;
+    const variable = this.variable,
+          displayVariable = shouldCombine(variable) ? combined : variable;
 
     load(variable)
       .then(rows => {
@@ -61,7 +64,7 @@ export default class GroupsFigure extends Figure {
             model = models[row.categoryindex] = new GroupsModel;
           }
 
-          model.variable = variable;
+          model.variable = displayVariable;
           model.category = row.categoryindex;
 
           model.set(row.targetyear + '-' + row.stattype, row);
@@ -75,7 +78,8 @@ export default class GroupsFigure extends Figure {
   }
 
   protected makeTitle(): string {
-    return `Percentage distribution of students assessed in eighth-grade NAEP arts, by ${this.variable.name}`;
+    return 'Percentage distribution and average responding scale scores of eighth-grade students assessed in NAEP ' +
+     `${context.subject}, by ${this.variable.title}: 2008 and 2016`;
   }
 
   protected resetNotes(data: Data[]): void {
