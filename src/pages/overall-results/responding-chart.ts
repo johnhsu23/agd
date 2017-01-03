@@ -16,10 +16,10 @@ import * as axis from 'components/axis';
   className: 'chart chart--bar',
 })
 export default class BarChart extends Chart<Model> {
-  protected marginLeft = 100;
+  protected marginLeft = 115;
   protected marginRight = 100;
-  protected marginBottom = 40;
-  protected marginTop = 0;
+  protected marginBottom = 70;
+  protected marginTop = 60;
 
   protected percentAxis: Selection<SVGGElement, {}, null, void>;
   protected scoreLvlAxis: Selection<SVGGElement, {}, null, void>;
@@ -46,7 +46,8 @@ export default class BarChart extends Chart<Model> {
       .domain([0, 100]);
 
     const percentAxis = axis.horizontalBottom()
-      .scale(percent);
+      .scale(percent)
+      .title(['Percent of Maximum Score']);
 
     const chartHeight = 300,
         chartWidth = percent.range()[1];
@@ -59,7 +60,8 @@ export default class BarChart extends Chart<Model> {
       .call(percentAxis);
 
     const textX = ['Percent of Maximum Score'],
-      textLengthX = textX.length - 1;
+       lineHeight = -1.1,
+       textLengthX = textX.length - 1;
 
     // Select all child <tspan> elements of the axis title's <text> element
     const tspansX = this.percentAxis.append('text')
@@ -71,7 +73,7 @@ export default class BarChart extends Chart<Model> {
       .append('tspan')
       .text(d => d)
       .attr('x', this.marginLeft * 2)
-      .attr('y', this.marginTop + 40 )
+      .attr('y', this.marginTop)
       .attr('dy', (_, index) => (textLengthX - index) * lineHeight + 'em');
 
     // setup and add the y axis
@@ -87,8 +89,7 @@ export default class BarChart extends Chart<Model> {
       .attr('transform', `translate(${this.marginLeft}, ${this.marginTop})`)
       .call(scoreLvlAxis);
 
-    const text = ['Percentiles for Responding Scores'],
-      lineHeight = -1.1,
+    const text = ['Percentiles for', 'Responding', 'Scores'],
       textLength = text.length - 1;
 
     // Select all child <tspan> elements of the axis title's <text> element
@@ -100,8 +101,10 @@ export default class BarChart extends Chart<Model> {
     tspans.enter()
       .append('tspan')
       .text(d => d)
-      .attr('x', -20)
+      .attr('x', -10)
       .attr('y', -10)
+      .attr('fill', 'black')
+      .attr('font-size', '16px')
       .attr('dy', (_, index) => (textLength - index) * lineHeight + 'em');
 
     // set the bar groups

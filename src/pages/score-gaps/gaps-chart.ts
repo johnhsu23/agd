@@ -42,7 +42,7 @@ export default class GapsChart extends Chart<Model> {
   protected marginLeft = 40;
   protected marginRight = 40;
   protected marginBottom = 30;
-  protected marginTop = 30;
+  protected marginTop = 50;
 
   protected scoreAxis: Selection<SVGGElement, {}, null, void>;
   protected yearAxis: Selection<SVGGElement, {}, null, void>;
@@ -156,7 +156,7 @@ export default class GapsChart extends Chart<Model> {
       .append('tspan')
       .text(d => d)
       .attr('x', this.marginLeft * 3)
-      .attr('y', this.marginTop)
+      .attr('y', this.marginTop / 2)
       .attr('dy', (_, index) => (textLength - index) * lineHeight + 'em');
 
     const scoreAxis = axis.verticalLeft()

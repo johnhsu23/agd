@@ -66,7 +66,7 @@ export default class PercentileChart extends Chart<Model> {
   protected marginLeft = 40;
   protected marginRight = 150;
   protected marginBottom = 30;
-  protected marginTop = 30;
+  protected marginTop = 50;
 
   protected scoreAxis: Selection<SVGGElement, {}, null, void>;
   protected yearAxis: Selection<SVGGElement, {}, null, void>;
@@ -157,7 +157,7 @@ export default class PercentileChart extends Chart<Model> {
       .append('tspan')
       .text(d => d)
       .attr('x', left * 3)
-      .attr('y', this.marginTop)
+      .attr('y', this.marginTop / 2)
       .attr('dy', (_, index) => (textLength - index) * lineHeight + 'em');
   }
 
