@@ -1,0 +1,18 @@
+.story-of-naep {
+	background: #fff url(../img/naep-horizontal-2color.png) no-repeat left center;
+	clear: left;
+	padding: 1em 1em 1em 360px;
+
+	h3 {
+		color: $blue-100 !important;
+		font-size: 1.5em !important;
+		font-weight: 600 !important;
+		margin-bottom: .25em;
+	}
+
+	p {
+		color: $black-90;
+		font-size: .875em;
+		margin: 0;
+	}
+}
