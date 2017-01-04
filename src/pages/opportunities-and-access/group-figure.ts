@@ -113,9 +113,9 @@ export default class GroupFigure extends Figure {
     let data: Data[] = [];
 
     // populate our data array
-    result.forEach(item => {
+    for (const item of result) {
       data = union(data, item.values);
-    });
+    }
 
     // add notes based on error flags
     legends = legends.concat(...gatherNotes(data, row => row.errorFlag));
