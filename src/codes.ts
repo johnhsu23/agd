@@ -69,10 +69,12 @@ export function isRoundsToZero(errorCode: number): boolean {
  */
 export function formatValue(estimate: number, sig: string, errorCode: number): string {
   if (isNotAvailable(errorCode)) {
+    // EM DASH (—)
     return '\u2014';
   }
 
   if (isNotApplicable(errorCode)) {
+    // DOUBLE DAGGER (‡)
     return '\u2021';
   }
 
