@@ -4,7 +4,6 @@ import {union} from 'underscore';
 import {default as Figure, FigureOptions} from 'views/figure';
 import LegendView from 'views/legend';
 import Legend from 'models/legend';
-import sigDiff from 'legends/sig-diff';
 import {all as gatherNotes} from 'legends/gather';
 import forwardEvents from 'util/forward-events';
 import context from 'models/context';
@@ -84,13 +83,8 @@ export default class TrendsFigure extends Figure {
       data = union(data, item.values);
     });
 
-    // add our sig diff note if applicable
-    if (data.some(row => row.sig === '<' || row.sig === '>')) {
-      legends.push(sigDiff());
-    }
-
     // add other notes based on error flags
-    legends = legends.concat(...gatherNotes(data, row => row.TargetErrorFlag));
+    legends = legends.concat(...gatherNotes(data, row => row.TargetErrorFlag, row => row.sig));
 
     this.legendCollection.reset(legends);
   }
