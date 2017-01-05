@@ -1,14 +1,14 @@
 import * as Promise from 'bluebird';
 
 import loadData from 'api';
-import {Variable} from 'data/variables';
+import {Variable, SCHTYPE, SCHTYP2} from 'data/variables';
 import {ContextualVariable} from 'data/contextual-variables';
 import {nest} from 'd3-collection';
 import {ascending} from 'd3-array';
 import context from 'models/context';
 import {range} from 'underscore';
-
 import {Params, Data} from 'api/tuda-data';
+import * as schtype from 'util/schtype';
 
 export {Data};
 
@@ -39,7 +39,23 @@ function groupData(rows: Data[], variable: Variable, contextualVariable: Context
 }
 
 export function load(variable: Variable, contextualVariable: ContextualVariable): Promise<Result[]> {
-  const params = makeParams(variable, contextualVariable);
+  const params = makeParams(variable, contextualVariable),
+        schtypeD = makeParams(SCHTYPE, contextualVariable),
+        schtyp2D = makeParams(SCHTYP2, contextualVariable);
+
+  function combineSchTypes(): any[] {
+    if (schtype.categories(variable)) {
+      const schtypeData = loadData<Params, Data>(schtypeD),
+            schtyp2Data = loadData<Params, Data>(schtyp2D);
+
+      return [
+        schtypeData,
+        schtyp2Data,
+      ];
+    }
+  }
+
+  combineSchTypes();
 
   return loadData<Params, Data>(params)
     .then(data => groupData(data, variable, contextualVariable));

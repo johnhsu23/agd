@@ -40,19 +40,6 @@ export default class GroupFigure extends Figure {
       super.onRender();
     }
 
-    /** Delete this if the data for school type is correct.
-    const studentGroups = vars.studentGroups.map(group => {
-      switch (group.id) {
-        case 'SLUNCH3':
-          return vars.SLUNCH3;
-        case 'SCHTYPE':
-          return vars.SCHTYPE;
-        default:
-          return group;
-      }
-    });
-    */
-
     this.showControls(new VariableSelector({ variables: vars.studentGroups }));
 
     this.showContents(new GroupChart({
