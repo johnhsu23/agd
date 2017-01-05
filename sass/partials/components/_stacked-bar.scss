@@ -41,4 +41,8 @@
     &--6 {
         rect { fill: $blue-25; }
     }
+
+    &--no-data {
+        rect { fill: #ffffff; }
+    }
 }

@@ -11,6 +11,7 @@ import {all as gatherAll} from 'legends/gather';
 
 import {load, Grouped} from 'pages/opportunities-and-access/bubble-data';
 import BubbleChart from 'pages/opportunities-and-access/bubble-chart';
+import * as bubbleInstructions from 'text!templates/bubble-instructions.html';
 
 export interface BubbleFigureOptions extends FigureOptions {
   variable: Variable;
@@ -57,6 +58,7 @@ export default class BubbleFigure extends Figure {
       .done();
 
     this.showLegend(new LegendView({ collection }));
+    this.showInstructions(bubbleInstructions);
 
     const chart = new BubbleChart({
       variable: this.variable,

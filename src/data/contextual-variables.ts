@@ -121,7 +121,7 @@ export const SQ00901: ContextualVariable = {
   name: 'Is there a full-time specialist on your school staff available to teach visual arts to eighth graders',
   title: [
     // This title is too long for tslint's 120-char limit
-    'whether there was a full-time specialist was on their school staff',
+    'whether there was a full-time specialist on their school staff',
     'available to teach visual arts to eighth graders',
   ].join(' '),
   selected: 0,

@@ -5,5 +5,5 @@ import * as template from 'text!templates/about.html';
 export default class AboutView extends Page {
   template = () => template;
 
-  pageTitle = 'About';
+  pageTitle = 'About the NAEP Arts Assessment';
 }
