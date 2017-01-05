@@ -22,7 +22,7 @@ export default class BubbleLegendView<Legend extends BubbleLegend> extends D3Vie
     const width = 180,
           bubbleHeight = 50;
 
-    const points = [10, 45];
+    const points = [10, 50];
 
     const radius = scaleSqrt()
       .domain([0, 100])
