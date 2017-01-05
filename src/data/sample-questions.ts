@@ -79,7 +79,7 @@ export const VCCL004: SampleQuestion = {
 // NQT ID: 2016-8A4 #2 UD00002; ACCNUM SL000017
 export const UD00002: SampleQuestion = {
   naepid: 'UD00002',
-  name: 'Identify texture of music',
+  name: 'Select a line drawing reflective of the texture of an example of music',
   classification: 'Responding',
   type: 'MC',
 };
@@ -87,7 +87,7 @@ export const UD00002: SampleQuestion = {
 // NQT ID: 2016-8A6 #4 UF00004; ACCNUM LD000910
 export const UF00004: SampleQuestion = {
   naepid: 'UF00004',
-  name: 'Identify the solo instrument',
+  name: 'Identify the solo instrument beginning "Rhapsody in Blue"',
   classification: 'Responding',
   type: 'MC',
 };
@@ -103,7 +103,7 @@ export const UE00005: SampleQuestion = {
 // NQT ID: 2016-8A5 #6 UE00006; ACCNUM SL000087
 export const UE00006: SampleQuestion = {
   naepid: 'UE00006',
-  name: 'Identify musical symbol and explain its meaning',
+  name: 'Identify the name of piano dynamic marking and explain its meaning',
   classification: 'Responding',
   type: 'SCR',
 };
@@ -127,7 +127,7 @@ export const UECL008: SampleQuestion = {
 // NQT ID: 2016-8A4 #9 UDCL009; ACCNUM SL000049
 export const UDCL009: SampleQuestion = {
   naepid: 'UDCL009',
-  name: 'Identify region where music comes from and explain why',
+  name: 'Identify region where music comes from and explain its style characteristics',
   classification: 'Responding',
   type: 'SCR',
 };
