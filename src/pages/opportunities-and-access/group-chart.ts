@@ -118,16 +118,22 @@ export default class GroupChart extends Chart<Model> {
       lineHeight = -1.1,
       textLength = text.length - 1;
     // Select all child <tspan> elements of the axis title's <text> element
-    const tspans = this.percentAxis.append('text')
-      .classed('axis__title', true)
-      .selectAll('tspan')
-      .data(text);
-    tspans.enter()
-      .append('tspan')
-      .text(d => d)
-      .attr('x', chartWidth / 2)
-      .attr('y', chartHeight / 6.5)
-      .attr('dy', (_, index) => (textLength - index) * lineHeight + 'em');
+
+    let axisTitle = this.percentAxis.select('text.axis__title');
+    if (axisTitle.empty()) {
+      axisTitle = this.percentAxis.append('text')
+        .classed('axis__title', true);
+    }
+
+      const tspans = axisTitle.selectAll('tspan')
+        .data(text);
+
+      tspans.enter()
+        .append('tspan')
+        .text(d => d)
+        .attr('x', chartWidth / 2)
+        .attr('y', chartHeight / 6.5)
+        .attr('dy', (_, index) => (textLength - index) * lineHeight + 'em');
 
     // setup and add the y axis
     const category = scaleBand()
