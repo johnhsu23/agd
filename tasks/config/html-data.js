@@ -19,6 +19,23 @@ module.exports = function (grunt) {
           ext: '.json',
         }],
       },
+      glossary: {
+        options: {
+          prefix: 'glossary',
+          elements: [
+            'title',
+            'description',
+          ],
+        },
+        files: [{
+          expand: true,
+          src: ['glossary'],
+          filter: 'isDirectory',
+          dest: 'public/glossary',
+          ext: '.json',
+
+        }]
+      },
       questions: {
         options: {
           prefix: 'question',

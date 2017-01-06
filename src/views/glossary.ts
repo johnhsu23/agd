@@ -1,23 +1,27 @@
 import {Model, ViewOptions} from 'backbone';
 import {ItemView} from 'backbone.marionette';
 
-import noTemplate from 'util/no-template';
+import * as template from 'text!templates/glossary.html';
+import * as glossaryTerms from 'json!glossary/glossary.json';
 
 export interface GlossaryViewOptions extends ViewOptions<any> {
   term: string;
 }
 
-@noTemplate
 export default class Glossary extends ItemView<Model> {
-  protected term: string;
+  template = () => template;
+
+  protected termId: string;
 
   constructor(options: GlossaryViewOptions) {
     super(options);
 
-    this.term = options.term;
+    this.termId = options.term;
   }
 
   onRender(): void {
-    this.$el.html(this.term);
+    const term = glossaryTerms[this.termId];
+    this.$('.glossary__title em').text(term['title']);
+    this.$('.glossary__description').html(term['description']);
   }
 }

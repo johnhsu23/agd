@@ -27,6 +27,17 @@ module.exports = function (grunt) {
           dest: 'src/files.d.ts',
         }],
       },
+      glossary: {
+        options: {
+          plugin: 'json',
+          type: 'Dict<Dict<string>>',
+          preamble: 'type Dict<T> = { [key: string]: T };',
+        },
+        files: [{
+          src: 'public/glossary/glossary.json',
+          dest: 'src/glossary.d.ts',
+        }],
+      },
       notes: {
         files: [{
           src: 'public/notes/**/*.html',

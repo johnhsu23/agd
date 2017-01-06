@@ -20,6 +20,7 @@ src/templates.d.ts
 src/files.d.ts
 src/notes.d.ts
 src/questions.d.ts
+src/glossary.d.ts
 
 # Auto-generated sass-globbing files
 sass/partials/sass-globbing

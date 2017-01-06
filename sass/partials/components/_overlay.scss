@@ -1,7 +1,20 @@
 .overlay {
-  background-color: $taupe-10;
+  background: $taupe-10 url(../img/background_overlay_header.png) repeat-x top left;
   border: 2px solid $taupe-70;
   box-shadow: 0 0 20px 0 #979899;
   position: absolute;
   width: 300px;
+
+  &__close {
+    display: block;
+    height: 20px;
+    position: absolute;
+    right: -10px;
+    top: -10px;
+    width: 20px;
+  }
+
+  &__contents {
+    margin-top: 30px;
+  }
 }
