@@ -85,10 +85,14 @@ export default class BarChart extends Chart<Model> {
       lineHeight = -1.1,
       textLength = text.length - 1;
 
+    let axisTitle = this.percentAxis.select('text.axis__title');
+    if (axisTitle.empty()) {
+      axisTitle = this.percentAxis.append('text')
+        .classed('axis__title', true);
+    }
+
     // Select all child <tspan> elements of the axis title's <text> element
-    const tspans = this.percentAxis.append('text')
-      .classed('axis__title', true) // add CSS class
-      .selectAll('tspan')
+    const tspans = axisTitle.selectAll('tspan')
       .data(text);
 
     tspans.enter()

@@ -118,10 +118,16 @@ export default class GroupChart extends Chart<Model> {
       lineHeight = -1.1,
       textLength = text.length - 1;
     // Select all child <tspan> elements of the axis title's <text> element
-    const tspans = this.percentAxis.append('text')
-      .classed('axis__title', true)
-      .selectAll('tspan')
+
+    let axisTitle = this.percentAxis.select('text.axis__title');
+    if (axisTitle.empty()) {
+      axisTitle = this.percentAxis.append('text')
+        .classed('axis__title', true);
+    }
+
+    const tspans = axisTitle.selectAll('tspan')
       .data(text);
+
     tspans.enter()
       .append('tspan')
       .text(d => d)
