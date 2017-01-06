@@ -17,7 +17,7 @@ interface Notes {
  * Gathers all footnote symbols and returns an array of legend symbols.
  */
 export function all<Row>(rows: Row[], errorFlag: (row: Row, index: number) => number,
-  sig: (row: Row, index: number) => string): Legend[] {
+  sig?: (row: Row, index: number) => string): Legend[] {
   const legends: Legend[] = [];
   if (!rows) {
     return legends;
@@ -33,7 +33,8 @@ export function all<Row>(rows: Row[], errorFlag: (row: Row, index: number) => nu
   for (let i = 0; i < rows.length; i++) {
     const row = rows[i],
           flag = errorFlag(row, i),
-          sigDiff = sig(row, i);
+          // if sig was not passed through, use empty string
+          sigDiff = (sig) ? sig(row, i) : '';
 
     if (codes.isNotApplicable(flag)) {
       notes.notApplicable = true;
