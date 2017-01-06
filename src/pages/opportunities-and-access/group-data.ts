@@ -1,13 +1,13 @@
-import * as Promise from 'bluebird';
-
+import * as Bluebird from 'bluebird';
+import {range} from 'underscore';
 import loadData from 'api';
-import {Variable, SCHTYPE, SCHTYP2} from 'data/variables';
-import {ContextualVariable} from 'data/contextual-variables';
 import {nest} from 'd3-collection';
 import {ascending} from 'd3-array';
+
 import context from 'models/context';
-import {range} from 'underscore';
 import {Params, Data} from 'api/tuda-data';
+import {Variable, SCHTYPE, SCHTYP2} from 'data/variables';
+import {ContextualVariable} from 'data/contextual-variables';
 import * as schtype from 'util/schtype';
 
 export {Data};
@@ -17,18 +17,23 @@ export interface Result {
   values: Data[];
 }
 
-function makeParams(variable: Variable, contextualVariable: ContextualVariable): Params {
-  return {
+function loadOne(variable: Variable, contextualVariable: ContextualVariable, categories: number[]): Bluebird<Result[]> {
+  return loadData<Params, Data>({
     type: 'tuda-data',
+
     subject: context.subject,
-    subscale: (context.subject === 'music') ? 'MUSRP' : 'VISRP',
+    subscale: context.subject === 'visual arts' ? 'VISRP' : 'MUSRP',
     grade: 8,
-    variable: variable.id + '+' + contextualVariable.id,
-    categoryindex: range(variable.categories.length * contextualVariable.categories.length),
+
+    variable: `${variable.id}+${contextualVariable.id}`,
+    categoryindex: categories,
+
     year: '2016',
-    stattype: 'RP',
+
     jurisdiction: 'NT',
-  };
+    stattype: 'RP',
+  })
+  .then(rows => groupData(rows, variable, contextualVariable));
 }
 
 function groupData(rows: Data[], variable: Variable, contextualVariable: ContextualVariable): Result[] {
@@ -38,26 +43,20 @@ function groupData(rows: Data[], variable: Variable, contextualVariable: Context
     .entries(rows);
 }
 
-export function load(variable: Variable, contextualVariable: ContextualVariable): Promise<Result[]> {
-  const params = makeParams(variable, contextualVariable);
+export async function load(variable: Variable, contextualVariable: ContextualVariable): Bluebird<Result[]> {
+  // If we've requested variables that need combination, handle that here
+  if (schtype.shouldCombine(variable)) {
+    const schtypeData = loadOne(SCHTYPE, contextualVariable,
+        schtype.combinedCategories(SCHTYPE, contextualVariable)),
+          schtyp2Data = loadOne(SCHTYP2, contextualVariable,
+            schtype.combinedCategories(SCHTYP2, contextualVariable));
 
- function combineSchTypes(): any[] {
-    const schtypeD = makeParams(SCHTYPE, contextualVariable),
-          schtyp2D = makeParams(SCHTYP2, contextualVariable);
-
-    if (schtype.shouldCombine(variable)) {
-      const schtypeData = loadData<Params, Data>(schtypeD),
-            schtyp2Data = loadData<Params, Data>(schtyp2D);
-
-      return [
-        schtypeData,
-        schtyp2Data,
-      ];
-    }
+    return [
+      ...await schtypeData,
+      ...await schtyp2Data,
+    ];
   }
 
-  combineSchTypes();
-
-  return loadData<Params, Data>(params)
-    .then(data => groupData(data, variable, contextualVariable));
+  const categories = range(variable.categories.length * contextualVariable.categories.length);
+  return loadOne(variable, contextualVariable, categories);
 }

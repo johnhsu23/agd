@@ -1,6 +1,8 @@
 import {ViewOptions, Model} from 'backbone';
 import {Selection} from 'd3-selection';
 import {scaleBand} from 'd3-scale';
+import {nest} from 'd3-collection';
+import {ascending} from 'd3-array';
 
 import makeStack from 'components/stack';
 import * as scales from 'components/scales';
@@ -92,6 +94,14 @@ export default class GroupChart extends Chart<Model> {
   }
 
   protected loaded(data: Result[]): void {
+    // Reorder the data if this is SCHTYPE since we are actually pulling from both SCHTYPE and SCHTYP2.
+    if (this.variable.id === 'SCHTYPE') {
+      data = nest<Result>()
+        .sortValues((a, b) => ascending(this.variable.categories.indexOf(a.key),
+          this.variable.categories.indexOf(b.key)))
+        .entries(data);
+    }
+
     // setup and add the x axis
     const percent = scales.percent()
       .domain([0, 100]);
