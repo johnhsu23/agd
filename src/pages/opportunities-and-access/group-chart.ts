@@ -84,7 +84,6 @@ export default class GroupChart extends Chart<Model> {
   }
 
   updateData(data: Result[]): void {
-    console.log(data);
     this.loaded(data);
   }
 
