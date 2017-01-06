@@ -39,12 +39,13 @@ function groupData(rows: Data[], variable: Variable, contextualVariable: Context
 }
 
 export function load(variable: Variable, contextualVariable: ContextualVariable): Promise<Result[]> {
-  const params = makeParams(variable, contextualVariable),
-        schtypeD = makeParams(SCHTYPE, contextualVariable),
-        schtyp2D = makeParams(SCHTYP2, contextualVariable);
+  const params = makeParams(variable, contextualVariable);
 
-  function combineSchTypes(): any[] {
-    if (schtype.categories(variable)) {
+ function combineSchTypes(): any[] {
+    const schtypeD = makeParams(SCHTYPE, contextualVariable),
+          schtyp2D = makeParams(SCHTYP2, contextualVariable);
+
+    if (schtype.shouldCombine(variable)) {
       const schtypeData = loadData<Params, Data>(schtypeD),
             schtyp2Data = loadData<Params, Data>(schtyp2D);
 
