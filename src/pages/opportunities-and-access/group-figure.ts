@@ -50,18 +50,7 @@ export default class GroupFigure extends Figure {
       contextualVariable: this.contextualVariable,
     });
 
-    const studentGroups = vars.studentGroups.map(group => {
-      switch (group.id) {
-        case 'SLUNCH3':
-          return vars.SLUNCH1;
-        case 'SCHTYPE':
-          return vars.SCHTYP1;
-        default:
-          return group;
-      }
-    });
-
-    this.showControls(new VariableSelector({ variables: studentGroups }));
+    this.showControls(new VariableSelector({ variables: vars.studentGroups }));
     this.showContents(this.chart);
     this.setTitle(this.makeTitle());
     this.showLegend(new LegendView({
