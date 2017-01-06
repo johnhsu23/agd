@@ -67,7 +67,7 @@ export const VC00001: SampleQuestion = {
 // NB. This item is not in the NQT
 export const VCCL004: SampleQuestion = {
   naepid: 'VCCL004',
-  name: 'Relationship between technical approach and meaning',
+  name: 'Explain the relationship between technical approach and meaning in an artist\'s self-portrait.',
   classification: 'Responding',
   type: 'SCR',
 };
