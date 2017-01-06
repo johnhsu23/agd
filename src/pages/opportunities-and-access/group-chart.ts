@@ -27,7 +27,7 @@ export interface GroupChartOptions extends ViewOptions<Model> {
 export default class GroupChart extends Chart<Model> {
   protected marginLeft = 140;
   protected marginRight = 25;
-  protected marginBottom = 30;
+  protected marginBottom = 60;
   protected marginTop = 80;
 
   protected percentAxis: Selection<SVGGElement, {}, null, void>;
@@ -113,6 +113,21 @@ export default class GroupChart extends Chart<Model> {
     this.percentAxis
       .attr('transform', `translate(${this.marginLeft}, ${this.marginTop + this.innerHeight})`)
       .call(percentAxis);
+
+    const text = ['Percent'],
+      lineHeight = -1.1,
+      textLength = text.length - 1;
+    // Select all child <tspan> elements of the axis title's <text> element
+    const tspans = this.percentAxis.append('text')
+      .classed('axis__title', true)
+      .selectAll('tspan')
+      .data(text);
+    tspans.enter()
+      .append('tspan')
+      .text(d => d)
+      .attr('x', chartWidth / 2)
+      .attr('y', chartHeight / 6.5)
+      .attr('dy', (_, index) => (textLength - index) * lineHeight + 'em');
 
     // setup and add the y axis
     const category = scaleBand()
