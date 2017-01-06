@@ -185,19 +185,25 @@ export default class GroupChart extends Chart<Model> {
       return (d.value !== 999 || i === 0) ? formatValue(d.value, d.sig, d.errorFlag) : '';
     };
 
+    // helper function for x value for bar text
+    const xValue = (d: Data & {size: number}, i: number): number => {
+      // for first text of no-data, use 5 for an offset
+      return (d.isStatDisplayable === 0 && i === 0) ? 5 : d.size / 2;
+    };
+
     // add bar text
     barEnter.append('text')
         .classed('bar__text', true)
-        .attr('x', d => d.size / 2)
+        .attr('x', xValue)
         .attr('y', category.bandwidth() / 2)
         .attr('dy', '0.37em')
-        .text((d, i) => setText(d, i))
+        .text(setText)
       .merge(barUpdate.select('.bar__text'))
       .transition()
-        .attr('x', d => d.size / 2)
+        .attr('x', xValue)
         .attr('y', category.bandwidth() / 2)
         .attr('dy', '0.37em')
-        .text((d, i) => setText(d, i));
+        .text(setText);
 
     // handle the exit transitions for the elements
     const seriesExit = seriesUpdate.exit()
@@ -222,7 +228,7 @@ export default class GroupChart extends Chart<Model> {
       .range([0, 300])
       .padding(0.2);
 
-    const categoryAxis = verticalLeft()
+    const categoryAxis = verticalLeft(300)
       .categories(categories)
       .scale(category)
       .wrap(this.marginLeft - 5); // Fudge factor

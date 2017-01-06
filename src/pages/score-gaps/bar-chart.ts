@@ -104,7 +104,7 @@ export default class BarChart extends Chart<Model> {
       .range([0, chartHeight])
       .padding(0.5);
 
-    const categoryAxis = verticalLeft()
+    const categoryAxis = verticalLeft(chartHeight)
       .scale(category)
       .wrap(this.marginLeft - 5);
 

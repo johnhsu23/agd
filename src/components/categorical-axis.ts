@@ -52,6 +52,7 @@ export interface Axis<Domain> {
 
 type AxisArgs = {
   vertical: boolean;
+  length: number;
 };
 
 function makeAxis<Domain>(args: AxisArgs): Axis<Domain> {
@@ -60,7 +61,7 @@ function makeAxis<Domain>(args: AxisArgs): Axis<Domain> {
     (value: T): Axis<Domain>;
   }
 
-  const {vertical} = args,
+  const {vertical, length} = args,
         modifier = vertical ? 'vertical-left' : 'horizontal-bottom',
         x = vertical ? -5 : 0,
         y = vertical ? 0 : '1.37em',
@@ -73,6 +74,17 @@ function makeAxis<Domain>(args: AxisArgs): Axis<Domain> {
 
   const axis = function <T, U>(selection: Selection<SVGGElement | SVGSVGElement, T, null, U>): void {
     selection.classed(`axis axis--${modifier}`, true);
+
+    const direction = (vertical) ? 'y' : 'x';
+    let axisLine = selection.select('.axis__line');
+    if (axisLine.empty()) {
+      axisLine = selection.append('line')
+        .classed('axis__line', true);
+    }
+
+    axisLine
+      .attr(direction + '1', 0)
+      .attr(direction + '2', length);
 
     const bandWidth = scale.bandwidth(),
           domain = scale.domain();
@@ -172,17 +184,19 @@ function makeAxis<Domain>(args: AxisArgs): Axis<Domain> {
   }
 }
 
-export function verticalLeft(): Axis<string>;
-export function verticalLeft<Domain>(): Axis<Domain>;
-export function verticalLeft<Domain>(): Axis<Domain> {
+export function verticalLeft(length: number): Axis<string>;
+export function verticalLeft<Domain>(length: number): Axis<Domain>;
+export function verticalLeft<Domain>(length: number): Axis<Domain> {
   return makeAxis<Domain>({
     vertical: true,
+    length,
   });
 }
-export function horizontalBottom(): Axis<string>;
-export function horizontalBottom<Domain>(): Axis<Domain>;
-export function horizontalBottom<Domain>(): Axis<Domain> {
+export function horizontalBottom(length: number): Axis<string>;
+export function horizontalBottom<Domain>(length: number): Axis<Domain>;
+export function horizontalBottom<Domain>(length: number): Axis<Domain> {
   return makeAxis<Domain>({
     vertical: false,
+    length,
   });
 }

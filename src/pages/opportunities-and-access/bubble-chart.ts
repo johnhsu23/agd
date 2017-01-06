@@ -204,7 +204,7 @@ export default class BubbleChart extends Chart<Model> {
       .domain(range(this.variable.categories.length))
       .range([0, 600]);
 
-    const responseAxis = horizontalBottom<number>()
+    const responseAxis = horizontalBottom<number>(600)
       .categories(this.variable.categories)
       .scale(response)
       // Use a fudge factor to keep the classroom type labels from bumping into each other
