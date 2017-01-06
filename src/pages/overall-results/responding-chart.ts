@@ -97,7 +97,7 @@ export default class BarChart extends Chart<Model> {
       .attr('transform', `translate(${this.marginLeft}, ${this.marginTop})`)
       .call(categoryAxis);
 
-    const text = ['Percentiles for', 'Responding', 'Scores'],
+    const text = ['Responding', 'Score Level'],
       textLength = text.length - 1;
 
     // Select all child <tspan> elements of the axis title's <text> element
@@ -109,8 +109,8 @@ export default class BarChart extends Chart<Model> {
     tspans.enter()
       .append('tspan')
       .text(d => d)
-      .attr('x', -100)
-      .attr('y', -5)
+      .attr('x', -90)
+      .attr('y', -10)
       .attr('fill', 'black')
       .attr('font-size', '16px')
       .attr('dy', (_, index) => (textLength - index) * lineHeight + 'em');
