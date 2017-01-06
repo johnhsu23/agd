@@ -107,7 +107,7 @@ export default class GroupFigure extends Figure {
     }
 
     // add notes based on error flags
-    legends = legends.concat(...gatherNotes(data, row => row.errorFlag));
+    legends = legends.concat(...gatherNotes(data, row => row.errorFlag, row => row.sig));
 
     this.legendCollection.reset(legends);
   }
