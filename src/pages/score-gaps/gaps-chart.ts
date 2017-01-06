@@ -146,11 +146,15 @@ export default class GapsChart extends Chart<Model> {
       lineHeight = -1.1,
       textLength = text.length - 1;
 
+    let axisTitle = this.yearAxis.select('text.axis__title');
+    if (axisTitle.empty()) {
+      axisTitle = this.yearAxis.append('text')
+        .classed('axis__title', true);
+    }
+
     // Select all child <tspan> elements of the axis title's <text> element
-    const tspans = this.yearAxis.append('text')
-      .classed('axis__title', true) // add CSS class
-      .selectAll('tspan')
-      .data(text);
+      const tspans = axisTitle.selectAll('tspan')
+        .data(text);
 
     tspans.enter()
       .append('tspan')

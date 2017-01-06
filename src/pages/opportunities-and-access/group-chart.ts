@@ -125,15 +125,15 @@ export default class GroupChart extends Chart<Model> {
         .classed('axis__title', true);
     }
 
-      const tspans = axisTitle.selectAll('tspan')
-        .data(text);
+    const tspans = axisTitle.selectAll('tspan')
+      .data(text);
 
-      tspans.enter()
-        .append('tspan')
-        .text(d => d)
-        .attr('x', chartWidth / 2)
-        .attr('y', chartHeight / 6.5)
-        .attr('dy', (_, index) => (textLength - index) * lineHeight + 'em');
+    tspans.enter()
+      .append('tspan')
+      .text(d => d)
+      .attr('x', chartWidth / 2)
+      .attr('y', chartHeight / 6.5)
+      .attr('dy', (_, index) => (textLength - index) * lineHeight + 'em');
 
     // setup and add the y axis
     const category = scaleBand()
