@@ -34,7 +34,7 @@ export interface SampleQuestion {
 // NQT ID: 2016-8A3 #3, ACCNUM WP000164
 export const VC00003: SampleQuestion = {
   naepid: 'VC00003',
-  name: 'Identify technical similarity in self-portraits',
+  name: 'Identify technical similarity between Schiele and Kollwitz self-portraits',
   classification: 'Responding',
   type: 'MC',
 };
@@ -42,7 +42,7 @@ export const VC00003: SampleQuestion = {
 // NQT ID: 2016-8A3 #2, ACCNUM LD000383
 export const VC00002: SampleQuestion = {
   naepid: 'VC00002',
-  name: 'Describe characteristics of charcoal in self-portrait',
+  name: 'Describe two characteristics of charcoal in Kollwitz self-portrait',
   classification: 'Responding',
   type: 'SCR',
 };
@@ -139,11 +139,11 @@ export const UDCL009: SampleQuestion = {
 export function questions(): SampleQuestion[] {
   if (context.subject === 'visual arts') {
     return [
-      VC00003,
-      VC00002,
-      VC000B6,
       VC00001,
+      VC00002,
+      VC00003,
       VCCL004,
+      VC000B6,
     ];
   }
 
