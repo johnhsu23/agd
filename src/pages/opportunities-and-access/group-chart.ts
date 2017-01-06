@@ -12,8 +12,9 @@ import {Variable} from 'data/variables';
 import {ContextualVariable} from 'data/contextual-variables';
 import configure from 'util/configure';
 import Chart from 'views/chart';
+import {formatValue} from 'codes';
 
-import {load, Result, Data} from 'pages/opportunities-and-access/group-data';
+import {Result, Data} from 'pages/opportunities-and-access/group-data';
 
 export interface GroupChartOptions extends ViewOptions<Model> {
   variable: Variable;
@@ -76,21 +77,15 @@ export default class GroupChart extends Chart<Model> {
     return this;
   }
 
-  onRender(): void {
-    this.updateData();
-  }
-
   protected onVariableSelect(variable: Variable): void {
     this.variable = variable;
 
-    this.updateData();
     this.updateAxis();
   }
 
-  protected updateData(): void {
-    load(this.variable, this.contextualVariable)
-      .then(data => this.loaded(data))
-      .done();
+  updateData(data: Result[]): void {
+    console.log(data);
+    this.loaded(data);
   }
 
   protected loaded(data: Result[]): void {
@@ -141,14 +136,14 @@ export default class GroupChart extends Chart<Model> {
         .attr('transform', d => `translate(0, ${category(d.key)})`);
 
     const stack = makeStack<Data>()
-      .defined(d => d.isStatDisplayable !== 0)
-      .size(d => percent(d.value));
+      .size(d => percent(d.isStatDisplayable !== 0 ? d.value : 0));
 
     const merged = seriesUpdate.merge(seriesEnter);
 
     // set bar group
     const barUpdate = merged.selectAll('.bar')
-      .data(d => stack(d.values));
+      .data(d => stack(d.values))
+      .classed('bar--no-data', d => d.isStatDisplayable === 0);
 
     barUpdate.interrupt()
       .transition()
@@ -158,7 +153,8 @@ export default class GroupChart extends Chart<Model> {
     const barEnter = barUpdate.enter()
       .append('g')
         .attr('class', (_, i) => `bar bar--${i}`)
-        .attr('transform', d => `translate(${d.offset})`);
+        .attr('transform', d => `translate(${d.offset})`)
+        .classed('bar--no-data', d => d.isStatDisplayable === 0);
 
     // add bar rect svg
     barEnter.append('rect')
@@ -170,19 +166,24 @@ export default class GroupChart extends Chart<Model> {
         .attr('height', category.bandwidth())
         .attr('width', d => d.size);
 
+    // helper function for the text
+    const setText = (d: Data, i: number): string => {
+      return (d.value !== 999 || i === 0) ? formatValue(d.value, d.sig, d.errorFlag) : '';
+    };
+
     // add bar text
     barEnter.append('text')
         .classed('bar__text', true)
         .attr('x', d => d.size / 2)
         .attr('y', category.bandwidth() / 2)
         .attr('dy', '0.37em')
-        .text(d => Math.round(d.value))
+        .text((d, i) => setText(d, i))
       .merge(barUpdate.select('.bar__text'))
       .transition()
         .attr('x', d => d.size / 2)
         .attr('y', category.bandwidth() / 2)
         .attr('dy', '0.37em')
-        .text(d => Math.round(d.value));
+        .text((d, i) => setText(d, i));
 
     // handle the exit transitions for the elements
     const seriesExit = seriesUpdate.exit()

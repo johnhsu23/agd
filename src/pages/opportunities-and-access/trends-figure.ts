@@ -61,16 +61,7 @@ export default class TrendsFigure extends Figure {
 
     this.setTitle(this.makeTitle());
 
-    const legends: Legend[] = this.variable.categories.map((d, i) => {
-      return new BarLegend({
-        category: i,
-        description: d,
-      });
-    });
-
-    const collection = new Collection(legends);
-
-    this.showLegend(new LegendView({ collection }));
+    this.buildLegend(data);
   }
 
   protected makeTitle(): string {
@@ -79,8 +70,14 @@ export default class TrendsFigure extends Figure {
   }
 
   protected buildLegend(result: Result[]): void {
-    let notes: Legend[] = [],
-        data: Data[] = [];
+    let legends: Legend[] = this.variable.categories.map((d, i) => {
+      return new BarLegend({
+        category: i,
+        description: d,
+      });
+    });
+
+    let data: Data[] = [];
 
     // populate our data array
     result.forEach(item => {
@@ -89,12 +86,12 @@ export default class TrendsFigure extends Figure {
 
     // add our sig diff note if applicable
     if (data.some(row => row.sig === '<' || row.sig === '>')) {
-      notes.push(sigDiff());
+      legends.push(sigDiff());
     }
 
     // add other notes based on error flags
-    notes = notes.concat(...gatherNotes(data, row => row.TargetErrorFlag));
+    legends = legends.concat(...gatherNotes(data, row => row.TargetErrorFlag));
 
-    this.legendCollection.reset(notes);
+    this.legendCollection.reset(legends);
   }
 }

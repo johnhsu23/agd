@@ -28,7 +28,7 @@ export default class SiteHeader extends ItemView<Model> {
     window.print();
   }
 
-  protected onPageChanged(page: string, subject?: 'music' | 'visual-arts'): void {
+  protected onPageChanged(page: string, subject?: 'music' | 'visual arts'): void {
     // We use the raw paths instead of relying on the `context' model because we have to distinguish between the
     // home and about pages, which `context' doesn't do.
     const isHomepage = page === 'pages/homepage',
@@ -42,7 +42,7 @@ export default class SiteHeader extends ItemView<Model> {
       .toggleClass('is-active', subject === 'music' && !isNonSubject);
 
     this.$('.js-link-visual-arts')
-      .toggleClass('is-active', subject === 'visual-arts' && !isNonSubject);
+      .toggleClass('is-active', subject === 'visual arts' && !isNonSubject);
 
     this.$('.js-link-about')
       .toggleClass('is-active', isAbout);

@@ -31,5 +31,5 @@ export function percent(): Scale {
   return scale()
     .bounds([0, 100])
     .interval(10)
-    .intervalSize(60);
+    .intervalSize(50);
 }
