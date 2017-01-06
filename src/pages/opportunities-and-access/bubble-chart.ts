@@ -29,7 +29,7 @@ export default class BubbleChart extends Chart<Model> {
 
   protected firstRender = true;
 
-  protected marginTop = 30;
+  protected marginTop = 60;
   protected marginLeft = 50;
   protected marginRight = 0;
   protected marginBottom = 100;
@@ -105,6 +105,21 @@ export default class BubbleChart extends Chart<Model> {
     this.scoreAxis
       .attr('transform', `translate(${this.marginLeft}, ${this.marginTop})`)
       .call(scoreAxis);
+
+    const text = ['Scale', 'Score'],
+      lineHeight = -1.1,
+      textLength = text.length - 1;
+    // Select all child <tspan> elements of the axis title's <text> element
+    const tspans = this.scoreAxis.append('text')
+      .classed('axis__title', true) // add CSS class
+      .selectAll('tspan')
+      .data(text);
+    tspans.enter()
+      .append('tspan')
+      .text(d => d)
+      .attr('x', this.marginLeft * -1)
+      .attr('y', this.marginTop / -3)
+      .attr('dy', (_, index) => (textLength - index) * lineHeight + 'em');
 
     const bubbleUpdate = this.inner.selectAll('.bubble')
       .data(valid);
@@ -189,7 +204,7 @@ export default class BubbleChart extends Chart<Model> {
       .domain(range(this.variable.categories.length))
       .range([0, 600]);
 
-    const responseAxis = horizontalBottom<number>()
+    const responseAxis = horizontalBottom<number>(600)
       .categories(this.variable.categories)
       .scale(response)
       // Use a fudge factor to keep the classroom type labels from bumping into each other

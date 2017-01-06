@@ -1,6 +1,8 @@
 import {ViewOptions, Model} from 'backbone';
 import {Selection} from 'd3-selection';
 import {scaleBand} from 'd3-scale';
+import {nest} from 'd3-collection';
+import {ascending} from 'd3-array';
 
 import makeStack from 'components/stack';
 import * as scales from 'components/scales';
@@ -25,7 +27,7 @@ export interface GroupChartOptions extends ViewOptions<Model> {
 export default class GroupChart extends Chart<Model> {
   protected marginLeft = 140;
   protected marginRight = 25;
-  protected marginBottom = 30;
+  protected marginBottom = 60;
   protected marginTop = 80;
 
   protected percentAxis: Selection<SVGGElement, {}, null, void>;
@@ -82,6 +84,18 @@ export default class GroupChart extends Chart<Model> {
   }
 
   updateData(data: Result[]): void {
+    this.loaded(data);
+  }
+
+  protected loaded(data: Result[]): void {
+    // Reorder the data if this is SCHTYPE since we are actually pulling from both SCHTYPE and SCHTYP2.
+    if (this.variable.id === 'SCHTYPE') {
+      data = nest<Result>()
+        .sortValues((a, b) => ascending(this.variable.categories.indexOf(a.key),
+          this.variable.categories.indexOf(b.key)))
+        .entries(data);
+    }
+
     // setup and add the x axis
     const percent = scales.percent()
       .domain([0, 100]);
@@ -99,6 +113,27 @@ export default class GroupChart extends Chart<Model> {
     this.percentAxis
       .attr('transform', `translate(${this.marginLeft}, ${this.marginTop + this.innerHeight})`)
       .call(percentAxis);
+
+    const text = ['Percent'],
+      lineHeight = -1.1,
+      textLength = text.length - 1;
+    // Select all child <tspan> elements of the axis title's <text> element
+
+    let axisTitle = this.percentAxis.select('text.axis__title');
+    if (axisTitle.empty()) {
+      axisTitle = this.percentAxis.append('text')
+        .classed('axis__title', true);
+    }
+
+    const tspans = axisTitle.selectAll('tspan')
+      .data(text);
+
+    tspans.enter()
+      .append('tspan')
+      .text(d => d)
+      .attr('x', chartWidth / 2)
+      .attr('y', chartHeight / 6.5)
+      .attr('dy', (_, index) => (textLength - index) * lineHeight + 'em');
 
     // setup and add the y axis
     const category = scaleBand()
@@ -156,19 +191,25 @@ export default class GroupChart extends Chart<Model> {
       return (d.value !== 999 || i === 0) ? formatValue(d.value, d.sig, d.errorFlag) : '';
     };
 
+    // helper function for x value for bar text
+    const xValue = (d: Data & {size: number}, i: number): number => {
+      // for first text of no-data, use 5 for an offset
+      return (d.isStatDisplayable === 0 && i === 0) ? 5 : d.size / 2;
+    };
+
     // add bar text
     barEnter.append('text')
         .classed('bar__text', true)
-        .attr('x', d => d.size / 2)
+        .attr('x', xValue)
         .attr('y', category.bandwidth() / 2)
         .attr('dy', '0.37em')
-        .text((d, i) => setText(d, i))
+        .text(setText)
       .merge(barUpdate.select('.bar__text'))
       .transition()
-        .attr('x', d => d.size / 2)
+        .attr('x', xValue)
         .attr('y', category.bandwidth() / 2)
         .attr('dy', '0.37em')
-        .text((d, i) => setText(d, i));
+        .text(setText);
 
     // handle the exit transitions for the elements
     const seriesExit = seriesUpdate.exit()
@@ -193,7 +234,7 @@ export default class GroupChart extends Chart<Model> {
       .range([0, 300])
       .padding(0.2);
 
-    const categoryAxis = verticalLeft()
+    const categoryAxis = verticalLeft(300)
       .categories(categories)
       .scale(category)
       .wrap(this.marginLeft - 5); // Fudge factor

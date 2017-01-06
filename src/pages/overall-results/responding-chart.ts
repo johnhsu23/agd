@@ -16,10 +16,10 @@ import {verticalLeft} from 'components/categorical-axis';
   className: 'chart chart--bar',
 })
 export default class BarChart extends Chart<Model> {
-  protected marginLeft = 100;
+  protected marginLeft = 115;
   protected marginRight = 100;
-  protected marginBottom = 40;
-  protected marginTop = 0;
+  protected marginBottom = 70;
+  protected marginTop = 60;
 
   protected percentAxis: Selection<SVGGElement, {}, null, void>;
   protected categoryAxis: Selection<SVGGElement, {}, null, void>;
@@ -66,19 +66,54 @@ export default class BarChart extends Chart<Model> {
       .attr('transform', `translate(${this.marginLeft}, ${this.marginTop + this.innerHeight})`)
       .call(percentAxis);
 
+    const textX = ['Percent of Maximum Score'],
+       lineHeight = -1.1,
+       textLengthX = textX.length - 1;
+
+    // Select all child <tspan> elements of the axis title's <text> element
+    const tspansX = this.percentAxis.append('text')
+      .classed('axis__title', true)
+      .selectAll('tspan')
+      .data(textX);
+
+    tspansX.enter()
+      .append('tspan')
+      .text(d => d)
+      .attr('x', this.marginLeft * 2)
+      .attr('y', this.marginTop)
+      .attr('dy', (_, index) => (textLengthX - index) * lineHeight + 'em');
+
     // setup and add the y axis
     const category = scaleBand()
       .domain(scoreText)
       .range([0, chartHeight])
       .padding(0.2);
 
-    const categoryAxis = verticalLeft()
+    const categoryAxis = verticalLeft(chartHeight)
       .scale(category)
       .wrap(this.marginLeft - 5); // Fudge factor
 
     this.categoryAxis
       .attr('transform', `translate(${this.marginLeft}, ${this.marginTop})`)
       .call(categoryAxis);
+
+    const text = ['Percentiles for', 'Responding', 'Scores'],
+      textLength = text.length - 1;
+
+    // Select all child <tspan> elements of the axis title's <text> element
+    const tspans = this.categoryAxis.append('text')
+      .classed('axis__title', true) // add CSS class
+      .selectAll('tspan')
+      .data(text);
+
+    tspans.enter()
+      .append('tspan')
+      .text(d => d)
+      .attr('x', -100)
+      .attr('y', -5)
+      .attr('fill', 'black')
+      .attr('font-size', '16px')
+      .attr('dy', (_, index) => (textLength - index) * lineHeight + 'em');
 
     // set the bar groups
     const barUpdate = this.inner.selectAll('.bar')

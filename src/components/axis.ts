@@ -51,6 +51,11 @@ export interface Axis {
    * the axis line (to account for, e.g., scale offsets).
    */
   padding(padding: number): this;
+
+  /**
+   * Set the title of this axis.
+   */
+  title(title: string | string[]): this;
 }
 
 const tickLength = 5;
@@ -192,6 +197,16 @@ function makeAxis(args: AxisArgs): Axis {
 
     return padding;
   } as Setter<number>;
+
+  let title: string | string[];
+
+  axis.title = function (value?: string | string[]): string | string[] | Axis {
+    if (arguments.length) {
+      title = value;
+      return axis;
+    }
+    return title;
+  } as Setter<string>;
 
   return axis;
 }
