@@ -114,8 +114,8 @@
 
 .footer-content__social-media li{
     display:inline-block;
-    vertical-align:middle;   
-    color:white; 
+    vertical-align:middle;
+    color:white;
 }
 .footer-content__social-media li a{
     color:green;
@@ -130,16 +130,16 @@
 
 .footer-content__social-media li a.icon-facebook {
     background-color: white;
-    background-image: url(/img/icon-facebook-inv.png);
+    background-image: url(../img/icon-facebook-inv.png);
     background-position: 70% 108%;
 }
 
 .footer-content__social-media li a.icon-twitter {
     background-color: #00b7ec;
-    background-image: url(/img/icon-twitter.png);
+    background-image: url(../img/icon-twitter.png);
 }
 
-ul.footer-content__social-media {  
+ul.footer-content__social-media {
     color:red;
     disply:block;
     list-style-type: none;
