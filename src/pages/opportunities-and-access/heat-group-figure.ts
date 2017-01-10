@@ -1,6 +1,7 @@
 import {EventsHash, Collection} from 'backbone';
 import {default as Figure, FigureOptions} from 'views/figure';
 import {union} from 'underscore';
+import * as Bluebird from 'bluebird';
 
 import forwardEvents from 'util/forward-events';
 import context from 'models/context';
@@ -15,7 +16,12 @@ import {getHeatLegendItems} from 'models/legend/heat';
 import HeatModel from 'pages/opportunities-and-access/heat-model';
 import HeatTable from 'pages/opportunities-and-access/heat-table';
 import {load as groupLoad, Result as GroupResult, Data as GroupData} from 'pages/opportunities-and-access/group-data';
-import {load as trendLoad, Data as TrendData} from 'pages/opportunities-and-access/trends-data';
+import {load as trendLoad, Result as TrendResult, Data as TrendData} from 'pages/opportunities-and-access/trends-data';
+
+interface LoadResult {
+  trends: TrendResult[];
+  groups: GroupResult[];
+}
 
 export interface HeatGroupFigureOptions extends FigureOptions {
   contextualVariable: ContextualVariable;
@@ -62,14 +68,22 @@ export default class HeatGroupFigure extends Figure {
       collection: this.legendCollection,
     }));
 
-    trendLoad(this.contextualVariable)
-      .then(results => {
-        // first item in results will be 2016 stack data. assign values to trend data
-        this.trendData = results[0].values;
+    this.loadData()
+      .then(result => {
+        this.trendData = result.trends[0].values;
+        this.updateTable(result.groups);
       })
       .done();
+  }
 
-    this.updateTable();
+  protected async loadData(): Bluebird<LoadResult> {
+    const trends = await trendLoad(this.contextualVariable),
+          groups = await groupLoad(this.variable, this.contextualVariable);
+
+    return Bluebird.resolve({
+      trends,
+      groups,
+    });
   }
 
   childEvents(): EventsHash {
@@ -85,68 +99,66 @@ export default class HeatGroupFigure extends Figure {
         .trigger('variable:select', variable);
       this.setTitle(this.makeTitle());
 
-      this.updateTable();
+      groupLoad(this.variable, this.contextualVariable)
+        .then(results => this.updateTable(results))
+        .done();
     }
   }
 
-  protected updateTable(): void {
-    groupLoad(this.variable, this.contextualVariable)
-      .then(results => {
-        const models: HeatModel[] = [];
-        models.length = this.variable.categories.length + 1;
+  protected updateTable(results: GroupResult[]): void {
+    const models: HeatModel[] = [];
+    models.length = this.variable.categories.length + 1;
 
-        // probably a better way to get the index of item in the results array, but until then...
-        let i = 0;
+    // probably a better way to get the index of item in the results array, but until then...
+    let i = 0;
 
-        // insert top level "All Students" data with our 2016 trends data
-        let model = models[i];
-        if (!model) {
-          model = models[i] = new HeatModel;
-        }
+    // insert top level "All Students" data with our 2016 trends data
+    let model = models[i];
+    if (!model) {
+      model = models[i] = new HeatModel;
+    }
 
-        model.data = [];
-        model.label = 'All Students';
-        model.contextualVariable = this.contextualVariable;
+    model.data = [];
+    model.label = 'All Students';
+    model.contextualVariable = this.contextualVariable;
 
-        for (const datum of this.trendData) {
-          model.data.push({
-            value: datum.targetvalue,
-            sig: datum.sig,
-            errorFlag: datum.TargetErrorFlag,
-            isStatDisplayable: (datum.isTargetStatDisplayable !== 0),
-          });
-        }
+    for (const datum of this.trendData) {
+      model.data.push({
+        value: datum.targetvalue,
+        sig: datum.sig,
+        errorFlag: datum.TargetErrorFlag,
+        isStatDisplayable: (datum.isTargetStatDisplayable !== 0),
+      });
+    }
 
-        i++;
+    i++;
 
-        // add our group data to the models
-        for (const result of results) {
-          let model = models[i];
-          if (!model) {
-            model = models[i] = new HeatModel;
-          }
+    // add our group data to the models
+    for (const result of results) {
+      let model = models[i];
+      if (!model) {
+        model = models[i] = new HeatModel;
+      }
 
-          model.data = [];
-          model.label = result.key;
-          model.contextualVariable = this.contextualVariable;
+      model.data = [];
+      model.label = result.key;
+      model.contextualVariable = this.contextualVariable;
 
-          for (const datum of result.values) {
-            model.data.push({
-              value: datum.value,
-              sig: datum.sig,
-              errorFlag: datum.errorFlag,
-              isStatDisplayable: (datum.isStatDisplayable !== 0),
-            });
-          }
+      for (const datum of result.values) {
+        model.data.push({
+          value: datum.value,
+          sig: datum.sig,
+          errorFlag: datum.errorFlag,
+          isStatDisplayable: (datum.isStatDisplayable !== 0),
+        });
+      }
 
-          i++;
-        }
+      i++;
+    }
 
-        this.buildLegend(results);
-        this.tableData.reset(models);
-        this.setTitle(this.makeTitle());
-      })
-      .done();
+    this.buildLegend(results);
+    this.tableData.reset(models);
+    this.setTitle(this.makeTitle());
   }
 
   protected makeTitle(): string {
