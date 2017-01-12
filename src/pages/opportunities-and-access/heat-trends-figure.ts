@@ -65,13 +65,11 @@ export default class HeatTrendsFigure extends Figure {
     const models: HeatModel[] = [];
     models.length = results.length;
 
-    // probably a better way to get the index of item in the results array, but until then...
-    let i = 0;
-
     for (const result of results) {
-      let model = models[i];
+      const index = results.indexOf(result);
+      let model = models[index];
       if (!model) {
-        model = models[i] = new HeatModel;
+        model = models[index] = new HeatModel;
       }
 
       model.data = [];
@@ -86,8 +84,6 @@ export default class HeatTrendsFigure extends Figure {
           isStatDisplayable: (datum.isTargetStatDisplayable !== 0),
         });
       }
-
-      i++;
     }
 
     this.buildLegend(results);

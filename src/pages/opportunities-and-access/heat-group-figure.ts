@@ -109,13 +109,10 @@ export default class HeatGroupFigure extends Figure {
     const models: HeatModel[] = [];
     models.length = this.variable.categories.length + 1;
 
-    // probably a better way to get the index of item in the results array, but until then...
-    let i = 0;
-
     // insert top level "All Students" data with our 2016 trends data
-    let model = models[i];
+    let model = models[0];
     if (!model) {
-      model = models[i] = new HeatModel;
+      model = models[0] = new HeatModel;
     }
 
     model.data = [];
@@ -131,13 +128,12 @@ export default class HeatGroupFigure extends Figure {
       });
     }
 
-    i++;
-
     // add our group data to the models
     for (const result of results) {
-      let model = models[i];
+      const index = results.indexOf(result) + 1;
+      let model = models[index];
       if (!model) {
-        model = models[i] = new HeatModel;
+        model = models[index] = new HeatModel;
       }
 
       model.data = [];
@@ -152,8 +148,6 @@ export default class HeatGroupFigure extends Figure {
           isStatDisplayable: (datum.isStatDisplayable !== 0),
         });
       }
-
-      i++;
     }
 
     this.buildLegend(results);
