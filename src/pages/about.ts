@@ -2,7 +2,7 @@ import {EventsHash} from 'backbone';
 import * as $ from 'jquery';
 
 import Page from 'views/page';
-import Overlay from 'views/overlay';
+import Dialog from 'views/dialog';
 import Glossary from 'views/glossary';
 
 import * as template from 'text!templates/about.html';
@@ -25,15 +25,22 @@ export default class AboutView extends Page {
       term = target.attr('data-glossary'),
       position = target.offset();
 
-    const overlay = new Overlay;
-    overlay.position(position.left, position.top);
-    overlay.render();
-    overlay.showChildView('contents', new Glossary({term}));
+    const dialog = new Dialog;
 
-    this.$el.append(overlay.$el);
+    // set up our dialog box
+    dialog
+      .position([position.left, position.top])
+      .render();
 
-    if (target.parents('.overlay').length) {
-      target.parents('.overlay').remove();
+    // create and insert glossary term
+    dialog.$('.dialog__contents')
+      .html(new Glossary({term}).render().el);
+
+    // append dialog box to the page
+    this.$el.append(dialog.$el);
+
+    if (target.parents('.dialog').length) {
+      target.parents('.dialog').remove();
     }
   }
 }
