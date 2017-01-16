@@ -4,6 +4,7 @@ require.config({
     templates: '../templates',
     commentary: '../commentary',
     files: '../files',
+    glossary: '../glossary',
     notes: '../notes',
     questions: '../questions',
 

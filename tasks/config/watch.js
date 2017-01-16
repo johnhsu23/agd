@@ -40,6 +40,12 @@ module.exports = function (grunt) {
         tasks: ['html-data'],
       },
 
+      // Rebuild glossary file
+      glossary: {
+        files: ['glossary/*.html'],
+        tasks: ['html-data'],
+      },
+
       // Monitor add/delete events to update *.d.ts files
       'ambient-commentary': {
         options: {
@@ -61,6 +67,13 @@ module.exports = function (grunt) {
         },
         files: 'public/questions/*.json',
         tasks: ['ambient:questions'],
+      },
+      'ambient-glossary': {
+        options: {
+          event: ['added', 'deleted'],
+        },
+        files: 'public/glossary/glossary.json',
+        tasks: ['ambient:glossary'],
       },
 
       // Perform livereload only when front-end scripts finish compiling
