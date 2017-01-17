@@ -12,6 +12,8 @@ import {load} from 'pages/opportunities-and-access/questions-header-data';
 import TrendsFigure from 'pages/opportunities-and-access/trends-figure';
 import BubbleFigure from 'pages/opportunities-and-access/bubble-figure';
 import GroupFigure from 'pages/opportunities-and-access/group-figure';
+import HeatGroupFigure from 'pages/opportunities-and-access/heat-group-figure';
+import HeatTrendsFigure from 'pages/opportunities-and-access/heat-trends-figure';
 import * as template from 'text!templates/questions-accordion.html';
 
 export interface QuestionsAccordionOptions extends ViewOptions<Model> {
@@ -71,15 +73,29 @@ export default class QuestionsAccordion extends LayoutView<Model> {
       share: { download: true },
     }));
 
-    this.showChildView('group-chart', new GroupFigure({
-      contextualVariable: this.variable,
-      share: { download: true },
-    }));
+    if (this.isHeatTable()) {
+      // group and trends chart should use the heat table
+      this.showChildView('group-chart', new HeatGroupFigure({
+        contextualVariable: this.variable,
+        share: { download: true },
+      }));
 
-    this.showChildView('trends', new TrendsFigure({
-      variable: this.variable,
-      share: { download: true },
-    }));
+      this.showChildView('trends', new HeatTrendsFigure({
+        contextualVariable: this.variable,
+        share: { download: true },
+      }));
+    } else {
+      // group and trends chart should use the regular stacked bar
+      this.showChildView('group-chart', new GroupFigure({
+        contextualVariable: this.variable,
+        share: { download: true },
+      }));
+
+      this.showChildView('trends', new TrendsFigure({
+        variable: this.variable,
+        share: { download: true },
+      }));
+    }
 
     // get the question data and update the chart contents
     load(this.variable)
@@ -117,5 +133,10 @@ export default class QuestionsAccordion extends LayoutView<Model> {
   protected onAccordionClose(): void {
     // Notify all children that the interior contents will soon be invisible.
     this.triggerAll('visibility:visible');
+  }
+
+  // helper function to see if the chart should be a heat table or not
+  protected isHeatTable(): boolean {
+    return this.variable.id === 'SQ00070' || this.variable.id === 'SQ00072';
   }
 }

@@ -8,7 +8,7 @@
 }
 
 .table {
-    width: 95%;
+    width: 98%;
 
     &--full-width {
         @extend %u-full-width;
@@ -38,6 +38,9 @@
         background-color: $table-even;
     }
 }
+
+
+// Sample Question table styling
 
 .table--sample-question {
     border: 1px solid $taupe-70;
@@ -74,3 +77,74 @@
     color: $green-100;
     font-size: 1.25em;
 }
+
+
+// Heat table styling
+
+.table--heat {
+    border: 1px solid $table-border;
+    font-size: .875em;
+}
+
+.table--heat thead {
+    background-color: #ebebeb;
+    color: $black-90;
+}
+
+.table--heat thead th,
+.table--heat thead td {
+    line-height: 1.4;
+}
+
+.table--heat tbody {
+    color: $black-90;
+}
+
+.table--heat tbody tr {
+    &:nth-child(odd),
+    &:nth-child(even) {
+        background-color: #fff;
+        border-top: 2px solid $table-border;
+    }
+}
+
+.table--heat tbody th,
+.table--heat tbody td {
+    font-weight: 400;
+    line-height: 1.2;
+}
+
+.table--heat th,
+.table--heat td {
+    border-right: 2px solid $table-border;
+
+    &:last-child {
+        border: none;
+    }
+}
+
+// Table cell colors
+
+.table__cell--zero {
+    background-color: $taupe-10;
+}
+.table__cell--lt10 {
+    background-color: $blue-15;
+}
+.table__cell--gt10,
+.table__cell--gt20 {
+    background-color: $blue-25;
+}
+.table__cell--gt30 {
+    background-color: $blue-35;
+    color: #fff;
+}
+.table__cell--gt40 {
+    background-color: $blue-65;
+    color: #fff;
+}
+.table__cell--gt50 {
+    background-color: $blue-100;
+    color: #fff;
+}
+
