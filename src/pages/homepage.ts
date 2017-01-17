@@ -1,3 +1,6 @@
+import {EventsHash} from 'backbone';
+import * as $ from 'jquery';
+
 import Page from 'views/page';
 
 import * as template from 'text!templates/homepage.html';
@@ -8,6 +11,24 @@ export default class HomepageView extends Page {
   template = () => template;
 
   pageTitle = 'Home';
+
+  events(): EventsHash {
+    return {
+      'click [data-subject]': 'switchSubject',
+    };
+  }
+
+  protected switchSubject(): void {
+    $('[data-subject]')
+      .each((_i, elt) => {
+        const $elt = $(elt),
+          checked = $elt.hasClass('checked'),
+          subject = $elt.data('subject');
+        $elt.attr('aria-checked', '' + !checked)
+          .toggleClass('checked');
+        $(`.figure--${subject}-percentages`).toggleClass('element-invisible');
+      });
+  }
 
   onRender(): void {
     if (super.onRender) {

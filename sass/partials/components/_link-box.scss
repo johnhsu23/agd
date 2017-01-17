@@ -1,0 +1,34 @@
+.link-box {}
+
+.link-box__icon {
+	background-color: #f7f3e5;
+	background-image: url("../img/tile1.png");
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
+	background-size: 80% auto;
+	border: 2px solid $orange-100;
+	display: block;
+	float: left;
+	height: 65px;
+	margin: 0 20px 5px 0;
+	text-indent: -999em;
+	width: 110px;
+}
+
+.link-box__title {
+	color: $orange-100;
+	display: inline-block;
+	font-size: 1em;
+    margin: 0 0 5px;
+    text-decoration: none;
+
+    &:hover {
+    	text-decoration: underline;
+    }
+}
+
+.link-box__description {
+    font-size: .875em;
+    line-height: 1.4;
+    margin-left: 124px;
+}

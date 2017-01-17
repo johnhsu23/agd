@@ -1,18 +1,20 @@
 import {ViewOptions, Model} from 'backbone';
 import {Selection} from 'd3-selection';
 import {scaleBand} from 'd3-scale';
-import {axisLeft} from 'd3-axis';
+import {nest} from 'd3-collection';
+import {ascending} from 'd3-array';
 
 import makeStack from 'components/stack';
 import * as scales from 'components/scales';
 import {horizontalBottom} from 'components/axis';
+import {verticalLeft} from 'components/categorical-axis';
 import {Variable} from 'data/variables';
 import {ContextualVariable} from 'data/contextual-variables';
 import configure from 'util/configure';
 import Chart from 'views/chart';
-import wrap from 'util/wrap';
+import {formatValue} from 'codes';
 
-import {load, Result, Data} from 'pages/opportunities-and-access/group-data';
+import {Result, Data} from 'pages/opportunities-and-access/group-data';
 
 export interface GroupChartOptions extends ViewOptions<Model> {
   variable: Variable;
@@ -25,7 +27,7 @@ export interface GroupChartOptions extends ViewOptions<Model> {
 export default class GroupChart extends Chart<Model> {
   protected marginLeft = 140;
   protected marginRight = 25;
-  protected marginBottom = 30;
+  protected marginBottom = 60;
   protected marginTop = 80;
 
   protected percentAxis: Selection<SVGGElement, {}, null, void>;
@@ -75,23 +77,25 @@ export default class GroupChart extends Chart<Model> {
     return this;
   }
 
-  onRender(): void {
-    this.updateData();
-  }
-
   protected onVariableSelect(variable: Variable): void {
     this.variable = variable;
 
-    this.updateData();
+    this.updateAxis();
   }
 
-  protected updateData(): void {
-    load(this.variable, this.contextualVariable)
-      .then(data => this.loaded(data))
-      .done();
+  updateData(data: Result[]): void {
+    this.loaded(data);
   }
 
   protected loaded(data: Result[]): void {
+    // Reorder the data if this is SCHTYPE since we are actually pulling from both SCHTYPE and SCHTYP2.
+    if (this.variable.id === 'SCHTYPE') {
+      data = nest<Result>()
+        .sortValues((a, b) => ascending(this.variable.categories.indexOf(a.key),
+          this.variable.categories.indexOf(b.key)))
+        .entries(data);
+    }
+
     // setup and add the x axis
     const percent = scales.percent()
       .domain([0, 100]);
@@ -110,21 +114,32 @@ export default class GroupChart extends Chart<Model> {
       .attr('transform', `translate(${this.marginLeft}, ${this.marginTop + this.innerHeight})`)
       .call(percentAxis);
 
+    const text = ['Percent'],
+      lineHeight = -1.1,
+      textLength = text.length - 1;
+    // Select all child <tspan> elements of the axis title's <text> element
+
+    let axisTitle = this.percentAxis.select('text.axis__title');
+    if (axisTitle.empty()) {
+      axisTitle = this.percentAxis.append('text')
+        .classed('axis__title', true);
+    }
+
+    const tspans = axisTitle.selectAll('tspan')
+      .data(text);
+
+    tspans.enter()
+      .append('tspan')
+      .text(d => d)
+      .attr('x', chartWidth / 2)
+      .attr('y', chartHeight / 6.5)
+      .attr('dy', (_, index) => (textLength - index) * lineHeight + 'em');
+
     // setup and add the y axis
     const category = scaleBand()
       .domain(data.map(d => d.key))
       .range([0, chartHeight])
       .padding(0.2);
-
-    const categoryAxis = axisLeft(category);
-
-    this.categoryAxis
-      .attr('transform', `translate(${this.marginLeft}, ${this.marginTop})`)
-      .call(categoryAxis);
-
-    // wrap the category names
-    this.categoryAxis.selectAll('text')
-      .call(wrap, this.marginLeft - 15);
 
     // set series group
     const seriesUpdate = this.inner.selectAll('.series')
@@ -141,14 +156,14 @@ export default class GroupChart extends Chart<Model> {
         .attr('transform', d => `translate(0, ${category(d.key)})`);
 
     const stack = makeStack<Data>()
-      .defined(d => d.isStatDisplayable !== 0)
-      .size(d => percent(d.value));
+      .size(d => percent(d.isStatDisplayable !== 0 ? d.value : 0));
 
     const merged = seriesUpdate.merge(seriesEnter);
 
     // set bar group
     const barUpdate = merged.selectAll('.bar')
-      .data(d => stack(d.values));
+      .data(d => stack(d.values))
+      .classed('bar--no-data', d => d.isStatDisplayable === 0);
 
     barUpdate.interrupt()
       .transition()
@@ -158,7 +173,8 @@ export default class GroupChart extends Chart<Model> {
     const barEnter = barUpdate.enter()
       .append('g')
         .attr('class', (_, i) => `bar bar--${i}`)
-        .attr('transform', d => `translate(${d.offset})`);
+        .attr('transform', d => `translate(${d.offset})`)
+        .classed('bar--no-data', d => d.isStatDisplayable === 0);
 
     // add bar rect svg
     barEnter.append('rect')
@@ -170,19 +186,30 @@ export default class GroupChart extends Chart<Model> {
         .attr('height', category.bandwidth())
         .attr('width', d => d.size);
 
+    // helper function for the text
+    const setText = (d: Data, i: number): string => {
+      return (d.value !== 999 || i === 0) ? formatValue(d.value, d.sig, d.errorFlag) : '';
+    };
+
+    // helper function for x value for bar text
+    const xValue = (d: Data & {size: number}, i: number): number => {
+      // for first text of no-data, use 5 for an offset
+      return (d.isStatDisplayable === 0 && i === 0) ? 5 : d.size / 2;
+    };
+
     // add bar text
     barEnter.append('text')
         .classed('bar__text', true)
-        .attr('x', d => d.size / 2)
+        .attr('x', xValue)
         .attr('y', category.bandwidth() / 2)
         .attr('dy', '0.37em')
-        .text(d => Math.round(d.value))
+        .text(setText)
       .merge(barUpdate.select('.bar__text'))
       .transition()
-        .attr('x', d => d.size / 2)
+        .attr('x', xValue)
         .attr('y', category.bandwidth() / 2)
         .attr('dy', '0.37em')
-        .text(d => Math.round(d.value));
+        .text(setText);
 
     // handle the exit transitions for the elements
     const seriesExit = seriesUpdate.exit()
@@ -197,5 +224,28 @@ export default class GroupChart extends Chart<Model> {
 
     seriesExit.selectAll('bar__text')
       .attr('x', 0);
+  }
+
+  protected updateAxis(): void {
+    const {categories} = this.variable;
+
+    const category = scaleBand()
+      .domain(categories)
+      .range([0, 300])
+      .padding(0.2);
+
+    const categoryAxis = verticalLeft(300)
+      .categories(categories)
+      .scale(category)
+      .wrap(this.marginLeft - 5); // Fudge factor
+
+    this.categoryAxis
+      .attr('transform', `translate(${this.marginLeft}, ${this.marginTop})`)
+      .call(categoryAxis);
+  }
+
+  protected onVisibilityVisible(): void {
+    // Update axis once chart is visible
+    this.updateAxis();
   }
 }

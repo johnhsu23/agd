@@ -1,14 +1,14 @@
 import {Model} from 'backbone';
 import {Selection} from 'd3-selection';
 import {scaleBand} from 'd3-scale';
-import {axisLeft} from 'd3-axis';
 
 import 'd3-transition';
 
 import configure from 'util/configure';
-import wrap from 'util/wrap';
 import * as vars from 'data/variables';
 import Chart from 'views/chart';
+import {verticalLeft} from 'components/categorical-axis';
+
 import {groupedData, CsvData} from 'pages/score-gaps/bar-data';
 import {formatValue} from 'codes';
 
@@ -19,7 +19,7 @@ import * as axis from 'components/axis';
   className: 'chart chart--bar',
 })
 export default class BarChart extends Chart<Model> {
-  protected marginLeft = 100;
+  protected marginLeft = 120;
   protected marginRight = 100;
   protected marginBottom = 40;
   protected marginTop = 0;
@@ -47,8 +47,6 @@ export default class BarChart extends Chart<Model> {
       this.firstRender = false;
     }
 
-    this.renderData(groupedData[vars.SDRACE.id]);
-
     return this;
   }
 
@@ -56,8 +54,15 @@ export default class BarChart extends Chart<Model> {
     this.renderData(groupedData[variable.id]);
   }
 
-  protected renderData(data: CsvData[]): void {
+  onAttach(): void {
+    if (super.onAttach) {
+      super.onAttach();
+    }
 
+    this.renderData(groupedData[vars.SDRACE.id]);
+  }
+
+  protected renderData(data: CsvData[]): void {
     // setup and add the x axis
     const percent = scales.percent()
       .bounds([0, 100])
@@ -76,21 +81,40 @@ export default class BarChart extends Chart<Model> {
       .attr('transform', `translate(${this.marginLeft}, ${this.marginTop + this.innerHeight})`)
       .call(percentAxis);
 
+    const text = ['Percent of Maximum Score'],
+      lineHeight = -1.1,
+      textLength = text.length - 1;
+
+    let axisTitle = this.percentAxis.select('text.axis__title');
+    if (axisTitle.empty()) {
+      axisTitle = this.percentAxis.append('text')
+        .classed('axis__title', true);
+    }
+
+    // Select all child <tspan> elements of the axis title's <text> element
+    const tspans = axisTitle.selectAll('tspan')
+      .data(text);
+
+    tspans.enter()
+      .append('tspan')
+      .text(d => d)
+      .attr('x', this.marginLeft * 2)
+      .attr('y', this.marginTop + 40)
+      .attr('dy', (_, index) => (textLength - index) * lineHeight + 'em');
+
     // setup and add the y axis
     const category = scaleBand()
       .domain(data.map(d => d.name))
       .range([0, chartHeight])
       .padding(0.5);
 
-    const categoryAxis = axisLeft(category);
+    const categoryAxis = verticalLeft(chartHeight)
+      .scale(category)
+      .wrap(this.marginLeft - 5);
 
     this.categoryAxis
       .attr('transform', `translate(${this.marginLeft}, ${this.marginTop})`)
       .call(categoryAxis);
-
-    // wrap the category names
-    this.categoryAxis.selectAll('text')
-      .call(wrap, this.marginLeft - 5);
 
     // set the bar groups
     const barUpdate = this.inner.selectAll('.bar--gap')

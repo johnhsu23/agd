@@ -4,12 +4,12 @@ import {scalePoint, scaleSqrt} from 'd3-scale';
 import {extent, range} from 'd3-array';
 import {partition} from 'underscore';
 
-import wrap from 'util/wrap';
 import configure from 'util/configure';
 import {Variable} from 'data/variables';
 import Chart from 'views/chart';
 import * as scales from 'components/scales';
 import * as axes from 'components/axis';
+import {horizontalBottom} from 'components/categorical-axis';
 import {formatValue} from 'codes';
 
 import {Grouped} from 'pages/opportunities-and-access/bubble-data';
@@ -29,7 +29,7 @@ export default class BubbleChart extends Chart<Model> {
 
   protected firstRender = true;
 
-  protected marginTop = 30;
+  protected marginTop = 60;
   protected marginLeft = 50;
   protected marginRight = 0;
   protected marginBottom = 100;
@@ -106,6 +106,21 @@ export default class BubbleChart extends Chart<Model> {
       .attr('transform', `translate(${this.marginLeft}, ${this.marginTop})`)
       .call(scoreAxis);
 
+    const text = ['Scale', 'Score'],
+      lineHeight = -1.1,
+      textLength = text.length - 1;
+    // Select all child <tspan> elements of the axis title's <text> element
+    const tspans = this.scoreAxis.append('text')
+      .classed('axis__title', true) // add CSS class
+      .selectAll('tspan')
+      .data(text);
+    tspans.enter()
+      .append('tspan')
+      .text(d => d)
+      .attr('x', this.marginLeft * -1)
+      .attr('y', this.marginTop / -3)
+      .attr('dy', (_, index) => (textLength - index) * lineHeight + 'em');
+
     const bubbleUpdate = this.inner.selectAll('.bubble')
       .data(valid);
 
@@ -168,20 +183,6 @@ export default class BubbleChart extends Chart<Model> {
           return formatValue(percent.targetvalue, '', percent.TargetErrorFlag);
         }
       });
-
-    // NB. This really needs to be folded into a categorical axis component of some kind
-
-    this.responseAxis
-      .classed('axis axis--horizontal-bottom', true)
-      .attr('transform', `translate(${this.marginLeft}, ${this.innerHeight + this.marginTop})`)
-      .selectAll('text')
-      .data(categories)
-      .enter()
-      .append('text')
-      .classed('axis__label', true)
-      .text(d => d)
-      .attr('x', (_, i) => response(i))
-      .attr('y', '1.37em');
   }
 
   protected onVisibilityVisible(): void {
@@ -193,6 +194,9 @@ export default class BubbleChart extends Chart<Model> {
     // A consequence of #2 is that our <text> elements will have *no* computed metrics. So, we have to instead wait for
     // when we are told we're visible and only then can we use the wrap utility.
     //
+    // This means that it's easier to put the entire axis code here (because the categorical axis knows it will need to
+    // wrap long category names) than to break up the rendering/wrapping.
+    //
     // Whee!
 
     const response = scalePoint<number>()
@@ -200,9 +204,14 @@ export default class BubbleChart extends Chart<Model> {
       .domain(range(this.variable.categories.length))
       .range([0, 600]);
 
+    const responseAxis = horizontalBottom<number>(600)
+      .categories(this.variable.categories)
+      .scale(response)
+      // Use a fudge factor to keep the classroom type labels from bumping into each other
+      .wrap(response.step() - 5);
+
     this.responseAxis
-      .selectAll('.axis__label')
-      // Fudge the wrapping size by a few pixels on each side to avoid well-filled columns bumping up against each other
-      .call(wrap, response.step() - 8);
+      .attr('transform', `translate(${this.marginLeft}, ${this.innerHeight + this.marginTop})`)
+      .call(responseAxis);
   }
 }

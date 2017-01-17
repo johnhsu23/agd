@@ -11,6 +11,7 @@ import {all as gatherAll} from 'legends/gather';
 
 import {load, Grouped} from 'pages/opportunities-and-access/bubble-data';
 import BubbleChart from 'pages/opportunities-and-access/bubble-chart';
+import * as bubbleInstructions from 'text!templates/bubble-instructions.html';
 
 export interface BubbleFigureOptions extends FigureOptions {
   variable: Variable;
@@ -18,9 +19,9 @@ export interface BubbleFigureOptions extends FigureOptions {
 
 function gatherNotes(data: Grouped[]): Legend[] {
   const models = gatherAll(data, ({mean, percent}) => {
-    // Laziness: just union these together to get the combined error flags for both
-    // the mean and percentage rows
-    return mean.TargetErrorFlag | percent.TargetErrorFlag;
+      // Laziness: just union these together to get the combined error flags for both
+      // the mean and percentage rows
+      return mean.TargetErrorFlag | percent.TargetErrorFlag;
   });
 
   return models.concat(new BubbleLegend({}));
@@ -57,6 +58,7 @@ export default class BubbleFigure extends Figure {
       .done();
 
     this.showLegend(new LegendView({ collection }));
+    this.showInstructions(bubbleInstructions);
 
     const chart = new BubbleChart({
       variable: this.variable,

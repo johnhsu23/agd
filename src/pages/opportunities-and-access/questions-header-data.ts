@@ -15,7 +15,8 @@ function makeParams(variable: ContextualVariable): Params {
     subscale: (context.subject === 'music') ? 'MUSRP' : 'VISRP',
     grade: 8,
     variable: variable.id,
-    categoryindex: variable.selected,
+    // BM00010 requires the first 3 categories (At least once or twice a month)
+    categoryindex: (variable.id === 'BM00010') ? [0, 1, 2] :  variable.selected,
     targetyears: ['2016R3'],
     focalyear: '2016R3',
     stattype: 'RP',

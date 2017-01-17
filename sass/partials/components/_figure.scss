@@ -25,7 +25,7 @@
 }
 
 .figure__contents-wrapper {
-    align-items: flex-end;
+    align-items: flex-start;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -54,8 +54,8 @@
     margin: 1em 0 0;
     vertical-align: top;
 
-    .accordion & {
-        margin: 1em 1em 0;
+    @include breakpoint($desktop-width) {
+        margin: 0 1em;
     }
 }
 
@@ -95,4 +95,24 @@
 
 .figure__share {
     position: relative;
+}
+
+.figure--home-video {
+    float: none;
+    margin: 0 auto 1em;
+
+    @include breakpoint($desktop-width) {
+        float: right;
+        margin: 0 0 0 3em;
+    }
+}
+
+.figure--home-video iframe {
+    border: 5px solid $orange-100;
+    display: block;
+    margin: 0 auto;
+
+    @include breakpoint($desktop-width) {
+        margin: 0;
+    }
 }

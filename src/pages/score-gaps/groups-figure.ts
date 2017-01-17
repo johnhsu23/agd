@@ -7,7 +7,6 @@ import {shouldCombine, combined} from 'util/sdrace';
 
 import context from 'models/context';
 import Legend from 'models/legend';
-import sigDiff from 'legends/sig-diff';
 import {all as gatherNotes} from 'legends/gather';
 
 import GroupsTable from 'pages/score-gaps/groups-table';
@@ -84,11 +83,8 @@ export default class GroupsFigure extends Figure {
 
   protected resetNotes(data: Data[]): void {
     let notes: Legend[] = [];
-    if (data.some(row => row.sig === '<' || row.sig === '>')) {
-      notes.push(sigDiff());
-    }
 
-    notes = notes.concat(...gatherNotes(data, row => row.TargetErrorFlag));
+    notes = notes.concat(...gatherNotes(data, row => row.TargetErrorFlag, row => row.sig));
 
     this.legendCollection.reset(notes);
   }

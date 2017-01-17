@@ -34,7 +34,7 @@ export interface SampleQuestion {
 // NQT ID: 2016-8A3 #3, ACCNUM WP000164
 export const VC00003: SampleQuestion = {
   naepid: 'VC00003',
-  name: 'Identify technical similarity in self-portraits',
+  name: 'Identify technical similarity between Schiele and Kollwitz self-portraits',
   classification: 'Responding',
   type: 'MC',
 };
@@ -42,7 +42,7 @@ export const VC00003: SampleQuestion = {
 // NQT ID: 2016-8A3 #2, ACCNUM LD000383
 export const VC00002: SampleQuestion = {
   naepid: 'VC00002',
-  name: 'Describe characteristics of charcoal in self-portrait',
+  name: 'Describe two characteristics of charcoal in Kollwitz self-portrait',
   classification: 'Responding',
   type: 'SCR',
 };
@@ -67,7 +67,7 @@ export const VC00001: SampleQuestion = {
 // NB. This item is not in the NQT
 export const VCCL004: SampleQuestion = {
   naepid: 'VCCL004',
-  name: 'Relationship between technical approach and meaning',
+  name: 'Explain the relationship between technical approach and meaning in an artist\'s self-portrait.',
   classification: 'Responding',
   type: 'SCR',
 };
@@ -79,7 +79,7 @@ export const VCCL004: SampleQuestion = {
 // NQT ID: 2016-8A4 #2 UD00002; ACCNUM SL000017
 export const UD00002: SampleQuestion = {
   naepid: 'UD00002',
-  name: 'Identify texture of music',
+  name: 'Select a line drawing reflective of the texture of an example of music',
   classification: 'Responding',
   type: 'MC',
 };
@@ -87,7 +87,7 @@ export const UD00002: SampleQuestion = {
 // NQT ID: 2016-8A6 #4 UF00004; ACCNUM LD000910
 export const UF00004: SampleQuestion = {
   naepid: 'UF00004',
-  name: 'Identify the solo instrument',
+  name: 'Identify the solo instrument beginning "Rhapsody in Blue"',
   classification: 'Responding',
   type: 'MC',
 };
@@ -103,7 +103,7 @@ export const UE00005: SampleQuestion = {
 // NQT ID: 2016-8A5 #6 UE00006; ACCNUM SL000087
 export const UE00006: SampleQuestion = {
   naepid: 'UE00006',
-  name: 'Identify musical symbol and explain its meaning',
+  name: 'Identify the name of piano dynamic marking and explain its meaning',
   classification: 'Responding',
   type: 'SCR',
 };
@@ -127,9 +127,9 @@ export const UECL008: SampleQuestion = {
 // NQT ID: 2016-8A4 #9 UDCL009; ACCNUM SL000049
 export const UDCL009: SampleQuestion = {
   naepid: 'UDCL009',
-  name: 'Identify region where music comes from and explain why',
+  name: 'Identify region where music comes from and explain its style characteristics',
   classification: 'Responding',
-  type: 'MC',
+  type: 'SCR',
 };
 
 /*
@@ -139,11 +139,11 @@ export const UDCL009: SampleQuestion = {
 export function questions(): SampleQuestion[] {
   if (context.subject === 'visual arts') {
     return [
-      VC00003,
-      VC00002,
-      VC000B6,
       VC00001,
+      VC00002,
+      VC00003,
       VCCL004,
+      VC000B6,
     ];
   }
 
