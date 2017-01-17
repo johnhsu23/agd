@@ -131,10 +131,10 @@
 .table__cell--lt10 {
     background-color: $blue-15;
 }
-.table__cell--gt10 {
+.table__cell--gt10,
+.table__cell--gt20 {
     background-color: $blue-25;
 }
-.table__cell--gt20,
 .table__cell--gt30 {
     background-color: $blue-35;
     color: #fff;
