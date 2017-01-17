@@ -49,6 +49,7 @@
     width: $legend-width;
 
     .accordion & {
+        border-color: $table-border;
         padding: 1em 0;
     }
 
@@ -90,6 +91,25 @@
     height: $legend-item-height;
     padding: 10px 0 10px 10px;
     width: $legend-item-width;
+}
+
+.legend__marker--heat-0 rect {
+    fill: $blue-100;
+}
+.legend__marker--heat-1 rect {
+    fill: $blue-65;
+}
+.legend__marker--heat-2 rect {
+    fill: $blue-35;
+}
+.legend__marker--heat-3 rect {
+    fill: $blue-25;
+}
+.legend__marker--heat-4 rect {
+    fill: $blue-15;
+}
+.legend__marker--heat-5 rect {
+    fill: $taupe-10;
 }
 
 .legend__marker--text {
