@@ -44,7 +44,7 @@ export function get(): Location {
   // We don't handle duplicated params (like PHP's "?foo[]=bar&foo[]=baz"), we just stomp on them.
   const query: { [key: string]: string } = {},
       index = path.indexOf('?');
-  if (index >= -1) {
+  if (index > -1) {
     const args = path.substring(index + 1).split('&');
 
     args.forEach(arg => {
@@ -72,10 +72,6 @@ export function get(): Location {
  */
 export function make(location: Location): string {
   let path = location.path;
-
-  if (location.section) {
-    path += '/' + location.section;
-  }
 
   path += '?' + serialize(location.query);
 

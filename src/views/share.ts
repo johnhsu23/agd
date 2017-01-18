@@ -1,10 +1,13 @@
 import {ViewOptions, EventsHash} from 'backbone';
 import {ItemView} from 'backbone.marionette';
+import {defer} from 'underscore';
+import * as $ from 'jquery';
 
 import configure from 'util/configure';
 import * as location from 'util/location';
 import ShareModel from 'models/share';
 import * as facebook from 'util/facebook';
+import * as twitter from 'util/twitter';
 
 import * as template from 'text!templates/share.html';
 
@@ -37,20 +40,20 @@ export class ShareView extends ItemView<ShareModel> {
   constructor(options: ShareViewOptions) {
     super(options);
 
-    const section = options.model.section;
-
     if (options.model.message != null) {
       this.message = options.model.message;
     } else {
       this.message = document.title;
     }
 
-    this.computePermalink(section);
+    this.computePermalink(options.model.section);
   }
 
   onRender(): void {
     this.$('[data-download]')
       .toggleClass('is-hidden', !this.model.download);
+    this.$('[type=text]')
+      .val(this.permalink);
   }
 
   computePermalink(section: string): void {
@@ -69,7 +72,9 @@ export class ShareView extends ItemView<ShareModel> {
       loc.path = 'overview';
     }
 
-    loc.section = section;
+    if (section !== undefined) {
+      loc.query['anchor'] = section;
+    }
 
     permalink += location.make(loc);
 
@@ -97,19 +102,58 @@ export class ShareView extends ItemView<ShareModel> {
   shareTwitter(event: JQueryMouseEventObject): void {
     event.preventDefault();
 
-    console.log('Twitter');
+    const options: twitter.Options = {
+      url: this.permalink,
+      text: this.message,
+    };
+
+    twitter.share(options);
   }
 
   shareEmail(event: JQueryMouseEventObject): void {
     event.preventDefault();
 
-    console.log('Email');
+    let subject = this.message || document.title,
+        body = this.permalink;
+
+    if (this.message) {
+      body = this.message + '\n' + body;
+    }
+
+    subject = encodeURIComponent(subject);
+    body = encodeURIComponent(body);
+
+    window.location.href = `mailto:?to=&subject=${subject}&body=${body}`;
   }
 
   sharePermalink(event: JQueryMouseEventObject): void {
     event.preventDefault();
 
-    console.log('Permalink');
+    this.$('.share__permalink-popup')
+      .show();
+
+    const input = <HTMLInputElement> this.$('[type=text]').get(0);
+    input.setSelectionRange(0, this.permalink.length);
+    input.focus();
+
+    this.registerDeferredClick();
+  }
+
+  registerDeferredClick(): void {
+    const $body = $(document.body),
+        $popup = this.$('.share__permalink-popup'),
+        popup = $popup[0];
+
+    // Defer registration: the 'click' event hasn't finish bubbling up to the <body>
+    // element yet
+    defer(() => {
+      $body.on('click.permalink-share', (event: JQueryMouseEventObject) => {
+        if (!$.contains(popup, <Element> event.target)) {
+          $popup.hide();
+          $body.off('click.permalink-share');
+        }
+      });
+    });
   }
 }
 

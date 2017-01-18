@@ -24,6 +24,7 @@ export default class AverageScores extends Page {
       inner: new AverageFigure({
         share: {
           download: true,
+          section: 'section-1',
         },
       }),
       commentary: averageCommentary[context.subject],
@@ -33,6 +34,7 @@ export default class AverageScores extends Page {
       inner: new PercentileFigure({
         share: {
           download: true,
+          section: 'section-2',
         },
       }),
       commentary: percentilesCommentary[context.subject],
@@ -43,14 +45,19 @@ export default class AverageScores extends Page {
         inner: new CreatingTasksFigure({
           share: {
             download: true,
-            section: 'section-2',
+            section: 'section-3',
           },
         }),
         commentary: creatingTasksCommentary[context.subject],
       }));
 
       this.pushSection(new DefaultSection({
-        inner: new RespondingFigure,
+        inner: new RespondingFigure({
+          share: {
+            download: true,
+            section: 'section-4',
+          },
+        }),
         commentary: respondingTaskCommentary[context.subject],
       }));
     }
