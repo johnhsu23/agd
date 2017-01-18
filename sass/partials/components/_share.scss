@@ -1,7 +1,8 @@
 $share-icon-height: 38px;
+$share-background: #f5f4f1;
 
 .share {
-  background: $taupe-15;
+  background-color: $share-background;
   display: inline-block;
   left: 0;
   margin: 5px 0 5px 55px;
@@ -20,7 +21,7 @@ $share-icon-height: 38px;
   }
 
   &:before {
-    color: $taupe-100;
+    color: $share-text;
     content: 'SHARE';
     font-size: 13px;
     font-weight: 700;
@@ -44,7 +45,7 @@ $share-icon-height: 38px;
 }
 
 .share > a {
-    background-image: url(../images/bg/icon-share.png);
+    @include svg-background(icon-share);
     background-position: center;
     background-repeat: no-repeat;
     display: inline-block;
@@ -94,20 +95,20 @@ $share-icon-height: 38px;
 
     &[data-facebook] {
       background-color: #166290;
-      background-image: url(../images/bg/icon-facebook.png);
+      @include svg-background(icon-facebook);
       background-position: 70% 108%;
     }
     &[data-twitter] {
       background-color: #00b7ec;
-      background-image: url(../images/bg/icon-twitter.png);
+      @include svg-background(icon-twitter);
     }
     &[data-email] {
       background-color: $orange-100;
-      background-image: url(../images/bg/icon-envelope.png);
+      @include svg-background(icon-envelope);
     }
     &[data-link] {
       background-color: $orange-100;
-      background-image: url(../images/bg/icon-link.png);
+      @include svg-background(icon-link);
     }
     &[data-download] {
       background-color: $orange-100;
