@@ -30,6 +30,7 @@ docs
 public/*
 
 # Keep assets
+!public/images
 !public/img
 !public/files
 
