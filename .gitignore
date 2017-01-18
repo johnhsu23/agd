@@ -31,7 +31,6 @@ public/*
 
 # Keep assets
 !public/images
-!public/img
 !public/files
 
 # Keep HTML we create by hand
