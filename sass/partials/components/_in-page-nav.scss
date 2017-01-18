@@ -99,7 +99,7 @@
 }
 
 .in-page-nav__expand {
-	background-image: url(../img/arrow-orange-down.png);
+	background-image: url(../images/arrow-orange-down.png);
 	background-position: 50% 100%;
 	background-repeat: no-repeat;
 	bottom: -20px;
@@ -125,7 +125,7 @@
 	}
 
 	&.is-open {
-		background-image: url(../img/arrow-orange-up.png);
+		background-image: url(../images/arrow-orange-up.png);
 
 		&:before {
 			content: 'Close';
