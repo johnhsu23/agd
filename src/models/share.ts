@@ -9,17 +9,12 @@ export interface ShareOptions {
   download?: boolean;
 
   /**
-   * The path to be shared.
-   */
-  path?: string;
-
-  /**
-   * The path to be shared.
+   * The section id to which we will anchor.
    */
   section?: string;
 
   /**
-   * The path to be shared.
+   * The message to display in the share.
    */
   message?: string;
 }
@@ -27,9 +22,6 @@ export interface ShareOptions {
 export class ShareModel extends Model {
   @modelProperty()
   download: boolean;
-
-  @modelProperty()
-  path: string;
 
   @modelProperty()
   section: string;
