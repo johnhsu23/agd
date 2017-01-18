@@ -8,7 +8,7 @@
 
 .main__footer--gray .note .note__header {
     background-color: $taupe-5;
-    background-image: url("../img/note-fold--gray.png");
+    background-image: url("../images/note-fold--gray.png");
 }
 
 .main__footer--gray .note .note__content {
@@ -17,7 +17,7 @@
 
 .note__header {
     background-color: $taupe-10;
-    background-image: url("../img/note-fold--white.png");
+    background-image: url("../images/note-fold--white.png");
     background-position: right top;
     background-repeat: no-repeat;
     border-bottom: 1px solid $taupe-70;
@@ -40,7 +40,7 @@
     }
 
     span {
-        background-image: url("../img/arrow-orange-down.png");
+        background-image: url("../images/arrow-orange-down.png");
         background-position: right center;
         background-repeat: no-repeat;
         padding: 0 rem(30px) 0 rem(20px);
@@ -50,7 +50,7 @@
         color: $orange-100;
 
         span {
-            background-image: url("../img/arrow-orange-up.png");
+            background-image: url("../images/arrow-orange-up.png");
         }
     }
 }
