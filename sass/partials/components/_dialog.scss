@@ -64,6 +64,12 @@
 }
 
 .dialog__close {
+    background-color: red;
+    @include svg-background(close);
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: 10px auto;
+    border-radius: 50%;
     display: block;
     height: 20px;
     position: absolute;
