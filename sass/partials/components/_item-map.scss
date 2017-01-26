@@ -14,6 +14,7 @@ $cutpoint-marker-height: 24px;
 
 .item-map__item {
 	align-items: flex-start;
+	display: block;
 	display: flex;
 	flex-wrap: nowrap;
 	justify-content: flex-start;
@@ -21,6 +22,7 @@ $cutpoint-marker-height: 24px;
 }
 
 .item-map__item__score {
+	display: inline-block;
 	font-weight: 700;
 	margin-right: 3%;
 	text-align: right;
@@ -28,12 +30,14 @@ $cutpoint-marker-height: 24px;
 }
 
 .item-map__item__question {
+	display: inline-block;
 	font-size: .875em;
 	margin-right: 3%;
 	width: 43%;
 }
 
 .item-map__item__link {
+	display: inline-block;
 	width: 15%;
 
 	a {
