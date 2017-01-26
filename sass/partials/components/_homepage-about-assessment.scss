@@ -7,12 +7,14 @@
 }
 
 .homepage-about-assessment__music {
+	display: inline-block;
 	display: flex;
 	flex-basis: 56%;
 	flex-direction: column;
 	justify-content: space-between;
 	margin: 0 4% 0 2%;
 	position: relative;
+	width: 56%;
 
 	&:after {
 		border-right: 1px dashed $taupe-50;
@@ -30,11 +32,13 @@
 }
 
 .homepage-about-assessment__visual-arts {
+	display: inline-block;
 	display: flex;
 	flex-basis: 32%;
 	flex-direction: column;
 	justify-content: space-between;
 	margin: 0 2% 0 4%;
+	width: 32%;
 }
 
 .homepage-about-assessment__music-content,
@@ -48,12 +52,16 @@
 
 .homepage-about-assessment__music-content div:first-of-type {
 	border-right: 1px dashed $taupe-50;
+	display: inline-block;
 	flex-basis: 42%;
 	margin-top: 1em;
+	width: 42%;
 }
 .homepage-about-assessment__music-content div:last-of-type {
+	display: inline-block;
 	flex-basis: 58%;
 	margin-top: 1em;
+	width: 58%;
 }
 
 .homepage-about-assessment__visual-arts-content > div {
@@ -68,6 +76,11 @@
 	> div {
 		width: 360px;
 	}
+}
+
+.homepage-about-assessment-key__music,
+.homepage-about-assessment-key__visual-arts {
+	display: inline-block;
 }
 
 .homepage-about-assessment-key img {
