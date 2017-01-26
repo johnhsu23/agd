@@ -118,8 +118,9 @@ $cutpoint-marker-height: 24px;
 }
 
 .item-map__scale-text {
-	padding: 0 0 .25em 0;
+	display: inline-block;
 	margin-right: 1%;
+	padding: 0 0 .25em 0;
 	text-align: right;
 	width: 16%;
 }
@@ -127,6 +128,7 @@ $cutpoint-marker-height: 24px;
 .item-map__scale-value {
 	background-color: $taupe-100;
 	color: #fff;
+	display: inline-block;
 	padding: .125em 0;
 	position: relative;
 	text-align: center;
@@ -142,6 +144,7 @@ $cutpoint-marker-height: 24px;
 }
 
 .item-map__item--cut-point .cutpoint-level {
+	display: inline-block;
 	margin-right: 1%;
 	padding: 0 0 .25em 0;
 	text-align: right;
@@ -151,6 +154,7 @@ $cutpoint-marker-height: 24px;
 .item-map__item--cut-point .cutpoint-value {
 	background-color: $taupe-100;
 	color: #fff;
+	display: inline-block;
 	height: $cutpoint-marker-height;
 	line-height: $cutpoint-marker-height;
 	position: relative;
@@ -173,6 +177,7 @@ $cutpoint-marker-height: 24px;
 
 .item-map__item--cut-point .cutpoint-bar {
 	border-bottom: 2px dashed $taupe-100;
+	display: inline-block;
 	height: 13px;
 	margin-left: 3%;
 	width: 76%;
@@ -188,6 +193,7 @@ $cutpoint-marker-height: 24px;
 
 .item-map__item--average .average-text {
 	color: $green-100;
+	display: inline-block;
 	font-weight: 700;
 	margin-right: 1%;
 	padding: 0 0 .25em 0;
@@ -198,6 +204,7 @@ $cutpoint-marker-height: 24px;
 .item-map__item--average .average-value {
 	background-color: $green-100;
 	color: #fff;
+	display: inline-block;
 	height: $cutpoint-marker-height;
 	line-height: $cutpoint-marker-height;
 	position: relative;
@@ -220,6 +227,7 @@ $cutpoint-marker-height: 24px;
 
 .item-map__item--average .average-bar {
 	border-bottom: 2px solid $green-100;
+	display: inline-block;
 	height: 13px;
 	margin-left: 3%;
 	width: 76%;
