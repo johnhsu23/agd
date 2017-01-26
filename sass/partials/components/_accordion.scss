@@ -8,6 +8,7 @@
 .accordion__header {
 	align-items: center;
 	border-bottom: 1px solid $orange-100;
+	display: block;
 	display: flex;
 	margin: 1em 0 0;
 	padding-right: 3em;
@@ -94,6 +95,7 @@
 }
 
 .accordion__contents--sample-questions {
+	display: block;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-between;

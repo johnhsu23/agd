@@ -2,6 +2,7 @@
 
 .sample-question__question,
 .sample-question__answer {
+    display: inline-block;
     flex-basis: 100%;
 
     @include breakpoint($desktop-width) {
