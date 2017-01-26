@@ -1,4 +1,5 @@
 .homepage-about-assessment {
+	display: block;
 	display: flex;
 	flex-wrap: nowrap;
 	justify-content: space-between;
@@ -9,12 +10,12 @@
 .homepage-about-assessment__music {
 	display: inline-block;
 	display: flex;
-	flex-basis: 56%;
+	flex-basis: 55%;
 	flex-direction: column;
 	justify-content: space-between;
 	margin: 0 4% 0 2%;
 	position: relative;
-	width: 56%;
+	width: 55%;
 
 	&:after {
 		border-right: 1px dashed $taupe-50;
