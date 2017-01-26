@@ -48,6 +48,7 @@ $cutpoint-marker-height: 24px;
 
 .item-map__header {
 	align-items: flex-start;
+	display: block;
 	display: flex;
 	flex-wrap: nowrap;
 	font-size: .875em;
@@ -57,21 +58,25 @@ $cutpoint-marker-height: 24px;
 }
 
 .item-map__header-left {
+	display: inline-block;
 	margin-right: 1%;
 	width: 16%;
 }
 
 .item-map__header-center {
+	display: inline-block;
 	margin-right: 3%;
 	width: 19%;
 }
 
 .item-map__header-right {
+	display: inline-block;
 	width: 43%;
 }
 
 .item-map__scale {
 	align-items: flex-start;
+	display: block;
 	display: flex;
 	flex-wrap: nowrap;
 	font-size: .875em;
