@@ -12,9 +12,10 @@ import * as template from 'text!templates/gap-selector.html';
   className: 'gap-selector',
 })
 export default class GapSelector extends D3View<HTMLDivElement, Model> {
+  // default to 'Race/Ethnicity', White  - Hispanic (0 - 2)
   protected variable = vars.SDRACE;
   protected focal = 0;
-  protected target = 1;
+  protected target = 2;
 
   template = () => template;
 
