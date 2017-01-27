@@ -2,15 +2,18 @@
     padding: 1em 0 2em;
 }
 
+.section--gray .note,
 .main__footer--gray .note {
     background: $taupe-15;
 }
 
+.section--gray .note .note__header,
 .main__footer--gray .note .note__header {
     background-color: $taupe-5;
     background-image: url("../images/note-fold--gray.png");
 }
 
+.section--gray .note .note__content,
 .main__footer--gray .note .note__content {
     background: #fff;
 }
@@ -25,7 +28,6 @@
 }
 
 .note__show-hide {
-
     color: $orange-100;
     display: block;
     font-size: .875em;
