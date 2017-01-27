@@ -1,7 +1,8 @@
 import {EventsHash, Collection} from 'backbone';
 import {default as Figure, FigureOptions} from 'views/figure';
 import {union} from 'underscore';
-import * as Bluebird from 'bluebird';
+import {nest} from 'd3-collection';
+import {ascending} from 'd3-array';
 
 import forwardEvents from 'util/forward-events';
 import context from 'models/context';
@@ -15,13 +16,7 @@ import {getHeatLegendItems} from 'models/legend/heat';
 
 import HeatModel from 'pages/opportunities-and-access/heat-model';
 import HeatTable from 'pages/opportunities-and-access/heat-table';
-import {load as groupLoad, Result as GroupResult, Data as GroupData} from 'pages/opportunities-and-access/group-data';
-import {load as trendLoad, Result as TrendResult, Data as TrendData} from 'pages/opportunities-and-access/trends-data';
-
-interface LoadResult {
-  trends: TrendResult[];
-  groups: GroupResult[];
-}
+import {load, Result, Data} from 'pages/opportunities-and-access/group-data';
 
 export interface HeatGroupFigureOptions extends FigureOptions {
   contextualVariable: ContextualVariable;
@@ -31,7 +26,6 @@ export default class HeatGroupFigure extends Figure {
   protected variable = vars.SDRACE;
   protected contextualVariable: ContextualVariable;
 
-  protected trendData: TrendData[];
   protected table: HeatTable;
   protected tableData = new Collection;
   protected legendCollection = new Collection;
@@ -68,22 +62,9 @@ export default class HeatGroupFigure extends Figure {
       collection: this.legendCollection,
     }));
 
-    this.loadData()
-      .then(result => {
-        this.trendData = result.trends[0].values;
-        this.updateTable(result.groups);
-      })
+    load(this.variable, this.contextualVariable)
+      .then(result => this.updateTable(result))
       .done();
-  }
-
-  protected async loadData(): Bluebird<LoadResult> {
-    const trends = await trendLoad(this.contextualVariable),
-          groups = await groupLoad(this.variable, this.contextualVariable);
-
-    return Bluebird.resolve({
-      trends,
-      groups,
-    });
   }
 
   childEvents(): EventsHash {
@@ -99,38 +80,26 @@ export default class HeatGroupFigure extends Figure {
         .trigger('variable:select', variable);
       this.setTitle(this.makeTitle());
 
-      groupLoad(this.variable, this.contextualVariable)
+      load(this.variable, this.contextualVariable)
         .then(results => this.updateTable(results))
         .done();
     }
   }
 
-  protected updateTable(results: GroupResult[]): void {
+  protected updateTable(results: Result[]): void {
+    // Reorder the data if this is SCHTYPE since we are actually pulling from both SCHTYPE and SCHTYP2.
+    if (this.variable.id === 'SCHTYPE') {
+      results = nest<Result>()
+        .sortValues((a, b) => ascending(this.variable.categories.indexOf(a.key),
+          this.variable.categories.indexOf(b.key)))
+        .entries(results);
+    }
+
     const models: HeatModel[] = [];
-    models.length = this.variable.categories.length + 1;
+    models.length = this.variable.categories.length;
 
-    // insert top level "All Students" data with our 2016 trends data
-    let model = models[0];
-    if (!model) {
-      model = models[0] = new HeatModel;
-    }
-
-    model.data = [];
-    model.label = 'All Students';
-    model.contextualVariable = this.contextualVariable;
-
-    for (const datum of this.trendData) {
-      model.data.push({
-        value: datum.targetvalue,
-        sig: datum.sig,
-        errorFlag: datum.TargetErrorFlag,
-        isStatDisplayable: (datum.isTargetStatDisplayable !== 0),
-      });
-    }
-
-    // add our group data to the models
     for (const result of results) {
-      const index = results.indexOf(result) + 1;
+      const index = results.indexOf(result);
       let model = models[index];
       if (!model) {
         model = models[index] = new HeatModel;
@@ -160,18 +129,18 @@ export default class HeatGroupFigure extends Figure {
       + `, by ${this.variable.title} and ${this.contextualVariable.title}: 2016`;
   }
 
-  protected buildLegend(groupResults: GroupResult[]): void {
+  protected buildLegend(results: Result[]): void {
     let legends: Legend[] = getHeatLegendItems();
 
-    let groupData: GroupData[] = [];
+    let data: Data[] = [];
 
     // populate our data array
-    for (const item of groupResults) {
-      groupData = union(groupData, item.values);
+    for (const item of results) {
+      data = union(data, item.values);
     }
 
     // add notes based one error flags
-    legends = legends.concat(...gatherNotes(groupData, row => row.errorFlag, row => row.sig));
+    legends = legends.concat(...gatherNotes(data, row => row.errorFlag, row => row.sig));
 
     this.legendCollection.reset(legends);
   }
