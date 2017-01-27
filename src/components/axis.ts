@@ -53,6 +53,11 @@ export interface Axis {
   padding(padding: number): this;
 
   /**
+   * Returns the title in use by this axis.
+   */
+  title(): string;
+
+  /**
    * Set the title of this axis.
    */
   title(title: string | string[]): this;
@@ -80,6 +85,11 @@ type AxisArgs = {
     y1: number;
     x2: number;
     y2: number;
+  };
+
+  title: {
+    x: number;
+    y: number;
   }
 };
 
@@ -160,6 +170,26 @@ function makeAxis(args: AxisArgs): Axis {
     vertical()
       .values(scale.breaks())
       (selection);
+
+  let axisTitle = selection.select('.axis__title');
+  if (axisTitle.empty()) {
+    axisTitle = selection.append('text')
+      .classed('.axis__title', true);
+  }
+
+  const titleArgs = args.title,
+        titleLength = title.length - 1;
+
+  const tspanUpdate = axisTitle.selectAll('tspan')
+        .data(title);
+
+  tspanUpdate.enter()
+    .append('tspan')
+    .attr('x', titleArgs.x)
+    .attr('y', titleArgs.y)
+    .attr('dy', (_: void, index: number) => (titleLength - index) * -1.1 + 'em')
+    .merge(tspanUpdate)
+    .text(d => d);
   } as Axis;
 
   axis.ticks = function (value?: Tick[]): Tick[] | Axis {
@@ -226,6 +256,10 @@ export function verticalLeft(): Axis {
       x2: -tickLength,
       y2: 0,
     },
+    title: {
+      x: 0,
+      y: 0,
+    },
   });
 }
 
@@ -242,6 +276,10 @@ export function horizontalBottom(): Axis {
       y1: 0,
       x2: 0,
       y2: tickLength,
+    },
+    title: {
+      x: 0,
+      y: 0,
     },
   });
 }
