@@ -72,6 +72,10 @@
         opacity: 1;
         visibility: initial;
     }
+
+    .series--target & {
+        font-style: italic
+    }
 }
 
 .series__point__symbol {
