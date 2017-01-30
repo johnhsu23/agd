@@ -15,7 +15,7 @@ export default class HomepageView extends Page {
   events(): EventsHash {
     return {
       'click [data-subject]': 'switchSubject',
-      'click a[href^="#/about"]': 'historyHash',
+      'click a[href^="/#/about"]': 'historyHash',
     };
   }
 
@@ -33,7 +33,7 @@ export default class HomepageView extends Page {
 
   // prevent the page from saving and reloading with current scroll location
   protected historyHash(): void {
-    window.location.reload();
+    window.scroll(0, 0);
   }
 
   onRender(): void {
