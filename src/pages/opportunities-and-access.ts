@@ -1,9 +1,10 @@
+import context from 'models/context';
 import Page from 'views/page';
 import DefaultSection from 'views/default-section';
-import QuestionsListView from 'pages/opportunities-and-access/questions-list';
 import NotesSourcesView from 'views/notes-sources';
 
-import context from 'models/context';
+import QuestionsListView from 'pages/opportunities-and-access/questions-list';
+import CustomDataTable from 'pages/opportunities-and-access/custom-data-table';
 
 import * as studentExperiencesCommentary from 'json!commentary/opportunities-and-access/student-experiences.json';
 import * as opportunitiesMusicNotes from 'text!notes/opportunities-and-access/music.html';
@@ -11,6 +12,14 @@ import * as opportunitiesVisualArtsNotes from 'text!notes/opportunities-and-acce
 
 export default class OpportunitiesAndAccess extends Page {
   pageTitle = 'Opportunities and Access';
+
+  regions(): { [key: string]: string } {
+    return {
+      'in-page-nav': '.in-page-nav-wrapper',
+      footer: '.main__footer .inner',
+      'data-table': '.js-data-table',
+    };
+  }
 
   onBeforeShow(): void {
     this.pushSection(new DefaultSection({
@@ -21,5 +30,7 @@ export default class OpportunitiesAndAccess extends Page {
     this.showChildView('footer', new NotesSourcesView({
       contents: (context.subject === 'music') ? opportunitiesMusicNotes : opportunitiesVisualArtsNotes,
     }));
+
+    this.showChildView('data-table', new CustomDataTable);
   }
 }
