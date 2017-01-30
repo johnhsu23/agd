@@ -14,6 +14,33 @@
     padding: 4em 0;
 }
 
+.about .section {
+    padding: 1em 0 0;
+}
+
+.section--homepage {
+    padding: 3em 0;
+
+    &:after {
+        background: $taupe-25;
+        bottom: -3em;
+        content: '';
+        display: block;
+        height: 2px;
+        margin: 0 auto;
+        position: relative;
+        width: 70%;
+    }
+}
+
+.section--homepage-last {
+    padding: 3em 0 2em;
+
+    &:after {
+        display: none;
+    }
+}
+
 .section:last-of-type {
     padding-bottom: 2em;
 }

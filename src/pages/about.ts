@@ -1,12 +1,16 @@
 import {EventsHash} from 'backbone';
 import * as $ from 'jquery';
 
+import configure from 'util/configure';
 import Page from 'views/page';
 import Dialog from 'views/dialog';
 import Glossary from 'views/glossary';
 
 import * as template from 'text!templates/about.html';
 
+@configure({
+  className: 'about',
+})
 export default class AboutView extends Page {
   template = () => template;
 

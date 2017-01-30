@@ -1,8 +1,7 @@
-import {Model} from 'backbone';
+import {Model, history} from 'backbone';
 import {View, LayoutView, Region} from 'backbone.marionette';
 
 import InPageNav from 'views/in-page-nav';
-import context from 'models/context';
 
 import * as template from 'text!templates/page.html';
 
@@ -53,7 +52,8 @@ abstract class PageView extends LayoutView<any> {
   }
 
   onAttach(): void {
-    if (context.subject) {
+    // only do for non-home pages. homepage path is '', thus gives a length of 0
+    if (history.getFragment().length > 0) {
       this.showChildView('in-page-nav', new InPageNav);
     }
   }
