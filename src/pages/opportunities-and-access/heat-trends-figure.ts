@@ -1,7 +1,8 @@
-import {default as Figure, FigureOptions} from 'views/figure';
+import {FigureOptions} from 'views/figure';
 import {Collection} from 'backbone';
 import {union} from 'underscore';
 
+import QuestionAccordionItemFigure from 'pages/opportunities-and-access/question-accordion-item-figure';
 import forwardEvents from 'util/forward-events';
 import context from 'models/context';
 import Legend from 'models/legend';
@@ -18,7 +19,7 @@ export interface HeatTrendsFigureOptions extends FigureOptions {
   contextualVariable: ContextualVariable;
 }
 
-export default class HeatTrendsFigure extends Figure {
+export default class HeatTrendsFigure extends QuestionAccordionItemFigure {
   protected contextualVariable: ContextualVariable;
 
   protected table: HeatTable;
@@ -55,6 +56,8 @@ export default class HeatTrendsFigure extends Figure {
     this.showLegend(new LegendView({
       collection: this.legendCollection,
     }));
+
+    this.setHeading('Percentage Trends');
 
     load(this.contextualVariable)
       .then(result => this.loaded(result))

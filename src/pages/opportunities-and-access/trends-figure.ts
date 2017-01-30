@@ -1,7 +1,7 @@
 import {Collection} from 'backbone';
 import {union} from 'underscore';
 
-import {default as Figure, FigureOptions} from 'views/figure';
+import {FigureOptions} from 'views/figure';
 import LegendView from 'views/legend';
 import Legend from 'models/legend';
 import {all as gatherNotes} from 'legends/gather';
@@ -10,6 +10,7 @@ import context from 'models/context';
 import BarLegend from 'models/legend/bar';
 import {ContextualVariable} from 'data/contextual-variables';
 
+import QuestionAccordionItemFigure from 'pages/opportunities-and-access/question-accordion-item-figure';
 import {load, Result, Data} from 'pages/opportunities-and-access/trends-data';
 import TrendsChart from 'pages/opportunities-and-access/trends-chart';
 
@@ -17,7 +18,7 @@ export interface TrendsFigureOptions extends FigureOptions {
   variable: ContextualVariable;
 }
 
-export default class TrendsFigure extends Figure {
+export default class TrendsFigure extends QuestionAccordionItemFigure {
   protected variable: ContextualVariable;
   protected legendCollection = new Collection;
 
@@ -46,6 +47,7 @@ export default class TrendsFigure extends Figure {
       .done();
 
     this.setTitle(this.makeTitle());
+    this.setHeading('Percentage Trends');
 
     this.showLegend(new LegendView({
       collection: this.legendCollection,
