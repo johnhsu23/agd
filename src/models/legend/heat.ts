@@ -30,7 +30,6 @@ export const HeatLegendItems: string[] = [
   '30% to 39%',
   '10% to 29%',
   'Less than 10%',
-  'Rounds to zero or not reportable',
 ];
 
 export function getHeatLegendItems(): Legend[] {

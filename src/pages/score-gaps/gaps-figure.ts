@@ -36,7 +36,8 @@ export default class ScoreGaps extends Figure {
     }));
 
     this.setTitle(this.makeTitle());
-    this.updateChart(this.variable, 0, 1);
+    // default to 'Race/Ethnicity', White - Hispanic (0 - 2)
+    this.updateChart(this.variable, 0, 2);
   }
 
   childEvents(): EventsHash {
