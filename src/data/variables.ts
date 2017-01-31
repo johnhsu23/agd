@@ -99,8 +99,8 @@ export const SCHTYP1: Variable = {
   title: 'type of school',
   categories: [
     'Public',
-    'Private: Overall',
-    'Private: Catholic',
+    'Private',
+    'Catholic',
   ],
 };
 
@@ -110,8 +110,8 @@ export const SCHTYPE: Variable = {
   title: 'type of school',
   categories: [
     'Public',
-    'Private: Overall',
-    'Private: Catholic',
+    'Private',
+    'Catholic',
   ],
 };
 
@@ -121,8 +121,8 @@ export const SCHTYP2: Variable = {
   title: 'type of school',
   categories: [
     'Public',
-    'Private: Overall',
-    'Private: Catholic',
+    'Private',
+    'Catholic',
   ],
 };
 

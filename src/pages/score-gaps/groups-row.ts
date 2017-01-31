@@ -26,24 +26,11 @@ export default class RowView extends ItemView<GroupsModel> {
 
     const model = this.model,
           variable = model.variable,
-          category = model.category;
-
-    let categoryLabel = variable.categories[category],
-        shouldIndent = false;
-
-    if (variable === studentGroupsById['SCHTYPE']) {
-      // rename the school type categories for this table only
-      if (category === 1) {
-        categoryLabel = 'Private';
-      } else if (category === 2) {
-        categoryLabel = 'Catholic';
-        // indent 'Catholic' label to show as subset of 'Private'
-        shouldIndent = true;
-      }
-    }
+          category = model.category,
+          shouldIndent = (variable === studentGroupsById['SCHTYPE'] && category === 2);
 
     $('<th>', { scope: 'row' })
-      .text(categoryLabel)
+      .text(variable.categories[category])
       .toggleClass('indent', shouldIndent)
       .appendTo(this.$el);
 
