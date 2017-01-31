@@ -20,3 +20,7 @@
 .bar__text-value {
 	font-size: 1.375rem;
 }
+
+.chart--bar--stacked .bar__text {
+    text-anchor: middle;
+}
