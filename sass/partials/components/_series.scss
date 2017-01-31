@@ -70,7 +70,11 @@
 
     .series.is-active & {
         opacity: 1;
-        visibility: initial;
+        visibility: visible;
+    }
+
+    .series--target & {
+        font-style: italic
     }
 }
 

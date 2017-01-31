@@ -14,6 +14,10 @@
     padding: 4em 0;
 }
 
+.about .section {
+    padding: 1em 0 0;
+}
+
 .section--homepage {
     padding: 3em 0;
 
@@ -38,7 +42,7 @@
 }
 
 .section:last-of-type {
-    padding-bottom: 1em;
+    padding-bottom: 2em;
 }
 
 .section__inner {
@@ -50,8 +54,10 @@
   padding-top: 2em;
 }
 
+.section--gray,
 #section-2,
-#section-4 {
+#section-4,
+#section-6 {
   background: $taupe-15;
   position: relative;
 
@@ -70,8 +76,10 @@
   }
 }
 
+.section--white,
 #section-3,
-#section-5 {
+#section-5,
+#section-7 {
   background: #fff;
   position: relative;
 

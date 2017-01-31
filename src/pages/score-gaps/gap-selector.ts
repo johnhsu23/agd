@@ -12,9 +12,10 @@ import * as template from 'text!templates/gap-selector.html';
   className: 'gap-selector',
 })
 export default class GapSelector extends D3View<HTMLDivElement, Model> {
+  // default to 'Race/Ethnicity', White  - Hispanic (0 - 2)
   protected variable = vars.SDRACE;
   protected focal = 0;
-  protected target = 1;
+  protected target = 2;
 
   template = () => template;
 
@@ -134,8 +135,10 @@ export default class GapSelector extends D3View<HTMLDivElement, Model> {
       return;
     }
 
-    const options = (event.target as HTMLSelectElement).selectedOptions,
-          [variable, focal] = select<Element, [vars.Variable, number]>(options[0]).datum();
+    const target = event.target as HTMLSelectElement,
+          index = target.selectedIndex,
+          option = target.options[index],
+          [variable, focal] = select<Element, [vars.Variable, number]>(option).datum();
 
     if (this.variable !== variable) {
       // When switching variables, reset the target category to 0, or 1 if the user picked category 0.
