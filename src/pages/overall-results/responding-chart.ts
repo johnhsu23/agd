@@ -54,7 +54,8 @@ export default class BarChart extends Chart<Model> {
       .domain([0, 100]);
 
     const percentAxis = axis.horizontalBottom()
-      .scale(percent);
+      .scale(percent)
+      .title(['Percent of Maximum Score']);
 
     const chartHeight = 300,
         chartWidth = percent.range()[1];
@@ -66,23 +67,6 @@ export default class BarChart extends Chart<Model> {
       .attr('transform', `translate(${this.marginLeft}, ${this.marginTop + this.innerHeight})`)
       .call(percentAxis);
 
-    const textX = ['Percent of Maximum Score'],
-       lineHeight = -1.1,
-       textLengthX = textX.length - 1;
-
-    // Select all child <tspan> elements of the axis title's <text> element
-    const tspansX = this.percentAxis.append('text')
-      .classed('axis__title', true)
-      .selectAll('tspan')
-      .data(textX);
-
-    tspansX.enter()
-      .append('tspan')
-      .text(d => d)
-      .attr('x', this.marginLeft * 2)
-      .attr('y', this.marginTop)
-      .attr('dy', (_, index) => (textLengthX - index) * lineHeight + 'em');
-
     // setup and add the y axis
     const category = scaleBand()
       .domain(scoreText)
@@ -91,29 +75,12 @@ export default class BarChart extends Chart<Model> {
 
     const categoryAxis = verticalLeft(chartHeight)
       .scale(category)
-      .wrap(this.marginLeft - 5); // Fudge factor
+      .wrap(this.marginLeft - 5) // Fudge factor
+      .title(['Responding', 'Score Level']);
 
     this.categoryAxis
       .attr('transform', `translate(${this.marginLeft}, ${this.marginTop})`)
       .call(categoryAxis);
-
-    const text = ['Responding', 'Score Level'],
-      textLength = text.length - 1;
-
-    // Select all child <tspan> elements of the axis title's <text> element
-    const tspans = this.categoryAxis.append('text')
-      .classed('axis__title', true) // add CSS class
-      .selectAll('tspan')
-      .data(text);
-
-    tspans.enter()
-      .append('tspan')
-      .text(d => d)
-      .attr('x', -90)
-      .attr('y', -10)
-      .attr('fill', 'black')
-      .attr('font-size', '16px')
-      .attr('dy', (_, index) => (textLength - index) * lineHeight + 'em');
 
     // set the bar groups
     const barUpdate = this.inner.selectAll('.bar')

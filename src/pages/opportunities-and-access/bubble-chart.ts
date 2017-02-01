@@ -100,26 +100,12 @@ export default class BubbleChart extends Chart<Model> {
       .height(score.size());
 
     const scoreAxis = axes.verticalLeft()
-      .scale(score);
+      .scale(score)
+      .title(['Scale', 'Score']);
 
     this.scoreAxis
       .attr('transform', `translate(${this.marginLeft}, ${this.marginTop})`)
       .call(scoreAxis);
-
-    const text = ['Scale', 'Score'],
-      lineHeight = -1.1,
-      textLength = text.length - 1;
-    // Select all child <tspan> elements of the axis title's <text> element
-    const tspans = this.scoreAxis.append('text')
-      .classed('axis__title', true) // add CSS class
-      .selectAll('tspan')
-      .data(text);
-    tspans.enter()
-      .append('tspan')
-      .text(d => d)
-      .attr('x', this.marginLeft * -1)
-      .attr('y', this.marginTop / -3)
-      .attr('dy', (_, index) => (textLength - index) * lineHeight + 'em');
 
     const bubbleUpdate = this.inner.selectAll('.bubble')
       .data(valid);
