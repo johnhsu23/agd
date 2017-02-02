@@ -235,7 +235,7 @@ export function horizontalBottom(): Axis {
     tickPosition: tick => [tick.value, 0],
     direction: 'x',
     text: {
-      dy: '1.1em',
+      dy: '1.2em',
     },
     line: {
       x1: 0,
