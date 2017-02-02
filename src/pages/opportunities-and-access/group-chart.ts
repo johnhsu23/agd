@@ -22,7 +22,7 @@ export interface GroupChartOptions extends ViewOptions<Model> {
 }
 
 @configure({
-  className: 'chart chart--bar chart--bar--stacked',
+  className: 'chart chart--bar chart--stacked-bar',
 })
 export default class GroupChart extends Chart<Model> {
   protected marginLeft = 140;
