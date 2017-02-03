@@ -13,12 +13,14 @@ import {getHeatLegendItems} from 'models/legend/heat';
 import HeatModel from 'pages/opportunities-and-access/heat-model';
 import HeatTable from 'pages/opportunities-and-access/heat-table';
 import {load, Result, Data} from 'pages/opportunities-and-access/trends-data';
+import * as template from 'text!templates/question-accordion-item-figure.html';
 
 export interface HeatTrendsFigureOptions extends FigureOptions {
   contextualVariable: ContextualVariable;
 }
 
 export default class HeatTrendsFigure extends Figure {
+  template = () => template;
   protected contextualVariable: ContextualVariable;
 
   protected table: HeatTable;
@@ -55,6 +57,9 @@ export default class HeatTrendsFigure extends Figure {
     this.showLegend(new LegendView({
       collection: this.legendCollection,
     }));
+
+    this.$('.figure__heading')
+      .text('Percentage Trends');
 
     load(this.contextualVariable)
       .then(result => this.loaded(result))

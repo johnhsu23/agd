@@ -1,0 +1,45 @@
+<p>Generate custom tables summarizing selected data:</p>
+<form>
+  <div class="data-selection">
+    <label for="subject">Subject</label>
+    <select name="subject" id="subject">
+      <option value="MUS">Music</option>
+      <option value="VIS">Visual Arts</option>
+    </select>
+  </div>
+  <div class="data-selection">
+    <label for="variable">Variable</label>
+    <select name="variable" id="variable">
+      <option value="TOTAL">All students</option>
+      <option value="GENDER">Gender</option>
+      <option value="SDRACE">Race/ethnicity</option>
+      <option value="SLUNCH3">NSLP eligibility</option>
+      <option value="PARED">Parental education level</option>
+      <option value="SCHTYP2">Type of school</option>
+      <option value="UTOL4">School location</option>
+      <option value="CENSREG">Region of the country</option>
+      <option value="IEP">Status as students with disabilities</option>
+      <option value="ELL">Status as English language learners</option>
+      <option value="GENDER,SDRACE">Gender and Race/ethnicity</option>
+      <option value="GENDER,SLUNCH3">Gender and NSLP eligibility</option>
+      <option value="GENDER,PARED">Gender and parental education level</option>
+      <option value="GENDER,UTOL4">Gender and school location</option>
+      <option value="GENDER,IEP">Gender and status as students with disabilities</option>
+      <option value="GENDER,LEP">Gender and status as English language learners</option>
+      <option value="SDRACE,UTOL4">Race/ethnicity and type of school location</option>
+      <option value="SDRACE,IEP">Race/ethnicity and status as students with disabilities</option>
+      <option value="SDRACE,LEP">Race/ethnicity and status as English language learners</option>
+    </select>
+  </div>
+  <div class="data-selection">
+    <label for="statistic">Statistic</label>
+    <select name="statistic" id="statistic">
+      <option value="MN_MN">Average Score</option>
+      <option value="RP_RP">Percentages</option>
+      <option value="PC_P1,PC_P2,PC_P5,PC_P7,PC_P9">Percentiles</option>
+    </select>
+  </div>
+  <div class="data-submission">
+    <a class="button button--custom" href="#">Create tables</a>
+  </div>
+</form>

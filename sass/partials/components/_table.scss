@@ -148,3 +148,14 @@
     color: #fff;
 }
 
+// Groups table
+
+.table--groups tbody th {
+    padding: 0.5em 2em;
+    text-align: left;
+    width: 35%;
+}
+
+.table--groups tbody th.indent {
+    padding-left: 3em;
+}

@@ -12,6 +12,7 @@ import {all as gatherAll} from 'legends/gather';
 import {load, Grouped} from 'pages/opportunities-and-access/bubble-data';
 import BubbleChart from 'pages/opportunities-and-access/bubble-chart';
 import * as bubbleInstructions from 'text!templates/bubble-instructions.html';
+import * as template from 'text!templates/question-accordion-item-figure.html';
 
 export interface BubbleFigureOptions extends FigureOptions {
   variable: Variable;
@@ -28,6 +29,7 @@ function gatherNotes(data: Grouped[]): Legend[] {
 }
 
 export default class BubbleFigure extends Figure {
+  template = () => template;
   protected variable: Variable;
 
   constructor(options: BubbleFigureOptions) {
@@ -70,6 +72,8 @@ export default class BubbleFigure extends Figure {
     this.showContents(chart);
 
     this.setTitle(this.makeTitle());
+    this.$('.figure__heading')
+      .text('Scale Scores and Percentages');
   }
 
   protected makeTitle(): string {
