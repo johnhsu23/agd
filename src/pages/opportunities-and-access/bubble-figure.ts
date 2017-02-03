@@ -1,6 +1,6 @@
 import {Collection} from 'backbone';
 
-import {FigureOptions} from 'views/figure';
+import {default as Figure, FigureOptions} from 'views/figure';
 import LegendView from 'views/legend';
 import forwardEvents from 'util/forward-events';
 import Legend from 'models/legend';
@@ -9,10 +9,10 @@ import context from 'models/context';
 import {Variable} from 'data/variables';
 import {all as gatherAll} from 'legends/gather';
 
-import QuestionAccordionItemFigure from 'pages/opportunities-and-access/question-accordion-item-figure';
 import {load, Grouped} from 'pages/opportunities-and-access/bubble-data';
 import BubbleChart from 'pages/opportunities-and-access/bubble-chart';
 import * as bubbleInstructions from 'text!templates/bubble-instructions.html';
+import * as template from 'text!templates/question-accordion-item-figure.html';
 
 export interface BubbleFigureOptions extends FigureOptions {
   variable: Variable;
@@ -28,7 +28,8 @@ function gatherNotes(data: Grouped[]): Legend[] {
   return models.concat(new BubbleLegend({}));
 }
 
-export default class BubbleFigure extends QuestionAccordionItemFigure {
+export default class BubbleFigure extends Figure {
+  template = () => template;
   protected variable: Variable;
 
   constructor(options: BubbleFigureOptions) {
@@ -71,7 +72,8 @@ export default class BubbleFigure extends QuestionAccordionItemFigure {
     this.showContents(chart);
 
     this.setTitle(this.makeTitle());
-    this.setHeading('Scale Scores and Percentages');
+    this.$('.figure__heading')
+      .text('Scale Scores and Percentages');
   }
 
   protected makeTitle(): string {

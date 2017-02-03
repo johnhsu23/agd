@@ -1,5 +1,5 @@
 import {EventsHash, Collection} from 'backbone';
-import {FigureOptions} from 'views/figure';
+import {default as Figure, FigureOptions} from 'views/figure';
 import {union} from 'underscore';
 import {nest} from 'd3-collection';
 import {ascending} from 'd3-array';
@@ -14,16 +14,17 @@ import VariableSelector from 'views/variable-selector';
 import {ContextualVariable} from 'data/contextual-variables';
 import {getHeatLegendItems} from 'models/legend/heat';
 
-import QuestionAccordionItemFigure from 'pages/opportunities-and-access/question-accordion-item-figure';
 import HeatModel from 'pages/opportunities-and-access/heat-model';
 import HeatTable from 'pages/opportunities-and-access/heat-table';
 import {load, Result, Data} from 'pages/opportunities-and-access/group-data';
+import * as template from 'text!templates/question-accordion-item-figure.html';
 
 export interface HeatGroupFigureOptions extends FigureOptions {
   contextualVariable: ContextualVariable;
 }
 
-export default class HeatGroupFigure extends QuestionAccordionItemFigure {
+export default class HeatGroupFigure extends Figure {
+  template = () => template;
   protected variable = vars.SDRACE;
   protected contextualVariable: ContextualVariable;
 
@@ -63,7 +64,8 @@ export default class HeatGroupFigure extends QuestionAccordionItemFigure {
       collection: this.legendCollection,
     }));
 
-    this.setHeading('Percentages by Student Group');
+    this.$('.figure__heading')
+      .text('Percentages by Student Group');
 
     load(this.variable, this.contextualVariable)
       .then(result => this.updateTable(result))

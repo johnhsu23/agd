@@ -1,4 +1,4 @@
-import {FigureOptions} from 'views/figure';
+import {default as Figure, FigureOptions} from 'views/figure';
 import {EventsHash, Collection} from 'backbone';
 import {union} from 'underscore';
 
@@ -12,15 +12,17 @@ import {ContextualVariable} from 'data/contextual-variables';
 import VariableSelector from 'views/variable-selector';
 import LegendView from 'views/legend';
 
-import QuestionAccordionItemFigure from 'pages/opportunities-and-access/question-accordion-item-figure';
 import GroupChart from 'pages/opportunities-and-access/group-chart';
 import {load, Result, Data} from 'pages/opportunities-and-access/group-data';
+import * as template from 'text!templates/question-accordion-item-figure.html';
 
 export interface GroupFigureOptions extends FigureOptions {
   contextualVariable: ContextualVariable;
 }
 
-export default class GroupFigure extends QuestionAccordionItemFigure {
+export default class GroupFigure extends Figure {
+  template = () => template;
+
   protected variable = vars.SDRACE;
   protected contextualVariable: ContextualVariable;
   protected legendCollection = new Collection;
@@ -50,11 +52,12 @@ export default class GroupFigure extends QuestionAccordionItemFigure {
       variable: this.variable,
       contextualVariable: this.contextualVariable,
     });
+    this.$('.figure__heading')
+      .text('Percentages by Student Group');
 
     this.showControls(new VariableSelector({ variables: vars.studentGroups }));
     this.showContents(this.chart);
     this.setTitle(this.makeTitle());
-    this.setHeading('Percentages by Student Group');
     this.showLegend(new LegendView({
       collection: this.legendCollection,
     }));
