@@ -34,7 +34,7 @@ export default class DataTablesView extends LayoutView<Model> {
 
     // set parameters in correct order: p=2-MUS-2-20163,20083-MUSRP-BM80024,GENDER-NT-MN_MN,RP_RP-1_Y_J-0-0-37
     const parameters = [grade, subject, framework, years, subscale, fullVariable, jurisdiction, statistic, layout];
-    const url = 'http://nces.ed.gov/nationsreportcard/nationsreportcard/naepdata/report.aspx?' + parameters.join('-');
+    const url = 'http://nces.ed.gov/nationsreportcard/naepdata/report.aspx?' + parameters.join('-');
 
     // open the URL in a new window
     window.open(url);
