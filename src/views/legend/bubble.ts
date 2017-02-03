@@ -28,8 +28,7 @@ export default class BubbleLegendView<Legend extends BubbleLegend> extends D3Vie
       .domain([0, 100])
       .range([0, 36]);
 
-    const svg = this.select('svg')
-      .attr('viewBox', `0 0 ${width} 80`);
+    const svg = this.select('svg');
 
     // The orientation of an SVG <marker> element is dependent on the element to which it is attached, which means that
     // in order to do the <==> style of marker, we have to create two markers with separate orientations.
