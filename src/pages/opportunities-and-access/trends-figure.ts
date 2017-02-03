@@ -12,12 +12,14 @@ import {ContextualVariable} from 'data/contextual-variables';
 
 import {load, Result, Data} from 'pages/opportunities-and-access/trends-data';
 import TrendsChart from 'pages/opportunities-and-access/trends-chart';
+import * as template from 'text!templates/question-accordion-item-figure.html';
 
 export interface TrendsFigureOptions extends FigureOptions {
   variable: ContextualVariable;
 }
 
 export default class TrendsFigure extends Figure {
+  template = () => template;
   protected variable: ContextualVariable;
   protected legendCollection = new Collection;
 
@@ -46,6 +48,8 @@ export default class TrendsFigure extends Figure {
       .done();
 
     this.setTitle(this.makeTitle());
+    this.$('.figure__heading')
+      .text('Percentage Trends');
 
     this.showLegend(new LegendView({
       collection: this.legendCollection,
