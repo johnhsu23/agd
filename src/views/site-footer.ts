@@ -9,6 +9,8 @@ import * as summaryTableHtml from 'text!templates/summary-data-table.html';
 export default class SiteFooter extends ItemView<Model> {
   template = () => template;
 
+  protected activeTab: string;
+
   events(): EventsHash {
     return {
       'click [data-footer-tab]': 'footerTab',
@@ -23,6 +25,7 @@ export default class SiteFooter extends ItemView<Model> {
 
     // set active data table link
     this.$('a[data-footer-tab="summary"]').addClass('active');
+    this.activeTab = 'summary';
 
     // populate data tables
     this.$('.js-data-table-summary')
@@ -36,25 +39,15 @@ export default class SiteFooter extends ItemView<Model> {
   protected footerTab(event: JQueryMouseEventObject): void {
     event.preventDefault();
 
-    const target = event.target;
-    let tableId: string;
-    this.$('.footer-header__link').each((_, element) => {
-      const $element = $(element);
-
-      // update active link
-      if (element === target) {
-        $element.addClass('active');
-        // set the ID of the table that we want to show
-        tableId = $element.data('footer-tab');
-      } else {
-        $element.removeClass('active');
-      }
-    });
-
-    this.$('.footer-content__tables__table').each((_, element) => {
-      // hide the table NOT selected
-      $(element).toggleClass('is-hidden', !$(element).hasClass(`js-data-table-${tableId}`));
-    });
+    // Update tab active state and table visibilityconst activeTab = $(event.target).data('footer-tab');
+    const activeTab = $(event.target).data('footer-tab');
+    if (activeTab !== this.activeTab) {
+      this.activeTab = activeTab;
+      this.$('.footer-header__link').removeClass('active');
+      this.$('.footer-content__tables__table').addClass('is-hidden');
+      this.$(`a[data-footer-tab="${this.activeTab}"]`).addClass('active');
+      this.$(`.js-data-table-${this.activeTab}`).removeClass('is-hidden');
+    }
   }
 
   protected customTable(event: JQueryMouseEventObject): void {
@@ -74,7 +67,7 @@ export default class SiteFooter extends ItemView<Model> {
 
     // set parameters in correct order: p=2-MUS-2-20163,20083-MUSRP-TOTAL-NT-MN_MN-Y_J-0-0-5
     const parameters = [grade, subject, framework, years, subscale, variable, jurisdiction, statistic, layout];
-    const url = 'http://nces.ed.gov/nationsreportcard/nationsreportcard/naepdata/report.aspx?' + parameters.join('-');
+    const url = 'http://nces.ed.gov/nationsreportcard/naepdata/report.aspx?' + parameters.join('-');
 
     // open the URL in a new window
     window.open(url);
