@@ -1,5 +1,10 @@
 .footer-content {}
 
+.footer-content__tables {
+    border-right: 3px solid #fff;
+    flex-basis: 70%;
+}
+
 .footer-content__tables-title {
     float: left;
     width: 120px;
@@ -36,21 +41,24 @@
 }
 
 .footer-content__table {
-    border-right: 3px solid #fff;
     color: #fff;
     float: left;
     margin-bottom: -5px;
-    padding-bottom: 2em;
-    width: 440px;
+    padding-bottom: 1em;
+    width: 370px;
 
     @include breakpoint($desktop-width) {
-        width: 540px;
+        width: 500px;
     }
 
     p {
-        font-size: 1em;
+        font-size: .875em;
         line-height: 1.1em;
         margin: 30px 0 1em;
+
+        @include breakpoint($desktop-width) {
+            font-size: 1em;
+        }
     }
 
     .data-selection {
@@ -60,7 +68,8 @@
             background-color: #fff;
             border: none;
             color: #a19787;
-            font-size: .875em;
+            font-size: .75em;
+            max-width: 365px;
             min-width: 200px;
             padding-top: .5em;
             padding-bottom: .5em;
@@ -70,6 +79,8 @@
             }
 
             @include breakpoint($desktop-width) {
+                font-size: .875em;
+                max-width: 500px;
                 min-width: 235px;
             }
         }
@@ -83,6 +94,7 @@
         border: 1px solid #fff;
         display: block;
         margin: 5px 0 0 125px;
+        padding: .625em 1em;
         text-transform: none;
         width: 130px;
 
@@ -92,6 +104,7 @@
 
         &:hover,
         &:focus {
+            background-color: $orange-135;
             border: 1px solid #fff;
         }
 
