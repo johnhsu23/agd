@@ -70,6 +70,13 @@
     text-align: left;
 }
 
+.accordion__chart & .figure__heading {
+    color: $blue-100;
+    font-size: 1.5em;
+    font-weight: 400;
+    margin: .5em 0;
+}
+
 .figure__instructions {
     background: $taupe-30;
     color: $taupe-130;
