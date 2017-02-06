@@ -2,6 +2,8 @@ import * as $ from 'jquery';
 import * as _ from 'underscore';
 import * as Promise from 'bluebird';
 
+import * as env from 'env';
+
 interface SuccessResponse<T> {
   status: number;
   result: T[];
@@ -30,15 +32,18 @@ function serialize(params: Object): { [key: string]: string } {
 
 export default function load<Params, Data>(params: Params): Promise<Data[]> {
   const options: JQueryAjaxSettings = {
-    url: 'https://nrcpreview3.naepims.org/nrcdataservice/GetChartData.aspx',
+    url: env.api,
     data: serialize(params),
 
     method: 'GET',
     dataType: 'json',
-    xhrFields: {
-      withCredentials: true,
-    },
   };
+
+  if (env.cors) {
+    options.xhrFields = {
+      withCredentials: true,
+    };
+  }
 
   const request = $.ajax(options);
 

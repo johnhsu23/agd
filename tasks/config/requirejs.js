@@ -7,6 +7,11 @@ module.exports = function (grunt) {
       return name.replace(/\.js$/, '');
     });
 
+  // Both preview and live servers use the same r.js build settings, but have different environment configurations
+  var isProduction = grunt.option('production');
+  // So we just change that one line here.
+  var environment = isProduction ? 'env/production' : 'env/stage';
+
   grunt.config.set('requirejs', {
     default: {
       options: {
@@ -21,6 +26,7 @@ module.exports = function (grunt) {
         paths: {
           'jquery-accessibleMegaMenu': 'empty:',
           'nrc-header': 'empty:',
+          'env': environment,
         },
       },
     },

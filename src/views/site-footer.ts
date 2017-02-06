@@ -2,6 +2,7 @@ import {Model, EventsHash} from 'backbone';
 import {ItemView} from 'backbone.marionette';
 import * as $ from 'jquery';
 
+import {nde} from 'env';
 import * as template from 'text!templates/footer.html';
 import * as customTableHtml from 'text!templates/custom-data-table.html';
 import * as summaryTableHtml from 'text!templates/summary-data-table.html';
@@ -67,7 +68,7 @@ export default class SiteFooter extends ItemView<Model> {
 
     // set parameters in correct order: p=2-MUS-2-20163,20083-MUSRP-TOTAL-NT-MN_MN-Y_J-0-0-5
     const parameters = [grade, subject, framework, years, subscale, variable, jurisdiction, statistic, layout];
-    const url = 'http://nces.ed.gov/nationsreportcard/naepdata/report.aspx?' + parameters.join('-');
+    const url = nde + 'report.aspx?' + parameters.join('-');
 
     // open the URL in a new window
     window.open(url);
