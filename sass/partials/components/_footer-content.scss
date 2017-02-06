@@ -1,0 +1,115 @@
+.footer-content {}
+
+.footer-content__tables {
+    border-right: 3px solid #fff;
+    flex-basis: 70%;
+}
+
+.footer-content__tables-title {
+    float: left;
+    width: 120px;
+
+    @include breakpoint($desktop-width) {
+        width: 170px;
+    }
+
+    h2 {
+        color: #fff;
+        font-size: 2em;
+        font-weight: 800;
+        line-height: 1em;
+        margin: 30px 0 5px;
+        text-transform: uppercase;
+
+        @include breakpoint($desktop-width) {
+            font-size: 3em;
+        }
+    }
+    h3 {
+        color: $orange-100;
+        font-size: .875em;
+        font-weight: 700;
+        letter-spacing: 1px;
+        line-height: 1em;
+        margin: 0;
+        text-transform: uppercase;
+
+        @include breakpoint($desktop-width) {
+            font-size: 1.25em;
+        }
+    }
+}
+
+.footer-content__table {
+    color: #fff;
+    float: left;
+    margin-bottom: -5px;
+    padding-bottom: 1em;
+    width: 370px;
+
+    @include breakpoint($desktop-width) {
+        width: 500px;
+    }
+
+    p {
+        font-size: .875em;
+        line-height: 1.1em;
+        margin: 30px 0 1em;
+
+        @include breakpoint($desktop-width) {
+            font-size: 1em;
+        }
+    }
+
+    .data-selection {
+        display: inline-block;
+
+        select {
+            background-color: #fff;
+            border: none;
+            color: #a19787;
+            font-size: .75em;
+            max-width: 365px;
+            min-width: 200px;
+            padding-top: .5em;
+            padding-bottom: .5em;
+
+            &::-ms-expand {
+                display: none;
+            }
+
+            @include breakpoint($desktop-width) {
+                font-size: .875em;
+                max-width: 500px;
+                min-width: 235px;
+            }
+        }
+
+        label {
+            @extend %element-hidden;
+        }
+    }
+
+    .data-submission a {
+        border: 1px solid #fff;
+        display: block;
+        margin: 5px 0 0 125px;
+        padding: .625em 1em;
+        text-transform: none;
+        width: 130px;
+
+        @include breakpoint($desktop-width) {
+            margin: 5px 0 0 168px;
+        }
+
+        &:hover,
+        &:focus {
+            background-color: $orange-135;
+            border: 1px solid #fff;
+        }
+
+        &:focus {
+            background-color: $orange-100;
+        }
+    }
+}

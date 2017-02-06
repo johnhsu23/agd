@@ -41,7 +41,7 @@
         margin-right: 80px;
     }
 
-    &.is-active {
+    &.active {
         background: $green-100;
         position: relative;
 
@@ -110,6 +110,10 @@
     @include breakpoint($desktop-width) {
         font-size: .875em;
     }
+}
+
+.footer-content__social-media {
+    margin: 0;
 }
 
 .footer-content__social-media li{
