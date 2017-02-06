@@ -5,7 +5,7 @@ import configure from 'util/configure';
 
 const template = `<tr>
   <th scope="col" rowspan="2">Student Group</th>
-  <th scope="col" colspan="2">Percentages</th>
+  <th scope="col" colspan="2">Percentage of Population</th>
   <th scope="col" colspan="2">Average Scores</th>
 </tr>
 <tr>
