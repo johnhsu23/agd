@@ -26,7 +26,13 @@ export default class SampleQuestions extends Page {
     }));
 
     for (const question of questions()) {
-      list.pushView(new SampleQuestionAccordion({ question }), question.naepid);
+      list.pushView(new SampleQuestionAccordion({
+        question,
+        share: {
+          download: null,
+          accordion: question.naepid,
+        },
+      }), question.naepid);
     }
 
     this.pushSection(new DefaultSection({

@@ -17,6 +17,11 @@ export interface ShareOptions {
    * The message to display in the share.
    */
   message?: string;
+
+  /**
+   * The accordion ID to share
+   */
+  accordion?: string;
 }
 
 export class ShareModel extends Model {
@@ -28,6 +33,9 @@ export class ShareModel extends Model {
 
   @modelProperty()
   message: string;
+
+  @modelProperty()
+  accordion: string;
 
   constructor(options?: ShareOptions) {
     super(options);

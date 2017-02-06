@@ -46,7 +46,7 @@ export class ShareView extends ItemView<ShareModel> {
       this.message = document.title;
     }
 
-    this.computePermalink(options.model.section);
+    this.computePermalink(options.model.section, options.model.accordion);
   }
 
   onRender(): void {
@@ -56,7 +56,7 @@ export class ShareView extends ItemView<ShareModel> {
       .val(this.permalink);
   }
 
-  computePermalink(section: string): void {
+  computePermalink(section: string, accordion: string): void {
     const loc = location.get();
     let permalink = [
       window.location.protocol,
@@ -74,6 +74,10 @@ export class ShareView extends ItemView<ShareModel> {
 
     if (section !== undefined) {
       loc.query['anchor'] = section;
+    }
+
+    if (accordion !== undefined) {
+      loc.query['accordion'] = accordion;
     }
 
     permalink += location.make(loc);
