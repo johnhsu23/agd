@@ -4,6 +4,7 @@ import * as $ from 'jquery';
 import configure from 'util/configure';
 import noTemplate from 'util/no-template';
 import {formatValue} from 'codes';
+import {studentGroupsById} from 'data/variables';
 
 import GroupsModel from 'pages/score-gaps/groups-model';
 import {Data} from 'pages/score-gaps/groups-data';
@@ -25,10 +26,12 @@ export default class RowView extends ItemView<GroupsModel> {
 
     const model = this.model,
           variable = model.variable,
-          category = model.category;
+          category = model.category,
+          shouldIndent = (variable === studentGroupsById['SCHTYPE'] && category === 2);
 
     $('<th>', { scope: 'row' })
       .text(variable.categories[category])
+      .toggleClass('indent', shouldIndent)
       .appendTo(this.$el);
 
     for (const key of keys) {

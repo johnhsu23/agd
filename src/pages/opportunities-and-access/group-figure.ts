@@ -14,12 +14,15 @@ import LegendView from 'views/legend';
 
 import GroupChart from 'pages/opportunities-and-access/group-chart';
 import {load, Result, Data} from 'pages/opportunities-and-access/group-data';
+import * as template from 'text!templates/question-accordion-item-figure.html';
 
 export interface GroupFigureOptions extends FigureOptions {
   contextualVariable: ContextualVariable;
 }
 
 export default class GroupFigure extends Figure {
+  template = () => template;
+
   protected variable = vars.SDRACE;
   protected contextualVariable: ContextualVariable;
   protected legendCollection = new Collection;
@@ -49,6 +52,8 @@ export default class GroupFigure extends Figure {
       variable: this.variable,
       contextualVariable: this.contextualVariable,
     });
+    this.$('.figure__heading')
+      .text('Percentages by Student Group');
 
     this.showControls(new VariableSelector({ variables: vars.studentGroups }));
     this.showContents(this.chart);

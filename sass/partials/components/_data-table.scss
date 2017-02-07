@@ -1,0 +1,32 @@
+.data-table {
+	margin: 5em 0 0;
+}
+
+.data-table__title {
+	@extend .section__title;
+}
+
+.data-table__subtitle {
+	@extend .section__subtitle;
+}
+
+.data-table__commentary {
+	@extend .section__commentary;
+}
+
+.data-table__form label {
+	display: inline-block;
+	font-size: .875em;
+	font-weight: 700;
+	margin-right: 5px;
+	width: 200px;
+}
+
+.data-table__form select {
+	display: inline-block;
+	font-size: .75em;
+}
+
+.data-table__form > div {
+	margin: 0 0 1em;
+}

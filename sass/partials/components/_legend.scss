@@ -74,7 +74,14 @@
 }
 
 .legend__item--bubble {
-    display: unset;
+    display: block;
+
+    & > svg {
+        display: block;
+        height: 80px;
+        margin: 0 auto;
+        width: 180px;
+    }
 }
 
 .bubble__label {

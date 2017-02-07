@@ -117,7 +117,6 @@ export default class PercentileChart extends Chart<Model> {
     const axis = horizontalBottom()
       .scale(scale)
       .ticks(ticks)
-      .padding(30)
       .format(n => "'" + ('' + n).substr(2, 2))
       .title(['Assessment Year']);
 
@@ -137,8 +136,7 @@ export default class PercentileChart extends Chart<Model> {
 
     const padding = 30;
     const year = scales.year()
-      .domain([2008, 2016])
-      .offset(20);
+      .domain([2007, 2017]);
 
     const [lo, hi] = year.range(),
           width = (hi - lo) + padding * 2;

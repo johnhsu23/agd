@@ -17,12 +17,14 @@ import {getHeatLegendItems} from 'models/legend/heat';
 import HeatModel from 'pages/opportunities-and-access/heat-model';
 import HeatTable from 'pages/opportunities-and-access/heat-table';
 import {load, Result, Data} from 'pages/opportunities-and-access/group-data';
+import * as template from 'text!templates/question-accordion-item-figure.html';
 
 export interface HeatGroupFigureOptions extends FigureOptions {
   contextualVariable: ContextualVariable;
 }
 
 export default class HeatGroupFigure extends Figure {
+  template = () => template;
   protected variable = vars.SDRACE;
   protected contextualVariable: ContextualVariable;
 
@@ -61,6 +63,9 @@ export default class HeatGroupFigure extends Figure {
     this.showLegend(new LegendView({
       collection: this.legendCollection,
     }));
+
+    this.$('.figure__heading')
+      .text('Percentages by Student Group');
 
     load(this.variable, this.contextualVariable)
       .then(result => this.updateTable(result))

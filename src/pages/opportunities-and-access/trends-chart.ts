@@ -19,7 +19,7 @@ export interface TrendsChartOptions extends ViewOptions<Model> {
 }
 
 @configure({
-  className: 'chart chart--bar chart--bar--stacked',
+  className: 'chart chart--bar chart--stacked-bar',
 })
 export default class TrendsChart extends Chart<Model> {
   protected marginLeft = 40;

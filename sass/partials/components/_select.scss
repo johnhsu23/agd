@@ -1,0 +1,24 @@
+select {
+	appearance:none;
+	background: $orange-100 url(../images/arrow-pulldown--small.png) no-repeat center right;
+	border: none;
+	border-top: 1px solid $orange-75;
+	border-bottom: 2px solid $orange-135;
+	border-radius: 0;
+	color: #fff;
+	cursor: pointer;
+	display: block;
+	font-size: 1em;
+	font-weight: 400;
+	margin: 0 auto .5em;
+	padding: .35em 2.5em .35em .75em;
+	text-transform: none;
+
+	&:hover,
+	&:focus {
+	    background-color: $orange-135;
+	    color: #fff;
+	    cursor: pointer;
+	    text-decoration: none;
+	}
+}
