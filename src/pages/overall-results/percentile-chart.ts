@@ -63,7 +63,7 @@ const symbol = makeSymbol<Point<Data>>()
   },
 })
 export default class PercentileChart extends Chart<Model> {
-  protected marginLeft = 40;
+  protected marginLeft = 60;
   protected marginRight = 150;
   protected marginBottom = 60;
   protected marginTop = 50;

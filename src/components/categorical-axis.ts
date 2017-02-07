@@ -49,7 +49,7 @@ export interface Axis<Domain> {
    */
   wrap(wrap: number): this;
 
-  title(): string;
+  title(): string[];
 
   /**
    * Set the title of this axis.
@@ -82,6 +82,8 @@ function makeAxis<Domain>(args: AxisArgs): Axis<Domain> {
       // The custom wrapping width -- if falsey, use the scale's bandwidth instead
       wrapWidth = 0,
       scale: OrdinalScale<Domain>;
+
+  let title: string[] = [];
 
   const axis = function <T, U>(selection: Selection<SVGGElement | SVGSVGElement, T, null, U>): void {
     selection.classed(`axis axis--${modifier}`, true);
@@ -183,19 +185,17 @@ function makeAxis<Domain>(args: AxisArgs): Axis<Domain> {
     return wrapWidth || scale.bandwidth();
   } as Setter<number>;
 
-  let title: string[] = [];
-
-  axis.title = function (value?: string | string[]): string | string[] | Axis<Domain>  {
+  axis.title = function (value?: string | string[]): string | string[] | Axis<Domain> {
     if (arguments.length) {
       if (typeof value === 'string') {
-      title = [value];
+        title = [value];
       } else {
         title = value;
       }
       return axis;
     }
     return title;
-  } as Setter<string>;
+  } as Setter<string[]>;
 
   return axis;
 
@@ -248,7 +248,7 @@ export function horizontalBottom<Domain>(length: number): Axis<Domain> {
     vertical: false,
     length,
     title: {
-      x: 115,
+      x: 0,
       y: 40,
     },
   });

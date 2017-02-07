@@ -55,7 +55,7 @@ export interface Axis {
   /**
    * Returns the title in use by this axis.
    */
-  title(): string;
+  title(): string[];
 
   /**
    * Set the title of this axis.
@@ -108,6 +108,8 @@ function makeAxis(args: AxisArgs): Axis {
       scale = makeScale(),
       format = defaultFormat,
       padding = 0;
+
+  let title: string[] = [];
 
   const axis = function <T, U>(selection: Selection<SVGGElement | SVGSVGElement, T, null, U>): void {
     selection.classed('axis ' + modifier, true);
@@ -178,14 +180,15 @@ function makeAxis(args: AxisArgs): Axis {
   }
 
   const titleArgs = args.title,
-        titleLength = title.length - 1;
+        titleLength = title.length - 1,
+        midpoint = scale.size() / 3;
 
   const tspanUpdate = axisTitle.selectAll('tspan')
         .data(title);
 
   tspanUpdate.enter()
     .append('tspan')
-    .attr('x', titleArgs.x)
+    .attr('x', titleArgs.x === 0 ? midpoint : titleArgs.x)
     .attr('y', titleArgs.y)
     .attr('dy', (_, index) => (titleLength - index) * -1.1 + 'em')
     .merge(tspanUpdate)
@@ -228,19 +231,17 @@ function makeAxis(args: AxisArgs): Axis {
     return padding;
   } as Setter<number>;
 
-  let title: string[] = [];
-
-  axis.title = function (value?: string | string[]): string | string[] | Axis  {
+  axis.title = function (value?: string | string[]): string[] | Axis {
     if (arguments.length) {
       if (typeof value === 'string') {
-      title = [value];
+        title = [value];
       } else {
         title = value;
       }
       return axis;
     }
     return title;
-  } as Setter<string>;
+  } as Setter<string[]>;
   return axis;
 }
 
@@ -281,7 +282,7 @@ export function horizontalBottom(): Axis {
       y2: tickLength,
     },
     title: {
-      x: 115,
+      x: 0,
       y: 40,
     },
   });
