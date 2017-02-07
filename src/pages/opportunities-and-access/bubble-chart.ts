@@ -1,10 +1,11 @@
 import {select, Selection} from 'd3-selection';
-import {Model, ViewOptions} from 'backbone';
+import {Model, ViewOptions, EventsHash} from 'backbone';
 import {scalePoint, scaleSqrt} from 'd3-scale';
 import {extent, range} from 'd3-array';
-import {partition} from 'underscore';
+import {partition, findWhere} from 'underscore';
 
 import configure from 'util/configure';
+import wrap from 'util/wrap';
 import {Variable} from 'data/variables';
 import Chart from 'views/chart';
 import * as scales from 'components/scales';
@@ -12,7 +13,7 @@ import * as axes from 'components/axis';
 import {horizontalBottom} from 'components/categorical-axis';
 import {formatValue} from 'codes';
 
-import {Grouped} from 'pages/opportunities-and-access/bubble-data';
+import {Grouped, loadGaps} from 'pages/opportunities-and-access/bubble-data';
 
 interface BubbleChartOptions extends ViewOptions<Model> {
   variable: Variable;
@@ -38,6 +39,61 @@ export default class BubbleChart extends Chart<Model> {
     super(options);
 
     this.variable = options.variable;
+  }
+
+  events(): EventsHash {
+    return {
+      'click .bubble:not(.bubble--suppressed)': 'bubbleClicked',
+    };
+  }
+
+  protected bubbleClicked(event: JQueryMouseEventObject): void {
+    const focal = select(event.currentTarget),
+          focalClicked = focal.classed('focal'),
+          bubbles = this.selectAll('.bubble:not(.bubble--suppressed)');
+
+    if (focalClicked) {
+      // focal element clicked, "close" bubbles by removing is-active and focal classes from all bubbles
+      bubbles
+        .classed('is-active', false)
+        .classed('focal', false);
+
+      // remove elements of sig test
+      this.selectAll('.bubble__sig')
+        .html('');
+    } else {
+      bubbles
+        // set our bubbles to active to display their values
+        .classed('is-active', true)
+        // set focal class conditionally
+        .classed('focal', function() {
+          return this === event.currentTarget;
+        });
+
+      // get focal element's data
+      const focalData = focal.datum() as Grouped,
+            focalIndex = focalData.mean.categoryindex;
+
+      // load our sig test data and set the text
+      loadGaps(this.variable, focalIndex)
+        .then(data => {
+          this.selectAll('.bubble__sig')
+            .text(function() {
+              // get the category index from the data associated with this element
+              const datum = select(this).datum() as Grouped,
+                    categoryIndex = datum.mean.categoryindex,
+                    // gap data categories are increased by 1 (categoryindex: 0 => 1), so find data accordingly
+                    gapData = findWhere(data, { categorybindex: categoryIndex + 1 });
+
+              // if no data found, this most likely means we're on the focal category, which should have no text
+              if (!gapData) { return ''; }
+              return (gapData.sig === '>' || gapData.sig === '<') ? 'score significantly different'
+                : 'score not significantly different';
+            })
+            .call(wrap, 50);
+        })
+        .done();
+    }
   }
 
   render(): this {
@@ -132,12 +188,6 @@ export default class BubbleChart extends Chart<Model> {
               y = score(mean.targetvalue);
 
         return `translate(${x}, ${y})`;
-      })
-      .on('click', function () {
-        const elt = select(this),
-              isActive = elt.classed('is-active');
-
-        elt.classed('is-active', !isActive);
       });
 
     bubbleEnter.append('circle')
@@ -163,6 +213,12 @@ export default class BubbleChart extends Chart<Model> {
 
     bubbleDetail.append('tspan')
       .text(({percent}) => formatValue(percent.targetvalue, '', percent.TargetErrorFlag));
+
+    // add Sig Test text element to bubble
+    bubbleEnter.append('text')
+      .classed('bubble__sig', true)
+      .attr('x', -35)
+      .attr('y', '-5em');
 
     // Show suppressed rows as dagger footnotes
     this.inner.selectAll('.bubble--suppressed')

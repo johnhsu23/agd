@@ -3,11 +3,12 @@ import {ascending, range} from 'd3-array';
 
 import loadData from 'api';
 import {Params, Data} from 'api/tuda-acrossyear';
+import {Params as GapParams, Data as GapData} from 'api/tuda-gap';
 
 import context from 'models/context';
 import {Variable} from 'data/variables';
 
-export {Data};
+export {Data, GapData};
 export interface Grouped {
   mean: Data;
   percent: Data;
@@ -55,4 +56,25 @@ export function load(variable: Variable): Promise<Grouped[]> {
   })
   .then(rows => rows.sort(compare))
   .then(group);
+}
+
+export function loadGaps(variable: Variable, focalCategory: number): Promise<GapData[]> {
+  const {id, categories} = variable;
+
+  return loadData<GapParams, GapData>({
+    type: 'tuda-gap',
+
+    subscale: context.subject === 'visual arts' ? 'VISRP' : 'MUSRP',
+    subject: context.subject,
+    grade: 8,
+
+    variable: id,
+    categoryindex: focalCategory,
+    categoryindexb: range(categories.length),
+
+    stattype: 'MN',
+
+    jurisdiction: 'NT',
+    year: [2016],
+  });
 }
