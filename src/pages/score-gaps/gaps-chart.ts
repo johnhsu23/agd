@@ -39,9 +39,9 @@ const gapSymbol = makeSymbol<api.GapData>()
   className: 'chart chart--gaps',
 })
 export default class GapsChart extends Chart<Model> {
-  protected marginLeft = 40;
+  protected marginLeft = 60;
   protected marginRight = 40;
-  protected marginBottom = 30;
+  protected marginBottom = 60;
   protected marginTop = 50;
 
   protected scoreAxis: Selection<SVGGElement, {}, null, void>;
@@ -136,55 +136,20 @@ export default class GapsChart extends Chart<Model> {
       .ticks([
         { value: year(2008), label: 2008 },
         { value: year(2016), label: 2016 },
-      ]);
+      ])
+      .title(['Assessment Year']);
 
     this.yearAxis
       .attr('transform', `translate(${this.marginLeft}, ${this.marginTop + this.innerHeight})`)
       .call(yearAxis);
 
-    const text = ['Assessment Year'],
-      lineHeight = -1.1,
-      textLength = text.length - 1;
-
-    let axisTitle = this.yearAxis.select('text.axis__title');
-    if (axisTitle.empty()) {
-      axisTitle = this.yearAxis.append('text')
-        .classed('axis__title', true);
-    }
-
-    // Select all child <tspan> elements of the axis title's <text> element
-      const tspans = axisTitle.selectAll('tspan')
-        .data(text);
-
-    tspans.enter()
-      .append('tspan')
-      .text(d => d)
-      .attr('x', this.marginLeft * 3)
-      .attr('y', this.marginTop / 2)
-      .attr('dy', (_, index) => (textLength - index) * lineHeight + 'em');
-
     const scoreAxis = axis.verticalLeft()
-      .scale(score);
+      .scale(score)
+      .title(['Scale', 'Score']);
 
     this.scoreAxis
       .attr('transform', `translate(${this.marginLeft}, ${this.marginTop})`)
       .call(scoreAxis);
-
-    const textY = ['Scale', 'Score'],
-      textLengthY = textY.length - 1;
-
-    // Select all child <tspan> elements of the axis title's <text> element
-    const tspansY = this.scoreAxis.append('text')
-      .classed('axis__title', true) // add CSS class
-      .selectAll('tspan')
-      .data(textY);
-
-    tspansY.enter()
-      .append('tspan')
-      .text(d => d)
-      .attr('x', this.marginLeft * -1)
-      .attr('y', this.marginTop / -3)
-      .attr('dy', (_, index) => (textLengthY - index) * lineHeight + 'em');
 
     function focalData(row: api.GapData): PointInfo<Point> {
       // We're only loading two data points for trend sigs: the focal category's data and the target category's.

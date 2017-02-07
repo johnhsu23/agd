@@ -74,7 +74,8 @@ export default class TrendsChart extends Chart<Model> {
       .domain([0, 100]);
 
     const percentAxis = horizontalBottom()
-      .scale(percent);
+      .scale(percent)
+      .title(['Percent']);
 
     // set chart height and width
     const chartHeight = 160,
@@ -86,21 +87,6 @@ export default class TrendsChart extends Chart<Model> {
     this.percentAxis
       .attr('transform', `translate(${this.marginLeft}, ${this.marginTop + this.innerHeight})`)
       .call(percentAxis);
-
-    const text = ['Percent'],
-      lineHeight = -1.1,
-      textLength = text.length - 1;
-    // Select all child <tspan> elements of the axis title's <text> element
-    const tspans = this.percentAxis.append('text')
-      .classed('axis__title', true)
-      .selectAll('tspan')
-      .data(text);
-    tspans.enter()
-      .append('tspan')
-      .text(d => d)
-      .attr('x', chartWidth / 2)
-      .attr('y', chartHeight / 3.5)
-      .attr('dy', (_, index) => (textLength - index) * lineHeight + 'em');
 
     // setup and add the y axis
     const year = scaleBand()

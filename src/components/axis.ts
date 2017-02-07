@@ -53,6 +53,11 @@ export interface Axis {
   padding(padding: number): this;
 
   /**
+   * Returns the title in use by this axis.
+   */
+  title(): string[];
+
+  /**
    * Set the title of this axis.
    */
   title(title: string | string[]): this;
@@ -80,6 +85,11 @@ type AxisArgs = {
     y1: number;
     x2: number;
     y2: number;
+  };
+
+  title: {
+    x: number;
+    y: number;
   }
 };
 
@@ -98,6 +108,8 @@ function makeAxis(args: AxisArgs): Axis {
       scale = makeScale(),
       format = defaultFormat,
       padding = 0;
+
+  let title: string[] = [];
 
   const axis = function <T, U>(selection: Selection<SVGGElement | SVGSVGElement, T, null, U>): void {
     selection.classed('axis ' + modifier, true);
@@ -160,7 +172,28 @@ function makeAxis(args: AxisArgs): Axis {
     vertical()
       .values(scale.breaks())
       (selection);
-  } as Axis;
+
+  let axisTitle = selection.select('.axis__title');
+  if (axisTitle.empty()) {
+    axisTitle = selection.append('text')
+      .classed('axis__title', true);
+  }
+
+  const titleArgs = args.title,
+        titleLength = title.length - 1,
+        midpoint = scale.size() / 3;
+
+  const tspanUpdate = axisTitle.selectAll('tspan')
+        .data(title);
+
+  tspanUpdate.enter()
+    .append('tspan')
+    .attr('x', titleArgs.x === 0 ? midpoint : titleArgs.x)
+    .attr('y', titleArgs.y)
+    .attr('dy', (_, index) => (titleLength - index) * -1.1 + 'em')
+    .merge(tspanUpdate)
+    .text(d => d);
+} as Axis;
 
   axis.ticks = function (value?: Tick[]): Tick[] | Axis {
     if (arguments.length) {
@@ -198,16 +231,17 @@ function makeAxis(args: AxisArgs): Axis {
     return padding;
   } as Setter<number>;
 
-  let title: string | string[];
-
-  axis.title = function (value?: string | string[]): string | string[] | Axis {
+  axis.title = function (value?: string | string[]): string[] | Axis {
     if (arguments.length) {
-      title = value;
+      if (typeof value === 'string') {
+        title = [value];
+      } else {
+        title = value;
+      }
       return axis;
     }
     return title;
-  } as Setter<string>;
-
+  } as Setter<string[]>;
   return axis;
 }
 
@@ -226,6 +260,10 @@ export function verticalLeft(): Axis {
       x2: -tickLength,
       y2: 0,
     },
+    title: {
+      x: -45,
+      y: -15,
+    },
   });
 }
 
@@ -242,6 +280,10 @@ export function horizontalBottom(): Axis {
       y1: 0,
       x2: 0,
       y2: tickLength,
+    },
+    title: {
+      x: 0,
+      y: 40,
     },
   });
 }

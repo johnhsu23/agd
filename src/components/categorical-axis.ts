@@ -48,11 +48,22 @@ export interface Axis<Domain> {
    * falsey value, the scale's band width is used instead.
    */
   wrap(wrap: number): this;
+
+  title(): string[];
+
+  /**
+   * Set the title of this axis.
+   */
+  title(title: string | string[]): this;
 }
 
 type AxisArgs = {
   vertical: boolean;
   length: number;
+  title: {
+    x: number;
+    y: number;
+  }
 };
 
 function makeAxis<Domain>(args: AxisArgs): Axis<Domain> {
@@ -71,6 +82,8 @@ function makeAxis<Domain>(args: AxisArgs): Axis<Domain> {
       // The custom wrapping width -- if falsey, use the scale's bandwidth instead
       wrapWidth = 0,
       scale: OrdinalScale<Domain>;
+
+  let title: string[] = [];
 
   const axis = function <T, U>(selection: Selection<SVGGElement | SVGSVGElement, T, null, U>): void {
     selection.classed(`axis axis--${modifier}`, true);
@@ -121,6 +134,26 @@ function makeAxis<Domain>(args: AxisArgs): Axis<Domain> {
     // Update the position of each axis tick. We do this after wrap is called because it lets the verticalPosition()
     // function use the computed metrics of the labels to do some nice vertical centering.
     merged.call(position);
+
+    let axisTitle = selection.select('.axis__title');
+    if (axisTitle.empty()) {
+      axisTitle = selection.append('text')
+        .classed('axis__title', true);
+    }
+
+    const titleArgs = args.title,
+          titleLength = title.length - 1;
+
+    const tspanUpdate = axisTitle.selectAll('tspan')
+          .data(title);
+
+    tspanUpdate.enter()
+      .append('tspan')
+      .attr('x', titleArgs.x)
+      .attr('y', titleArgs.y)
+      .attr('dy', (_, index) => (titleLength - index) * -1.1 + 'em')
+      .merge(tspanUpdate)
+      .text(d => d);
   } as Axis<Domain>;
 
   axis.categories = function (value?: string[]): Axis<Domain> | string[] {
@@ -151,6 +184,18 @@ function makeAxis<Domain>(args: AxisArgs): Axis<Domain> {
     // if wrapWidth is falsey, we use bandWidth instead
     return wrapWidth || scale.bandwidth();
   } as Setter<number>;
+
+  axis.title = function (value?: string | string[]): string | string[] | Axis<Domain> {
+    if (arguments.length) {
+      if (typeof value === 'string') {
+        title = [value];
+      } else {
+        title = value;
+      }
+      return axis;
+    }
+    return title;
+  } as Setter<string[]>;
 
   return axis;
 
@@ -190,6 +235,10 @@ export function verticalLeft<Domain>(length: number): Axis<Domain> {
   return makeAxis<Domain>({
     vertical: true,
     length,
+    title: {
+      x: -95,
+      y: -15,
+    },
   });
 }
 export function horizontalBottom(length: number): Axis<string>;
@@ -198,5 +247,9 @@ export function horizontalBottom<Domain>(length: number): Axis<Domain> {
   return makeAxis<Domain>({
     vertical: false,
     length,
+    title: {
+      x: 0,
+      y: 40,
+    },
   });
 }

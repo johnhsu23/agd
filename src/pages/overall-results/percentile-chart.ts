@@ -63,9 +63,9 @@ const symbol = makeSymbol<Point<Data>>()
   },
 })
 export default class PercentileChart extends Chart<Model> {
-  protected marginLeft = 40;
+  protected marginLeft = 60;
   protected marginRight = 150;
-  protected marginBottom = 30;
+  protected marginBottom = 60;
   protected marginTop = 50;
 
   protected scoreAxis: Selection<SVGGElement, {}, null, void>;
@@ -96,28 +96,12 @@ export default class PercentileChart extends Chart<Model> {
 
   protected addScoreAxis(scale: scales.Scale): void {
     const axis = verticalLeft()
-      .scale(scale);
+      .scale(scale)
+      .title(['Scale', 'Score']);
 
     this.scoreAxis
       .attr('transform', `translate(${this.marginLeft}, ${this.marginTop})`)
       .call(axis);
-
-    const text = ['Scale', 'Score'],
-      lineHeight = -1.1,
-      textLength = text.length - 1;
-
-    // Select all child <tspan> elements of the axis title's <text> element
-    const tspans = this.scoreAxis.append('text')
-      .classed('axis__title', true) // add CSS class
-      .selectAll('tspan')
-      .data(text);
-
-    tspans.enter()
-      .append('tspan')
-      .text(d => d)
-      .attr('x', this.marginLeft * -1)
-      .attr('y', this.marginTop / -3)
-      .attr('dy', (_, index) => (textLength - index) * lineHeight + 'em');
   }
 
   protected addYearAxis(scale: scales.Scale): void {
@@ -133,7 +117,8 @@ export default class PercentileChart extends Chart<Model> {
     const axis = horizontalBottom()
       .scale(scale)
       .ticks(ticks)
-      .format(n => "'" + ('' + n).substr(2, 2));
+      .format(n => "'" + ('' + n).substr(2, 2))
+      .title(['Assessment Year']);
 
     const left = this.marginLeft,
           top = this.marginTop + this.innerHeight;
@@ -141,23 +126,6 @@ export default class PercentileChart extends Chart<Model> {
     this.yearAxis
       .attr('transform', `translate(${left}, ${top})`)
       .call(axis);
-
-    const text = ['Assessment Year'],
-      lineHeight = -1.1,
-      textLength = text.length - 1;
-
-    // Select all child <tspan> elements of the axis title's <text> element
-    const tspans = this.yearAxis.append('text')
-      .classed('axis__title', true) // add CSS class
-      .selectAll('tspan')
-      .data(text);
-
-    tspans.enter()
-      .append('tspan')
-      .text(d => d)
-      .attr('x', left * 3)
-      .attr('y', this.marginTop / 2)
-      .attr('dy', (_, index) => (textLength - index) * lineHeight + 'em');
   }
 
   renderData(data: Grouped): void {

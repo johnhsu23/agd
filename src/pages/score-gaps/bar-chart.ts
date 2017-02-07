@@ -69,7 +69,8 @@ export default class BarChart extends Chart<Model> {
       .domain([0, 100]);
 
     const percentAxis = axis.horizontalBottom()
-      .scale(percent);
+      .scale(percent)
+      .title(['Percent of Maximum Score']);
 
     const chartHeight = 300,
         chartWidth = percent.range()[1];
@@ -80,27 +81,6 @@ export default class BarChart extends Chart<Model> {
     this.percentAxis
       .attr('transform', `translate(${this.marginLeft}, ${this.marginTop + this.innerHeight})`)
       .call(percentAxis);
-
-    const text = ['Percent of Maximum Score'],
-      lineHeight = -1.1,
-      textLength = text.length - 1;
-
-    let axisTitle = this.percentAxis.select('text.axis__title');
-    if (axisTitle.empty()) {
-      axisTitle = this.percentAxis.append('text')
-        .classed('axis__title', true);
-    }
-
-    // Select all child <tspan> elements of the axis title's <text> element
-    const tspans = axisTitle.selectAll('tspan')
-      .data(text);
-
-    tspans.enter()
-      .append('tspan')
-      .text(d => d)
-      .attr('x', this.marginLeft * 2)
-      .attr('y', this.marginTop + 40)
-      .attr('dy', (_, index) => (textLength - index) * lineHeight + 'em');
 
     // setup and add the y axis
     const category = scaleBand()
