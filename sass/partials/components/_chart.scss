@@ -50,6 +50,13 @@
                 stroke-width: 4px;
             }
         }
+
+        &.focal {
+            circle {
+                stroke: $green-100;
+                fill: $green-100;
+            }
+        }
     }
 }
 
