@@ -37,16 +37,21 @@
 
 .figure__contents {
     display: inline-block;
+    margin: 0 auto;
     width: 768px;
+}
 
-    & > svg {
-      display: block;
-      margin: 0 auto;
-    }
+.figure__contents > svg {
+    display: block;
+    margin: 0 auto;
+}
 
-    .accordion & {
-        width: auto;
-    }
+.accordion .figure__contents {
+    width: auto;
+}
+
+.accordion .figure__contents > svg {
+    background-color: #fff;
 }
 
 .figure__legend {
