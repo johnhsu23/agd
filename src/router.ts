@@ -23,6 +23,7 @@ export default class Router extends AppRouter {
     const queryString = args[args.length - 1],
       query = parse(queryString);
     context.anchor = query['anchor'];
+    context.accordion = query['accordion'];
 
     // Find out the active subject
     switch (name) {

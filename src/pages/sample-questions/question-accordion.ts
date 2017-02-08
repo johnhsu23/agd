@@ -3,6 +3,8 @@ import {Model} from 'backbone';
 import {EventsHash} from 'backbone';
 
 import context from 'models/context';
+import ShareView from 'views/share';
+import * as share from 'models/share';
 import configure from 'util/configure';
 import AccordionBehavior from 'behaviors/accordion';
 import {SampleQuestion} from 'data/sample-questions';
@@ -15,9 +17,11 @@ import * as visualArtsQuestions from 'json!questions/visual-arts.json';
 
 interface SampleQuestionAccordionOptions extends LayoutViewOptions<Model> {
   question: SampleQuestion;
+  share: share.ShareOptions;
 }
 
 @configure({
+  className: 'accordion',
   behaviors: {
     AccordionBehavior: {
       behaviorClass: AccordionBehavior,
@@ -30,16 +34,20 @@ export default class SampleQuestionAccordion extends LayoutView<Model> {
   protected question: SampleQuestion;
   protected data: QuestionBarData;
 
+  protected shareModel: share.ShareModel;
+
   constructor(options: SampleQuestionAccordionOptions) {
     super(options);
 
     this.question = options.question;
     this.data = questionData[this.question.naepid];
+    this.shareModel = new share.ShareModel(options.share);
   }
 
   regions(): {[key: string]: string} {
     return {
       'header-bar-chart': '.accordion__header-bar',
+      share: '.sample-question__share',
     };
   }
 
@@ -81,6 +89,10 @@ export default class SampleQuestionAccordion extends LayoutView<Model> {
 
     this.$('.sample-question__answer-detail')
       .html(questionData['answer']);
+
+    this.showChildView('share', new ShareView({
+      model: this.shareModel,
+    }));
   }
 
   protected answerToggle(event: JQueryMouseEventObject): void {

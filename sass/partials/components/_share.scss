@@ -37,7 +37,7 @@ $share-background: #f5f4f1;
     }
   }
 
-  .accordion__chart & {
+  .accordion__chart &, .accordion__contents--sample-questions & {
     @include breakpoint($desktop-width) {
         left: -91px;
     }

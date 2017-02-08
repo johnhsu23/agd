@@ -26,6 +26,7 @@ export default class ScoreGaps extends Page {
       inner: new ScoreGapsFigure({
         share: {
           download: true,
+          section: 'section-1',
         },
       }),
       commentary: respondingCommentary[context.subject],
@@ -35,6 +36,7 @@ export default class ScoreGaps extends Page {
       inner: new GroupsFigure({
         share: {
           download: true,
+          section: 'section-2',
         },
       }),
       commentary: studentGroupsCommentary[context.subject],
@@ -45,6 +47,7 @@ export default class ScoreGaps extends Page {
         inner: new TaskBarFigure({
           share: {
             download: true,
+            section: 'section-3',
           },
         }),
         commentary: creatingTaskCommentary[context.subject],
