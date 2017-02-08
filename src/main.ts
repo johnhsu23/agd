@@ -8,6 +8,9 @@ require.config({
     notes: '../notes',
     questions: '../questions',
 
+    // Environment-specific info
+    env: 'env/dev',
+
     // NRC scripts and fallbacks
     'nrc-header': [
       '/adminonly/themes/redesign_2015/header/header',
