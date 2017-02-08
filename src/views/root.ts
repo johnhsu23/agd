@@ -64,33 +64,39 @@ export default class RootView extends LayoutView<Model> {
 
       const pageView = new mod.default;
 
-      if (context.accordion) {
-        pageView.once('attach', () => {
-          // get accordion element and set our initial positioning
+      pageView.once('attach', () => {
+        if (context.accordion) {
+          // Get accordion element and set our initial positioning.
           const accordion = $(`[data-naepid="${context.accordion}"]`);
-          let position = accordion.offset().top;
+          const position = accordion.offset().top;
 
-          // trigger click event to open the accordion
+          // Trigger click event to open the accordion.
           accordion.find('[data-accordion-header]').click();
 
-          // Opps & Access page share links will give anchor as well
+          // Opps & Access page share links will give anchor as well.
           if (context.anchor) {
-            // get position of specific section accordion
             const section = accordion.find(`.accordion__chart--${context.anchor}`);
-            position = section.position().top;
-          }
 
-          // have page scroll to the position
-          $(window).scrollTop(position);
-        });
-      } else if (context.anchor) {
-        pageView.once('attach', () => {
+            const vent = radio.channel('accordion').vent;
+            vent.on('accordion:opened', function() {
+              // Get position of specific section in this accordion.
+              const position = section.position().top;
+              $(window).scrollTop(position);
+
+              // Reset here so we don't get weird behavior if a user tries to open other accordions.
+              radio.channel('accordion').reset();
+            });
+          } else {
+            // have page scroll to the position
+            $(window).scrollTop(position);
+          }
+        } else if (context.anchor) {
           const section = $('#' + context.anchor),
               position = section.position().top;
 
           $(window).scrollTop(position);
-        });
-      }
+        }
+      });
 
       this.showChildView('main', pageView);
       document.title = `NAEP - 2016 Arts Assessment -${subjectTitle} ${pageView.pageTitle}`;

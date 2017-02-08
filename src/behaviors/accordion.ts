@@ -1,7 +1,10 @@
 import {Behavior} from 'backbone.marionette';
 import {EventsHash} from 'backbone';
+import {radio} from 'backbone.wreqr';
 
 export default class AccordionBehavior extends Behavior {
+  protected vent = radio.channel('accordion').vent;
+
   events(): EventsHash {
     return {
       'click [data-accordion-header]': 'accordionToggle',
@@ -12,7 +15,12 @@ export default class AccordionBehavior extends Behavior {
     // Will this accordion be closing?
     const willClose = this.$el.hasClass('is-expanded');
 
-    this.$('> [data-accordion-contents]').slideToggle();
+    const self = this;
+    this.$('> [data-accordion-contents]').slideToggle(function() {
+      // Inform the view to which we are attached when we finish opening or closing.
+      const eventName = willClose ? 'closed' : 'opened';
+      self.vent.trigger('accordion:' + eventName);
+    });
     this.$el.toggleClass('is-expanded');
 
     this.$('.accordion__show-hide')
