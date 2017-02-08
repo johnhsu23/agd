@@ -77,14 +77,14 @@ export default class RootView extends LayoutView<Model> {
           if (context.anchor) {
             const section = accordion.find(`.accordion__chart--${context.anchor}`);
 
-            const vent = radio.channel('accordion').vent;
-            vent.on('accordion:opened', function() {
+            const channel = radio.channel('accordion');
+            channel.vent.on('accordion:opened', function() {
               // Get position of specific section in this accordion.
               const position = section.position().top;
               $(window).scrollTop(position);
 
               // Reset here so we don't get weird behavior if a user tries to open other accordions.
-              radio.channel('accordion').reset();
+              channel.reset();
             });
           } else {
             // have page scroll to the position

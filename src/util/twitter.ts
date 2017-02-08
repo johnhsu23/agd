@@ -71,7 +71,7 @@ export function url(options: Options): string {
 /**
  * Opens a window with intent to Tweet.
  */
-export function share(options: Options): void {
+export default function share(options: Options): void {
     const opts = 'scrollbars=yes,resizable=yes,toolbar=no,location=yes',
         width = 550,
         height = 420,

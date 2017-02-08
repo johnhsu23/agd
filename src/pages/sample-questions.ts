@@ -26,13 +26,14 @@ export default class SampleQuestions extends Page {
     }));
 
     for (const question of questions()) {
-      list.pushView(new SampleQuestionAccordion({
+      const accordion = new SampleQuestionAccordion({
         question,
         share: {
-          download: null,
+          download: false,
           accordion: question.naepid,
         },
-      }), question.naepid);
+      });
+      list.pushView(accordion, question.naepid);
     }
 
     this.pushSection(new DefaultSection({

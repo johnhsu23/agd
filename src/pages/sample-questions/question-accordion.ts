@@ -90,15 +90,9 @@ export default class SampleQuestionAccordion extends LayoutView<Model> {
     this.$('.sample-question__answer-detail')
       .html(questionData['answer']);
 
-    this.showShare();
-  }
-
-  protected showShare(): void {
-    if (this.shareModel) {
-      this.showChildView('share', new ShareView({
-        model: this.shareModel,
-      }));
-    }
+    this.showChildView('share', new ShareView({
+      model: this.shareModel,
+    }));
   }
 
   protected answerToggle(event: JQueryMouseEventObject): void {

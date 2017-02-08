@@ -15,11 +15,10 @@ export default class AccordionBehavior extends Behavior {
     // Will this accordion be closing?
     const willClose = this.$el.hasClass('is-expanded');
 
-    const self = this;
-    this.$('> [data-accordion-contents]').slideToggle(function() {
+    this.$('> [data-accordion-contents]').slideToggle(() => {
       // Inform the view to which we are attached when we finish opening or closing.
       const eventName = willClose ? 'closed' : 'opened';
-      self.vent.trigger('accordion:' + eventName);
+      this.vent.trigger('accordion:' + eventName);
     });
     this.$el.toggleClass('is-expanded');
 

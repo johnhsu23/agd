@@ -9,10 +9,6 @@ export interface Location {
    */
   path: string;
   /**
-   * The page section. If none is present in the URL, this is `null`.
-   */
-  section: string;
-  /**
    * Any query parameters. Note that the key `'grade'` will always be present.
    */
   query: {[key: string]: string};
@@ -22,23 +18,10 @@ export interface Location {
  * Create a new `Location` object from the route the user is viewing.
  */
 export function get(): Location {
-  let path = history.getFragment(),
-    section: string = null;
+  let path = history.getFragment();
 
   // Normalize leading slashes (NB. this may be unneeded)
-  path = path.replace(/^\/+/, '');
-
-  // Handle sectioning elements
-  // Since sections are kinda ad-hoc, please remember to update this regex if you've created
-  // something that doesn't match the structure here.
-  const re = /\/(:?chart_loc|section)_\d/,
-      result = path.match(re);
-  if (result) {
-    // Use .substring(1) to offset required leading '/' character
-    // This changes 'foo/section_1' to { path: 'foo', section: 'section_1' }
-    section = result[0].substring(1);
-    path = path.replace(re, '');
-  }
+  path = path.replace(/^\/+/, '/');
 
   // Parse query string parameters.
   // We don't handle duplicated params (like PHP's "?foo[]=bar&foo[]=baz"), we just stomp on them.
@@ -47,14 +30,14 @@ export function get(): Location {
   if (index > -1) {
     const args = path.substring(index + 1).split('&');
 
-    args.forEach(arg => {
+    for (const arg of args) {
       // NB. [key, value]
       // 2 is split limit: My understanding is that "a=b=c" is a legal query
       //string parameter with key 'a' and value 'b=c'.
-      const split = arg.split('=', 2);
+      const [key, value] = arg.split('=', 2);
 
-      query[split[0]] = split[1];
-    });
+      query[key] = value;
+    }
   }
 
   // Strip query string from `path' variable since.
@@ -62,7 +45,6 @@ export function get(): Location {
 
   return {
     path: path,
-    section: '',
     query: query,
   };
 }
