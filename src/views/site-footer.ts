@@ -40,12 +40,12 @@ export default class SiteFooter extends ItemView<Model> {
   protected footerTab(event: JQueryMouseEventObject): void {
     event.preventDefault();
 
-    // Update tab active state and table visibilityconst activeTab = $(event.target).data('footer-tab');
+    // Update tab active state and table visibility
     const activeTab = $(event.target).data('footer-tab');
     if (activeTab !== this.activeTab) {
       this.activeTab = activeTab;
       this.$('.footer-header__link').removeClass('active');
-      this.$('.footer-content__tables__table').addClass('is-hidden');
+      this.$('.footer-content__table').addClass('is-hidden');
       this.$(`a[data-footer-tab="${this.activeTab}"]`).addClass('active');
       this.$(`.js-data-table-${this.activeTab}`).removeClass('is-hidden');
     }
