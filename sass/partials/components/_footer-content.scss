@@ -50,72 +50,81 @@
     @include breakpoint($desktop-width) {
         width: 500px;
     }
+}
 
-    p {
-        font-size: .875em;
-        line-height: 1.1em;
-        margin: 30px 0 1em;
+.footer-content__table p {
+    font-size: .875em;
+    line-height: 1.1em;
+    margin: 30px 0 1em;
+}
+
+.footer-content__table ul {
+    margin: 0 0 1em;
+}
+
+.footer-content__table li {
+    background: url(../images/bullet--orange.png) no-repeat 0 3px;
+    font-size: .8125em;
+    line-height: 1.4;
+    list-style: none;
+    padding: 0 10px 8px 20px;
+}
+
+.footer-content__table .data-selection {
+    display: inline-block;
+
+    select {
+        background-color: #fff;
+        border: none;
+        color: #a19787;
+        font-size: .75em;
+        max-width: 365px;
+        min-width: 200px;
+        padding-top: .5em;
+        padding-bottom: .5em;
+
+        &::-ms-expand {
+            display: none;
+        }
 
         @include breakpoint($desktop-width) {
-            font-size: 1em;
+            font-size: .875em;
+            max-width: 500px;
+            min-width: 235px;
         }
     }
 
-    .data-selection {
-        display: inline-block;
-
-        select {
-            background-color: #fff;
-            border: none;
-            color: #a19787;
-            font-size: .75em;
-            max-width: 365px;
-            min-width: 200px;
-            padding-top: .5em;
-            padding-bottom: .5em;
-
-            &::-ms-expand {
-                display: none;
-            }
-
-            @include breakpoint($desktop-width) {
-                font-size: .875em;
-                max-width: 500px;
-                min-width: 235px;
-            }
-        }
-
-        label {
-            @extend %element-hidden;
-        }
+    label {
+        @extend %element-hidden;
     }
+}
 
-    .data-submission a {
+.footer-content__table .data-submission {
+    display: inline-block;
+    margin: 5px 0 0;
+}
+
+.footer-content__table .data-submission a {
+    border: 1px solid #fff;
+    display: block;
+    margin: 0 auto;
+    padding: .625em 1em;
+    text-transform: none;
+    width: 130px;
+
+    &:hover,
+    &:focus {
+        background-color: $orange-135;
         border: 1px solid #fff;
-        display: block;
-        margin: 5px 0 0 125px;
-        padding: .625em 1em;
-        text-transform: none;
-        width: 130px;
-
-        @include breakpoint($desktop-width) {
-            margin: 5px 0 0 168px;
-        }
-
-        &:hover,
-        &:focus {
-            background-color: $orange-135;
-            border: 1px solid #fff;
-        }
-
-        &:focus {
-            background-color: $orange-100;
-        }
     }
 
-    .data-submission span {
-        display: block;
-        margin-top: .5em;
-        text-align: center;
+    &:focus {
+        background-color: $orange-100;
     }
+}
+
+.footer-content__table .data-submission span {
+    display: block;
+    margin-top: .5em;
+    text-align: center;
 }
