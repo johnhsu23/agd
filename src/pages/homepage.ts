@@ -15,7 +15,7 @@ export default class HomepageView extends Page {
   events(): EventsHash {
     return {
       'click [data-subject]': 'switchSubject',
-      'click a[href^="#/about"]': 'historyHash',
+      'click a[href^="#/"]': 'historyHash',
     };
   }
 
