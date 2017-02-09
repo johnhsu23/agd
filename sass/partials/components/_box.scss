@@ -4,67 +4,61 @@
 .box {}
 
 .box__row {
-	clear: left;
-	margin: 0 0 2em;
-	&:after {
-		content: "";
-		display: table;
-		clear: both;
-	}
-	&.box__row--last {
-		margin-bottom: 0;
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+	margin: 0 0 1em;
+}
+
+.box {
+	background: $taupe-25;
+	flex-basis: 32%;
+	margin: 0 0 .25em;
+	position: relative;
+	width: 32%;
+}
+
+.box:before {
+	background: url(../images/corner-fold--green.png) no-repeat top right;
+	content: '';
+	height: 36px;
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 36px;
+}
+
+.box .box__content {
+	padding: 2em 1.5em 1em;
+	text-align: left;
+
+	&.box__content--centered {
+		padding: 2.5em 1.5em 1em;
+		text-align: center;
+		img {
+			width: 60%;
+		}
 	}
 }
-.box {
-	background: $taupe-20;
-	float: left;
-	margin: 0 1em .25em 0;
-	position: relative;
+
+.box .box__content:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.box .box__content p {
+	color: $blue-100;
+	line-height: 1.5em;
+	margin: 0;
     @include breakpoint($tablet-width) {
-        min-height: 366px;
-        width: 175px;
+        font-size: 1em;
     }
     @include breakpoint($desktop-width) {
-        min-height: 400px;
-        width: 238px;
+        font-size: 1.125em;
     }
-	&:before {
-		background: url(img/corner-fold--green.png) no-repeat top right;
-		content: '';
-		height: 36px;
-		position: absolute;
-		right: 0;
-		top: 0;
-		width: 36px;
-	}
-	.box__content {
-		padding: 2em 1.5em 1em;
-		text-align: left;
-		&.box__content--centered {
-			padding: 2.5em .25em 1em;
-			text-align: center;
-			img {
-				width: 60%;
-			}
-		}
-		&:after {
-			content: "";
-			display: table;
-			clear: both;
-		}
-		p {
-			color: $blue-100;
-			line-height: 1.5em;
-			margin: 0;
-            @include breakpoint($tablet-width) {
-                font-size: 1em;
-            }
-            @include breakpoint($desktop-width) {
-                font-size: 1.125em;
-            }
-		}
-	}
 }
-.area--context .box:before {
-	background: url(img/corner-fold--green-on-gray.png) no-repeat top right;
+
+.section--gray .box:before {
+	background: url(../images/corner-fold--green-on-gray.png) no-repeat top right;
 }
