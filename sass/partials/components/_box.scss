@@ -7,7 +7,7 @@
 	display: flex;
 	flex-wrap: nowrap;
 	justify-content: space-between;
-	margin: 0 0 1em;
+	margin: 0 0 2em;
 }
 
 .box {
@@ -59,6 +59,14 @@
     @include breakpoint($desktop-width) {
         font-size: 1.125em;
     }
+}
+
+.box--no-fold .box__content {
+	padding-top: .25em;
+}
+
+.box--no-fold:before {
+	display: none;
 }
 
 .section--gray .box:before {
