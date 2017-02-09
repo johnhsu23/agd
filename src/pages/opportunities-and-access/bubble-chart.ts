@@ -87,9 +87,12 @@ export default class BubbleChart extends Chart<Model> {
                     gapData = findWhere(data, { categorybindex: categoryIndex + 1 });
 
               // if no data found, this most likely means we're on the focal category, which should have no text
-              if (!gapData) { classes.push('bubble__sig--no-text'); }
-              // add "no sig" class
-              else if (gapData.sig !== '>' && gapData.sig !== '<') { classes.push('bubble__sig--none'); }
+              if (!gapData) {
+                classes.push('bubble__sig--no-text');
+              } else if (gapData.sig !== '>' && gapData.sig !== '<') {
+                // add "no sig" class
+                classes.push('bubble__sig--none');
+              }
 
               return classes.join(' ');
             })
@@ -98,7 +101,10 @@ export default class BubbleChart extends Chart<Model> {
               const element = select(this);
 
               // instead of going through the data, we simply check for classes
-              if (element.classed('bubble__sig--no-text')) { return ''; }
+              if (element.classed('bubble__sig--no-text')) {
+                return '';
+              }
+
               return (element.classed('bubble__sig--none')) ? 'score not significantly different'
                 : 'score significantly different';
             })
