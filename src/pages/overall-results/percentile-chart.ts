@@ -184,7 +184,7 @@ export default class PercentileChart extends Chart<Model> {
 
     pointEnter.append('text')
       .classed('series__point__text', true)
-      .attr('dy', '-15px')
+      .attr('dy', '-1.05em')
       .text(d => formatValue(d.targetvalue, d.sig, d.TargetErrorFlag));
 
     pointEnter.append('path')
@@ -216,7 +216,7 @@ export default class PercentileChart extends Chart<Model> {
 
     pointEnter.append('text')
       .classed('series__point__text', true)
-      .attr('dy', '-15px')
+      .attr('dy', '-1.05em')
       .text(d => formatValue(d.targetvalue, d.sig, d.TargetErrorFlag));
 
     pointEnter.append('path')
