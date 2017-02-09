@@ -1,0 +1,66 @@
+// @file
+// Styles for boxes on homepage
+
+.box {}
+
+.box__row {
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+	margin: 0 0 1em;
+}
+
+.box {
+	background: $taupe-25;
+	display: inline-block;
+	flex-basis: 32%;
+	margin: 0 0 .25em;
+	position: relative;
+	vertical-align: top;
+	width: 32%;
+}
+
+.box:before {
+	background: url(../images/corner-fold--green.png) no-repeat top right;
+	content: '';
+	height: 36px;
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 36px;
+}
+
+.box .box__content {
+	padding: 2em 1.5em 1em;
+	text-align: left;
+
+	&.box__content--centered {
+		padding: 2.5em 1.5em 1em;
+		text-align: center;
+		img {
+			width: 60%;
+		}
+	}
+}
+
+.box .box__content:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.box .box__content p {
+	color: $blue-100;
+	line-height: 1.5em;
+	margin: 0;
+    @include breakpoint($tablet-width) {
+        font-size: 1em;
+    }
+    @include breakpoint($desktop-width) {
+        font-size: 1.125em;
+    }
+}
+
+.section--gray .box:before {
+	background: url(../images/corner-fold--green-on-gray.png) no-repeat top right;
+}
