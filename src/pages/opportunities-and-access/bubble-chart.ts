@@ -78,7 +78,8 @@ export default class BubbleChart extends Chart<Model> {
       loadGaps(this.variable, focalIndex)
         .then(data => {
           this.selectAll('.bubble__sig')
-            .text(function() {
+            .attr('class', function() {
+              const classes = ['bubble__sig'];
               // get the category index from the data associated with this element
               const datum = select(this).datum() as Grouped,
                     categoryIndex = datum.mean.categoryindex,
@@ -86,9 +87,26 @@ export default class BubbleChart extends Chart<Model> {
                     gapData = findWhere(data, { categorybindex: categoryIndex + 1 });
 
               // if no data found, this most likely means we're on the focal category, which should have no text
-              if (!gapData) { return ''; }
-              return (gapData.sig === '>' || gapData.sig === '<') ? 'score significantly different'
-                : 'score not significantly different';
+              if (!gapData) {
+                classes.push('bubble__sig--no-text');
+              } else if (gapData.sig !== '>' && gapData.sig !== '<') {
+                // add "no sig" class
+                classes.push('bubble__sig--none');
+              }
+
+              return classes.join(' ');
+            })
+            .text(function() {
+              // get the category index from the data associated with this element
+              const element = select(this);
+
+              // instead of going through the data, we simply check for classes
+              if (element.classed('bubble__sig--no-text')) {
+                return '';
+              }
+
+              return (element.classed('bubble__sig--none')) ? 'score not significantly different'
+                : 'score significantly different';
             })
             .call(wrap, 50);
         })
@@ -203,7 +221,6 @@ export default class BubbleChart extends Chart<Model> {
     // add Sig Test text element to bubble
     bubbleEnter.append('text')
       .classed('bubble__sig', true)
-      .attr('x', -35)
       .attr('y', '-5em');
 
     // Show suppressed rows as dagger footnotes
@@ -255,5 +272,9 @@ export default class BubbleChart extends Chart<Model> {
     this.responseAxis
       .attr('transform', `translate(${this.marginLeft}, ${this.innerHeight + this.marginTop})`)
       .call(responseAxis);
+
+    // update the bottom margin based on the response axis height
+    const axisBbox = this.responseAxis.node().getBBox();
+    this.margins({ bottom: Math.ceil(axisBbox.height) + 3 });
   }
 }
