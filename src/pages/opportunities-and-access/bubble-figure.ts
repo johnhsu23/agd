@@ -5,6 +5,7 @@ import LegendView from 'views/legend';
 import forwardEvents from 'util/forward-events';
 import Legend from 'models/legend';
 import BubbleLegend from 'models/legend/bubble';
+import FocalBubbleLegend from 'models/legend/focal-bubble';
 import context from 'models/context';
 import {Variable} from 'data/variables';
 import {all as gatherAll} from 'legends/gather';
@@ -25,7 +26,7 @@ function gatherNotes(data: Grouped[]): Legend[] {
       return mean.TargetErrorFlag | percent.TargetErrorFlag;
   });
 
-  return models.concat(new BubbleLegend({}));
+  return models.concat(new FocalBubbleLegend({}), new BubbleLegend({}));
 }
 
 export default class BubbleFigure extends Figure {
