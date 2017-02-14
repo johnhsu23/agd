@@ -48,6 +48,13 @@ export default class GroupFigure extends Figure {
       super.onRender();
     }
 
+    // Signal that we're not using the full gamut of category colors (if need be).
+    const categories = this.contextualVariable.categories.length;
+    this.$el
+      .toggleClass('u-categories-2', categories === 2)
+      .toggleClass('u-categories-3', categories === 3)
+      .toggleClass('u-categories-4', categories === 4);
+
     this.chart = new GroupChart({
       variable: this.variable,
       contextualVariable: this.contextualVariable,
