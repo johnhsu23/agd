@@ -1,0 +1,10 @@
+.bar-header {
+    &__header-text {
+        text-anchor: middle;
+    }
+
+    &__header-line {
+        stroke: $axis;
+    }
+}
+
