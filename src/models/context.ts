@@ -22,6 +22,12 @@ export class Context extends Model {
    */
   @modelProperty()
   public anchor: string;
+
+  /**
+   * The accordion ID that we'll want to open
+   */
+  @modelProperty()
+  public accordion: string;
 }
 
 /**

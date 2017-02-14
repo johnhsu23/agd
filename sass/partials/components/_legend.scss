@@ -84,6 +84,13 @@
     }
 }
 
+.legend__item--focal-bubble {
+    circle {
+        stroke: $green-100;
+        fill: $green-100;
+    }
+}
+
 .bubble__label {
     text-anchor: middle;
 }

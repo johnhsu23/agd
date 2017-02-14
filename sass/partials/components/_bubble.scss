@@ -1,0 +1,14 @@
+// @file
+// Styles for bubbles
+
+.bubble {}
+
+.bubble__sig {
+	font-size: .875em;
+	font-weight: 700;
+	text-anchor: middle;
+}
+
+.bubble__sig--none {
+	font-weight: 400;
+}

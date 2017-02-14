@@ -1,0 +1,50 @@
+.bar-header {
+    &__header-text {
+        text-anchor: middle;
+    }
+
+    &__header-line {
+        stroke: $axis;
+    }
+}
+
+.bar {
+    // &__text {
+    //     text-anchor: middle;
+    // }
+
+    &--0 {
+        rect { fill: $acl-bb; }
+    }
+
+    &--1 {
+        rect { fill: $acl-ba; }
+    }
+
+    &--2 {
+        rect { fill: $acl-pr; }
+        text { fill: #ffffff; }
+    }
+
+    &--3 {
+        rect { fill: $acl-ad; }
+        text { fill: #ffffff; }
+    }
+
+    &--4 {
+        rect { fill: $blue-100; }
+        text { fill: #ffffff; }
+    }
+
+    &--5 {
+        rect { fill: $blue-15; }
+    }
+
+    &--6 {
+        rect { fill: $blue-25; }
+    }
+
+    &--no-data {
+        rect { fill: #ffffff; }
+    }
+}

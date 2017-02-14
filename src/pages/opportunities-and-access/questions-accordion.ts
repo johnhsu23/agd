@@ -60,6 +60,9 @@ export default class QuestionsAccordion extends LayoutView<Model> {
       super.onRender();
     }
 
+    // set data-naepid using variable id
+    this.$el.attr('data-naepid', this.variable.id);
+
     // set header bar chart
     this.showChildView('header-bar', this.headerChart);
 
@@ -70,30 +73,50 @@ export default class QuestionsAccordion extends LayoutView<Model> {
     // set chart contents
     this.showChildView('bubble-chart', new BubbleFigure({
       variable: this.variable,
-      share: { download: true },
+      share: {
+        download: true,
+        section: 'bubble',
+        accordion: this.variable.id,
+      },
     }));
 
     if (this.isHeatTable()) {
       // group and trends chart should use the heat table
       this.showChildView('group-chart', new HeatGroupFigure({
         contextualVariable: this.variable,
-        share: { download: true },
+        share: {
+          download: true,
+          section: 'group',
+          accordion: this.variable.id,
+        },
       }));
 
       this.showChildView('trends', new HeatTrendsFigure({
         contextualVariable: this.variable,
-        share: { download: true },
+        share: {
+          download: true,
+          section: 'trends',
+          accordion: this.variable.id,
+        },
       }));
     } else {
       // group and trends chart should use the regular stacked bar
       this.showChildView('group-chart', new GroupFigure({
         contextualVariable: this.variable,
-        share: { download: true },
+        share: {
+          download: true,
+          section: 'group',
+          accordion: this.variable.id,
+        },
       }));
 
       this.showChildView('trends', new TrendsFigure({
         variable: this.variable,
-        share: { download: true },
+        share: {
+          download: true,
+          section: 'trends',
+          accordion: this.variable.id,
+        },
       }));
     }
 
