@@ -29,6 +29,7 @@ export default class BubbleChart extends Chart<Model> {
   protected responseAxis: Selection<SVGGElement, {}, null, void>;
 
   protected firstRender = true;
+  protected loadedEarly = false;
 
   protected marginTop = 60;
   protected marginLeft = 50;
@@ -242,6 +243,11 @@ export default class BubbleChart extends Chart<Model> {
           return formatValue(percent.targetvalue, '', percent.TargetErrorFlag);
         }
       });
+
+      if (this.loadedEarly) {
+        this.drawResponseAxis();
+        this.loadedEarly = false;
+      }
   }
 
   protected onVisibilityVisible(): void {
@@ -258,6 +264,16 @@ export default class BubbleChart extends Chart<Model> {
     //
     // Whee!
 
+    // if innerHeight is properly set (i.e. not 0), this means the data loaded already. draw on!
+    if (this.innerHeight !== 0) {
+      this.drawResponseAxis();
+    } else {
+      // data has not loaded
+      this.loadedEarly = true;
+    }
+  }
+
+  protected drawResponseAxis(): void {
     const response = scalePoint<number>()
       .padding(0.5)
       .domain(range(this.variable.categories.length))
