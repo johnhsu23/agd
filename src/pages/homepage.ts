@@ -18,15 +18,15 @@ export default class HomepageView extends Page {
     return {
       'click [data-subject]': 'switchSubject',
       'click a[href^="#/"]': 'historyHash',
-      'click a[data-glossary-link]': 'glossaryLink',
+      'click a[data-glossary-term]': 'glossaryTerm',
     };
   }
 
-  protected glossaryLink(event: JQueryMouseEventObject): void {
+  protected glossaryTerm(event: JQueryMouseEventObject): void {
     event.preventDefault();
 
     const target = $(event.target),
-          term = target.data('glossary-link'),
+          term = target.data('glossary-term'),
           position = target.offset();
 
     const dialog = new Dialog;
