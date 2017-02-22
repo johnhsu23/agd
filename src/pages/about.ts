@@ -19,7 +19,21 @@ export default class AboutView extends Page {
   events(): EventsHash {
     return {
       'click [data-glossary]': 'glossary',
+      'click .js-footer': 'scrollToFooter',
     };
+  }
+
+  protected scrollToFooter(event: JQueryMouseEventObject): void {
+    event.preventDefault();
+
+    const $footer = $('#footer');
+
+    // Move focus to the footer to ensure tab order is still somewhat sane
+    $footer.find('.footer-header__link')[0]
+      .focus();
+
+    // Move scroll position to the #footer element
+    $footer[0].scrollIntoView();
   }
 
   protected glossary(event: JQueryMouseEventObject): void {
