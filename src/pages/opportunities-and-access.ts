@@ -1,3 +1,6 @@
+import {EventsHash} from 'backbone';
+import * as $ from 'jquery';
+
 import context from 'models/context';
 import Page from 'views/page';
 import DefaultSection from 'views/default-section';
@@ -19,6 +22,21 @@ export default class OpportunitiesAndAccess extends Page {
       footer: '.main__footer .inner',
       'data-table': '.js-data-table',
     };
+  }
+
+  events(): EventsHash {
+    return {
+      'click .js-table-link': 'tableLink',
+    };
+  }
+
+  protected tableLink(event: JQueryMouseEventObject): void {
+    event.preventDefault();
+
+    // find the "Custom Data Table" section and scroll to it
+    const position = $('.js-data-table .data-table__title').position().top;
+
+    $(window).scrollTop(position);
   }
 
   onBeforeShow(): void {
