@@ -95,7 +95,7 @@ export const UF00004: SampleQuestion = {
 // NQT ID: 2016-8A5 #5 UE00005; ACCNUM SL000086
 export const UE00005: SampleQuestion = {
   naepid: 'UE00005',
-  name: 'Identify appropriate time signature for music',
+  name: 'Identify a correct time signature for a piece of music',
   classification: 'Responding',
   type: 'MC',
 };
