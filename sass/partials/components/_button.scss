@@ -8,3 +8,17 @@
 .button--large {
   @extend %button--large;
 }
+
+.button--arrow {
+    background: $orange-100 url(../images/arrow-pullright--small.png) no-repeat center right;
+    border-top: 1px solid $orange-75;
+    border-bottom: 2px solid $orange-135;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 400;
+    margin-right: 0.7em;
+    padding: .35em 2.75em .35em .75em;
+    text-decoration: none;
+    text-transform: none;
+}
