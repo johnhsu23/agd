@@ -43,6 +43,13 @@ export default class TrendsFigure extends Figure {
       super.onRender();
     }
 
+    // Signal that we're not using the full gamut of category colors (if need be).
+    const categories = this.variable.categories.length;
+    this.$el
+      .toggleClass('u-categories-2', categories === 2)
+      .toggleClass('u-categories-3', categories === 3)
+      .toggleClass('u-categories-4', categories === 4);
+
     load(this.variable)
       .then(data => this.loaded(data))
       .done();
