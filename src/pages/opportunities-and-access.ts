@@ -26,17 +26,21 @@ export default class OpportunitiesAndAccess extends Page {
 
   events(): EventsHash {
     return {
-      'click .js-table-link': 'tableLink',
+      'click .js-table-link': 'scrollToTableForm',
     };
   }
 
-  protected tableLink(event: JQueryMouseEventObject): void {
+  protected scrollToTableForm(event: JQueryMouseEventObject): void {
     event.preventDefault();
 
-    // find the "Custom Data Table" section and scroll to it
-    const position = $('.js-data-table .data-table__title').position().top;
+    // find the "Custom Data Table" section
+    const $tableForm = $('.js-data-table');
 
-    $(window).scrollTop(position);
+    // scroll to the table's title
+    $tableForm.find(' .data-table__title')[0].scrollIntoView();
+
+    // Set focus to first select box
+    $tableForm.find('select')[0].focus();
   }
 
   onBeforeShow(): void {
