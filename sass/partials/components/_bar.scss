@@ -24,3 +24,88 @@
 .chart--stacked-bar .bar__text {
     text-anchor: middle;
 }
+
+.bar--0 {
+    rect { fill: $acl-bb; }
+    text { fill: $blue-100; }
+}
+
+.bar--1 {
+    rect { fill: $acl-ba; }
+    text { fill: $blue-100; }
+}
+
+.bar--2 {
+    rect { fill: $acl-pr; }
+    text { fill: #fff; }
+}
+
+.bar--3 {
+    rect { fill: $acl-ad; }
+    text { fill: #fff; }
+}
+
+.bar--4 {
+    rect { fill: $blue-100; }
+    text { fill: #fff; }
+}
+
+.bar--5 {
+    rect { fill: $blue-15; }
+    text { fill: $blue-100; }
+}
+
+.bar--6 {
+    rect { fill: $blue-25; }
+    text { fill: $blue-100; }
+}
+
+.bar--no-data {
+    rect { fill: #ffffff; }
+}
+
+
+.u-categories-2 .bar--0 {
+	rect { fill: $acl-ba; }
+    text { fill: $blue-100; }
+}
+
+.u-categories-2 .bar--1 {
+	rect { fill: $blue-100; }
+    text { fill: #fff; }
+}
+
+.u-categories-3 .bar--0 {
+	rect { fill: $acl-bb; }
+    text { fill: $blue-100; }
+}
+
+.u-categories-3 .bar--1 {
+	rect { fill: $acl-pr; }
+    text { fill: #fff; }
+}
+
+.u-categories-3 .bar--2 {
+	rect { fill: $blue-100; }
+    text { fill: #fff; }
+}
+
+.u-categories-4 .bar--0 {
+	rect { fill: $acl-bb; }
+    text { fill: $blue-100; }
+}
+
+.u-categories-4 .bar--1 {
+	rect { fill: $acl-pr; }
+    text { fill: #fff; }
+}
+
+.u-categories-4 .bar--2 {
+	rect { fill: $acl-ad; }
+    text { fill: #fff; }
+}
+
+.u-categories-4 .bar--3 {
+	rect { fill: $blue-100; }
+    text { fill: #fff; }
+}
