@@ -63,6 +63,11 @@ export default class QuestionsAccordion extends LayoutView<Model> {
     // set data-naepid using variable id
     this.$el.attr('data-naepid', this.variable.id);
 
+    // change show/hide text for the first accordion
+    if (this.$el.attr('data-naepid') === 'BV00003' || this.$el.attr('data-naepid') === 'BM00003') {
+      this.$el.find('.accordion__show-hide').text('show response results').css('width', '160px');
+    }
+
     // set header bar chart
     this.showChildView('header-bar', this.headerChart);
 
@@ -135,6 +140,14 @@ export default class QuestionsAccordion extends LayoutView<Model> {
 
   protected chartDisplayToggle(event: JQueryMouseEventObject): void {
     this.$('.accordion__header-bar').toggleClass('is-hidden');
+
+    if (this.$el.attr('data-naepid') === 'BV00003' || this.$el.attr('data-naepid') === 'BM00003') {
+      if (!this.$el.hasClass('is-expanded')) {
+        this.$el.find('.accordion__show-hide').text('show response results').css('width', '160px');
+      } else {
+        this.$el.find('.accordion__show-hide').css('width', '40px');
+      }
+    }
 
     event.preventDefault();
   }
