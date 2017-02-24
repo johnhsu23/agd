@@ -2,14 +2,14 @@
 	display: flex;
 	flex-wrap: nowrap;
 	justify-content: space-between;
-	margin: 2em 0 2em 0;
+	margin: 2em 0 0;
 }
 
 .featured-image {
 	background-color: #fff;
 	border-color: $taupe-25;
 	border-style: solid;
-	border-width: 3px 3px 26px 3px;
+	border-width: 3px 3px 3px 3px;
 	display: inline-block;
 	display: flex;
 	flex-basis: 32%;
