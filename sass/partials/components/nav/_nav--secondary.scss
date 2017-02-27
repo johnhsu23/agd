@@ -5,76 +5,6 @@
   background: $taupe-30;
 }
 
-.secondary-nav__inner {
-    position: relative;
-}
-
-.secondary-nav__title {
-    color: $blue-100;
-    font-size: .8125em;
-    font-weight: 700;
-    left: 50%;
-    margin-left: -70px;
-    position: absolute;
-    text-transform: uppercase;
-    top: 1.5em;
-}
-
-.secondary-nav__prev,
-.secondary-nav__next {
-    background-image: url(images/secondary-nav2.png);
-    background-repeat: no-repeat;
-    cursor: pointer;
-    height: 191px;
-    position: absolute;
-    text-indent: -999em;
-    top: 0;
-    vertical-align: top;
-    width: 65px;
-    z-index: 200;
-}
-
-.secondary-nav__prev {
-    left: 0;
-    right: auto;
-
-    &.inactive {
-        background-position: 0 0;
-        cursor: default;
-
-        &:hover {
-            background-position: 0 0;
-        }
-    }
-    &.active {
-        background-position: -65px 0;
-    }
-    &:hover {
-        background-position: -130px 0;
-    }
-}
-
-.secondary-nav__next {
-    left: auto;
-    right: 0;
-
-    &.inactive {
-        background-position: -195px 0;
-        cursor: default;
-
-        &:hover {
-        background-position: -195px 0;
-        }
-    }
-    &.active {
-        background-position: -260px 0;
-    }
-    &:hover {
-        background-position: -325px 0;
-    }
-}
-
-
 .secondary-nav__tiles {
     display: inline-block;
     margin: 0;
@@ -100,7 +30,32 @@
     }
 }
 
-.secondary-nav__tile a {
+.secondary-nav__link {
+    text-decoration: none;
+}
+
+.secondary-nav__caption {
+    color: $blue-100;
+    display: flex;
+    font-size: .75em;
+    justify-content: flex-end;
+    flex-direction: column;
+    height: 30px;
+    line-height: 1.1;
+    margin: 0 0 .35em;
+    text-align: center;
+
+    @include breakpoint($desktop-width) {
+        font-size: .875em;
+        line-height: 1.2em;
+    }
+
+    .is-active & {
+        color: $green-100;
+    }
+}
+
+.secondary-nav__thumbnail {
     background-color: #fff;
     background-position: center;
     background-repeat: no-repeat;
@@ -120,7 +75,7 @@
         border-color: $orange-100;
     }
 
-    &.is-active {
+    .is-active & {
         border: 3px solid $green-100;
         border-bottom: 0;
 
@@ -138,102 +93,53 @@
             width: 0;
         }
     }
-}
 
-.secondary-nav__tile.txt-next {
-    margin-left: 380px;
-
-    @include breakpoint($desktop-width) {
-        margin-left: 536px;
-    }
-}
-
-.secondary-nav__tile.txt-prev {
-    margin-left: 90px;
-
-    @include breakpoint($desktop-width) {
-        margin-left: 130px;
-    }
-}
-
-.secondary-nav__tile {
-    &.tile0 a {
+    .tile0 & {
       background-image: url(../images/tile0.png);
     }
-    &.tile1 a {
+    .tile1 & {
       background-image: url(../images/tile1.png);
     }
-    &.tile2 a {
+    .tile2 & {
       background-image: url(../images/tile2.png);
     }
-    &.tile3 a {
+    .tile3 & {
       background-image: url(../images/tile3.png);
     }
-    &.tile4 a {
+    .tile4 & {
       background-image: url(../images/tile4.png);
     }
-    &.tile5 a {
+    .tile5 & {
       background-image: url(../images/tile5.png);
     }
-    &.tile6 a {
+    .tile6 & {
       background-image: url(../images/tile6.png);
     }
-    &.tile7 a {
+    .tile7 & {
       background-image: url(../images/tile0.png);
     }
-    &.tile8 a {
+    .tile8 & {
       background-image: url(../images/tile7.png);
     }
-    &.tile9 a {
+    .tile9 & {
       background-image: url(../images/tile8.png);
     }
-    &.tile10 a {
+    .tile10 & {
       background-image: url(../images/tile9.png);
     }
-    &.tile11 a {
+    .tile11 & {
       background-image: url(../images/tile10.png);
     }
-    &.tile12 a {
+    .tile12 & {
       background-image: url(../images/tile0.png);
     }
-    &.tile13 a {
+    .tile13 & {
       background-image: url(../images/tile1.png);
     }
-    &.tile14 a {
+    .tile14 & {
       background-image: url(../images/tile2.png);
     }
-    &.tile15 a {
+    .tile15 & {
       background-image: url(../images/tile0.png);
     }
 }
-
-.secondary-nav__caption,
-.secondary-nav__text {
-    color: $taupe-130;
-    font-size: .75em;
-    line-height: 1.1;
-    text-align: center;
-
-    @include breakpoint($desktop-width) {
-        font-size: .875em;
-        line-height: 1.2em;
-    }
-}
-
-.secondary-nav__caption {
-    color: $blue-100;
-    justify-content: flex-end;
-    display: flex;
-    flex-direction: column;
-    height: 30px;
-    margin: 0 0 .35em;
-}
-
-.secondary-nav__text {
-    display: block;
-    font-weight: 700;
-    left: 0;
-    position: relative;
-    top: em(30px);
-}
-
