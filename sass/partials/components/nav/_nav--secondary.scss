@@ -2,283 +2,238 @@
 // Styles for the secondary menu.
 
 #secondary-nav {
-  background: $taupe-20;
-
-  .secondary-nav__inner {
-    height: 191px;
-    position: relative;
-
-      .secondary-nav__title {
-        color: $blue-100;
-        font-size: .8125em;
-        font-weight: 700;
-        left: 50%;
-        margin-left: -70px;
-        position: absolute;
-        text-transform: uppercase;
-        top: 1.5em;
-      }
-
-      .secondary-nav__wrapper {
-        overflow: hidden;
-        margin-bottom: -2em;
-        padding-bottom: 2em;
-
-        .secondary-nav__prev,
-        .secondary-nav__next {
-          background-image: url(images/secondary-nav2.png);
-          background-repeat: no-repeat;
-          cursor: pointer;
-          height: 191px;
-          position: absolute;
-          text-indent: -999em;
-          top: 0;
-          vertical-align: top;
-          width: 65px;
-          z-index: 200;
-        }
-        .secondary-nav__prev {
-          left: 0;
-          right: auto;
-
-          &.inactive {
-            background-position: 0 0;
-            cursor: default;
-
-            &:hover {
-              background-position: 0 0;
-            }
-          }
-          &.active {
-            background-position: -65px 0;
-          }
-          &:hover {
-            background-position: -130px 0;
-          }
-        }
-        .secondary-nav__next {
-          left: auto;
-          right: 0;
-
-          &.inactive {
-            background-position: -195px 0;
-            cursor: default;
-
-            &:hover {
-              background-position: -195px 0;
-            }
-          }
-          &.active {
-            background-position: -260px 0;
-          }
-          &:hover {
-            background-position: -325px 0;
-          }
-        }
-
-
-        .secondary-nav__tiles {
-          display: inline-block;
-          margin: 0;
-          padding: 44px 0 10px;
-          position: relative;
-
-          .secondary-nav__tile {
-            box-sizing: border-box;
-            display: inline-block; // remove when next/prev buttons in place
-            height: 142px !important;
-            position: relative;
-            vertical-align: top;
-            width: 114px;
-
-            &.show-half,
-            &.show,
-            &.show-hidden {
-              display: inline-block;
-            }
-
-            &.show-hidden {
-              width: 0;
-              height: 0 !important;
-              overflow: hidden;
-            }
-
-            &.show-half {
-              a {
-                &.active {
-
-                  &:after {
-                    display: none;
-                  }
-                }
-              }
-            }
-
-            @include breakpoint($tablet-width) {
-              &.batch0 {
-                left: 183px;
-              }
-
-              &.batch1,
-              &.batch2 {
-                left: 65px;
-              }
-            }
-
-            @include breakpoint($desktop-width) {
-              width: 160px;
-
-              &.batch0 {
-                left: 194px;
-              }
-
-              &.batch1,
-              &.batch2 {
-                left: 30px;
-
-              }
-            }
-
-            a {
-              background-color: #fff;
-              background-position: center;
-              background-repeat: no-repeat;
-              background-size: 90%;
-              border: 3px solid $taupe-70;
-              box-sizing: border-box;
-              display: inline-block;
-              height: 94px;
-              text-align: center;
-              text-indent: -999em;
-              width: 110px;
-
-              @include breakpoint($desktop-width) {
-                background-size: inherit;
-                width: 145px;
-              }
-
-              &:hover,
-              &:focus {
-                border-color: $orange-100;
-              }
-
-              &.is-active {
-                border: 3px solid $green-100;
-
-                &:after {
-                  border-color: #efece9 transparent transparent transparent;
-                  border-style: solid;
-                  border-width: 18px 20.5px 0 20.5px;
-                  bottom: -23px;
-                  content: '';
-                  height: 0;
-                  left: 35px;
-                  overflow: visible !important;
-                  position: absolute;
-                  width: 0;
-
-                  @include breakpoint($desktop-width) {
-                    left: 53px;
-                  }
-                }
-              }
-            }
-
-
-            &.txt-next {
-              margin-left: 380px;
-
-              @include breakpoint($desktop-width) {
-                margin-left: 536px;
-              }
-            }
-            &.txt-prev {
-              margin-left: 90px;
-
-              @include breakpoint($desktop-width) {
-                margin-left: 130px;
-              }
-            }
-
-            &.tile0 a {
-              background-image: url(../images/tile0.png);
-            }
-            &.tile1 a {
-              background-image: url(../images/tile1.png);
-            }
-            &.tile2 a {
-              background-image: url(../images/tile2.png);
-            }
-            &.tile3 a {
-              background-image: url(../images/tile3.png);
-            }
-            &.tile4 a {
-              background-image: url(../images/tile4.png);
-            }
-            &.tile5 a {
-              background-image: url(../images/tile5.png);
-            }
-            &.tile6 a {
-              background-image: url(../images/tile6.png);
-            }
-            &.tile7 a {
-              background-image: url(../images/tile0.png);
-            }
-            &.tile8 a {
-              background-image: url(../images/tile7.png);
-            }
-            &.tile9 a {
-              background-image: url(../images/tile8.png);
-            }
-            &.tile10 a {
-              background-image: url(../images/tile9.png);
-            }
-            &.tile11 a {
-              background-image: url(../images/tile10.png);
-            }
-            &.tile12 a {
-              background-image: url(../images/tile0.png);
-            }
-            &.tile13 a {
-              background-image: url(../images/tile1.png);
-            }
-            &.tile14 a {
-              background-image: url(../images/tile2.png);
-            }
-            &.tile15 a {
-              background-image: url(../images/tile0.png);
-            }
-          }
-
-          .secondary-nav__caption,
-          .secondary-nav__text {
-            color: $taupe-130;
-            font-size: .75em;
-            line-height: 1.1;
-            text-align: center;
-            width: rem(110px);
-
-            @include breakpoint($desktop-width) {
-              font-size: .875em;
-              line-height: 1.2em;
-              width: rem(145px);
-            }
-          }
-
-          .secondary-nav__caption {
-            left: 0;
-            position: absolute;
-            top: rem(100px);
-          }
-
-          .secondary-nav__text {
-            display: block;
-            font-weight: 700;
-            left: 0;
-            position: relative;
-            top: em(30px);
-          }
-        }
-      }
-  }
+  background: $taupe-30;
 }
+
+.secondary-nav__inner {
+    position: relative;
+}
+
+.secondary-nav__title {
+    color: $blue-100;
+    font-size: .8125em;
+    font-weight: 700;
+    left: 50%;
+    margin-left: -70px;
+    position: absolute;
+    text-transform: uppercase;
+    top: 1.5em;
+}
+
+.secondary-nav__prev,
+.secondary-nav__next {
+    background-image: url(images/secondary-nav2.png);
+    background-repeat: no-repeat;
+    cursor: pointer;
+    height: 191px;
+    position: absolute;
+    text-indent: -999em;
+    top: 0;
+    vertical-align: top;
+    width: 65px;
+    z-index: 200;
+}
+
+.secondary-nav__prev {
+    left: 0;
+    right: auto;
+
+    &.inactive {
+        background-position: 0 0;
+        cursor: default;
+
+        &:hover {
+            background-position: 0 0;
+        }
+    }
+    &.active {
+        background-position: -65px 0;
+    }
+    &:hover {
+        background-position: -130px 0;
+    }
+}
+
+.secondary-nav__next {
+    left: auto;
+    right: 0;
+
+    &.inactive {
+        background-position: -195px 0;
+        cursor: default;
+
+        &:hover {
+        background-position: -195px 0;
+        }
+    }
+    &.active {
+        background-position: -260px 0;
+    }
+    &:hover {
+        background-position: -325px 0;
+    }
+}
+
+
+.secondary-nav__tiles {
+    display: inline-block;
+    margin: 0;
+    padding: 16px 0 0;
+    position: relative;
+}
+
+.secondary-nav__tile {
+    box-sizing: border-box;
+    display: inline-block; // remove when next/prev buttons in place
+    margin: 0 1.25em;
+    position: relative;
+    vertical-align: top;
+    width: 130px;
+
+    @include breakpoint($desktop-width) {
+        margin: 0 1.5em;
+        width: 145px;
+    }
+
+    &:last-of-type {
+        margin-right: 0;
+    }
+}
+
+.secondary-nav__tile a {
+    background-color: #fff;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: auto 90%;
+    border: 3px solid transparent;
+    border-bottom: none;
+    box-sizing: border-box;
+    display: inline-block;
+    height: 94px;
+    position: relative;
+    text-align: center;
+    text-indent: -999em;
+    width: 100%;
+
+    &:hover,
+    &:focus {
+        border-color: $orange-100;
+    }
+
+    &.is-active {
+        border: 3px solid $green-100;
+        border-bottom: 0;
+
+        &:after {
+            border-color: #fff transparent transparent transparent;
+            border-style: solid;
+            border-width: 8px 8px 0 8px;
+            bottom: -8px;
+            content: '';
+            height: 0;
+            left: 50%;
+            margin-left: -8px;
+            overflow: visible !important;
+            position: absolute;
+            width: 0;
+        }
+    }
+}
+
+.secondary-nav__tile.txt-next {
+    margin-left: 380px;
+
+    @include breakpoint($desktop-width) {
+        margin-left: 536px;
+    }
+}
+
+.secondary-nav__tile.txt-prev {
+    margin-left: 90px;
+
+    @include breakpoint($desktop-width) {
+        margin-left: 130px;
+    }
+}
+
+.secondary-nav__tile {
+    &.tile0 a {
+      background-image: url(../images/tile0.png);
+    }
+    &.tile1 a {
+      background-image: url(../images/tile1.png);
+    }
+    &.tile2 a {
+      background-image: url(../images/tile2.png);
+    }
+    &.tile3 a {
+      background-image: url(../images/tile3.png);
+    }
+    &.tile4 a {
+      background-image: url(../images/tile4.png);
+    }
+    &.tile5 a {
+      background-image: url(../images/tile5.png);
+    }
+    &.tile6 a {
+      background-image: url(../images/tile6.png);
+    }
+    &.tile7 a {
+      background-image: url(../images/tile0.png);
+    }
+    &.tile8 a {
+      background-image: url(../images/tile7.png);
+    }
+    &.tile9 a {
+      background-image: url(../images/tile8.png);
+    }
+    &.tile10 a {
+      background-image: url(../images/tile9.png);
+    }
+    &.tile11 a {
+      background-image: url(../images/tile10.png);
+    }
+    &.tile12 a {
+      background-image: url(../images/tile0.png);
+    }
+    &.tile13 a {
+      background-image: url(../images/tile1.png);
+    }
+    &.tile14 a {
+      background-image: url(../images/tile2.png);
+    }
+    &.tile15 a {
+      background-image: url(../images/tile0.png);
+    }
+}
+
+.secondary-nav__caption,
+.secondary-nav__text {
+    color: $taupe-130;
+    font-size: .75em;
+    line-height: 1.1;
+    text-align: center;
+
+    @include breakpoint($desktop-width) {
+        font-size: .875em;
+        line-height: 1.2em;
+    }
+}
+
+.secondary-nav__caption {
+    color: $blue-100;
+    justify-content: flex-end;
+    display: flex;
+    flex-direction: column;
+    height: 30px;
+    margin: 0 0 .35em;
+}
+
+.secondary-nav__text {
+    display: block;
+    font-weight: 700;
+    left: 0;
+    position: relative;
+    top: em(30px);
+}
+

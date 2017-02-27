@@ -1,3 +1,6 @@
+import {EventsHash} from 'backbone';
+import * as $ from 'jquery';
+
 import context from 'models/context';
 import Page from 'views/page';
 import DefaultSection from 'views/default-section';
@@ -19,6 +22,25 @@ export default class OpportunitiesAndAccess extends Page {
       footer: '.main__footer .inner',
       'data-table': '.js-data-table',
     };
+  }
+
+  events(): EventsHash {
+    return {
+      'click .js-table-link': 'scrollToTableForm',
+    };
+  }
+
+  protected scrollToTableForm(event: JQueryMouseEventObject): void {
+    event.preventDefault();
+
+    // find the "Custom Data Table" section
+    const $tableForm = $('.js-data-table');
+
+    // scroll to the table's title
+    $tableForm.find(' .data-table__title')[0].scrollIntoView();
+
+    // Set focus to first select box
+    $tableForm.find('select')[0].focus();
   }
 
   onBeforeShow(): void {
