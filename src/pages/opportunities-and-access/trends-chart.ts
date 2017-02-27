@@ -22,10 +22,10 @@ export interface TrendsChartOptions extends ViewOptions<Model> {
   className: 'chart chart--bar chart--stacked-bar',
 })
 export default class TrendsChart extends Chart<Model> {
-  protected marginLeft = 40;
+  protected marginLeft = 140;
   protected marginRight = 25;
   protected marginBottom = 60;
-  protected marginTop = 80;
+  protected marginTop = 20;
 
   protected percentAxis: Selection<SVGGElement, {}, null, void>;
   protected yearAxis: Selection<SVGGElement, {}, null, void>;
