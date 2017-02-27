@@ -22,10 +22,10 @@ export interface TrendsChartOptions extends ViewOptions<Model> {
   className: 'chart chart--bar chart--stacked-bar',
 })
 export default class TrendsChart extends Chart<Model> {
-  protected marginLeft = 80;
-  protected marginRight = 80;
+  protected marginLeft = 140;
+  protected marginRight = 25;
   protected marginBottom = 60;
-  protected marginTop = 80;
+  protected marginTop = 20;
 
   protected percentAxis: Selection<SVGGElement, {}, null, void>;
   protected yearAxis: Selection<SVGGElement, {}, null, void>;
@@ -80,7 +80,6 @@ export default class TrendsChart extends Chart<Model> {
     // set chart height and width
     const chartHeight = 160,
         chartWidth = percent.size();
-        console.log(chartWidth);
 
     this.height(chartHeight)
       .width(chartWidth);
