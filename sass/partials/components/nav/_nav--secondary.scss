@@ -32,17 +32,42 @@
 
 .secondary-nav__link {
     text-decoration: none;
+
+    &:hover,
+    &:focus {
+        .secondary-nav__caption {
+            color: $orange-100;
+        }
+
+        .secondary-nav__thumbnail {
+            border-color: $orange-100;
+        }
+    }
+
+    &.is-active {
+        &:hover,
+        &:focus {
+            .secondary-nav__caption {
+                color: $green-100;
+            }
+
+            .secondary-nav__thumbnail {
+                border-color: $green-100;
+            }
+        }
+    }
 }
 
 .secondary-nav__caption {
     color: $blue-100;
     display: flex;
-    font-size: .75em;
-    justify-content: flex-end;
     flex-direction: column;
+    font-size: .75em;
+    font-weight: 700;
     height: 30px;
+    justify-content: flex-end;
     line-height: 1.1;
-    margin: 0 0 .35em;
+    margin: 0 -0.5em .35em;
     text-align: center;
 
     @include breakpoint($desktop-width) {
@@ -69,11 +94,6 @@
     text-align: center;
     text-indent: -999em;
     width: 100%;
-
-    &:hover,
-    &:focus {
-        border-color: $orange-100;
-    }
 
     .is-active & {
         border: 3px solid $green-100;
