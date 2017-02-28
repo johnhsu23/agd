@@ -142,7 +142,7 @@ export default class QuestionsAccordion extends LayoutView<Model> {
     this.$('.accordion__header-bar').toggleClass('is-hidden');
 
     // change show/hide text for the first accordion after click event
-    if (this.$el.attr('data-naepid') === 'BV00003' || this.$el.attr('data-naepid') === 'BM00003'
+    if ((this.$el.attr('data-naepid') === 'BV00003' || this.$el.attr('data-naepid') === 'BM00003')
         && !this.$el.hasClass('is-expanded')) {
         this.$('.accordion__show-hide').text('show response results');
     }
