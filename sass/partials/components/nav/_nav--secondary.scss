@@ -32,7 +32,7 @@
 
 .secondary-nav__link {
     text-decoration: none;
-    transition-duration: 0;
+    transition-duration: 0s;
 
     &:hover,
     &:focus {
@@ -72,7 +72,7 @@
     line-height: 1.1;
     margin: 0 -0.5em .35em;
     text-align: center;
-    transition-duration: 0;
+    transition-duration: 0s;
 
     @include breakpoint($desktop-width) {
         font-size: .875em;
@@ -98,7 +98,7 @@
     position: relative;
     text-align: center;
     text-indent: -999em;
-    transition-duration: 0;
+    transition-duration: 0s;
     width: 100%;
 
     .is-active & {
