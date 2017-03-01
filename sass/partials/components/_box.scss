@@ -1,8 +1,6 @@
 // @file
 // Styles for boxes on homepage
 
-.box {}
-
 .box__row {
 	display: flex;
 	flex-wrap: nowrap;
@@ -59,6 +57,17 @@
     @include breakpoint($desktop-width) {
         font-size: 1.125em;
     }
+}
+
+.box--one-of-two {
+	display: inline-block;
+	flex-basis: 48%;
+	margin-right: 4%;
+	width: 48%;
+
+	&:last-of-type {
+		margin: 0;
+	}
 }
 
 .box--no-fold .box__content {
