@@ -1,7 +1,7 @@
 // @file
 // Button helpers
 
-@mixin button($bg-color: $button-bg-color, $text-color: $button-text-color, $font-size: $font-size-md, $font-family: $button-font-family) {
+@mixin button($bg-color: $button-bg-color, $text-color: $button-text-color, $font-size: $font-size-normal, $font-family: $button-font-family) {
   background-color: $bg-color;
   border-bottom: 2px solid $orange-135;
   color: $button-text-color;
