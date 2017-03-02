@@ -18,11 +18,11 @@
     margin: 0 1.25em;
     position: relative;
     vertical-align: top;
-    width: 130px;
+    width: 117px;
 
     @include breakpoint($desktop-width) {
-        margin: 0 1.5em;
-        width: 145px;
+        margin: 0 2em;
+        width: 117px;
     }
 
     &:last-of-type {
@@ -70,7 +70,7 @@
     height: 30px;
     justify-content: flex-end;
     line-height: 1.1;
-    margin: 0 -0.5em .35em;
+    margin: 0 -1.5em .35em;
     text-align: center;
     transition-duration: 0s;
 
@@ -89,12 +89,12 @@
     background-color: #fff;
     background-position: center;
     background-repeat: no-repeat;
-    background-size: auto 90%;
+    background-size: auto 100%;
     border: 3px solid transparent;
     border-bottom: none;
     box-sizing: border-box;
     display: inline-block;
-    height: 94px;
+    height: 68px;
     position: relative;
     text-align: center;
     text-indent: -999em;
