@@ -2,7 +2,7 @@
 // Styles for the main menu.
 
 .nav--main {
-	height: em(38px);
+	height: 2em;
     list-style-type: none;
 	margin: 0;
 	padding: 0;
@@ -19,8 +19,8 @@
             display: inline-block;
             font-size: 1em;
             font-weight: 300;
-            height: em(38px);
-            line-height: em(38px);
+            height: 2em;
+            line-height: 2em;
             margin: 0;
             padding: 0 1em;
             position: relative;
@@ -31,7 +31,7 @@
 
             @include breakpoint($desktop-width) {
                 font-size: 1em;
-                height: em(38px);
+                height: 2em;
                 margin: 0;
                 padding: 0 1.5em;
             }
