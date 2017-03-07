@@ -1,4 +1,5 @@
 import {EventsHash, Collection} from 'backbone';
+import * as $ from 'jquery';
 
 import Figure from 'views/figure';
 import LegendView from 'views/legend';
@@ -35,6 +36,11 @@ export default class ScoreGaps extends Figure {
       collection: this.collection,
     }));
 
+    // set up empty off-screen div after chart title
+    $('<div>', { class: 'off-screen' })
+      .insertAfter(this.$el.find('.figure__title'));
+    this.setOffscreenLink();
+
     this.setTitle(this.makeTitle());
     // default to 'Race/Ethnicity', White - Hispanic (0 - 2)
     this.updateChart(this.variable, 0, 2);
@@ -49,6 +55,7 @@ export default class ScoreGaps extends Figure {
   onChildGapSelect(_: GapSelector, variable: vars.Variable, focal: number, target: number): void {
     this.variable = variable;
     this.setTitle(this.makeTitle());
+    this.setOffscreenLink();
     this.updateChart(this.variable, focal, target);
   }
 
@@ -147,5 +154,33 @@ export default class ScoreGaps extends Figure {
     }
 
     this.collection.reset(models);
+  }
+
+  protected setOffscreenLink(): void {
+    const subject = (context.subject === 'music') ? 'MUS' : 'VIS';
+    const subscale = (context.subject === 'music') ? 'MUSRP' : 'VISRP';
+    // set initial link text and path
+    const text = (this.variable === vars.SCHTYPE)
+      ? 'See the accessible version of the public/catholic data in the NAEP data explorer: '
+      : 'See the accessible version of this chart in the NAEP Data Explorer: ';
+
+    const link = 'https://naeppreview3.naepims.org/nationsreportcard/naepdata/report.aspx'
+      + `?p=2-${subject}-2-20163,20083-${subscale}-${this.variable.id}-NT-MN_MN-Y_J-0-0-5`;
+
+    // empty the off-screen div, then insert contents
+    this.$('.off-screen').empty()
+      .text(text)
+      .append($('<a>', { href: link }).text(link))
+      .insertAfter(this.$el.find('.figure__title'));
+
+    if (this.variable === vars.SCHTYPE) {
+      // school types gets an additional link for SCHTYP2
+      const schtyp2Link = 'https://naeppreview3.naepims.org/nationsreportcard/naepdata/report.aspx'
+        + `?p=2-${subject}-2-20163,20083-${subscale}-SCHTYP2-NT-MN_MN-Y_J-0-0-5`;
+
+      this.$('.off-screen')
+        .append('. See the accessible version of the public/private data in the NAEP data explorer: ')
+        .append($('<a>', { href: schtyp2Link }).text(schtyp2Link));
+    }
   }
 }
