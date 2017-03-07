@@ -91,7 +91,7 @@ export default class PercentileScores extends Figure {
   protected setOffscreenLink(): void {
     const subject = (context.subject === 'music') ? 'MUS' : 'VIS';
     const subscale = (context.subject === 'music') ? 'MUSRP' : 'VISRP';
-    const link = 'https://naeppreview3.naepims.org/nationsreportcard/naepdata/report.aspx'
+    const link = 'https://nces.ed.gov/nationsreportcard/naepdata/report.aspx'
       + `?p=2-${subject}-2-20163,20083-${subscale}-TOTAL-NT-PC_P1,PC_P2,PC_P5,PC_P7,PC_P9-Y_J-0-0-5`;
 
     $('<div>', { class: 'off-screen' })

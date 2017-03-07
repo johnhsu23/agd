@@ -164,7 +164,7 @@ export default class ScoreGaps extends Figure {
       ? 'See the accessible version of the public/catholic data in the NAEP data explorer: '
       : 'See the accessible version of this chart in the NAEP Data Explorer: ';
 
-    const link = 'https://naeppreview3.naepims.org/nationsreportcard/naepdata/report.aspx'
+    const link = 'https://nces.ed.gov/nationsreportcard/naepdata/report.aspx'
       + `?p=2-${subject}-2-20163,20083-${subscale}-${this.variable.id}-NT-MN_MN-Y_J-0-0-5`;
 
     // empty the off-screen div, then insert contents
@@ -175,7 +175,7 @@ export default class ScoreGaps extends Figure {
 
     if (this.variable === vars.SCHTYPE) {
       // school types gets an additional link for SCHTYP2
-      const schtyp2Link = 'https://naeppreview3.naepims.org/nationsreportcard/naepdata/report.aspx'
+      const schtyp2Link = 'https://nces.ed.gov/nationsreportcard/naepdata/report.aspx'
         + `?p=2-${subject}-2-20163,20083-${subscale}-SCHTYP2-NT-MN_MN-Y_J-0-0-5`;
 
       this.$('.off-screen')
