@@ -57,11 +57,12 @@
 	font-size: .875em;
 	font-weight: 700;
 	height: 16px;
+	padding-right: 5px;
 	position: absolute;
 	right: 0;
-	text-align: center;
+	text-align: right;
 	text-transform: lowercase;
-	width: 40px;
+	width: 165px;
 
 	&:after {
 		border-color: $orange-100 transparent transparent transparent;
@@ -90,7 +91,7 @@
 }
 
 .accordion__contents {
-	background-color: $green-35;
+	background-color: $green-15;
 	padding: 2em 1.5em;
 }
 

@@ -26,6 +26,10 @@
 	font-size: rem($font-size-sm);
 }
 
+.u-font-medium {
+	font-size: rem($font-size-md);
+}
+
 .u-font-large {
 	font-size: rem($font-size-lg);
 }
@@ -75,6 +79,11 @@
 	margin-left: auto;
 	margin-right: auto;
 }
+
+.u-text-align-center {
+	text-align: center;
+}
+
 
 // This utility class has the penultimate precedence.
 .is-hidden {

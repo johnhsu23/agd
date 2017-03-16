@@ -375,7 +375,7 @@ u {}
 
 ul {
   margin: 0 0 1.5em;
-  padding: 0 0 0 1.2em; // LTR
+  padding: 0 0 0 3em; // LTR
 
   @if $support-for-rtl {
     [dir="rtl"] & {
