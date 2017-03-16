@@ -231,7 +231,7 @@ export default class BubbleChart extends Chart<Model> {
       .classed('bubble bubble--suppressed', true)
       .append('text')
       .classed('bubble__label', true)
-      .attr('y', this.innerHeight)
+      .attr('y', this.innerHeight - 4)
       .attr('x', ({mean}) => response(mean.categoryindex))
       .attr('text-anchor', 'middle')
       .text(({mean, percent}) => {
