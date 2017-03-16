@@ -1,5 +1,6 @@
 import {Collection} from 'backbone';
 import {union} from 'underscore';
+import * as $ from 'jquery';
 
 import {default as Figure, FigureOptions} from 'views/figure';
 import LegendView from 'views/legend';
@@ -55,6 +56,7 @@ export default class TrendsFigure extends Figure {
       .done();
 
     this.setTitle(this.makeTitle());
+    this.setOffscreenLink();
     this.$('.figure__heading')
       .text('Percentage Trends');
 
@@ -98,5 +100,17 @@ export default class TrendsFigure extends Figure {
     legends = legends.concat(...gatherNotes(data, row => row.TargetErrorFlag, row => row.sig));
 
     this.legendCollection.reset(legends);
+  }
+
+  protected setOffscreenLink(): void {
+    const subject = (context.subject === 'music') ? 'MUS' : 'VIS';
+    const subscale = (context.subject === 'music') ? 'MUSRP' : 'VISRP';
+    const link = 'https://nces.ed.gov/nationsreportcard/naepdata/report.asp'
+      + `?p=2-${subject}-2-20163,20083-${subscale}-${this.variable.id},TOTAL-NT-RP_RP-Y_J-0-0-5`;
+
+    $('<div>', { class: 'off-screen' })
+      .text('See the accessible version of this chart in the NAEP Data Explorer: ')
+      .append($('<a>', { href: link }).text(link))
+      .insertAfter(this.$('.figure__title'));
   }
 }

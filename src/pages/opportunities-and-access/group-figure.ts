@@ -1,6 +1,7 @@
 import {default as Figure, FigureOptions} from 'views/figure';
 import {EventsHash, Collection} from 'backbone';
 import {union} from 'underscore';
+import * as $ from 'jquery';
 
 import forwardEvents from 'util/forward-events';
 import context from 'models/context';
@@ -62,6 +63,11 @@ export default class GroupFigure extends Figure {
     this.$('.figure__heading')
       .text('Percentages by Student Group');
 
+    // set up empty off-screen div after chart title
+    $('<div>', { class: 'off-screen' })
+      .insertAfter(this.$('.figure__title'));
+    this.setOffscreenLink();
+
     this.showControls(new VariableSelector({ variables: vars.studentGroups }));
     this.showContents(this.chart);
     this.setTitle(this.makeTitle());
@@ -84,6 +90,7 @@ export default class GroupFigure extends Figure {
       this.getChildView('contents')
         .trigger('variable:select', variable);
       this.setTitle(this.makeTitle());
+      this.setOffscreenLink();
 
       this.updateChart();
     }
@@ -122,5 +129,32 @@ export default class GroupFigure extends Figure {
     legends = legends.concat(...gatherNotes(data, row => row.errorFlag, row => row.sig));
 
     this.legendCollection.reset(legends);
+  }
+
+  protected setOffscreenLink(): void {
+    const subject = (context.subject === 'music') ? 'MUS' : 'VIS';
+    const subscale = (context.subject === 'music') ? 'MUSRP' : 'VISRP';
+    // set initial link text and path
+    const text = (this.variable === vars.SCHTYPE)
+      ? 'See the accessible version of the public/catholic data in the NAEP data explorer: '
+      : 'See the accessible version of this chart in the NAEP Data Explorer: ';
+
+    const link = 'https://nces.ed.gov/nationsreportcard/naepdata/report.aspx'
+      + `?p=2-${subject}-2-20163-${subscale}-${this.contextualVariable.id},${this.variable.id}-NT-RP_RP-1_Y_J-0-0-37`;
+
+    // empty the off-screen div, then insert contents
+    this.$('.off-screen').empty()
+      .text(text)
+      .append($('<a>', { href: link }).text(link));
+
+    if (this.variable === vars.SCHTYPE) {
+      // school types gets an additional link for SCHTYP2
+      const schtyp2Link = 'https://nces.ed.gov/nationsreportcard/naepdata/report.aspx'
+        + `?p=2-${subject}-2-20163-${subscale}-${this.contextualVariable.id},SCHTYP2-NT-RP_RP-1_Y_J-0-0-37`;
+
+      this.$('.off-screen')
+        .append('. See the accessible version of the public/private data in the NAEP data explorer: ')
+        .append($('<a>', { href: schtyp2Link }).text(schtyp2Link));
+    }
   }
 }
