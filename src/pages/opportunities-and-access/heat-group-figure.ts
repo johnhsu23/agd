@@ -70,7 +70,7 @@ export default class HeatGroupFigure extends Figure {
 
     // set up empty off-screen div after chart title
     $('<div>', { class: 'off-screen' })
-      .insertAfter(this.$el.find('.figure__title'));
+      .insertAfter(this.$('.figure__title'));
     this.setOffscreenLink();
 
     load(this.variable, this.contextualVariable)
@@ -171,8 +171,7 @@ export default class HeatGroupFigure extends Figure {
     // empty the off-screen div, then insert contents
     this.$('.off-screen').empty()
       .text(text)
-      .append($('<a>', { href: link }).text(link))
-      .insertAfter(this.$el.find('.figure__title'));
+      .append($('<a>', { href: link }).text(link));
 
     if (this.variable === vars.SCHTYPE) {
       // school types gets an additional link for SCHTYP2

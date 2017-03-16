@@ -92,6 +92,6 @@ export default class BubbleFigure extends Figure {
     $('<div>', { class: 'off-screen' })
       .text('See the accessible version of this chart in the NAEP Data Explorer: ')
       .append($('<a>', { href: link }).text(link))
-      .insertAfter(this.$el.find('.figure__title'));
+      .insertAfter(this.$('.figure__title'));
   }
 }
