@@ -102,7 +102,7 @@ export default class BubbleChart extends Chart<Model> {
 
               // instead of going through the data, we simply check for classes
               if (element.classed('bubble__sig--no-text')) {
-                return '';
+                return 'selected category';
               }
 
               return (element.classed('bubble__sig--none')) ? 'score not significantly different'
