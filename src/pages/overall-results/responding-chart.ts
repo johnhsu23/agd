@@ -16,7 +16,7 @@ import {verticalLeft} from 'components/categorical-axis';
   className: 'chart chart--bar',
 })
 export default class BarChart extends Chart<Model> {
-  protected marginLeft = 115;
+  protected marginLeft = 130;
   protected marginRight = 100;
   protected marginBottom = 70;
   protected marginTop = 60;
