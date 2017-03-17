@@ -25,20 +25,15 @@
 .featured-image__image {
 	display: block;
 	margin: 0 auto 1em auto;
-	height: 150px;
+	height: auto;
 	vertical-align: bottom;
-	width: auto;
-
-	@include breakpoint($desktop-width) {
-		height: 184px;
-		width: auto;
-	}
+	width: 90%;
 }
 
 .featured-image__links {
 	padding: 0 .5em;
 	text-align: center;
-	width: 100%;
+	width: 60%;
 }
 
 .featured-image__links h4 {
