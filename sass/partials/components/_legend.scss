@@ -127,15 +127,15 @@
 }
 
 .u-categories-2 .legend__marker--bar-0 {
-    rect { fill: $acl-ba; }
-}
-
-.u-categories-2 .legend__marker--bar-1 {
     rect { fill: $blue-100; }
 }
 
+.u-categories-2 .legend__marker--bar-1 {
+    rect { fill: $acl-ba; }
+}
+
 .u-categories-3 .legend__marker--bar-0 {
-    rect { fill: $acl-bb; }
+    rect { fill: $blue-100; }
 }
 
 .u-categories-3 .legend__marker--bar-1 {
@@ -143,23 +143,23 @@
 }
 
 .u-categories-3 .legend__marker--bar-2 {
-    rect { fill: $blue-100; }
-}
-
-.u-categories-4 .legend__marker--bar-0 {
     rect { fill: $acl-bb; }
 }
 
-.u-categories-4 .legend__marker--bar-1 {
-    rect { fill: $acl-pr; }
+.u-categories-4 .legend__marker--bar-0 {
+    rect { fill: $blue-100; }
 }
 
-.u-categories-4 .legend__marker--bar-2 {
+.u-categories-4 .legend__marker--bar-1 {
     rect { fill: $acl-ad; }
 }
 
+.u-categories-4 .legend__marker--bar-2 {
+    rect { fill: $acl-pr; }
+}
+
 .u-categories-4 .legend__marker--bar-3 {
-    rect { fill: $blue-100; }
+    rect { fill: $acl-bb; }
 }
 
 

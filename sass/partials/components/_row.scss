@@ -1,11 +1,23 @@
 // @file
 // Styles for rows
 
+.row--two,
 .row--three {
 	display: flex;
 	flex-wrap: nowrap;
 	justify-content: space-between;
-	margin: 2em 0 .25em;
+	margin: 2em 0 3em;
+}
+
+.row__item--one-of-two {
+	border-right: 1px solid $taupe-25;
+	display: inline-block;
+	flex-basis: 50%;
+	width: 50%;
+
+	&:last-of-type {
+		border: none;
+	}
 }
 
 .row__item--one-of-three {

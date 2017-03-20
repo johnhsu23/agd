@@ -66,18 +66,18 @@
 
 
 .u-categories-2 .bar--0 {
-	rect { fill: $acl-ba; }
-    text { fill: $blue-100; }
-}
-
-.u-categories-2 .bar--1 {
 	rect { fill: $blue-100; }
     text { fill: #fff; }
 }
 
-.u-categories-3 .bar--0 {
-	rect { fill: $acl-bb; }
+.u-categories-2 .bar--1 {
+    rect { fill: $acl-ba; }
     text { fill: $blue-100; }
+}
+
+.u-categories-3 .bar--0 {
+	rect { fill: $blue-100; }
+    text { fill: #fff; }
 }
 
 .u-categories-3 .bar--1 {
@@ -86,26 +86,26 @@
 }
 
 .u-categories-3 .bar--2 {
-	rect { fill: $blue-100; }
-    text { fill: #fff; }
-}
-
-.u-categories-4 .bar--0 {
 	rect { fill: $acl-bb; }
     text { fill: $blue-100; }
 }
 
+.u-categories-4 .bar--0 {
+    rect { fill: $blue-100; }
+    text { fill: #fff; }
+}
+
 .u-categories-4 .bar--1 {
-	rect { fill: $acl-pr; }
+    rect { fill: $acl-ad; }
     text { fill: #fff; }
 }
 
 .u-categories-4 .bar--2 {
-	rect { fill: $acl-ad; }
+    rect { fill: $acl-pr; }
     text { fill: #fff; }
 }
 
 .u-categories-4 .bar--3 {
-	rect { fill: $blue-100; }
-    text { fill: #fff; }
+    rect { fill: $acl-bb; }
+    text { fill: $blue-100; }
 }
