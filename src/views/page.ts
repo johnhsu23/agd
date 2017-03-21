@@ -1,5 +1,6 @@
 import {Model, history} from 'backbone';
 import {View, LayoutView, Region} from 'backbone.marionette';
+import * as $ from 'jquery';
 
 import InPageNav from 'views/in-page-nav';
 
@@ -67,6 +68,20 @@ abstract class PageView extends LayoutView<any> {
     this.$('.js-page-title')
       .text(this.pageTitle);
   }
+
+  protected scrollToFooter(event: JQueryMouseEventObject): void {
+    event.preventDefault();
+
+    const $footer = $('#footer');
+
+    // Move focus to the footer to ensure tab order is still somewhat sane
+    $footer.find('.footer-header__link')[0]
+      .focus();
+
+    // Move scroll position to the #footer element
+    $footer[0].scrollIntoView();
+  }
+
 }
 
 export default PageView;

@@ -1,3 +1,5 @@
+import {EventsHash} from 'backbone';
+
 import Page from 'views/page';
 import DefaultSection from 'views/default-section';
 
@@ -16,6 +18,12 @@ import * as overallVisualArtsNotes from 'text!notes/overall-results/visual-arts.
 
 export default class AverageScores extends Page {
   pageTitle = 'Overall Results';
+
+  events(): EventsHash {
+    return {
+      'click .js-footer': 'scrollToFooter',
+    };
+  }
 
   onBeforeShow(): void {
     this.pushSection(new DefaultSection({
