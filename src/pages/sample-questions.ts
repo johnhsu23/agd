@@ -1,3 +1,5 @@
+import {EventsHash} from 'backbone';
+
 import Page from 'views/page';
 import DefaultSection from 'views/default-section';
 import NotesSourcesView from 'views/notes-sources';
@@ -16,6 +18,12 @@ import * as questionsVisualArtsNotes from 'text!notes/sample-questions/visual-ar
 
 export default class SampleQuestions extends Page {
   pageTitle = 'Sample Questions';
+
+  events(): EventsHash {
+    return {
+      'click .js-footer': 'scrollToFooter',
+    };
+  }
 
   onBeforeShow(): void {
     const list = new QuestionList;
