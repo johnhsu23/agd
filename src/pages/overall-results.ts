@@ -1,6 +1,3 @@
-import {EventsHash} from 'backbone';
-import * as $ from 'jquery';
-
 import Page from 'views/page';
 import DefaultSection from 'views/default-section';
 
@@ -21,25 +18,6 @@ import * as overallVisualArtsNotes from 'text!notes/overall-results/visual-arts.
 
 export default class AverageScores extends Page {
   pageTitle = 'Overall Results';
-
-  events(): EventsHash {
-    return {
-      'click .js-footer': 'scrollToFooter',
-    };
-  }
-
-  protected scrollToFooter(event: JQueryMouseEventObject): void {
-    event.preventDefault();
-
-    const $footer = $('#footer');
-
-    // Move focus to the footer to ensure tab order is still somewhat sane
-    $footer.find('.footer-header__link')[0]
-      .focus();
-
-    // Move scroll position to the #footer element
-    $footer[0].scrollIntoView();
-  }
 
   onBeforeShow(): void {
     this.pushSection(new DefaultSection({
