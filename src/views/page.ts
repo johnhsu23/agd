@@ -1,4 +1,3 @@
-import {EventsHash} from 'backbone';
 import {Model, history} from 'backbone';
 import {View, LayoutView, Region} from 'backbone.marionette';
 import * as $ from 'jquery';
@@ -12,12 +11,6 @@ abstract class PageView extends LayoutView<any> {
 
   abstract pageTitle: string;
   protected count = 1;
-
-  events(): EventsHash {
-    return {
-      'click .js-footer': 'scrollToFooter',
-    };
-  }
 
   regions(): { [key: string]: string } {
     return {
