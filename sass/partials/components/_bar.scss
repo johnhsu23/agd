@@ -26,13 +26,13 @@
 }
 
 .bar--0 {
-    rect { fill: $acl-bb; }
-    text { fill: $blue-100; }
+    rect { fill: $blue-100; }
+    text { fill: #fff; }
 }
 
 .bar--1 {
-    rect { fill: $acl-ba; }
-    text { fill: $blue-100; }
+    rect { fill: $acl-ad; }
+    text { fill: #fff; }
 }
 
 .bar--2 {
@@ -41,13 +41,13 @@
 }
 
 .bar--3 {
-    rect { fill: $acl-ad; }
-    text { fill: #fff; }
+    rect { fill: $acl-ba; }
+    text { fill: $blue-100; }
 }
 
 .bar--4 {
-    rect { fill: $blue-100; }
-    text { fill: #fff; }
+    rect { fill: $acl-bb; }
+    text { fill: $blue-100; }
 }
 
 .bar--5 {
