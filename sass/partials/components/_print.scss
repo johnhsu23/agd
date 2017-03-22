@@ -1,41 +1,49 @@
 .print {
- 	float: right;
+	position: absolute;
+ 	right: 198px;
+ 	top: 69px;
+
+ 	 @include breakpoint($desktop-width) {
+ 	 	right: 215px;
+ 	 	top: 77px;
+ 	 }
 }
 
 .print__link {
 	background: none;
 	color: #fff;
 	display: block;
-	font-size: .5625em;
-	padding-top: 34px;
+	font-size: .675em;
+	letter-spacing: .065em;
+	padding-right: 34px;
 	position: relative;
 	text-decoration: none;
 	text-transform: uppercase;
-	top: -6px;
+	top: 0;
 
 	&:hover,
 	&:focus  {
 		color: #fff;
 
-		&:before {
+		&:after {
 			background-color: $green-100;
 		}
 	}
 
-	&:before {
+	&:after {
 		background-color: $orange-100;
 		@include svg-background(icon-print);
 		background-position: 50%;
 		background-repeat: no-repeat;
-		background-size: 21px auto;
+		background-size: 18px auto;
 		border-radius: 50%;
+		top: 50%;
 		content: '';
 		display: inline-block;
-		height: 32px;
-		left: 50%;
-		margin-left: -16px;
+		height: 28px;
+		margin-top: -14px;
 		position: absolute;
-		top: 0;
-		width: 32px;
+		right: 0;
+		width: 28px;
 	}
 }

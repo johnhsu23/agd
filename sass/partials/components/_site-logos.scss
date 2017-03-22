@@ -1,0 +1,40 @@
+.site-logos {
+    height: 76px;
+    position: absolute;
+    right: 1em;
+    text-align: right;
+    top: 1em;
+    width: 195px;
+
+    @include breakpoint($desktop-width) {
+        height: 84px;
+        top: 1em;
+    }
+}
+
+.site-logo {
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: 76px auto;
+    display: inline-block;
+    height: 76px;
+    width: 76px;
+
+    @include breakpoint($desktop-width) {
+        background-size: 84px auto;
+        height: 84px;
+        width: 84px;
+    }
+}
+
+.site-logo:last-of-type {
+    margin-left: .5em;
+}
+
+.site-logo--music {
+    @include svg-background(icon-music);
+}
+
+.site-logo--visual-arts {
+    @include svg-background(icon-visual-arts);
+}
