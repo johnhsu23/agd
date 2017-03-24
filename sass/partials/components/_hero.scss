@@ -45,23 +45,23 @@
 		position: relative;
 	}
 
-	.hero__content:after {
-		@include svg-background(arrow-big-white-down);
-		background-position: 50% 50%;
-		background-repeat: no-repeat;
-		background-size: 76px auto;
-		bottom: -130px;
-		content: '';
-		height: 40px;
-		left: 50%;
-		margin-left: -38px;
-		position: absolute;
-		width: 76px;
+	// .hero__content:after {
+	// 	@include svg-background(arrow-big-white-down);
+	// 	background-position: 50% 50%;
+	// 	background-repeat: no-repeat;
+	// 	background-size: 76px auto;
+	// 	bottom: -130px;
+	// 	content: '';
+	// 	height: 40px;
+	// 	left: 50%;
+	// 	margin-left: -38px;
+	// 	position: absolute;
+	// 	width: 76px;
 
-		@include breakpoint($desktop-width) {
-			bottom: -150px;
-		}
-	}
+	// 	@include breakpoint($desktop-width) {
+	// 		bottom: -150px;
+	// 	}
+	// }
 
 	.hero__content p {
 		font-size: .75em;
