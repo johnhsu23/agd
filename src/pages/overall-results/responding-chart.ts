@@ -16,7 +16,7 @@ import {verticalLeft} from 'components/categorical-axis';
   className: 'chart chart--bar',
 })
 export default class BarChart extends Chart<Model> {
-  protected marginLeft = 115;
+  protected marginLeft = 130;
   protected marginRight = 100;
   protected marginBottom = 70;
   protected marginTop = 60;
@@ -45,9 +45,11 @@ export default class BarChart extends Chart<Model> {
     }
 
     this.renderData();
+
   }
 
   protected renderData(): void {
+
     // setup and add the x axis
     const percent = scales.percent()
       .bounds([0, 100])
@@ -118,5 +120,15 @@ export default class BarChart extends Chart<Model> {
       .classed('bar__text-value', true)
       .merge(barUpdate.select('.bar__text-value'))
       .text(d => Math.round(d));
+
+    // add horizontal line to chart
+    this.d3el.append('line')
+        .style('stroke', 'black')
+        .attr('stroke-dasharray', '5, 5')
+        .attr('x1', 0)
+        .attr('x2', chartWidth * 1.25)
+        .attr('y1', category(scoreText[2]) - 3)
+        .attr('y2', category(scoreText[2]) - 3);
+
   }
 }

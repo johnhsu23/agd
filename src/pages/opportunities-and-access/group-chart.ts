@@ -28,7 +28,7 @@ export default class GroupChart extends Chart<Model> {
   protected marginLeft = 140;
   protected marginRight = 25;
   protected marginBottom = 60;
-  protected marginTop = 80;
+  protected marginTop = 20;
 
   protected percentAxis: Selection<SVGGElement, {}, null, void>;
   protected categoryAxis: Selection<SVGGElement, {}, null, void>;

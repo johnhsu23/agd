@@ -27,7 +27,7 @@ export default class SecondaryNav extends ItemView<Model> {
   protected showNav(page: string): void {
     this.$el.removeClass('is-hidden');
 
-    this.$('.secondary-nav__link a').each(function () {
+    this.$('.secondary-nav__tile a').each(function () {
       const $this = $(this),
             path = $this.data('path');
 

@@ -19,6 +19,7 @@ export default class AboutView extends Page {
   events(): EventsHash {
     return {
       'click [data-glossary]': 'glossary',
+      'click .js-footer': 'scrollToFooter',
     };
   }
 

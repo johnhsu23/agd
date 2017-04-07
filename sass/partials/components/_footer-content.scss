@@ -110,7 +110,7 @@
     margin: 0 auto;
     padding: .625em 1em;
     text-transform: none;
-    width: 130px;
+    width: 135px;
 
     &:hover,
     &:focus {
@@ -118,9 +118,9 @@
         border: 1px solid #fff;
     }
 
-    &:focus {
-        background-color: $orange-100;
-    }
+    // &:focus {
+    //     background-color: $orange-100;
+    // }
 }
 
 .footer-content__table .data-submission span {

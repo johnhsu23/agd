@@ -5,10 +5,10 @@
 .in-page-nav__inner {
 	background-color: #efece9;
 	float: right;
-	margin: 0 0 25px 2em;
+	margin: 0 0 25px;
 	padding: 0 15px 10px;
 	position: relative;
-	top: -19px;
+	top: 16px;
 	width: $in-page-nav-width;
 	z-index: 500;
 
@@ -18,17 +18,21 @@
 		}
 	}
 
-    &:before {
-    	border-color: transparent transparent transparent $green-130;
-		border-style: solid;
-		border-width: 19px 0 0 13px;
-		content: '';
-		height: 0;
-		position: absolute;
-		right: -13px;
+	.about & {
 		top: 0;
-		width: 0;
-    }
+	}
+
+  //   &:before {
+  //   	border-color: transparent transparent transparent $green-130;
+		// border-style: solid;
+		// border-width: 19px 0 0 13px;
+		// content: '';
+		// height: 0;
+		// position: absolute;
+		// right: -13px;
+		// top: 0;
+		// width: 0;
+  //   }
 
     &:after {
     	border-color: #efece9 transparent transparent transparent;
@@ -51,10 +55,11 @@
 
 .in-page-nav__title {
 	color: $green-100;
-	font-size: 16px;
+	font-size: 12px;
 	font-weight: bold;
 	margin: 10px 0 5px 0;
 	text-align: center;
+	text-transform: uppercase;
 }
 
 .in-page-nav__list {

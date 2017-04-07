@@ -2,26 +2,37 @@
     display: inline-block;
 }
 
-.site-name a {
+.site-name {
     color: #fff;
     display: inline-block;
     font-size: 1.5rem;
     font-weight: 300;
-    margin: 0;
+    line-height: 1;
+    margin: 0 0 .25em;
     text-decoration: none;
 
     @include breakpoint($desktop-width) {
         font-size: 2rem;
     }
+
+    .site-name__link {
+        color: #fff;
+        text-decoration: none;
+    }
 }
 
-.site-name__year {
-    font-weight: 400;
+.site-subheading {
+    color: $blue-35;
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1;
+    margin: 0;
+    width: 350px;
 }
 
-.site-name__divider {
+.site-subheading__divider {
     color: $brand-green-pale;
     font-size: .85em;
-    font-weight: 300;
+    font-weight: 400;
     vertical-align: top;
 }

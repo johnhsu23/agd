@@ -16,6 +16,10 @@
 
 .about .section {
     padding: 1em 0 0;
+
+    &.section--first {
+        padding-top: 2em;
+    }
 }
 
 .section--homepage {
@@ -31,6 +35,10 @@
         position: relative;
         width: 70%;
     }
+}
+
+.section--hp-first {
+    padding-top: 0 !important;
 }
 
 .section--homepage-last {

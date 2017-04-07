@@ -149,7 +149,7 @@ export const SQ00072: ContextualVariable = {
   name: 'Which best describes the space for the teaching of visual arts in your school',
   title: 'types of space for the teaching of visual arts in their school',
   selected: 1, // Art studio with special equipment
-  selectedLabel: 'Art studio with special equipment',
+  selectedLabel: 'art studio with special equipment',
   categories: [
     'Visual arts are not taught',
     'Art studio with special equipment',
