@@ -29,7 +29,8 @@ export default class BubbleChart extends Chart<Model> {
   protected responseAxis: Selection<SVGGElement, {}, null, void>;
 
   protected firstRender = true;
-  protected loadedEarly = false;
+  protected firstVisibleRender = true;
+  protected data: Grouped[];
 
   protected marginTop = 60;
   protected marginLeft = 50;
@@ -129,6 +130,8 @@ export default class BubbleChart extends Chart<Model> {
   }
 
   public renderData(data: Grouped[]): void {
+    this.data = data;
+
     const {categories} = this.variable,
           chartWidth = 600;
 
@@ -136,7 +139,7 @@ export default class BubbleChart extends Chart<Model> {
     // The variable `valid' will hold rows for which we are drawing circles,
     // and `suppressed' will hold the rows for which we have to draw the double-dagger
     // symbol.
-    const [valid, suppressed] = partition(data, ({mean, percent}) => {
+    const [valid, suppressed] = partition(this.data, ({mean, percent}) => {
       return mean.isTargetStatDisplayable !== 0
           && percent.isTargetStatDisplayable !== 0;
     });
@@ -244,9 +247,10 @@ export default class BubbleChart extends Chart<Model> {
         }
       });
 
-      if (this.loadedEarly) {
+      if (!this.firstVisibleRender) {
+        // response axis was not previously rendered, draw on
         this.drawResponseAxis();
-        this.loadedEarly = false;
+        this.firstVisibleRender = true;
       }
   }
 
@@ -264,12 +268,12 @@ export default class BubbleChart extends Chart<Model> {
     //
     // Whee!
 
-    // if innerHeight is properly set (i.e. not 0), this means the data loaded already. draw on!
-    if (this.innerHeight !== 0) {
+    // if data is loaded, draw on
+    if (this.data) {
       this.drawResponseAxis();
     } else {
       // data has not loaded
-      this.loadedEarly = true;
+      this.firstVisibleRender = false;
     }
   }
 
