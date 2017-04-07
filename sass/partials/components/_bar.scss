@@ -12,7 +12,8 @@
 	font-weight: 700;
 
     .bar--no-data & {
-        fill: $black-80;
+        fill: $black-80 !important;
+        font-size: 1.5em;
     }
 }
 
@@ -59,11 +60,6 @@
     rect { fill: $blue-25; }
     text { fill: $blue-100; }
 }
-
-.bar--no-data {
-    rect { fill: #ffffff; }
-}
-
 
 .u-categories-2 .bar--0 {
 	rect { fill: $blue-100; }
