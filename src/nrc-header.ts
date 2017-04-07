@@ -21,6 +21,9 @@ class NrcHeader extends ItemView<Model> {
       'mouseleave .nav-heading': 'navHoverOut',
       'mouseout .sub-nav': 'navMouseout',
       'focus .nav-heading, .nav-heading a': 'navFocus',
+      'click .magnifying-glass': 'toggleSearch',
+      'keypress .search-box': 'toggleSearch',
+      'blur .search-textbox': 'hideSearch',
     };
   }
 
@@ -57,6 +60,26 @@ class NrcHeader extends ItemView<Model> {
       .addClass('open')
       .find('.sub-nav')
       .addClass('open');
+  }
+
+  protected toggleSearch(event: JQueryEventObject): void {
+    const searchBox = this.$('#search-container-id');
+    const open = searchBox.hasClass('show-search-box');
+    if (!event.keyCode || event.keyCode === 13) {
+     if (!open) {
+        searchBox.addClass('show-search-box').removeClass('hide-search-box');
+        this.$('.search-textbox').focus();
+      } else if (!event.keyCode || event.keyCode !== 13 ){
+        this.hideSearch(event);
+      }
+    }
+  }
+
+  protected hideSearch(event: JQueryEventObject): void {
+    const searchBox = this.$('#search-container-id');
+    if (!this.$('#searchButton').is(':active') && !this.$('#magnifier').is(':active') && !event.relatedTarget){
+      searchBox.removeClass('show-search-box').addClass('hide-search-box');
+    }
   }
 
   onRender(): void {
