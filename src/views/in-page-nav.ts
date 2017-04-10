@@ -71,7 +71,8 @@ export default class InPageNav extends D3View<HTMLDivElement, Model> {
     this.listHeight = list.style('height');
 
     // The in-page nav is initially in a closed state, but we have to do that after the height computation.
-    list.style('max-height', '0px');
+    list.style('max-height', '0px')
+      .classed('is-hidden', true);
   }
 
   protected visitAnchor(event: JQueryEventObject): void {
@@ -84,7 +85,10 @@ export default class InPageNav extends D3View<HTMLDivElement, Model> {
   }
 
   protected expand(): void {
-    this.list.interrupt()
+    this.list
+      // remove the is-hidden class first so the transition animations can actually be seen
+      .classed('is-hidden', false)
+      .interrupt()
       .transition()
       .style('max-height', this.listHeight)
       .on('end', () => {
@@ -99,7 +103,10 @@ export default class InPageNav extends D3View<HTMLDivElement, Model> {
       .style('max-height', '0px')
       .on('end', () => {
         this.open = false;
-        this.list.classed('is-expanded', false);
+        // apply 'closed state' class changes
+        this.list
+          .classed('is-expanded', false)
+          .classed('is-hidden', true);
       });
   }
 
