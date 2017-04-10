@@ -121,7 +121,7 @@ export default class ScoreGaps extends Figure {
     // Add special notes for legend
     const description: String[] = [];
 
-    if (gaps.some(gap => gap.gap < 0)) {
+    if (gaps.some(gap => Math.round(gap.gap) < 0)) {
       description.push([
         'Negative score differences indicate that the average score of the first student group selected was',
         'numerically lower than the score of students in the comparison group.',
