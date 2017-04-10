@@ -29,6 +29,8 @@ export default class BubbleChart extends Chart<Model> {
   protected responseAxis: Selection<SVGGElement, {}, null, void>;
 
   protected firstRender = true;
+  protected firstVisibleRender = true;
+  protected data: Grouped[];
 
   protected marginTop = 60;
   protected marginLeft = 50;
@@ -128,6 +130,8 @@ export default class BubbleChart extends Chart<Model> {
   }
 
   public renderData(data: Grouped[]): void {
+    this.data = data;
+
     const {categories} = this.variable,
           chartWidth = 600;
 
@@ -135,7 +139,7 @@ export default class BubbleChart extends Chart<Model> {
     // The variable `valid' will hold rows for which we are drawing circles,
     // and `suppressed' will hold the rows for which we have to draw the double-dagger
     // symbol.
-    const [valid, suppressed] = partition(data, ({mean, percent}) => {
+    const [valid, suppressed] = partition(this.data, ({mean, percent}) => {
       return mean.isTargetStatDisplayable !== 0
           && percent.isTargetStatDisplayable !== 0;
     });
@@ -242,6 +246,12 @@ export default class BubbleChart extends Chart<Model> {
           return formatValue(percent.targetvalue, '', percent.TargetErrorFlag);
         }
       });
+
+      if (!this.firstVisibleRender) {
+        // response axis was not previously rendered, draw on
+        this.drawResponseAxis();
+        this.firstVisibleRender = true;
+      }
   }
 
   protected onVisibilityVisible(): void {
@@ -258,6 +268,16 @@ export default class BubbleChart extends Chart<Model> {
     //
     // Whee!
 
+    // if data is loaded, draw on
+    if (this.data) {
+      this.drawResponseAxis();
+    } else {
+      // data has not loaded
+      this.firstVisibleRender = false;
+    }
+  }
+
+  protected drawResponseAxis(): void {
     const response = scalePoint<number>()
       .padding(0.5)
       .domain(range(this.variable.categories.length))
