@@ -51,4 +51,8 @@
 
 .axis__title {
     text-transform: uppercase;
+
+    .axis--horizontal-bottom & {
+        text-anchor: middle;
+    }
 }
