@@ -181,7 +181,7 @@ function makeAxis(args: AxisArgs): Axis {
 
   const titleArgs = args.title,
         titleLength = title.length - 1,
-        midpoint = scale.size() / 3;
+        midpoint = scale.size() / 2;
 
   const tspanUpdate = axisTitle.selectAll('tspan')
         .data(title);
