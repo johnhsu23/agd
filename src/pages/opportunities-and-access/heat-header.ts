@@ -46,6 +46,6 @@ export default class HeatHeader extends ItemView<Model> {
   }
 
   updateHeader(variableName: string): void {
-    $('.variable-label').text(variableName);
+    this.$('.variable-label').text(variableName);
   }
 }
