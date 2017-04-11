@@ -4,6 +4,7 @@ import {union} from 'underscore';
 import * as $ from 'jquery';
 
 import forwardEvents from 'util/forward-events';
+import * as analytics from 'util/analytics';
 import context from 'models/context';
 import Legend from 'models/legend';
 import BarLegend from 'models/legend/bar';
@@ -91,6 +92,9 @@ export default class GroupFigure extends Figure {
         .trigger('variable:select', variable);
       this.setTitle(this.makeTitle());
       this.setOffscreenLink();
+
+      analytics.push('_trackEvent', 'Student Group Chart', 'Selection Changed', this.contextualVariable.id,
+          this.variable.id);
 
       this.updateChart();
     }

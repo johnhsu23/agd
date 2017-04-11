@@ -6,6 +6,7 @@ import {partition, findWhere} from 'underscore';
 
 import configure from 'util/configure';
 import wrap from 'util/wrap';
+import * as analytics from 'util/analytics';
 import {Variable} from 'data/variables';
 import Chart from 'views/chart';
 import * as scales from 'components/scales';
@@ -61,6 +62,8 @@ export default class BubbleChart extends Chart<Model> {
       // remove elements of sig test
       this.selectAll('.bubble__sig')
         .html('');
+
+      analytics.push('_trackEvent', 'Bubble Chart', 'Bubble Clicked', this.variable.id, 'closed');
     } else {
       bubbles
         // set our bubbles to active to display their values
@@ -72,7 +75,10 @@ export default class BubbleChart extends Chart<Model> {
 
       // get focal element's data
       const focalData = focal.datum() as Grouped,
-            focalIndex = focalData.mean.categoryindex;
+            focalIndex = focalData.mean.categoryindex,
+            category = focalData.mean.category;
+
+      analytics.push('_trackEvent', 'Bubble Chart', 'Bubble Clicked', this.variable.id, category);
 
       // load our sig test data and set the text
       loadGaps(this.variable, focalIndex)
