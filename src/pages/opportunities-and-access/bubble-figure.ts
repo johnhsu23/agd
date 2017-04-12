@@ -20,13 +20,16 @@ export interface BubbleFigureOptions extends FigureOptions {
 }
 
 function gatherNotes(data: Grouped[]): Legend[] {
-  const models = gatherAll(data, ({mean, percent}) => {
+  const models: Legend[] = [];
+  models.push(new BubbleLegend({}));
+
+  const gathered = gatherAll(data, ({mean, percent}) => {
       // Laziness: just union these together to get the combined error flags for both
       // the mean and percentage rows
       return mean.TargetErrorFlag | percent.TargetErrorFlag;
   });
 
-  return models.concat(new BubbleLegend({}));
+  return models.concat(gathered);
 }
 
 export default class BubbleFigure extends Figure {
