@@ -32,7 +32,7 @@ export default class AverageScores extends Page {
           download: true,
           section: 'section-1',
           message: `Average ${context.subject} `
-          + 'responding score for eighth-graders not significantly different compared to 2008',
+            + 'responding score for eighth-graders not significantly different compared to 2008',
         },
       }),
       commentary: averageCommentary[context.subject],
@@ -43,6 +43,8 @@ export default class AverageScores extends Page {
         share: {
           download: true,
           section: 'section-2',
+          message: `Average ${context.subject} `
+            + 'responding score for eighth-graders not significantly different compared to 2008',
         },
       }),
       commentary: percentilesCommentary[context.subject],
@@ -54,6 +56,8 @@ export default class AverageScores extends Page {
           share: {
             download: true,
             section: 'section-4',
+            message: `Average ${context.subject} `
+              + 'responding score for eighth-graders not significantly different compared to 2008',
           },
         }),
         commentary: respondingTaskCommentary[context.subject],
