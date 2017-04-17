@@ -85,7 +85,7 @@ export default class HomepageView extends Page {
       this.addRegion(`share_${section}`, `#section-${section} .section__share`);
 
       this.showChildView(`share_${section}`, new ShareView({
-          model: new share.ShareModel({
+        model: new share.ShareModel({
           section: `section-${section}`,
           message: 'Sixty-three percent of eighth-graders took a music class; 42 percent took an art class in 2016',
         }),
