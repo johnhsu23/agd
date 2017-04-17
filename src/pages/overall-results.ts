@@ -31,6 +31,8 @@ export default class AverageScores extends Page {
         share: {
           download: true,
           section: 'section-1',
+          message: `Average ${context.subject} `
+          + 'responding score for eighth-graders not significantly different compared to 2008',
         },
       }),
       commentary: averageCommentary[context.subject],

@@ -6,6 +6,7 @@ import NotesSourcesView from 'views/notes-sources';
 
 import context from 'models/context';
 import {questions} from 'data/sample-questions';
+import {answers} from 'data/sample-questions-answers';
 
 import QuestionList from 'pages/sample-questions/question-list';
 import SampleQuestionAccordion from 'pages/sample-questions/question-accordion';
@@ -34,14 +35,19 @@ export default class SampleQuestions extends Page {
     }));
 
     for (const question of questions()) {
-      const accordion = new SampleQuestionAccordion({
-        question,
-        share: {
-          download: false,
-          accordion: question.naepid,
-        },
-      });
-      list.pushView(accordion, question.naepid);
+      for (let a = 0; a < answers.length; a++){
+        if (answers[a].naepid === question.naepid) {
+          const accordion = new SampleQuestionAccordion({
+            question,
+            share: {
+              download: false,
+              accordion: question.naepid,
+              message: `${question.name}: ${answers[a].answer}`,
+            },
+          });
+          list.pushView(accordion, question.naepid);
+        }
+      }
     }
 
     this.pushSection(new DefaultSection({
