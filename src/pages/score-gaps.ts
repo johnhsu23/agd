@@ -27,6 +27,7 @@ export default class ScoreGaps extends Page {
         share: {
           download: true,
           section: 'section-1',
+          message: 'Gap between White and Hispanic students narrowed compared to 2008',
         },
       }),
       commentary: respondingCommentary[context.subject],
@@ -37,6 +38,7 @@ export default class ScoreGaps extends Page {
         share: {
           download: true,
           section: 'section-2',
+          message: 'Gap between White and Hispanic students narrowed compared to 2008',
         },
       }),
       commentary: studentGroupsCommentary[context.subject],
@@ -48,6 +50,7 @@ export default class ScoreGaps extends Page {
           share: {
             download: true,
             section: 'section-3',
+            message: 'Gap between White and Hispanic students narrowed compared to 2008',
           },
         }),
         commentary: creatingTaskCommentary[context.subject],

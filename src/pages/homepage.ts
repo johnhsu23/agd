@@ -4,6 +4,8 @@ import * as $ from 'jquery';
 import Page from 'views/page';
 import Dialog from 'views/dialog';
 import Glossary from 'views/glossary';
+import ShareView from 'views/share';
+import * as share from 'models/share';
 
 import * as template from 'text!templates/homepage.html';
 import * as homepageNotes from 'text!notes/homepage.html';
@@ -73,5 +75,21 @@ export default class HomepageView extends Page {
     this.showChildView('footer', new NotesSourcesView({
       contents: homepageNotes,
     }));
+
+    // Since all of our sections are hardcoded in the homepage template, we need
+    // to add share regions and render them here once the template has loaded.
+    // One per section.
+    this.$('.section').each((i) => {
+      const section = i + 1;
+
+      this.addRegion(`share_${section}`, `#section-${section} .section__share`);
+
+      this.showChildView(`share_${section}`, new ShareView({
+        model: new share.ShareModel({
+          section: `section-${section}`,
+          message: 'Sixty-three percent of eighth-graders took a music class; 42 percent took an art class in 2016',
+        }),
+      }));
+    });
   }
 }

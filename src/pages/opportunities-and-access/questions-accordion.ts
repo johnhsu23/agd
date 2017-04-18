@@ -82,6 +82,7 @@ export default class QuestionsAccordion extends LayoutView<Model> {
         download: true,
         section: 'bubble',
         accordion: this.variable.id,
+        message: `${this.variable.name}: Scale Scores and Percentages`,
       },
     }));
 
@@ -93,6 +94,7 @@ export default class QuestionsAccordion extends LayoutView<Model> {
           download: true,
           section: 'group',
           accordion: this.variable.id,
+          message: `${this.variable.name}: Percentages by Student Group`,
         },
       }));
 
@@ -102,6 +104,7 @@ export default class QuestionsAccordion extends LayoutView<Model> {
           download: true,
           section: 'trends',
           accordion: this.variable.id,
+          message: `${this.variable.name}: Percentage Trends`,
         },
       }));
     } else {
@@ -112,6 +115,7 @@ export default class QuestionsAccordion extends LayoutView<Model> {
           download: true,
           section: 'group',
           accordion: this.variable.id,
+          message: `${this.variable.name}: Percentages by Student Group`,
         },
       }));
 
@@ -121,6 +125,7 @@ export default class QuestionsAccordion extends LayoutView<Model> {
           download: true,
           section: 'trends',
           accordion: this.variable.id,
+          message: `${this.variable.name}: Percentage Trends`,
         },
       }));
     }
