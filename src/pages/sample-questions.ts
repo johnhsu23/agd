@@ -34,7 +34,6 @@ export default class SampleQuestions extends Page {
     }));
 
     for (const question of questions()) {
-      console.log(question);
       const accordion = new SampleQuestionAccordion({
         question,
         share: {
