@@ -1,4 +1,6 @@
-.link-box {}
+.link-box {
+	margin: 0 0 1em;
+}
 
 .link-box__icon {
 	background-color: #f7f3e5;
@@ -10,7 +12,7 @@
 	display: block;
 	float: left;
 	height: 65px;
-	margin: 0 20px 5px 0;
+	margin: 5px 20px 5px 0;
 	text-indent: -999em;
 	width: 110px;
 }
