@@ -6,7 +6,6 @@ import NotesSourcesView from 'views/notes-sources';
 
 import context from 'models/context';
 import {questions} from 'data/sample-questions';
-import {questionData} from 'pages/sample-questions/question-header-data';
 
 import QuestionList from 'pages/sample-questions/question-list';
 import SampleQuestionAccordion from 'pages/sample-questions/question-accordion';
@@ -35,13 +34,14 @@ export default class SampleQuestions extends Page {
     }));
 
     for (const question of questions()) {
+      console.log(question);
       const accordion = new SampleQuestionAccordion({
         question,
         share: {
           download: false,
           accordion: question.naepid,
-          message: `${question.name}: ${Math.round(questionData[question.naepid].value)}%`
-            + ` ${questionData[question.naepid].label.substr(0, 10)}}`,
+          message: `${question.name}: ${Math.round(question.value)}%`
+            + ` ${question.label}`,
         },
       });
       list.pushView(accordion, question.naepid);
