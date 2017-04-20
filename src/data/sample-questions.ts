@@ -25,7 +25,24 @@ export interface SampleQuestion {
    * The type of question (multiple choice or constructed-response).
    */
   readonly type: Type;
+
+  /**
+   * The answer/response value of question.
+   */
+  readonly value: number;
+
+  /**
+   * The corresponding label for the response.
+   */
+  readonly label: string;
 }
+
+// Labels for the responses
+const multipleChoiceLabel = 'Correct';
+const acceptableLabel = 'Acceptable';
+const sufficientLabel = 'Sufficient';
+const adequateLabel = 'Adequate';
+const developedLabel = 'Developed';
 
 /*
  * Visual arts
@@ -37,6 +54,8 @@ export const VC00003: SampleQuestion = {
   name: 'Identify technical similarity between Schiele and Kollwitz self-portraits',
   classification: 'Responding',
   type: 'MC',
+  value: 41.19,
+  label: multipleChoiceLabel,
 };
 
 // NQT ID: 2016-8A3 #2, ACCNUM LD000383
@@ -45,6 +64,8 @@ export const VC00002: SampleQuestion = {
   name: 'Describe two characteristics of charcoal in Kollwitz self-portrait',
   classification: 'Responding',
   type: 'SCR',
+  value: 35.84,
+  label: acceptableLabel,
 };
 
 // NQT ID: 2016-8A3 #6, ACCNUM LD000387
@@ -53,6 +74,8 @@ export const VC000B6: SampleQuestion = {
   name: 'Create a self-portrait',
   classification: 'Creating',
   type: 'SCR',
+  value: 3.4,
+  label: sufficientLabel,
 };
 
 // NQT ID: 2016-8A3 #1, ACCNUM LD000454
@@ -61,6 +84,8 @@ export const VC00001: SampleQuestion = {
   name: 'Identify important aspect of composition',
   classification: 'Responding',
   type: 'MC',
+  value: 41.37,
+  label: multipleChoiceLabel,
 };
 
 // ACCNUM LD000458
@@ -70,6 +95,8 @@ export const VCCL004: SampleQuestion = {
   name: 'Explain the relationship between technical approach and meaning in an artist\'s self-portrait',
   classification: 'Responding',
   type: 'SCR',
+  value: 49.15,
+  label: acceptableLabel,
 };
 
 /*
@@ -82,6 +109,8 @@ export const UD00002: SampleQuestion = {
   name: 'Select a line drawing reflective of the texture of an example of music',
   classification: 'Responding',
   type: 'MC',
+  value: 56.18,
+  label: multipleChoiceLabel,
 };
 
 // NQT ID: 2016-8A6 #4 UF00004; ACCNUM LD000910
@@ -90,6 +119,8 @@ export const UF00004: SampleQuestion = {
   name: 'Identify the solo instrument beginning "Rhapsody in Blue"',
   classification: 'Responding',
   type: 'MC',
+  value: 50.53,
+  label: multipleChoiceLabel,
 };
 
 // NQT ID: 2016-8A5 #5 UE00005; ACCNUM SL000086
@@ -98,6 +129,8 @@ export const UE00005: SampleQuestion = {
   name: 'Identify a correct time signature for a piece of music',
   classification: 'Responding',
   type: 'MC',
+  value: 47.98,
+  label: multipleChoiceLabel,
 };
 
 // NQT ID: 2016-8A5 #6 UE00006; ACCNUM SL000087
@@ -106,6 +139,8 @@ export const UE00006: SampleQuestion = {
   name: 'Identify the name of piano dynamic marking and explain its meaning',
   classification: 'Responding',
   type: 'SCR',
+  value: 17.73,
+  label: adequateLabel,
 };
 
 // NQT ID: 2016-8A5 #7 UE00007; ACCNUM SL000088
@@ -114,6 +149,8 @@ export const UE00007: SampleQuestion = {
   name: 'Identify type of note duration',
   classification: 'Responding',
   type: 'MC',
+  value: 53.84,
+  label: multipleChoiceLabel,
 };
 
 // NQT ID: 2016-8A5 #8 UECL008; ACCNUM LC000600
@@ -122,6 +159,8 @@ export const UECL008: SampleQuestion = {
   name: 'Use notation to write an ending to a rhythmic pattern',
   classification: 'Creating',
   type: 'ECR',
+  value: 16.69,
+  label: developedLabel,
 };
 
 // NQT ID: 2016-8A4 #9 UDCL009; ACCNUM SL000049
@@ -130,6 +169,8 @@ export const UDCL009: SampleQuestion = {
   name: 'Identify region where music comes from and explain its style characteristics',
   classification: 'Responding',
   type: 'SCR',
+  value: 49.28,
+  label: developedLabel,
 };
 
 /*
