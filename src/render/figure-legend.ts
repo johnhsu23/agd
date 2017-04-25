@@ -45,7 +45,7 @@ function renderItem<T1, T2, U1, U2>(item: Sel<T1, T2>, row: Sel<U1, U2>): void {
 function renderMarker<T1, T2, U1, U2>(marker: Sel<T1, T2>, row: Sel<U1, U2>): void {
   if (marker.classed('legend__marker--text')) {
     renderTextMarker(marker, row);
-  } else if (marker.classed('legend__marker--path')) {
+  } else if (marker.classed('legend__marker--path') || marker.classed('legend__marker--gap')) {
     renderPathMarker(marker, row);
   } else {
     throw new Error(`Don't know how to handle marker with classes "${marker.attr('class')}"`);
