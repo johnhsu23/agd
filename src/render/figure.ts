@@ -1,4 +1,3 @@
-// import * as Promise from 'bluebird';
 import {Selection} from 'd3-selection';
 
 import renderTitle from 'render/figure-title';
@@ -17,8 +16,7 @@ function metrics(node: Element): ClientRect {
 
 export default function render<T, U>(figure: Selection<Element, T, null, U>): SVGSVGElement {
   const title = renderTitle(figure.select('.figure__title')),
-        chart = figure.select<SVGSVGElement>('.chart').node().cloneNode(true) as SVGSVGElement,
-        legend = renderLegend(figure.select<Element>('.legend'));
+        chart = figure.select<SVGSVGElement>('.chart').node().cloneNode(true) as SVGSVGElement;
 
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
 
@@ -30,21 +28,28 @@ export default function render<T, U>(figure: Selection<Element, T, null, U>): SV
   chart.x.baseVal.value = chartOffset;
   chart.y.baseVal.value = offset;
 
-  const {width: legendWidth, height: legendHeight} = metrics(legend);
-
-  const x = figureWidth - legendWidth;
-
-  // legend is offset by 1 to allow border to occupy final 1px of figure
-  legend.x.baseVal.value = x - 1;
-  legend.y.baseVal.value = offset;
-
-  // +/- 2 due to 1px border (need to ensure both sides are in the frame!)
-  const border = makeBorder(x - 2, offset, legendWidth + 2, legendHeight + 2);
-
   svg.appendChild(title);
   svg.appendChild(chart);
-  svg.appendChild(border);
-  svg.appendChild(legend);
+
+  // Check if legend exists.
+  const legendElement = figure.select<Element>('.legend');
+  const legendNode = legendElement.node();
+  if (legendNode) {
+    const legend = renderLegend(figure.select<Element>('.legend'));
+    const {width: legendWidth, height: legendHeight} = metrics(legend);
+
+    const x = figureWidth - legendWidth;
+
+    // legend is offset by 1 to allow border to occupy final 1px of figure
+    legend.x.baseVal.value = x - 1;
+    legend.y.baseVal.value = offset;
+
+    // +/- 2 due to 1px border (need to ensure both sides are in the frame!)
+    const border = makeBorder(x - 2, offset, legendWidth + 2, legendHeight + 2);
+
+    svg.appendChild(border);
+    svg.appendChild(legend);
+  }
 
   svg.setAttribute('width', '' + figureWidth);
   svg.setAttribute('height', '' + (offset + chartHeight));
