@@ -42,7 +42,9 @@ export default function wrap<T, U>(text: Selection<SVGTextElement, T, null, U>, 
     }
 
     const x = this.x.baseVal,
-          y = this.y.baseVal;
+          y = this.y.baseVal,
+          xVal = this.getAttribute('x'),
+          yVal = this.getAttribute('y');
 
     let text = document.createElementNS('http://www.w3.org/2000/svg', 'tspan');
     this.appendChild(text);
@@ -81,6 +83,10 @@ export default function wrap<T, U>(text: Selection<SVGTextElement, T, null, U>, 
           text.appendChild(box);
         }
         text.setAttribute('dy', (line * lineHeight) + 'em');
+
+        // Explicitly setting these values for Safari and iOS browsers.
+        text.setAttribute('x', xVal);
+        text.setAttribute('y', yVal);
       }
     }
   });
