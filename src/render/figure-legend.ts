@@ -45,7 +45,8 @@ function renderItem<T1, T2, U1, U2>(item: Sel<T1, T2>, row: Sel<U1, U2>): void {
 function renderMarker<T1, T2, U1, U2>(marker: Sel<T1, T2>, row: Sel<U1, U2>): void {
   if (marker.classed('legend__marker--text')) {
     renderTextMarker(marker, row);
-  } else if (marker.classed('legend__marker--path') || marker.classed('legend__marker--gap')) {
+  } else if (marker.classed('legend__marker--path') || marker.classed('legend__marker--gap')
+      || marker.classed('legend__marker--bubble')) {
     renderPathMarker(marker, row);
   } else {
     throw new Error(`Don't know how to handle marker with classes "${marker.attr('class')}"`);
@@ -82,12 +83,13 @@ function renderDescription<T1, T2, U1, U2>(description: Sel<T1, T2>, row: Sel<U1
   const node = description.node() as HTMLElement;
   const metrics = node.getBoundingClientRect();
   const {left} = offset.rect(node.parentElement.getBoundingClientRect(), metrics);
+  const height = description.classed('legend__description--bubble') ? node.getBoundingClientRect().height : emBox(node);
 
   const text = row.append<SVGTextElement>('text')
     .attr('class', description.attr('class'))
     .attr('dominant-baseline', 'text-after-edge')
     .attr('x', left)
-    .attr('y', emBox(node));
+    .attr('y', height);
 
   const nodes = node.childNodes;
   for (let i = 0; i < nodes.length; i++) {

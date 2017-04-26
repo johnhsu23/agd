@@ -35,7 +35,7 @@ export default function render<T, U>(figure: Selection<Element, T, null, U>): SV
   const legendElement = figure.select<Element>('.legend');
   const legendNode = legendElement.node();
   if (legendNode) {
-    const legend = renderLegend(figure.select<Element>('.legend'));
+    const legend = renderLegend(legendElement);
     const {width: legendWidth, height: legendHeight} = metrics(legend);
 
     const x = figureWidth - legendWidth;
