@@ -41,16 +41,10 @@ export default function wrap<T, U>(text: Selection<SVGTextElement, T, null, U>, 
       }
     }
 
-    const x = this.x.baseVal,
-          y = this.y.baseVal,
-          xVal = this.getAttribute('x'),
-          yVal = this.getAttribute('y');
-
     let text = document.createElementNS('http://www.w3.org/2000/svg', 'tspan');
     this.appendChild(text);
-    copyList.call(this, x, text.x.baseVal);
-    copyList.call(this, y, text.y.baseVal);
-
+    text.setAttribute('x', this.getAttribute('x') || '0');
+    text.setAttribute('y', this.getAttribute('y') || '0');
     let line = 0;
     const lineHeight = 1.1;
 
@@ -74,8 +68,8 @@ export default function wrap<T, U>(text: Selection<SVGTextElement, T, null, U>, 
         // Allocate a new line
         text = document.createElementNS('http://www.w3.org/2000/svg', 'tspan');
         this.appendChild(text);
-        copyList.call(this, x, text.x.baseVal);
-        copyList.call(this, y, text.y.baseVal);
+        text.setAttribute('x', this.getAttribute('x') || '0');
+        text.setAttribute('y', this.getAttribute('y') || '0');
 
         if (shouldMove) {
           // This is the second half of the move operation from above, so it only
@@ -83,26 +77,7 @@ export default function wrap<T, U>(text: Selection<SVGTextElement, T, null, U>, 
           text.appendChild(box);
         }
         text.setAttribute('dy', (line * lineHeight) + 'em');
-
-        // Explicitly setting these values for Safari and iOS browsers.
-        text.setAttribute('x', xVal);
-        text.setAttribute('y', yVal);
       }
     }
   });
-}
-
-function copyList(this: SVGTextContentElement, source: SVGLengthList, dest: SVGLengthList): void {
-  if (source.numberOfItems === 0) {
-    const length = this.ownerSVGElement.createSVGLength();
-    length.value = 0;
-
-    dest.initialize(length);
-    return;
-  }
-
-  dest.clear();
-  for (let i = 0; i < source.numberOfItems; i++) {
-    dest.appendItem(source.getItem(i));
-  }
 }
