@@ -2,6 +2,8 @@
 	margin: 0 0 1em;
 }
 
+
+
 .link-box__icon {
 	background-color: #f7f3e5;
 	background-image: url("../images/tile1.png");
@@ -12,14 +14,18 @@
 	display: block;
 	float: left;
 	height: 65px;
-	margin: 5px 20px 5px 0;
+	margin: 5px 20px 1.5em 0;
 	text-indent: -999em;
 	width: 110px;
 }
 
+.link-box__content {
+	margin-left: 124px;
+}
+
 .link-box__title {
 	color: $orange-100;
-	display: inline-block;
+	display: block;
 	font-size: 1em;
     margin: 0 0 5px;
     text-decoration: none;
@@ -29,8 +35,7 @@
     }
 }
 
-.link-box__description {
+.link-box__content p {
     font-size: .875em;
     line-height: 1.4;
-    margin-left: 124px;
 }
