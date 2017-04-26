@@ -48,6 +48,8 @@ function renderMarker<T1, T2, U1, U2>(marker: Sel<T1, T2>, row: Sel<U1, U2>): vo
   } else if (marker.classed('legend__marker--path') || marker.classed('legend__marker--gap')
       || marker.classed('legend__marker--bubble')) {
     renderPathMarker(marker, row);
+  } else if (marker.classed('legend__marker--bar')) {
+    renderBarMarker(marker, row);
   } else {
     throw new Error(`Don't know how to handle marker with classes "${marker.attr('class')}"`);
   }
@@ -75,6 +77,20 @@ function renderPathMarker<T1, T2, U1, U2>(marker: Sel<T1, T2>, row: Sel<U1, U2>)
 
   svg.setAttribute('width', '' + bounds.width);
   svg.setAttribute('height', '' + bounds.height);
+
+  row.append(() => svg);
+}
+
+function renderBarMarker<T1, T2, U1, U2>(marker: Sel<T1, T2>, row: Sel<U1, U2>): void {
+  const node = marker.node() as SVGSVGElement,
+        svg = node.cloneNode(true) as SVGSVGElement,
+        bounds = node.getBoundingClientRect(),
+        padding = 10;
+
+  svg.setAttribute('width', '' + (bounds.width - (padding * 2)));
+  svg.setAttribute('height', '' + (bounds.height - (padding * 2)));
+  svg.setAttribute('x', '' + padding);
+  svg.setAttribute('y', '' + padding);
 
   row.append(() => svg);
 }
