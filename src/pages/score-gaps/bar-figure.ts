@@ -1,4 +1,5 @@
 import {Collection, EventsHash} from 'backbone';
+import * as $ from 'jquery';
 
 import Figure from 'views/figure';
 import Chart from 'pages/score-gaps/bar-chart';
@@ -40,9 +41,12 @@ export default class TaskBar extends Figure {
   }
 
   childEvents(): EventsHash {
-    return {
+    const events = {
       'variable:select': 'onChildVariableSelect',
     };
+    $.extend(events, super.childEvents());
+
+    return events;
   }
 
   onChildVariableSelect(_view: VariableSelector, variable: vars.Variable): void {
