@@ -9,6 +9,7 @@ import LegendView from 'views/legend';
 import ShareView from 'views/share';
 import * as share from 'models/share';
 import render from 'render/figure';
+import exportTable from 'export/table';
 import save from 'export/save';
 
 export interface FigureOptions extends LayoutViewOptions<any> {
@@ -30,10 +31,14 @@ export default class FigureView extends LayoutView<any> {
   protected shareModel: share.ShareModel;
 
   onShareDownload(): void {
-    const sel = select(this.el),
-          svg = render(sel);
-
-    save(svg).done();
+    const sel = select(this.el);
+    const table = sel.select('.table').node();
+    if (table) {
+      exportTable(sel);
+    } else {
+      const svg = render(sel);
+      save(svg).done();
+    }
   }
 
   constructor(options?: FigureOptions) {
