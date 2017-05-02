@@ -1,15 +1,18 @@
 import {select, Selection, EnterElement} from 'd3-selection';
-//import {csvFormat} from 'd3-dsv';
 
 export default function exportTable<T, U>(figure: Selection<Element, T, null, U>): void {
   let csv = 'data:text/csv;charset=utf-8,';
 
   // Get header rows.
-  const hRows = figure.selectAll('.table thead tr').nodes();
+  const hRows = figure
+    .selectAll('.table thead tr')
+    .nodes();
   const header = buildHeader(hRows);
 
   // Get data rows.
-  const bRows = figure.selectAll('.table tbody tr').nodes();
+  const bRows = figure
+    .selectAll('.table tbody tr')
+    .nodes();
   const data = buildRows(bRows);
 
   csv += header.join(',') + '\n';
@@ -20,11 +23,16 @@ export default function exportTable<T, U>(figure: Selection<Element, T, null, U>
   csv += '\n';
 
   // Now factor in the legend.
-  const legend = figure.selectAll('.legend__item').nodes();
+  const legend = figure
+    .selectAll('.legend__item')
+    .nodes();
   for (const item of legend) {
-    // Filter our heat items since we won't be able to display colors.
+    // Only show the text items since they don't use colors.
     const selectItem = select(item);
-    if (selectItem.select('.legend__marker--text').node()) {
+    const textItem = selectItem
+      .select('.legend__marker--text')
+      .node();
+    if (textItem) {
       csv += selectItem.select('.legend__marker').text() + ' ' +
           selectItem.select('.legend__description').text() + '\n';
     }
@@ -34,23 +42,19 @@ export default function exportTable<T, U>(figure: Selection<Element, T, null, U>
   window.open(encoded);
 }
 
-/**
- * This is uglier than sin, but it works. If you're reading this and can make it
- * better, do it!
- */
 function buildHeader(rows: EnterElement[]): string[] {
-  const labels = buildRows(rows),
-      colspan = labels[0].length;
+  const labels = buildRows(rows);
 
-  const header = [];
+  // Merge this down into one row of labels.
+  const header: string[] = [];
   for (const row of labels) {
-    for (let i = 0; i < colspan; i++) {
+    row.forEach((d, i) => {
       if (!header[i]) {
         header[i] = '';
       }
-      header[i] += ' ' + row[i];
+      header[i] += ' ' + d;
       header[i] = header[i].trim();
-    }
+    });
   }
 
   return header;
@@ -60,7 +64,9 @@ function buildRows(rows: EnterElement[]): string[][] {
   const rowValues: string[][] = [];
 
   rows.forEach((row, index) => {
-    const cells = select(row).selectAll('th, td').nodes();
+    const cells = select(row)
+      .selectAll('th, td')
+      .nodes();
     if (!rowValues[index]) {
       rowValues[index] = [];
     }
