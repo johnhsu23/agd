@@ -6,6 +6,7 @@ import {ContextualVariable} from 'data/contextual-variables';
 import Accordion from 'behaviors/accordion';
 import configure from 'util/configure';
 import {eachView} from 'util/each-region';
+import * as analytics from 'util/analytics';
 
 import QuestionHeaderBar from 'views/question-header-bar';
 import {load} from 'pages/opportunities-and-access/questions-header-data';
@@ -167,6 +168,7 @@ export default class QuestionsAccordion extends LayoutView<Model> {
   protected onAccordionOpen(): void {
     // Notify all children that the interior contents are visible.
     this.triggerAll('visibility:visible');
+    analytics.push('_trackEvent', 'Accordion', 'Accordion Opened', this.variable.id);
   }
 
   protected onAccordionClose(): void {

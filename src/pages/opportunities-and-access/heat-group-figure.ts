@@ -6,6 +6,7 @@ import {ascending} from 'd3-array';
 import * as $ from 'jquery';
 
 import forwardEvents from 'util/forward-events';
+import * as analytics from 'util/analytics';
 import context from 'models/context';
 import Legend from 'models/legend';
 import LegendView from 'views/legend';
@@ -94,6 +95,9 @@ export default class HeatGroupFigure extends Figure {
         .trigger('variable:select', variable);
       this.setTitle(this.makeTitle());
       this.setOffscreenLink();
+
+      analytics.push('_trackEvent', 'Student Group Chart', 'Selection Changed', this.contextualVariable.id,
+          this.variable.id);
 
       load(this.variable, this.contextualVariable)
         .then(results => this.updateTable(results))

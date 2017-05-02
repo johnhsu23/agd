@@ -4,6 +4,7 @@ import {Model} from 'backbone';
 import * as $ from 'jquery';
 
 import noTemplate from 'util/no-template';
+import * as analytics from 'util/analytics';
 import Page from 'views/page';
 import SiteHeader from 'views/site-header';
 import SiteFooter from 'views/site-footer';
@@ -100,6 +101,8 @@ export default class RootView extends LayoutView<Model> {
 
       this.showChildView('main', pageView);
       document.title = `NAEP - 2016 Arts Assessment -${subjectTitle} ${pageView.pageTitle}`;
+
+      analytics.push('_trackEvent', 'Page Change', 'Changed', document.title, path);
     });
   }
 }

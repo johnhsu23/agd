@@ -6,6 +6,7 @@ import context from 'models/context';
 import ShareView from 'views/share';
 import * as share from 'models/share';
 import configure from 'util/configure';
+import * as analytics from 'util/analytics';
 import AccordionBehavior from 'behaviors/accordion';
 import {SampleQuestion} from 'data/sample-questions';
 
@@ -102,7 +103,12 @@ export default class SampleQuestionAccordion extends LayoutView<Model> {
   }
 
   protected chartDisplayToggle(event: JQueryMouseEventObject): void {
-    this.$('.accordion__header-bar').toggleClass('is-hidden');
+    const accordionHeader = this.$('.accordion__header-bar');
+    accordionHeader.toggleClass('is-hidden');
+
+    if (accordionHeader.hasClass('is-hidden')) {
+      analytics.push('_trackEvent', 'Accordion', 'Accordion Opened', this.question.naepid);
+    }
 
     event.preventDefault();
   }
