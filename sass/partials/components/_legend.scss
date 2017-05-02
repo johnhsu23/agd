@@ -81,6 +81,7 @@
         height: 80px;
         margin: 0 auto;
         width: 180px;
+        padding: 0;
     }
 }
 
@@ -185,6 +186,12 @@
 .legend__marker + .legend__description {
     text-align: left;
     width: $legend-width - $legend-item-width;
+
+    &.legend__description--bubble {
+        width: auto;
+        text-align: center;
+        display: block;
+    }
 }
 
 .legend__description {

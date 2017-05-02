@@ -1,5 +1,6 @@
 import Figure from 'views/figure';
 import {Collection, EventsHash} from 'backbone';
+import * as $ from 'jquery';
 
 import LegendView from 'views/legend';
 import * as vars from 'data/variables';
@@ -36,9 +37,12 @@ export default class GroupsFigure extends Figure {
   }
 
   childEvents(): EventsHash {
-    return {
+    const events = {
       'variable:select': 'onChildScoreTrendsSelect',
     };
+    $.extend(events, super.childEvents());
+
+    return events;
   }
 
   onChildScoreTrendsSelect(_view: VariableSelector, variable: vars.Variable): void {

@@ -47,9 +47,12 @@ export default class ScoreGaps extends Figure {
   }
 
   childEvents(): EventsHash {
-    return {
+    const events = {
       'gap:select': 'onChildGapSelect',
     };
+    $.extend(events, super.childEvents());
+
+    return events;
   }
 
   onChildGapSelect(_: GapSelector, variable: vars.Variable, focal: number, target: number): void {

@@ -29,7 +29,6 @@ export default class AverageScores extends Page {
     this.pushSection(new DefaultSection({
       inner: new AverageFigure({
         share: {
-          download: true,
           section: 'section-1',
           message: `Average ${context.subject} `
             + 'responding score for eighth-graders not significantly different compared to 2008',

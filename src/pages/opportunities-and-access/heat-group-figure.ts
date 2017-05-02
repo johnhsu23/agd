@@ -79,9 +79,12 @@ export default class HeatGroupFigure extends Figure {
   }
 
   childEvents(): EventsHash {
-    return {
+    const events =  {
       'variable:select': 'onChildVariableSelect',
     };
+    $.extend(events, super.childEvents());
+
+    return events;
   }
 
   onChildVariableSelect(_view: VariableSelector, variable: vars.Variable): void {

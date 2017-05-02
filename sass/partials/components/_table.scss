@@ -150,9 +150,16 @@
 
 // Groups table
 
-.table--groups thead tr:first-child th:first-of-type {
-    padding-left: 2em;
-    text-align: left;
+.table--groups thead {
+    tr:first-child th:first-of-type {
+        padding-left: 2em;
+        text-align: left;
+    }
+
+    th:first-of-type {
+        position: relative;
+        top: -1.3em;
+    }
 }
 
 .table--groups tbody th {

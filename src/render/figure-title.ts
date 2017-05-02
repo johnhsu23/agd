@@ -21,7 +21,7 @@ export default function render<T, U>(text: Selection<BaseType, T, null, U>): SVG
     const lines = sel.selectAll('tspan').size();
     sel
       .attr('width', figureWidth)
-      .attr('height', (lines * 1.1) + 'em');
+      .attr('height', (lines * 1.5) + 'em');
 
     return svg;
   });
