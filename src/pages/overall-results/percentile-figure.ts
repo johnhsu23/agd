@@ -78,6 +78,7 @@ export default class PercentileScores extends Figure {
 
     promise
       .then(rows => this.buildLegend(rows))
+      .then(() => this.removePlaceholder())
       .done();
 
     promise

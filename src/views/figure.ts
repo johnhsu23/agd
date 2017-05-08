@@ -14,6 +14,7 @@ import save from 'export/save';
 
 export interface FigureOptions extends LayoutViewOptions<any> {
   share: share.ShareOptions;
+  placeholderHeight: number;
 }
 
 @configure({
@@ -29,6 +30,7 @@ export default class FigureView extends LayoutView<any> {
   }
 
   protected shareModel: share.ShareModel;
+  protected placeholderHeight: number;
 
   onShareDownload(): void {
     const sel = select(this.el);
@@ -44,8 +46,11 @@ export default class FigureView extends LayoutView<any> {
   constructor(options?: FigureOptions) {
     super(options);
 
-    if (options && options.share) {
-      this.shareModel = new share.ShareModel(options.share);
+    if (options) {
+      if (options.share) {
+        this.shareModel = new share.ShareModel(options.share);
+      }
+      this.placeholderHeight = options.placeholderHeight;
     }
   }
 
@@ -77,6 +82,7 @@ export default class FigureView extends LayoutView<any> {
 
   onRender(): void {
     this.showShare();
+    this.setPlaceholderHeight();
   }
 
   showShare(): void {
@@ -91,5 +97,15 @@ export default class FigureView extends LayoutView<any> {
     this.$('.figure__instructions')
       .removeClass('is-hidden')
       .html(instructions);
+  }
+
+  setPlaceholderHeight(): void {
+    if (this.placeholderHeight) {
+      this.$('.figure__placeholder').css('height', this.placeholderHeight + 'px');
+    }
+  }
+
+  removePlaceholder(): void {
+    this.$('.figure__placeholder').remove();
   }
 }

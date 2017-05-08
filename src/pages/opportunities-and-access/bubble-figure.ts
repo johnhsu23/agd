@@ -71,6 +71,7 @@ export default class BubbleFigure extends Figure {
     });
 
     promise.then(data => chart.renderData(data))
+      .then(() => this.removePlaceholder())
       .done();
 
     this.showContents(chart);

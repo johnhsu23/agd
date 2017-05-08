@@ -67,6 +67,7 @@ export default class ScoreGaps extends Figure {
 
     promise
       .then(result => this.chart.renderData(result))
+      .then(() => this.removePlaceholder())
       .done();
 
     promise

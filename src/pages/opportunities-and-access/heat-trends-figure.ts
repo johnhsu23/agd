@@ -65,6 +65,7 @@ export default class HeatTrendsFigure extends Figure {
 
     load(this.contextualVariable)
       .then(result => this.loaded(result))
+      .then(() => this.removePlaceholder())
       .done();
   }
 

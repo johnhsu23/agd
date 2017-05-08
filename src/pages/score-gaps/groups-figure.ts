@@ -77,6 +77,7 @@ export default class GroupsFigure extends Figure {
         this.tableData.reset(models);
         this.setTitle(this.makeTitle());
       })
+      .then(() => this.removePlaceholder())
       .done();
   }
 

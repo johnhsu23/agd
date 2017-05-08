@@ -19,6 +19,8 @@ export default class TaskBar extends Figure {
       super.onRender();
     }
 
+    console.log(groupedData);
+
     this.setTitle(this.makeTitle());
     this.showContents(new Chart);
 
@@ -38,6 +40,8 @@ export default class TaskBar extends Figure {
       collection: this.legendCollection,
     }));
     this.updateLegend();
+
+    this.removePlaceholder();
   }
 
   childEvents(): EventsHash {

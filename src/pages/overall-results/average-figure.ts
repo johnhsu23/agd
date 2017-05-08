@@ -11,5 +11,6 @@ export default class AverageFigure extends Figure {
   onBeforeShow(): void {
     this.setTitle(this.makeTitle());
     this.showContents(new AverageResults);
+    this.removePlaceholder();
   }
 }
