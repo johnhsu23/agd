@@ -29,6 +29,7 @@ export default class ScoreGaps extends Page {
           section: 'section-1',
           message: 'Gap between White and Hispanic students narrowed compared to 2008',
         },
+        placeholderHeight: 320,
       }),
       commentary: respondingCommentary[context.subject],
     }));
@@ -40,6 +41,7 @@ export default class ScoreGaps extends Page {
           section: 'section-2',
           message: 'Gap between White and Hispanic students narrowed compared to 2008',
         },
+        placeholderHeight: 500,
       }),
       commentary: studentGroupsCommentary[context.subject],
     }));
@@ -52,6 +54,7 @@ export default class ScoreGaps extends Page {
             section: 'section-3',
             message: 'Gap between White and Hispanic students narrowed compared to 2008',
           },
+          placeholderHeight: 340,
         }),
         commentary: creatingTaskCommentary[context.subject],
       }));

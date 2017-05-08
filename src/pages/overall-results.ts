@@ -33,6 +33,7 @@ export default class AverageScores extends Page {
           message: `Average ${context.subject} `
             + 'responding score for eighth-graders not significantly different compared to 2008',
         },
+        placeholderHeight: 156,
       }),
       commentary: averageCommentary[context.subject],
     }));
@@ -45,6 +46,7 @@ export default class AverageScores extends Page {
           message: `Average ${context.subject} `
             + 'responding score for eighth-graders not significantly different compared to 2008',
         },
+        placeholderHeight: 470,
       }),
       commentary: percentilesCommentary[context.subject],
     }));
@@ -54,10 +56,11 @@ export default class AverageScores extends Page {
         inner: new RespondingFigure({
           share: {
             download: true,
-            section: 'section-4',
+            section: 'section-3',
             message: `Average ${context.subject} `
               + 'responding score for eighth-graders not significantly different compared to 2008',
           },
+          placeholderHeight: 430,
         }),
         commentary: respondingTaskCommentary[context.subject],
       }));

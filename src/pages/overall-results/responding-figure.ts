@@ -11,5 +11,6 @@ export default class RespondingFigure extends Figure {
   onBeforeShow(): void {
     this.setTitle(this.makeTitle());
     this.showContents(new Chart);
+    this.removePlaceholder();
   }
 }

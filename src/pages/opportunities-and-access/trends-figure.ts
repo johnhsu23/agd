@@ -53,6 +53,7 @@ export default class TrendsFigure extends Figure {
 
     load(this.variable)
       .then(data => this.loaded(data))
+      .then(() => this.removePlaceholder())
       .done();
 
     this.setTitle(this.makeTitle());

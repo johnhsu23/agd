@@ -109,6 +109,7 @@ export default class GroupFigure extends Figure {
         this.chart.updateData(data);
         this.buildLegend(data);
       })
+      .then(() => this.removePlaceholder())
       .done();
   }
 

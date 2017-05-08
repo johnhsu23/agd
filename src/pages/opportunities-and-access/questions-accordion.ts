@@ -85,6 +85,7 @@ export default class QuestionsAccordion extends LayoutView<Model> {
         accordion: this.variable.id,
         message: `${this.variable.name}: Scale Scores and Percentages`,
       },
+      placeholderHeight: 267,
     }));
 
     if (this.isHeatTable()) {
@@ -97,6 +98,7 @@ export default class QuestionsAccordion extends LayoutView<Model> {
           accordion: this.variable.id,
           message: `${this.variable.name}: Percentages by Student Group`,
         },
+        placeholderHeight: 469,
       }));
 
       this.showChildView('trends', new HeatTrendsFigure({
@@ -107,6 +109,7 @@ export default class QuestionsAccordion extends LayoutView<Model> {
           accordion: this.variable.id,
           message: `${this.variable.name}: Percentage Trends`,
         },
+        placeholderHeight: 367,
       }));
     } else {
       // group and trends chart should use the regular stacked bar
@@ -118,6 +121,7 @@ export default class QuestionsAccordion extends LayoutView<Model> {
           accordion: this.variable.id,
           message: `${this.variable.name}: Percentages by Student Group`,
         },
+        placeholderHeight: 380,
       }));
 
       this.showChildView('trends', new TrendsFigure({
@@ -128,6 +132,7 @@ export default class QuestionsAccordion extends LayoutView<Model> {
           accordion: this.variable.id,
           message: `${this.variable.name}: Percentage Trends`,
         },
+        placeholderHeight: 317,
       }));
     }
 

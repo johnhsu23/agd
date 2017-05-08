@@ -76,6 +76,7 @@ export default class HeatGroupFigure extends Figure {
 
     load(this.variable, this.contextualVariable)
       .then(result => this.updateTable(result))
+      .then(() => this.removePlaceholder())
       .done();
   }
 
