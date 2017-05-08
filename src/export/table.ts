@@ -1,7 +1,8 @@
 import {select, Selection, EnterElement} from 'd3-selection';
+import * as $ from 'jquery';
 
 export default function exportTable<T, U>(figure: Selection<Element, T, null, U>): void {
-  let csv = 'data:text/csv;charset=utf-8,';
+  let csv = '';
 
   // Get header rows.
   const hRows = figure
@@ -38,8 +39,25 @@ export default function exportTable<T, U>(figure: Selection<Element, T, null, U>
     }
   }
 
-  const encoded = encodeURI(csv);
-  window.open(encoded);
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const filename = 'testing.csv';
+  if (navigator.msSaveBlob) {
+    // IE 10+
+    navigator.msSaveBlob(blob, filename);
+  } else {
+    const url = URL.createObjectURL(blob);
+    const link = $('<a>', {
+      href: url,
+      download: filename,
+      style: 'visibility: hidden',
+    });
+    // Browsers that support HTML5 download attribute.
+    if (link.attr('download') !== undefined) {
+      link.appendTo('body');
+      link[0].click();
+      link.remove();
+    }
+  }
 }
 
 function buildHeader(rows: EnterElement[]): string[] {
