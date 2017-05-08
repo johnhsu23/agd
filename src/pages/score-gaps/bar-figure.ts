@@ -19,8 +19,6 @@ export default class TaskBar extends Figure {
       super.onRender();
     }
 
-    console.log(groupedData);
-
     this.setTitle(this.makeTitle());
     this.showContents(new Chart);
 
