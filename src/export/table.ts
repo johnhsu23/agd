@@ -40,7 +40,7 @@ export default function exportTable<T, U>(figure: Selection<Element, T, null, U>
   }
 
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-  const filename = 'testing.csv';
+  const filename = 'download.csv';
   if (navigator.msSaveBlob) {
     // IE 10+
     navigator.msSaveBlob(blob, filename);
