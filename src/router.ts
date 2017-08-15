@@ -7,7 +7,7 @@ import parse from 'util/query-string';
 
 @configure({
   appRoutes: {
-    '': 'homepage',
+    '': 'scoreGaps',
     ':subject/overall-results': 'overallResults',
     ':subject/score-gaps': 'scoreGaps',
     ':subject/sample-questions': 'questionsAnalysis',
