@@ -1,8 +1,9 @@
-import {Model, history} from 'backbone';
+// import {Model, history} from 'backbone';
+import {Model} from 'backbone';
 import {View, LayoutView, Region} from 'backbone.marionette';
 import * as $ from 'jquery';
 
-import InPageNav from 'views/in-page-nav';
+// import InPageNav from 'views/in-page-nav';
 
 import * as template from 'text!templates/page.html';
 
@@ -14,7 +15,7 @@ abstract class PageView extends LayoutView<any> {
 
   regions(): { [key: string]: string } {
     return {
-      'in-page-nav': '.in-page-nav-wrapper',
+      // 'in-page-nav': '.in-page-nav-wrapper',
       footer: '.main__footer .inner',
     };
   }
@@ -52,12 +53,12 @@ abstract class PageView extends LayoutView<any> {
     return region;
   }
 
-  onAttach(): void {
-    // only do for non-home pages. homepage path is '', thus gives a length of 0
-    if (history.getFragment().length > 0) {
-      this.showChildView('in-page-nav', new InPageNav);
-    }
-  }
+  // onAttach(): void {
+  //   // only do for non-home pages. homepage path is '', thus gives a length of 0
+  //   if (history.getFragment().length > 0) {
+  //     this.showChildView('in-page-nav', new InPageNav);
+  //   }
+  // }
 
   onRender(): void {
     if (super.onRender) {

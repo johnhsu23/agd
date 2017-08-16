@@ -8,7 +8,7 @@ import * as analytics from 'util/analytics';
 import Page from 'views/page';
 import SiteHeader from 'views/site-header';
 import SiteFooter from 'views/site-footer';
-import SecondaryNav from 'views/secondary-nav';
+// import SecondaryNav from 'views/secondary-nav';
 import configure from 'util/configure';
 import context from 'models/context';
 
@@ -20,7 +20,7 @@ export default class RootView extends LayoutView<Model> {
   regions(): {[key: string]: string} {
     return {
       header: 'header',
-      'secondary-nav': '#secondary-nav',
+      // 'secondary-nav': '#secondary-nav',
       main: 'main',
       footer: 'footer',
     };
@@ -43,7 +43,7 @@ export default class RootView extends LayoutView<Model> {
 
     this.showChildView('header', new SiteHeader);
     this.showChildView('footer', new SiteFooter);
-    this.showChildView('secondary-nav', new SecondaryNav());
+    // this.showChildView('secondary-nav', new SecondaryNav());
   }
 
   protected changePage(path: string): void {
