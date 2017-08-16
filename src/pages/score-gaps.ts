@@ -41,7 +41,7 @@ export default class ScoreGaps extends Page {
           section: 'section-2',
           message: 'Gap between White and Hispanic students narrowed compared to 2008',
         },
-        placeholderHeight: 500,
+        placeholderHeight: 1000,
       }),
       commentary: studentGroupsCommentary[context.subject],
     }));

@@ -59,7 +59,7 @@ export default class GapSelector extends D3View<HTMLDivElement, Model> {
      * This is rendered statically, since we won't ever change the choice of focal categories on the user.
      * (We don't have this luxury for target categories, though.)
      */
-    select(selects[0])
+    select(selects[1])
       // <select>
       //   <optgroup>
       //   ^^^^^^^^^^ - you are here
