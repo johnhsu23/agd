@@ -1,12 +1,12 @@
 .print {
 	position: absolute;
  	right: 198px;
- 	top: 69px;
+ 	top: 20px;
 
- 	 @include breakpoint($desktop-width) {
- 	 	right: 215px;
- 	 	top: 77px;
- 	 }
+ 	//  @include breakpoint($desktop-width) {
+ 	//  	right: 215px;
+ 	//  	top: 77px;
+ 	//  }
 }
 
 .print__link {
