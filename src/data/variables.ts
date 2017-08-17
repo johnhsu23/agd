@@ -30,6 +30,45 @@ export interface Variable {
   readonly categories: string[];
 }
 
+export const NATIONAL: Variable = {
+  id: 'NATIONAL',
+  name: 'Jurisdiction',
+  title: 'National',
+  categories: [
+    'National Total',
+    'National Public',
+    'National Private',
+  ],
+};
+
+export const STATE: Variable = {
+  id: 'STATE',
+  name: 'Jurisdiction',
+  title: 'National',
+  categories: [
+    'AL',
+    'AB',
+    'AK',
+    'CT',
+    'DE',
+    'GA',
+  ],
+};
+
+export const DISTRICT: Variable = {
+  id: 'DISTRICT',
+  name: 'Jurisdiction',
+  title: 'National',
+  categories: [
+    'AL',
+    'AB',
+    'AK',
+    'CT',
+    'DE',
+    'GA',
+  ],
+};
+
 export const SDRACE: Variable = {
   id: 'SDRACE',
   name: 'Race/ethnicity',

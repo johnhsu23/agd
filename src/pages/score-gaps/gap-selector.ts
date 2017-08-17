@@ -59,6 +59,37 @@ export default class GapSelector extends D3View<HTMLDivElement, Model> {
      * This is rendered statically, since we won't ever change the choice of focal categories on the user.
      * (We don't have this luxury for target categories, though.)
      */
+
+    select(selects[0])
+      // <select>
+      //   <optgroup>
+      //   ^^^^^^^^^^ - you are here
+      .selectAll('optgroup')
+      .data([vars.NATIONAL, vars.STATE, vars.DISTRICT])
+      .enter()
+      .append<HTMLOptGroupElement>('optgroup')
+      .property('label', v => v.name)
+      // <select>
+      //   <optgroup>
+      //     <option>
+      //     ^^^^^^^^ - you are here
+      .selectAll('option')
+      // The data structure here is a bit messy, but it serves a purpose.
+      // By putting the variable and focal category in this triple alongside the category label,
+      // we can read out the variable and category in our onFocalChange() event handler using
+      // d3.select().
+      //
+      // This avoids string parsing and lookups since we already know what's what.
+      .data(v => v.categories.map((cat, i) => [v, i, cat] as [vars.Variable, number, string]))
+      .enter()
+      .append<HTMLOptionElement>('option')
+      // Default focal category is Male under SDRACE
+      .property('checked', ([v], i) => v === vars.NATIONAL && i === 0)
+      // The value attribute isn't actually used, but putting something
+      // here makes it easier to debug the output in the browser.
+      .property('value', d => d[0].id + '-' + d[1])
+      .text(d => d[2]);
+
     select(selects[1])
       // <select>
       //   <optgroup>
