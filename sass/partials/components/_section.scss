@@ -59,7 +59,7 @@
 
 .section--first,
 #section-1 {
-  padding-top: 2em;
+  padding-top: 1em;
 }
 
 .section--gray,
@@ -148,10 +148,10 @@
 
 .section__commentary {
     color: $black-70;
-    font-size: .875em;
+    // font-size: .875em;
     line-height: 1.4;
-    margin: 2em 0;
-    max-width: $max-contents-width;
+    margin: 0 0 2em 0;
+    // max-width: $max-contents-width;
 }
 
 .section__commentary--homepage {
