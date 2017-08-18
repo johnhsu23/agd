@@ -11,19 +11,28 @@
 .gap-selector__row {
     display: table-row;
 
-    &:nth-child(2) {
-    	.gap-selector__cell:nth-child(2) {
-    		font-size: 2em;
-    	}
-    }
+    // &:nth-child(2) {
+    // 	.gap-selector__cell:nth-child(2) {
+    // 		font-size: 2em;
+    // 	}
+    // }
 }
 
 .gap-selector__cell {
     display: table-cell;
+    vertical-align: top;
 
     &:nth-child(2) {
-    	padding: 0 2em;
-    	text-align: center;
-    	vertical-align: top;
+    	// padding: 0 2em;
+    	// text-align: center;
+        // padding: 0 1em;
+    	// vertical-align: top;
     }
+}
+.gap-selector__button i[class*=fa-plus-circle]::before {
+    color: #c69214;
+    font-size: 3em;
+    text-align: center;
+    background: transparent; 
+    margin: 0 0.3em;
 }
